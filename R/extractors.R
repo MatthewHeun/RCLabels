@@ -31,3 +31,6 @@ get_noun <- function(labels, notation = RCLabels::bracket_notation) {
 
 
 
+get_pp <- function(labels, notation = RCLabels::bracket_notation) {
+
+}
