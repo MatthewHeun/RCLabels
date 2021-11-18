@@ -105,6 +105,12 @@ test_that("split_pref_suff() works properly", {
   expect_equal(split_pref_suff("a b", notation = nl4), list(pref = "a b", suff = ""))
 })
 
+test_that("split_pref_suff() works with a list", {
+  res <- split_pref_suff(c("a [b]", "c [d]"), bracket_notation)
+  expect_equal(res[[1]], list(pref = "a", suff = "b"))
+  expect_equal(res[[2]], list(pref = "c", suff = "d"))
+})
+
 
 test_that("split_pref_suff() works in a data frame", {
   df <- data.frame(donottouch = c(1, 2), orig = c("a -> b", "c -> d"))
