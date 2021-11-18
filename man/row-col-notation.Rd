@@ -83,10 +83,6 @@ Default is \code{arrow_notation()}.}
 \item{to}{The \code{notation} to switch \emph{to}.}
 
 \item{flip}{A boolean that tells whether to also flip the notation. Default is \code{FALSE}.}
-
-\item{a}{A matrix or list of matrices whose row and/or column notation is to be changed.}
-
-\item{margin}{\code{1} For rows, \code{2} for columns, or \code{c(1, 2)} for both rows and columns. Default is \code{c(1, 2)}.}
 }
 \value{
 For \code{notation_vec()}, \code{arrow_notation()}, and \code{bracket_notation()},
@@ -96,8 +92,6 @@ For \code{paste_pref_suff()}, \code{split_pref_suff()}, and \code{switch_notatio
 a string list in notation format specified by various \code{notation} arguments, including
 \code{from}, and \code{to}.
 For \code{keep_pref_suff}, one of the prefix or suffix or a list of prefixes or suffixes.
-For \code{switch_row_col_notation_byname()}, matrices with row and column names with switched notation,
-per arguments.
 }
 \description{
 It is often convenient to represent row and column names
@@ -130,9 +124,6 @@ E.g., "a -> b" becomes "b -> a" or "a [b]" becomes "b [a]".
 and the rejected part.
 \item \code{switch_notation()} Switches from one type of notation to another based on the \code{from} and \code{to} arguments.
 Optionally, prefix and suffix can be \code{flip}ped.
-\item \code{switch_notation_byname()} Switches matrix row and/or column names from one type of notation to another
-based on the \code{from} and \code{to} arguments.
-Optionally, prefix and suffix can be \code{flip}ped.
 }
 
 If \code{sep} only is specified (default is " -> "),
@@ -152,16 +143,6 @@ keep_pref_suff("a -> b", keep = "suff", notation = arrow_notation())
 switch_notation("a -> b", from = arrow_notation(), to = bracket_notation())
 switch_notation("a -> b", from = arrow_notation(), to = bracket_notation(),
                 flip = TRUE)
-m <- matrix(c(1, 2,
-              3, 4), nrow = 2, ncol = 2, byrow = TRUE,
-            dimnames = list(c("b [a]", "d [c]"), c("f [e]", "h [g]"))) \%>\%
-  setrowtype("Products [Industries]") \%>\% setcoltype("Industries [Products]")
-m
-switch_notation_byname(m, from = bracket_notation(), to = arrow_notation(),
-                       flip = TRUE)
-# Also works for lists.
-# Note that margin must be specified as a list here.
-switch_notation_byname(list(m, m), margin = list(c(1, 2)),
-                       from = bracket_notation(),
-                       to = arrow_notation(), flip = TRUE)
+# Also works for vectors
+switch_notation(c("a -> b", "c -> d"), from = arrow_notation(), to = bracket_notation())
 }
