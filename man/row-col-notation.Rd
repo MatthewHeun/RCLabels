@@ -117,33 +117,6 @@ set appropriately.
 
 None of the strings in a notation vector are considered part of the prefix or suffix.
 E.g., "a -> b" in arrow notation means that "a" is the prefix and "b" is the suffix.
-
-#' @export
-#' @rdname row-col-notation
-paren_notation <- function(suff_start = " (", suff_end = ")") {
-notation_vec(sep = "",
-pref_start = "",
-pref_end = suff_start,
-suff_start = suff_start,
-suff_end = suff_end)
-}
-
-#' @export
-#' @rdname row-col-notation
-of_notation <- function(preposition = "of", suff_start = " \link{", suff_end = "}") {
-preposition_notation(preposition = preposition)
-}
-}
-\details{
-#' @export
-#' @rdname row-col-notation
-bracket_notation <- function(suff_start = " \link{", suff_end = "}") {
-notation_vec(sep = "",
-pref_start = "",
-pref_end = suff_start,
-suff_start = suff_start,
-suff_end = suff_end)
-}
 }
 \examples{
 notation_vec()
