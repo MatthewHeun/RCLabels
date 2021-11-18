@@ -1,4 +1,4 @@
 library(testthat)
-library(PFURCLabels)
+library(RCLabels)
 
-test_check("PFURCLabels")
+test_check("RCLabels")
