@@ -21,16 +21,16 @@ notation_vec(
 
 preposition_notation(preposition, suff_start = " [", suff_end = "]")
 
-split_pref_suff(x, notation = arrow_notation)
+split_pref_suff(x, notation = RCLabels::arrow_notation)
 
 paste_pref_suff(
   ps = list(pref = pref, suff = suff),
   pref = NULL,
   suff = NULL,
-  notation = arrow_notation
+  notation = RCLabels::arrow_notation
 )
 
-flip_pref_suff(x, notation = arrow_notation)
+flip_pref_suff(x, notation = RCLabels::arrow_notation)
 
 keep_pref_suff(x, keep = c("pref", "suff"), notation)
 

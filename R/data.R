@@ -67,3 +67,14 @@
 #' @examples
 #' bracket_arrow_notation
 "bracket_arrow_notation"
+
+
+
+#' Prepositions
+#'
+#' Prepositions used in row and column labels.
+#'
+#' @format A list of prepositions used in row and column labels.
+#' @examples
+#' prepositions
+"prepositions"

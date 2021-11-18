@@ -4,17 +4,24 @@
 \alias{get_noun}
 \title{Extract nouns from labels}
 \usage{
-get_noun(labels, notation)
+get_noun(labels, notation = RCLabels::bracket_notation)
 }
 \arguments{
-\item{notation}{}
+\item{labels}{A list or vector of labels from which nouns are to be extracted.}
+
+\item{notation}{The notation type to be used when extracting nouns.
+Default is \code{RCLabels::bracket_notation}.}
 }
 \value{
-The nouns from row and column labels.
+A list of nouns from row and column labels.
 }
 \description{
-Extract nouns from labels
+Nouns are the first part of a row-column label,
+"a" in "a [b]".
 }
 \examples{
 get_noun("a [b]", bracket_notation)
+# Also works with vectors and lists.
+get_noun(c("a [b]", "c [d]"))
+get_noun(list("a [b]", "c [d]"))
 }

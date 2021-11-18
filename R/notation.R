@@ -111,7 +111,7 @@ preposition_notation <- function(preposition, suff_start = " [", suff_end = "]")
 
 #' @export
 #' @rdname row-col-notation
-split_pref_suff <- function(x, notation = arrow_notation) {
+split_pref_suff <- function(x, notation = RCLabels::arrow_notation) {
   # Strip off first pref_start
   no_pref_start <- gsub(pattern = paste0("^", Hmisc::escapeRegex(notation[["pref_start"]])), replacement = "", x = x)
   # Strip off everything from first pref_end to end of string
@@ -150,7 +150,7 @@ split_pref_suff <- function(x, notation = arrow_notation) {
 
 #' @export
 #' @rdname row-col-notation
-paste_pref_suff <- function(ps = list(pref = pref, suff = suff), pref = NULL, suff = NULL, notation = arrow_notation) {
+paste_pref_suff <- function(ps = list(pref = pref, suff = suff), pref = NULL, suff = NULL, notation = RCLabels::arrow_notation) {
   join_func <- function(ps) {
     out <- paste0(notation[["pref_start"]], ps[["pref"]], notation[["pref_end"]])
     if (notation[["pref_end"]] != notation[["suff_start"]]) {
@@ -170,7 +170,7 @@ paste_pref_suff <- function(ps = list(pref = pref, suff = suff), pref = NULL, su
 
 #' @export
 #' @rdname row-col-notation
-flip_pref_suff <- function(x, notation = arrow_notation) {
+flip_pref_suff <- function(x, notation = RCLabels::arrow_notation) {
   # Split prefixes and suffixes
   pref_suff <- split_pref_suff(x, notation = notation)
 
