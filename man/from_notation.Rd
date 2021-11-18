@@ -5,7 +5,7 @@
 \alias{from_notation}
 \title{From notation}
 \format{
-A list of notational symbols that provides from ("a [from b]") notation.
+A vector of notational symbols that provides from ("a [from b]") notation.
 }
 \usage{
 from_notation

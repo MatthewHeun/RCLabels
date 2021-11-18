@@ -5,7 +5,7 @@
 \alias{to_notation}
 \title{To notation}
 \format{
-A list of notational symbols that provides to ("a [to b]") notation.
+A vector of notational symbols that provides to ("a [to b]") notation.
 }
 \usage{
 to_notation

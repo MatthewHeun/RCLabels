@@ -2,7 +2,7 @@
 #'
 #' A description of arrow notation.
 #'
-#' @format A list of notational symbols that provides an arrow separator ("a -> b")
+#' @format A vector of notational symbols that provides an arrow separator ("a -> b")
 #'         between prefix and suffix.
 #' @examples
 #' arrow_notation
@@ -13,7 +13,7 @@
 #'
 #' A description of parenthetical notation.
 #'
-#' @format A list of notational symbols that provides a parenthetical ("a (b)") notation.
+#' @format A vector of notational symbols that provides a parenthetical ("a (b)") notation.
 #' @examples
 #' paren_notation
 "paren_notation"
@@ -23,7 +23,7 @@
 #'
 #' A description of bracket notation.
 #'
-#' @format A list of notational symbols that provides bracket ("a \[b\]") notation.
+#' @format A vector of notational symbols that provides bracket ("a \[b\]") notation.
 #' @examples
 #' bracket_notation
 "bracket_notation"
@@ -33,7 +33,7 @@
 #'
 #' A description of from notation.
 #'
-#' @format A list of notational symbols that provides from ("a \[from b\]") notation.
+#' @format A vector of notational symbols that provides from ("a \[from b\]") notation.
 #' @examples
 #' from_notation
 "from_notation"
@@ -43,7 +43,7 @@
 #'
 #' A description of of notation.
 #'
-#' @format A list of notational symbols that provides of ("a \[of b\]") notation.
+#' @format A vector of notational symbols that provides of ("a \[of b\]") notation.
 #' @examples
 #' of_notation
 "of_notation"
@@ -53,7 +53,7 @@
 #'
 #' A description of to notation.
 #'
-#' @format A list of notational symbols that provides to ("a \[to b\]") notation.
+#' @format A vector of notational symbols that provides to ("a \[to b\]") notation.
 #' @examples
 #' from_notation
 "to_notation"
@@ -63,7 +63,7 @@
 #'
 #' A description of bracket arrow notation.
 #'
-#' @format A list of notational symbols that provides bracket arrow ("a \[-> b\]") notation.
+#' @format A vector of notational symbols that provides bracket arrow ("a \[-> b\]") notation.
 #' @examples
 #' bracket_arrow_notation
 "bracket_arrow_notation"

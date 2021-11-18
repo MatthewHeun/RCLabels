@@ -5,7 +5,7 @@
 \alias{bracket_notation}
 \title{Bracket notation}
 \format{
-A list of notational symbols that provides bracket ("a [b]") notation.
+A vector of notational symbols that provides bracket ("a [b]") notation.
 }
 \usage{
 bracket_notation

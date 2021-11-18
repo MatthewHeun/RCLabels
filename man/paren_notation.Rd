@@ -5,7 +5,7 @@
 \alias{paren_notation}
 \title{Parenthetical notation}
 \format{
-A list of notational symbols that provides a parenthetical ("a (b)") notation.
+A vector of notational symbols that provides a parenthetical ("a (b)") notation.
 }
 \usage{
 paren_notation
