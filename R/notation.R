@@ -98,35 +98,6 @@ notation_vec <- function(sep = " -> ",
 }
 
 
-#' #' @export
-#' #' @rdname row-col-notation
-#' arrow_notation <- function() {
-#'   notation_vec(sep = " -> ")
-#' }
-#'
-#'
-#' #' @export
-#' #' @rdname row-col-notation
-#' paren_notation <- function(suff_start = " (", suff_end = ")") {
-#'   notation_vec(sep = "",
-#'                pref_start = "",
-#'                pref_end = suff_start,
-#'                suff_start = suff_start,
-#'                suff_end = suff_end)
-#' }
-#'
-#'
-#' #' @export
-#' #' @rdname row-col-notation
-#' bracket_notation <- function(suff_start = " [", suff_end = "]") {
-#'   notation_vec(sep = "",
-#'                pref_start = "",
-#'                pref_end = suff_start,
-#'                suff_start = suff_start,
-#'                suff_end = suff_end)
-#' }
-
-
 #' @export
 #' @rdname row-col-notation
 preposition_notation <- function(preposition, suff_start = " [", suff_end = "]") {
@@ -136,20 +107,6 @@ preposition_notation <- function(preposition, suff_start = " [", suff_end = "]")
                suff_start = paste0(suff_start, preposition, " "),
                suff_end = suff_end)
 }
-
-
-#' #' @export
-#' #' @rdname row-col-notation
-#' from_notation <- function(preposition = "from", suff_start = " [", suff_end = "]") {
-#'   preposition_notation(preposition = preposition)
-#' }
-#'
-#'
-#' #' @export
-#' #' @rdname row-col-notation
-#' of_notation <- function(preposition = "of", suff_start = " [", suff_end = "]") {
-#'   preposition_notation(preposition = preposition)
-#' }
 
 
 #' @export
