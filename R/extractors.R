@@ -55,11 +55,11 @@ separate_pp <- function(labels,
                         notation = RCLabels::bracket_notation,
                         prepositions = RCLabels::prepositions) {
   if (length(labels) == 1) {
-    out <- split_pref_suff(labels, notation) |>
+    all_suffixes <- split_pref_suff(labels, notation) |>
       magrittr::extract2("suff") |>
       as.list()
   } else {
-    out <- split_pref_suff(labels, notation) |>
+    all_suffixes <- split_pref_suff(labels, notation) |>
       purrr::transpose() |>
       magrittr::extract2("suff")
   }
@@ -68,32 +68,38 @@ separate_pp <- function(labels,
   prep_patterns <- make_or_pattern(preposition_words,
                                    pattern_type = "anywhere")
 
-  # Iterate over all labels
+  # Iterate over all suffixes to find start and end locations
+  starts_ends <- lapply(all_suffixes, function(suff) {
+    start_locations <- gregexpr(prep_patterns, text = all_suffixes) |>
+      unlist()
+    if (length(start_locations) == 0) {
+      start_locations <- NA_real_
+      end_locations <- NA_real_
+    } else if (length(start_locations) == 1) {
+      end_locations <- length(suff)
+    } else {
+      end_locations <- c(start_locations[-1] - 2, nchar(suff))
+    }
+    return(list(start_location = start_locations,
+                end_location = end_locations))
+  }) |>
+    unlist(recursive = FALSE) |>
+    purrr::transpose()
 
+  # Iterate over all suffixes to extract strings for prepositional phrases
+  pps_in_suffixes <- list()
+  for (i_suffixes in 1:length(all_suffixes)) {
+    pps_in_suffix <- list()
+    for (i_suff in 1:length(starts_ends[i_suffixes])) {
+      pps_in_suffix <- append(pps_in_suffix,
+                              substring(all_suffixes[[i_suffixes]],
+                                        first = starts_ends[[i_suff]][["start_location"]],
+                                        last = starts_ends[[i_suff]][["end_location"]]))
+    }
+    pps_in_suffixes <- append(pps_in_suffixes, pps_in_suffix)
+  }
 
-  # Recombine in a list
-
-  # Return the list
-
-
-  # start_locations <- gregexpr(prep_patterns, text = out)
-  # start_locations_vec <- unlist(start_locations)
-  # if (length(start_locations_vec) == 0) {
-  #   start_lcoations <- NA_real_
-  #   end_locations <- NA_real_
-  # }
-  # if (length(start_locations_vec) == 1) {
-  #   end_locations <- length(labels)
-  # } else {
-  #   end_locations <- c(start_locations_vec[-1] - 1, lapply(labels, function(l) {length(l)}))
-  # }
-  # if (is.na(start_locations)) {
-  #   return(NA_real_)
-  # }
-  # # Extract the strings for each prepositional phrase
-  #
-
-  return(out)
+  return(pps_in_suffixes)
 
 }
 
