@@ -70,7 +70,7 @@ separate_pp <- function(labels,
 
   # Iterate over all suffixes to find start and end locations
   starts_ends <- lapply(all_suffixes, function(suff) {
-    start_locations <- gregexpr(prep_patterns, text = all_suffixes) |>
+    start_locations <- gregexpr(prep_patterns, text = suff) |>
       unlist()
     if (length(start_locations) == 0) {
       start_locations <- NA_real_
@@ -81,22 +81,21 @@ separate_pp <- function(labels,
       end_locations <- c(start_locations[-1] - 2, nchar(suff))
     }
     return(list(start_location = start_locations,
-                end_location = end_locations))
-  }) |>
-    unlist(recursive = FALSE) |>
-    purrr::transpose()
+                end_location = end_locations) |>
+             purrr::transpose())
+  })
 
   # Iterate over all suffixes to extract strings for prepositional phrases
   pps_in_suffixes <- list()
   for (i_suffixes in 1:length(all_suffixes)) {
     pps_in_suffix <- list()
-    for (i_suff in 1:length(starts_ends[i_suffixes])) {
+    for (i_suff in 1:length(starts_ends[[i_suffixes]])) {
       pps_in_suffix <- append(pps_in_suffix,
                               substring(all_suffixes[[i_suffixes]],
-                                        first = starts_ends[[i_suff]][["start_location"]],
-                                        last = starts_ends[[i_suff]][["end_location"]]))
+                                        first = starts_ends[[i_suffixes]][[i_suff]][["start_location"]],
+                                        last = starts_ends[[i_suffixes]][[i_suff]][["end_location"]]))
     }
-    pps_in_suffixes <- append(pps_in_suffixes, pps_in_suffix)
+    pps_in_suffixes <- append(pps_in_suffixes, list(pps_in_suffix))
   }
 
   return(pps_in_suffixes)
