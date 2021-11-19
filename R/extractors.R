@@ -76,7 +76,7 @@ separate_pp <- function(labels,
       start_locations <- NA_real_
       end_locations <- NA_real_
     } else if (length(start_locations) == 1) {
-      end_locations <- length(suff)
+      end_locations <- nchar(suff)
     } else {
       end_locations <- c(start_locations[-1] - 2, nchar(suff))
     }
