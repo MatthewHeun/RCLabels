@@ -30,7 +30,54 @@ get_noun <- function(labels, notation = RCLabels::bracket_notation) {
 }
 
 
+#' Convert a suffix to its prepositional phrases
+#'
+#' A suffix can consist of several prepositional phrases.
+#' This function splits the prepositional phrases apart,
+#' returning a list of those phrases.
+#' Each prepositional phrase consists of a proposition
+#' (see `RCLabels::prepositions`) and its object.
+#'
+#' Some labels will have no suffix and no prepositions.
+#' When there are no prepositions, `NA` is returned.
+#'
+#' @param labels The row and column labels from which prepositional phrases are to be extracted.
+#' @param notation The notation object that describes the labels.
+#'                 Default is `RCLabels::bracket_notation`.
+#'
+#' @return A list of lists of prepositional phrases.
+#'         The length of the list is the same as the length of `labels`.
+#'
+#' @export
+#'
+#' @examples
+extract_pp <- function(labels, notation = RCLabels::bracket_notation) {
+  if (length(labels) == 1) {
+    out <- split_pref_suff(labels, notation) |>
+      magrittr::extract2("suff") |>
+      as.list()
+  } else {
+    out <- split_pref_suff(labels, notation) |>
+      purrr::transpose() |>
+      magrittr::extract2("suff")
+  }
+
+  return(out)
+
+}
+
 
 get_pp <- function(labels, notation = RCLabels::bracket_notation) {
+  if (length(labels) == 1) {
+    out <- split_pref_suff(labels, notation) |>
+      magrittr::extract2("suff") |>
+      as.list()
+  } else {
+    out <- split_pref_suff(labels, notation) |>
+      purrr::transpose() |>
+      magrittr::extract2("suff")
+  }
+
+  return(out)
 
 }
