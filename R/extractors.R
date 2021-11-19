@@ -51,7 +51,9 @@ get_noun <- function(labels, notation = RCLabels::bracket_notation) {
 #' @export
 #'
 #' @examples
-extract_pp <- function(labels, notation = RCLabels::bracket_notation) {
+separate_pp <- function(labels,
+                        notation = RCLabels::bracket_notation,
+                        prepositions = RCLabels::prepositions) {
   if (length(labels) == 1) {
     out <- split_pref_suff(labels, notation) |>
       magrittr::extract2("suff") |>
@@ -61,6 +63,35 @@ extract_pp <- function(labels, notation = RCLabels::bracket_notation) {
       purrr::transpose() |>
       magrittr::extract2("suff")
   }
+  # Find location of all prepositions
+  preposition_words <- paste0(prepositions, " ")
+  prep_patterns <- make_or_pattern(preposition_words,
+                                   pattern_type = "anywhere")
+
+  # Iterate over all labels
+
+
+  # Recombine in a list
+
+  # Return the list
+
+
+  # start_locations <- gregexpr(prep_patterns, text = out)
+  # start_locations_vec <- unlist(start_locations)
+  # if (length(start_locations_vec) == 0) {
+  #   start_lcoations <- NA_real_
+  #   end_locations <- NA_real_
+  # }
+  # if (length(start_locations_vec) == 1) {
+  #   end_locations <- length(labels)
+  # } else {
+  #   end_locations <- c(start_locations_vec[-1] - 1, lapply(labels, function(l) {length(l)}))
+  # }
+  # if (is.na(start_locations)) {
+  #   return(NA_real_)
+  # }
+  # # Extract the strings for each prepositional phrase
+  #
 
   return(out)
 
