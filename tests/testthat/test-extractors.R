@@ -6,11 +6,6 @@ test_that("get_noun() works as expected", {
 
 
 
-
-test_that("get_pp() works as expected", {
-})
-
-
 test_that("separate_pp() works as expected", {
   expect_equal(separate_pp(c("a [of b in c]", "d [of e into f]"), bracket_notation),
                list(list("of b", "in c"), list("of e", "into f")))
