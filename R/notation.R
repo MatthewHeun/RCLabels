@@ -170,15 +170,19 @@ split_pref_suff <- function(x, notation = RCLabels::arrow_notation) {
       }
     }
     # Split at the first instance of suff_start to get two pieces
-    suff <- stringi::stri_split_fixed(str = no_suff_end, pattern = ss, n = 2) |>
+    suff <- stringi::stri_split_fixed(str = no_suff_end, pattern = ss, n = 2)
+    suff <- lapply(suff, function(s) {
+      if (length(s) == 2) {
+        # If we got two pieces, choose the second piece.
+        s <- s[[2]]
+      } else {
+        # We got only 1 piece. Return an empty string ("") to indicate a missing suffix
+        s <- ""
+      }
+      return(s)
+    }) |>
       unlist()
-    if (length(suff) == 2) {
-      # If we got two pieces, choose the second piece.
-      suff <- suff[[2]]
-    } else {
-      # We got only 1 piece. Return an empty string ("") to indicate a missing suffix
-      suff <- ""
-    }
+
     out <- append(out, list(list(pref = pref, suff = suff)))
   }
   # Check the original structure.
