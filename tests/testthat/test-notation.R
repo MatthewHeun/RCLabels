@@ -124,7 +124,7 @@ test_that("split_pref_suff() works in a data frame", {
 
 
 test_that("split_pref_suff() works in a data frame containing lists", {
-  df <- tibble::tibble(donottouch = c(1, 2), orig = list(c("a -> b", "c -> d"),
+  df <- tibble::tibble(donttouch = c(1, 2), orig = list(c("a -> b", "c -> d"),
                                                          c("e -> f", "g -> h")))
   splitted <- df |>
     dplyr::mutate(
