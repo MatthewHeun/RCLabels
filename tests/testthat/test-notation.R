@@ -131,6 +131,7 @@ test_that("split_pref_suff() works in a data frame containing lists", {
       split = split_pref_suff(orig, notation = arrow_notation)
     )
 
+  expect_equal(splitted$split[[1]], list(pref = c("a", "c"), suff = c("b", "d")))
 
 
 })
