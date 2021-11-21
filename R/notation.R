@@ -111,7 +111,7 @@ preposition_notation <- function(preposition, suff_start = " [", suff_end = "]")
 
 #' @export
 #' @rdname row-col-notation
-split_pref_suff <- function(x, notation = RCLabels::arrow_notation) {
+split_pref_suff_old <- function(x, notation = RCLabels::arrow_notation) {
   # Strip off first pref_start
   no_pref_start <- gsub(pattern = paste0("^", Hmisc::escapeRegex(notation[["pref_start"]])), replacement = "", x = x)
   # Strip off everything from first pref_end to end of string
@@ -145,6 +145,49 @@ split_pref_suff <- function(x, notation = RCLabels::arrow_notation) {
     return(purrr::transpose(list(pref = pref, suff = suff)))
   }
   list(pref = pref, suff = suff)
+}
+
+
+#' @export
+#' @rdname row-col-notation
+split_pref_suff <- function(x, notation = RCLabels::arrow_notation) {
+
+  # Vectorize so the gsub function works correctly.
+  out <- list()
+  for (i in 1:length(x)) {
+    # Strip off first pref_start
+    this_x <- x[[i]]
+    no_pref_start <- gsub(pattern = paste0("^", Hmisc::escapeRegex(notation[["pref_start"]])), replacement = "", x = this_x)
+    # Strip off everything from first pref_end to end of string to obtain the prefix
+    pref <- gsub(pattern = paste0(Hmisc::escapeRegex(notation[["pref_end"]]), ".*$"), replacement = "", x = no_pref_start)
+    # Strip off last suff_end
+    no_suff_end <- gsub(pattern = paste0(Hmisc::escapeRegex(notation[["suff_end"]]), "$"), replacement = "", x = this_x)
+    # Strip off everything from start of the string to first suff_start
+    ss <- notation[["suff_start"]]
+    if (!is.na(notation[["pref_start"]]) & !is.na(notation[["suff_start"]])) {
+      if (notation[["pref_start"]] == notation[["suff_start"]]) {
+        ss <- paste0(notation[["pref_end"]], notation[["suff_start"]])
+      }
+    }
+    # Split at the first instance of suff_start to get two pieces
+    suff <- stringi::stri_split_fixed(str = no_suff_end, pattern = ss, n = 2) |>
+      unlist()
+    if (length(suff) == 2) {
+      # If we got two pieces, choose the second piece.
+      suff <- suff[[2]]
+    } else {
+      # We got only 1 piece. Return an empty string ("") to indicate a missing suffix
+      suff <- ""
+    }
+    out <- append(out, list(list(pref = pref, suff = suff)))
+  }
+  # Check the original structure.
+  # Return the same structure.
+  if (length(x) == 1) {
+    # Knock one level of list away.
+    out <- unlist(out, recursive = FALSE)
+  }
+  return(out)
 }
 
 

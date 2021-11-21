@@ -66,8 +66,8 @@ test_that("split_pref_suff() works properly", {
   expect_equal(split_pref_suff("b [a]", notation = bracket_notation), list(pref = "b", suff = "a"))
 
   # See if it works with a vector of strings
-  expect_equal(split_pref_suff(c("a -> b", "a -> b"), notation = arrow_notation),
-               list(list(pref = "a", suff = "b"), list(pref = "a", suff = "b")))
+  expect_equal(split_pref_suff(c("a -> b", "c -> d"), notation = arrow_notation),
+               list(list(pref = "a", suff = "b"), list(pref = "c", suff = "d")))
   # See if it works with a list of strings
   expect_equal(split_pref_suff(list("a -> b", "a -> b"), notation = arrow_notation),
                list(list(pref = "a", suff = "b"), list(pref = "a", suff = "b")))
@@ -105,6 +105,7 @@ test_that("split_pref_suff() works properly", {
   expect_equal(split_pref_suff("a b", notation = nl4), list(pref = "a b", suff = ""))
 })
 
+
 test_that("split_pref_suff() works with a list", {
   res <- split_pref_suff(c("a [b]", "c [d]"), bracket_notation)
   expect_equal(res[[1]], list(pref = "a", suff = "b"))
@@ -119,6 +120,19 @@ test_that("split_pref_suff() works in a data frame", {
       split = split_pref_suff(orig, notation = arrow_notation)
     )
   expect_equal(splitted$split, list(list(pref = "a", suff = "b"), list(pref = "c", suff = "d")))
+})
+
+
+test_that("split_pref_suff() works in a data frame containing lists", {
+  df <- tibble::tibble(donottouch = c(1, 2), orig = list(c("a -> b", "c -> d"),
+                                                         c("e -> f", "g -> h")))
+  splitted <- df |>
+    dplyr::mutate(
+      split = split_pref_suff(orig, notation = arrow_notation)
+    )
+
+
+
 })
 
 

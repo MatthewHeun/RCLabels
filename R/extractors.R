@@ -12,11 +12,11 @@
 #' @export
 #'
 #' @examples
-#' get_noun("a [b]", bracket_notation)
+#' get_nouns("a [b]", bracket_notation)
 #' # Also works with vectors and lists.
-#' get_noun(c("a [b]", "c [d]"))
-#' get_noun(list("a [b]", "c [d]"))
-get_noun <- function(labels, notation = RCLabels::bracket_notation) {
+#' get_nouns(c("a [b]", "c [d]"))
+#' get_nouns(list("a [b]", "c [d]"))
+get_nouns <- function(labels, notation = RCLabels::bracket_notation) {
   if (length(labels) == 1) {
     out <- split_pref_suff(labels, notation) |>
       magrittr::extract2("pref") |>
@@ -30,7 +30,7 @@ get_noun <- function(labels, notation = RCLabels::bracket_notation) {
 }
 
 
-#' Convert a suffix to its prepositional phrases
+#' Extract prepositional phrases from labels
 #'
 #' A suffix can consist of several prepositional phrases.
 #' This function splits the prepositional phrases apart,
@@ -51,9 +51,10 @@ get_noun <- function(labels, notation = RCLabels::bracket_notation) {
 #' @export
 #'
 #' @examples
-separate_pp <- function(labels,
-                        notation = RCLabels::bracket_notation,
-                        prepositions = RCLabels::prepositions) {
+#' get_pps(c("a [of b in c]", "d [of e into f]"), bracket_notation)
+get_pps <- function(labels,
+                    notation = RCLabels::bracket_notation,
+                    prepositions = RCLabels::prepositions) {
   if (length(labels) == 1) {
     all_suffixes <- split_pref_suff(labels, notation) |>
       magrittr::extract2("suff") |>
