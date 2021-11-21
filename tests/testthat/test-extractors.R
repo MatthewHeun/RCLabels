@@ -28,9 +28,9 @@ test_that("get_pps() works as expected", {
 
   # Now try in a data frame
 
-  df <- data.frame(labels = I(list(list("a [in b]", "c [of d]"),
-                                   list("e [of f in g]", "h [-> i in j]"))))
-  with_nouns <- df |>
+  df <- data.frame(labels = I(list(list("e [of f in g]", "h [-> i in j]"),
+                                   list("a [in b]", "c [of d]"))))
+  with_nouns_pps <- df |>
     dplyr::mutate(
       nouns = get_nouns(labels),
       pps = get_pps(labels)
