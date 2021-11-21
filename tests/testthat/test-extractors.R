@@ -35,8 +35,8 @@ test_that("get_pps() works as expected", {
       nouns = get_nouns(labels),
       pps = get_pps(labels)
     )
-  expect_equal(with_nouns$nouns[[1]], c("a", "c"))
-  expect_equal(with_nouns$nouns[[2]], c("e", "g"))
+  expect_equal(with_nouns_pps$nouns[[1]], c("e", "h"))
+  expect_equal(with_nouns_pps$nouns[[2]], c("a", "c"))
 
 
 })
