@@ -111,45 +111,6 @@ preposition_notation <- function(preposition, suff_start = " [", suff_end = "]")
 
 #' @export
 #' @rdname row-col-notation
-split_pref_suff_old <- function(x, notation = RCLabels::arrow_notation) {
-  # Strip off first pref_start
-  no_pref_start <- gsub(pattern = paste0("^", Hmisc::escapeRegex(notation[["pref_start"]])), replacement = "", x = x)
-  # Strip off everything from first pref_end to end of string
-  pref <- gsub(pattern = paste0(Hmisc::escapeRegex(notation[["pref_end"]]), ".*$"), replacement = "", x = no_pref_start)
-
-  # Strip off last suff_end
-  no_suff_end <- gsub(pattern = paste0(Hmisc::escapeRegex(notation[["suff_end"]]), "$"), replacement = "", x = x)
-  # Strip off everything from start of the string to first suff_start
-  ss <- notation[["suff_start"]]
-  if (!is.na(notation[["pref_start"]]) & !is.na(notation[["suff_start"]])) {
-    if (notation[["pref_start"]] == notation[["suff_start"]]) {
-      ss <- paste0(notation[["pref_end"]], notation[["suff_start"]])
-    }
-  }
-  # Split at the first instance of suff_start to get two pieces
-  suff <- stringi::stri_split_fixed(str = no_suff_end, pattern = ss, n = 2)
-  suff <- lapply(suff, function(s) {
-    if (length(s) == 2) {
-      # If we got two pieces, choose the second piece.
-      return(s[[2]])
-    }
-    # We got only 1 piece. Return an empty string ("") to indicate a missing suffix
-    return("")
-  })
-  if (length(x) == 1) {
-    suff <- unlist(suff)
-  }
-
-  # Decide what the outgoing structure is
-  if (length(x) > 1) {
-    return(purrr::transpose(list(pref = pref, suff = suff)))
-  }
-  list(pref = pref, suff = suff)
-}
-
-
-#' @export
-#' @rdname row-col-notation
 split_pref_suff <- function(x, notation = RCLabels::arrow_notation) {
 
   # Vectorize so the gsub function works correctly.

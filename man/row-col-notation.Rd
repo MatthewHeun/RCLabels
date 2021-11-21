@@ -4,7 +4,6 @@
 \alias{row-col-notation}
 \alias{notation_vec}
 \alias{preposition_notation}
-\alias{split_pref_suff_old}
 \alias{split_pref_suff}
 \alias{paste_pref_suff}
 \alias{flip_pref_suff}
@@ -21,8 +20,6 @@ notation_vec(
 )
 
 preposition_notation(preposition, suff_start = " [", suff_end = "]")
-
-split_pref_suff_old(x, notation = RCLabels::arrow_notation)
 
 split_pref_suff(x, notation = RCLabels::arrow_notation)
 
