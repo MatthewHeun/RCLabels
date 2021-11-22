@@ -108,7 +108,7 @@ split_labels <- function(labels,
                          prepositions = RCLabels::prepositions) {
   nouns <- get_nouns(labels, notation = notation)
   pps <- get_pps(labels, notation = notation, prepositions = prepositions)
-  list(noun = nouns, pp = pps) |>
+  list(noun = nouns, pps = pps) |>
     purrr::transpose()
 }
 
