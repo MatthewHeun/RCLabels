@@ -154,6 +154,8 @@ split_pref_suff <- function(x, notation = RCLabels::arrow_notation) {
         # length(this_x) > 1
         res <- list(pref = pref, suff = suff) |>
           purrr::transpose() |>
+          # Unlist the pref, suff list.
+          purrr::modify_depth(.depth = 1, unlist) |>
           list()
       }
       out <- append(out, res)
