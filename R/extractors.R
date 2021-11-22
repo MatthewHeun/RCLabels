@@ -17,16 +17,20 @@
 #' get_nouns(c("a [b]", "c [d]"))
 #' get_nouns(list("a [b]", "c [d]"))
 get_nouns <- function(labels, notation = RCLabels::bracket_notation) {
-  if (length(labels) == 1) {
-    out <- split_pref_suff(labels, notation) |>
-      magrittr::extract2("pref") |>
-      as.list()
-  } else {
-    out <- split_pref_suff(labels, notation) |>
-      purrr::transpose() |>
-      magrittr::extract2("pref")
-  }
-  return(out)
+
+  keep_pref_suff(labels, keep = "pref", notation = notation)
+
+
+  # if (length(labels) == 1) {
+  #   out <- split_pref_suff(labels, notation) |>
+  #     magrittr::extract2("pref") |>
+  #     as.list()
+  # } else {
+  #   out <- split_pref_suff(labels, notation) |>
+  #     purrr::transpose() |>
+  #     magrittr::extract2("pref")
+  # }
+  # return(out)
 }
 
 

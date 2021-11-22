@@ -165,7 +165,7 @@ split_pref_suff <- function(x, notation = RCLabels::arrow_notation) {
   # Return the same structure.
   if (length(x) == 1) {
     # Knock one level of list away.
-    return(unlist(out, recursive = FALSE))
+    out <- unlist(out, recursive = FALSE)
   }
   return(out)
 }
@@ -199,11 +199,11 @@ flip_pref_suff <- function(x, notation = RCLabels::arrow_notation) {
 
   flip_ps_func <- function(ps) {
     # pf is a list with only 2 items, pref and suff.
-    out <- paste0(notation[["pref_start"]], ps$suff, notation[["pref_end"]])
+    out <- paste0(notation[["pref_start"]], ps[["suff"]], notation[["pref_end"]])
     if (notation[["pref_end"]] != notation[["suff_start"]]) {
       out <- paste0(out, notation[["suff_start"]])
     }
-    paste0(out, ps$pref, notation[["suff_end"]])
+    paste0(out, ps[["pref"]], notation[["suff_end"]])
   }
 
   if (length(x) > 1) {
@@ -243,13 +243,13 @@ keep_pref_suff <- function(x, keep = c("pref", "suff"), notation) {
 switch_notation <- function(x, from, to, flip = FALSE) {
   switch_func <- function(x) {
     ps <- split_pref_suff(x, notation = from)
-    if (ps$suff == "") {
+    if (ps[["suff"]] == "") {
       # No split occurred, meaning the notation for prefix and suffix wasn't found.
       # In this case, return the string unmodified.
       return(x)
     }
     if (flip) {
-      ps <- list(pref = ps$suff, suff = ps$pref)
+      ps <- list(pref = ps[["suff"]], suff = ps[["pref"]])
     }
     paste_pref_suff(ps, notation = to)
   }

@@ -1,7 +1,7 @@
 test_that("get_noun() works as expected", {
-  expect_equal(get_nouns("a [b]"), list("a"))
-  expect_equal(get_nouns(c("a [b]", "c [d]")), list("a", "c"))
-  expect_equal(get_nouns(list("a [b]", "c [d]")), list("a", "c"))
+  expect_equal(get_nouns("a [b]"), "a")
+  expect_equal(get_nouns(c("a [b]", "c [d]")), c("a", "c"))
+  expect_equal(get_nouns(list("a [b]", "c [d]")), c("a", "c"))
 
   # Now try in a data frame
   df <- data.frame(labels = I(list(list("a [b]", "c [d]"),
