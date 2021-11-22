@@ -144,13 +144,26 @@ split_pref_suff <- function(x, notation = RCLabels::arrow_notation) {
     }) |>
       unlist()
 
-    out <- append(out, list(list(pref = pref, suff = suff)))
+    if (length(x) == 1) {
+      out <- append(out, list(pref = pref, suff = suff))
+    } else {
+      # length(x) > 1
+      if (length(this_x) == 1) {
+        res <- list(c(pref = pref, suff = suff))
+      } else {
+        # length(this_x) > 1
+        res <- list(pref = pref, suff = suff) |>
+          purrr::transpose() |>
+          list()
+      }
+      out <- append(out, res)
+    }
   }
   # Check the original structure.
   # Return the same structure.
   if (length(x) == 1) {
     # Knock one level of list away.
-    out <- unlist(out, recursive = FALSE)
+    return(unlist(out, recursive = FALSE))
   }
   return(out)
 }

@@ -106,6 +106,23 @@ test_that("split_pref_suff() works properly", {
 })
 
 
+test_that("split_pref_suff() works with all structures of input", {
+  expect_equal(split_pref_suff("a [b]", bracket_notation), c(pref = "a", suff = "b"))
+
+  expect_equal(split_pref_suff(c("a [b]", "c [d]"), bracket_notation),
+               list(c(pref = "a", suff = "b"), c(pref = "c", suff = "d")))
+
+  expect_equal(split_pref_suff(list("a [b]", "c [d]"), bracket_notation),
+               list(c(pref = "a", suff = "b"), c(pref = "c", suff = "d")))
+
+  expect_equal(split_pref_suff(list(c("a [b]", "c [d]"),
+                                    c("e [f]", "g [h]")),
+                               bracket_notation),
+               list(list(c(pref = "a", suff = "b"), c(pref = "c", suff = "d")),
+                    list(c(pref = "e", suff = "f"), c(pref = "g", suff = "h"))))
+})
+
+
 test_that("split_pref_suff() works with a list", {
   res <- split_pref_suff(c("a [b]", "c [d]"), bracket_notation)
   expect_equal(res[[1]], list(pref = "a", suff = "b"))
@@ -131,7 +148,10 @@ test_that("split_pref_suff() works in a data frame containing lists", {
       split = split_pref_suff(orig, notation = arrow_notation)
     )
 
-  expect_equal(splitted$split[[1]], list(pref = c("a", "c"), suff = c("b", "d")))
+  expect_equal(splitted$split[[1]], list(list(pref = "a", suff = "b"),
+                                         list(pref = "c", suff = "d")))
+  expect_equal(splitted$split[[2]], list(list(pref = "e", suff = "f"),
+                                         list(pref = "g", suff = "h")))
 })
 
 
