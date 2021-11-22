@@ -89,13 +89,7 @@ or otherwise manipulate row and column names on their own or as row or column na
 that is used by \code{matsbyname} in several places.
 By default, it builds a list of notation symbols that provides an arrow
 separator (" -> ") between prefix and suffix.
-\item \code{arrow_notation} Builds a list of notation symbols that provides an arrow separator (" -> ")
-between prefix and suffix.
-\item \code{paren_notation} Builds a list of notation symbols that provides parentheses around the suffix ("prefix (suffix)").
-\item \code{bracket_notation} Builds a list of notation symbols that provides square brackets around the suffix ("prefix [suffix]").
 \item \code{preposition_notation()} Builds a list of notation symbols that provides (by default) square brackets around the suffix with a preposition ("prefix [preposition suffix]").
-\item \code{from_notation} Builds a list of notation symbols that provides (by default) square brackets around a "from" suffix ("prefix [from suffix]").
-\item \code{of_notation} Builds a list of notation symbols that provides (by default) square brackets around an "of" suffix ("prefix [of suffix]").
 \item \code{split_pref_suff()} Splits prefixes from suffixes, returning each in a list with names \code{pref} and \code{suff}.
 If no prefix or suffix delimiters are found, \code{x} is returned in the \code{pref} item, unmodified,
 and the \code{suff} item is returned as \code{""} (an empty string).
@@ -107,6 +101,7 @@ the suffix becomes the prefix.
 E.g., "a -> b" becomes "b -> a" or "a [b]" becomes "b [a]".
 \item \code{keep_pref_suff()} Selects only prefix or suffix, discarding notational elements
 and the rejected part.
+Internally, calls \code{split_pref_suff()} and selects only the \code{suff} portions.
 \item \code{switch_notation()} Switches from one type of notation to another based on the \code{from} and \code{to} arguments.
 Optionally, prefix and suffix can be \code{flip}ped.
 }

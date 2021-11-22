@@ -214,20 +214,20 @@ test_that("keep_pref_suff() works as expected", {
 
   # Try with a list
   expect_equal(keep_pref_suff(list("a -> b", "c -> d"), keep = "pref", notation = arrow_notation),
-               c("a", "c"))
+               list("a", "c"))
   expect_equal(keep_pref_suff(list("a -> b", "c -> d"), keep = "suff", notation = arrow_notation),
-               c("b", "d"))
+               list("b", "d"))
 
   expect_equal(keep_pref_suff(list("a [b]", "abcde"), keep = "suff", notation = bracket_notation),
-               c("b", "abcde"))
+               list("b", ""))
 
   # Try degenerate cases
   expect_equal(keep_pref_suff("abcde", keep = "pref", notation = arrow_notation), "abcde")
-  expect_equal(keep_pref_suff("abcde", keep = "suff", notation = arrow_notation), "abcde")
+  expect_equal(keep_pref_suff("abcde", keep = "suff", notation = arrow_notation), "")
   expect_equal(keep_pref_suff(list("abcde", "fghij"), keep = "pref", notation = arrow_notation),
-               c("abcde", "fghij"))
+               list("abcde", "fghij"))
   expect_equal(keep_pref_suff(list("abcde", "fghij"), keep = "suff", notation = arrow_notation),
-               c("abcde", "fghij"))
+               list("", ""))
 
   # Test in a data frame using mutate.
   df <- data.frame(v1 = c("a -> b", "c -> d"), v2 = c("e [f]", "g [h]"))
@@ -246,17 +246,30 @@ test_that("keep_pref_suff() works as expected", {
   expect_equal(res$pref[[2]], "c")
   expect_equal(res$suff[[1]], "f")
   expect_equal(res$suff[[2]], "h")
-  expect_equal(res$fail[[1]], "a -> b")
-  expect_equal(res$fail[[2]], "c -> d")
+  expect_equal(res$fail[[1]], "")
+  expect_equal(res$fail[[2]], "")
+})
+
+
+test_that("keep_pref_suff() works with deeply-nested labels", {
+  df <- tibble::tibble(labs = list(c("a -> b", "c -> d"), c("e -> f", "g -> h")))
+  res <- df |>
+    dplyr::mutate(
+      pref = keep_pref_suff(labs, keep = "pref", notation = arrow_notation),
+      suff = keep_pref_suff(labs, keep = "suff", notation = arrow_notation)
+    )
+  expect_equal(res$pref[[1]], list("a", "c"))
+  expect_equal(res$pref[[2]], list("e", "g"))
+  expect_equal(res$suff[[1]], list("b", "d"))
+  expect_equal(res$suff[[2]], list("f", "h"))
 })
 
 
 test_that("keep_pref_suff() works when there is no prefix or suffix", {
   expect_equal(keep_pref_suff("a", keep = "pref", notation = arrow_notation), "a")
-  expect_equal(keep_pref_suff("a", keep = "suff", notation = arrow_notation), "a")
+  expect_equal(keep_pref_suff("a", keep = "suff", notation = arrow_notation), "")
   expect_equal(keep_pref_suff("a", keep = "pref", notation = from_notation), "a")
-  expect_equal(keep_pref_suff("a", keep = "suff", notation = arrow_notation), "a")
-
+  expect_equal(keep_pref_suff("a", keep = "suff", notation = arrow_notation), "")
 })
 
 

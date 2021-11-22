@@ -15,10 +15,17 @@ get_pps(
 
 \item{notation}{The notation object that describes the labels.
 Default is \code{RCLabels::bracket_notation}.}
+
+\item{prepositions}{A vector of strings to be treated as prepositions.
+Note that a space is appended to each word internally,
+so, e.g., "to" becomes "to ".
+Default is \code{RCLabels::prepositions}.}
 }
 \value{
 A list of lists of prepositional phrases.
-The length of the list is the same as the length of \code{labels}.
+The structure of the returned list is the same as the length of \code{labels}
+with an additional level added
+in which each item is one prepositional phrase.
 }
 \description{
 A suffix can consist of several prepositional phrases.

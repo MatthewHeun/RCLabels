@@ -11,13 +11,7 @@
 #'                    that is used by `matsbyname` in several places.
 #'                    By default, it builds a list of notation symbols that provides an arrow
 #'                    separator (" -> ") between prefix and suffix.
-#' * `arrow_notation` Builds a list of notation symbols that provides an arrow separator (" -> ")
-#'                      between prefix and suffix.
-#' * `paren_notation` Builds a list of notation symbols that provides parentheses around the suffix ("prefix (suffix)").
-#' * `bracket_notation` Builds a list of notation symbols that provides square brackets around the suffix ("prefix \[suffix\]").
 #' * `preposition_notation()` Builds a list of notation symbols that provides (by default) square brackets around the suffix with a preposition ("prefix \[preposition suffix\]").
-#' * `from_notation` Builds a list of notation symbols that provides (by default) square brackets around a "from" suffix ("prefix \[from suffix\]").
-#' * `of_notation` Builds a list of notation symbols that provides (by default) square brackets around an "of" suffix ("prefix \[of suffix\]").
 #' * `split_pref_suff()` Splits prefixes from suffixes, returning each in a list with names `pref` and `suff`.
 #'                       If no prefix or suffix delimiters are found, `x` is returned in the `pref` item, unmodified,
 #'                       and the `suff` item is returned as `""` (an empty string).
@@ -29,6 +23,7 @@
 #'                      E.g., "a -> b" becomes "b -> a" or "a \[b\]" becomes "b \[a\]".
 #' * `keep_pref_suff()` Selects only prefix or suffix, discarding notational elements
 #'                      and the rejected part.
+#'                      Internally, calls `split_pref_suff()` and selects only the `suff` portions.
 #' * `switch_notation()` Switches from one type of notation to another based on the `from` and `to` arguments.
 #'                       Optionally, prefix and suffix can be `flip`ped.
 #'
@@ -218,23 +213,15 @@ flip_pref_suff <- function(x, notation = RCLabels::arrow_notation) {
 #' @rdname row-col-notation
 keep_pref_suff <- function(x, keep = c("pref", "suff"), notation) {
   keep <- match.arg(keep)
-
-  choose_pref_or_suff <- function(ps, which_to_keep) {
-    # ps should be an item with "pref" and "suff" named elements.
-    if (which_to_keep == "pref" | ps[["suff"]] == "") {
-      return(ps[["pref"]])
-    }
-    return(ps[["suff"]])
+  splitted <- split_pref_suff(x, notation = notation)
+  if (length(x) == 1) {
+    return(splitted[[keep]])
   }
-
-  pref_suff <- split_pref_suff(x, notation)
-  if (length(x) > 1) {
-    out <- lapply(pref_suff, choose_pref_or_suff, keep) |>
-      unlist()
-  } else {
-    out <- choose_pref_or_suff(pref_suff, keep)
-  }
-  return(out)
+  splitted |>
+    purrr::modify_depth(.depth = -1, function(this_one) {
+      this_one |>
+        magrittr::extract2(keep)
+    })
 }
 
 
