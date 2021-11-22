@@ -32,7 +32,11 @@ paste_pref_suff(
 
 flip_pref_suff(x, notation = RCLabels::arrow_notation)
 
-keep_pref_suff(x, keep = c("pref", "suff"), notation)
+keep_pref_suff(
+  x,
+  keep = c("pref", "suff"),
+  notation = RCLabels::arrow_notation
+)
 
 switch_notation(x, from, to, flip = FALSE)
 }

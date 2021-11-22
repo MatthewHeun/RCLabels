@@ -15,10 +15,16 @@ test_that("get_noun() works as expected", {
 })
 
 
-
 test_that("get_pps() works as expected", {
+  # Try with a single string
+  expect_equal(get_pps("a [of b in c]", notation = bracket_notation), c("of b", "in c"))
+
   expect_equal(get_pps(c("a [of b in c]", "d [of e into f]"), notation = bracket_notation),
                list(c("of b", "in c"), c("of e", "into f")))
+
+
+
+
   expect_equal(get_pps(list("a [of b in c]", "d [of e into f]"), notation = bracket_notation),
                list(c("of b", "in c"), c("of e", "into f")))
 
@@ -29,7 +35,7 @@ test_that("get_pps() works as expected", {
   # Now try in a data frame
 
   df <- data.frame(labels = I(list(list("e [of f in g]", "h [-> i in j]"),
-                                   list("a [in b]", "c [of d]"))))
+                                   list("a [in b]", "c [of d into USA]"))))
   with_nouns_pps <- df |>
     dplyr::mutate(
       nouns = get_nouns(labels),
@@ -38,5 +44,11 @@ test_that("get_pps() works as expected", {
   expect_equal(with_nouns_pps$nouns[[1]], list("e", "h"))
   expect_equal(with_nouns_pps$nouns[[2]], list("a", "c"))
 
+  expect_equal(with_nouns_pps$pps[[1]], list(c("of f", "in g"), c("-> i", "in j")))
+  expect_equal(with_nouns_pps$pps[[2]], list("in b", c("of d", "into USA")))
+})
 
+
+test_that("split_labels() works as expected", {
+  split_labels(c("a [of b in c]", "d [of e into f]"), notation = bracket_notation)
 })

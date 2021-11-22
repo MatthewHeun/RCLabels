@@ -54,51 +54,6 @@ get_nouns <- function(labels, notation = RCLabels::bracket_notation) {
 get_pps <- function(labels,
                     notation = RCLabels::bracket_notation,
                     prepositions = RCLabels::prepositions) {
-  # if (length(labels) == 1) {
-  #   all_suffixes <- split_pref_suff(labels, notation) |>
-  #     magrittr::extract2("suff") |>
-  #     as.list()
-  # } else {
-  #   all_suffixes <- split_pref_suff(labels, notation) |>
-  #     purrr::transpose() |>
-  #     magrittr::extract2("suff")
-  # }
-  # # Find location of all prepositions
-  # preposition_words <- paste0(prepositions, " ")
-  # prep_patterns <- make_or_pattern(preposition_words,
-  #                                  pattern_type = "anywhere")
-  #
-  # # Iterate over all suffixes to find start and end locations
-  # starts_ends <- lapply(all_suffixes, function(suff) {
-  #   start_locations <- gregexpr(prep_patterns, text = suff) |>
-  #     unlist()
-  #   if (length(start_locations) == 0) {
-  #     start_locations <- NA_real_
-  #     end_locations <- NA_real_
-  #   } else if (length(start_locations) == 1) {
-  #     end_locations <- nchar(suff)
-  #   } else {
-  #     end_locations <- c(start_locations[-1] - 2, nchar(suff))
-  #   }
-  #   return(list(start_location = start_locations,
-  #               end_location = end_locations) |>
-  #            purrr::transpose())
-  # })
-  #
-  # # Iterate over all suffixes to extract strings for prepositional phrases
-  # pps_in_suffixes <- list()
-  # for (i_suffixes in 1:length(all_suffixes)) {
-  #   pps_in_suffix <- list()
-  #   for (i_suff in 1:length(starts_ends[[i_suffixes]])) {
-  #     pps_in_suffix <- append(pps_in_suffix,
-  #                             substring(all_suffixes[[i_suffixes]],
-  #                                       first = starts_ends[[i_suffixes]][[i_suff]][["start_location"]],
-  #                                       last = starts_ends[[i_suffixes]][[i_suff]][["end_location"]]))
-  #   }
-  #   pps_in_suffixes <- append(pps_in_suffixes, list(pps_in_suffix))
-  # }
-  #
-  # return(pps_in_suffixes)
 
   # Get all suffixes, which are assumed to be prepositional phrases.
   preposition_words <- paste0(prepositions, " ")
@@ -120,24 +75,40 @@ get_pps <- function(labels,
 
       mapply(start_locations, end_locations, FUN = function(start_loc, end_loc) {
         substring(this_suff, first = start_loc, last = end_loc)
-      })
+      }) |>
+        # Make a list out of the resulting vector,
+        # thereby ensuring 1 item replaces the string.
+        list()
     })
-  return(suffixes)
-
-}
-
-
-get_pp <- function(labels, notation = RCLabels::bracket_notation) {
-  if (length(labels) == 1) {
-    out <- split_pref_suff(labels, notation) |>
-      magrittr::extract2("suff") |>
-      as.list()
-  } else {
-    out <- split_pref_suff(labels, notation) |>
-      purrr::transpose() |>
-      magrittr::extract2("suff")
+  if (length(suffixes) == 1) {
+    return(unlist(suffixes))
   }
-
-  return(out)
-
+  suffixes |>
+    # Eliminate the list we just added.
+    purrr::modify_depth(.depth = -2, unlist)
 }
+
+
+#' Split row and column labels into nouns and prepositional phrases
+#'
+#' @param labels The row and column labels from which prepositional phrases are to be extracted.
+#' @param notation The notation object that describes the labels.
+#'                 Default is `RCLabels::bracket_notation`.
+#' @param prepositions A vector of strings to be treated as prepositions.
+#'                     Note that a space is appended to each word internally,
+#'                     so, e.g., "to" becomes "to ".
+#'                     Default is `RCLabels::prepositions`.
+#'
+#' @return A list of lists with items named `noun` and `pp`.
+#' @export
+#'
+#' @examples
+split_labels <- function(labels,
+                         notation = RCLabels::bracket_notation,
+                         prepositions = RCLabels::prepositions) {
+  nouns <- get_nouns(labels, notation = notation)
+  pps <- get_pps(labels, notation = notation, prepositions = prepositions)
+  list(noun = nouns, pp = pps) |>
+    purrr::transpose()
+}
+

@@ -155,7 +155,7 @@ test_that("split_pref_suff() works in a data frame containing lists", {
 })
 
 
-test_that("join_pref_suff() works properly", {
+test_that("paste_pref_suff() works properly", {
   ps <- c(pref = "a", suff = "b")
   expect_equal(paste_pref_suff(ps, notation = arrow_notation), "a -> b")
   # Make sure that they are the inverse of each other

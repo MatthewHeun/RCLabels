@@ -211,7 +211,7 @@ flip_pref_suff <- function(x, notation = RCLabels::arrow_notation) {
 
 #' @export
 #' @rdname row-col-notation
-keep_pref_suff <- function(x, keep = c("pref", "suff"), notation) {
+keep_pref_suff <- function(x, keep = c("pref", "suff"), notation = RCLabels::arrow_notation) {
   keep <- match.arg(keep)
   splitted <- split_pref_suff(x, notation = notation)
   if (length(x) == 1) {
