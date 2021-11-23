@@ -62,47 +62,71 @@ test_that("of_notation works as expected", {
 
 
 test_that("split_pref_suff() works properly", {
-  expect_equal(split_pref_suff("a -> b", notation = arrow_notation), list(pref = "a", suff = "b"))
-  expect_equal(split_pref_suff("b [a]", notation = bracket_notation), list(pref = "b", suff = "a"))
+  expect_equal(split_pref_suff("a -> b", notation = arrow_notation), c(pref = "a", suff = "b"))
+  expect_equal(split_pref_suff("b [a]", notation = bracket_notation), c(pref = "b", suff = "a"))
 
   # See if it works with a vector of strings
-  expect_equal(split_pref_suff(c("a -> b", "a -> b"), notation = arrow_notation),
-               list(list(pref = "a", suff = "b"), list(pref = "a", suff = "b")))
+  expect_equal(split_pref_suff(c("a -> b", "c -> d"), notation = arrow_notation),
+               list(c(pref = "a", suff = "b"), c(pref = "c", suff = "d")))
   # See if it works with a list of strings
   expect_equal(split_pref_suff(list("a -> b", "a -> b"), notation = arrow_notation),
-               list(list(pref = "a", suff = "b"), list(pref = "a", suff = "b")))
+               list(c(pref = "a", suff = "b"), c(pref = "a", suff = "b")))
 
   # See if it works when we don't have a suffix
   expect_equal(split_pref_suff(list("a", "b"), notation = arrow_notation),
-               list(list(pref = "a", suff = ""), list(pref = "b", suff = "")))
+               list(c(pref = "a", suff = ""), c(pref = "b", suff = "")))
 
   # See if it works when we don't have a prefix or a suffix.
   expect_equal(split_pref_suff(list(" -> ", " -> "), notation = arrow_notation),
-               list(list(pref = "", suff = ""), list(pref = "", suff = "")))
+               list(c(pref = "", suff = ""), c(pref = "", suff = "")))
 
   # See if it works when we don't have a delimiter.
   expect_equal(split_pref_suff(list("a -> b", "r2", "r3"), notation = arrow_notation),
-               list(list(pref = "a", suff = "b"), list(pref = "r2", suff = ""), list(pref = "r3", suff = "")))
+               list(c(pref = "a", suff = "b"), c(pref = "r2", suff = ""), c(pref = "r3", suff = "")))
 
   # Try with unusual prefixes and suffixes
   nl <- notation_vec(pref_start = " {", pref_end = "} ", suff_start = "} ", suff_end = NA_character_)
-  expect_equal(split_pref_suff(" {a} bcd", notation = nl), list(pref = "a", suff = "bcd"))
+  expect_equal(split_pref_suff(" {a} bcd", notation = nl), c(pref = "a", suff = "bcd"))
 
   nl2 <- notation_vec(pref_start = "  {", pref_end = "} ", suff_start = "[ ", suff_end = "]  ")
-  expect_equal(split_pref_suff("  {a} [ b]  ", notation = nl2), list(pref = "a", suff = "b"))
+  expect_equal(split_pref_suff("  {a} [ b]  ", notation = nl2), c(pref = "a", suff = "b"))
 
-  expect_equal(split_pref_suff("a [ [b]]", notation = bracket_notation), list(pref = "a", suff = " [b]"))
+  expect_equal(split_pref_suff("a [ [b]]", notation = bracket_notation), c(pref = "a", suff = " [b]"))
 
   # Try with degenerate cases
   nl3 <- notation_vec(sep = "{{}}")
-  expect_equal(split_pref_suff("abc {{} def", notation = nl3), list(pref = "abc {{} def", suff = ""))
-  expect_equal(split_pref_suff("abc {{}} def", notation = nl3), list(pref = "abc ", suff = " def"))
+  expect_equal(split_pref_suff("abc {{} def", notation = nl3), c(pref = "abc {{} def", suff = ""))
+  expect_equal(split_pref_suff("abc {{}} def", notation = nl3), c(pref = "abc ", suff = " def"))
 
   # Try with weird parentheses
   nl4 <- notation_vec(pref_start = "(", pref_end = ")", suff_start = "(", suff_end = ")")
-  expect_equal(split_pref_suff("(a)(b)", notation = nl4), list(pref = "a", suff = "b"))
+  expect_equal(split_pref_suff("(a)(b)", notation = nl4), c(pref = "a", suff = "b"))
 
-  expect_equal(split_pref_suff("a b", notation = nl4), list(pref = "a b", suff = ""))
+  expect_equal(split_pref_suff("a b", notation = nl4), c(pref = "a b", suff = ""))
+})
+
+
+test_that("split_pref_suff() works with all structures of input", {
+  expect_equal(split_pref_suff("a [b]", bracket_notation), c(pref = "a", suff = "b"))
+
+  expect_equal(split_pref_suff(c("a [b]", "c [d]"), bracket_notation),
+               list(c(pref = "a", suff = "b"), c(pref = "c", suff = "d")))
+
+  expect_equal(split_pref_suff(list("a [b]", "c [d]"), bracket_notation),
+               list(c(pref = "a", suff = "b"), c(pref = "c", suff = "d")))
+
+  expect_equal(split_pref_suff(list(c("a [b]", "c [d]"),
+                                    c("e [f]", "g [h]")),
+                               bracket_notation),
+               list(list(c(pref = "a", suff = "b"), c(pref = "c", suff = "d")),
+                    list(c(pref = "e", suff = "f"), c(pref = "g", suff = "h"))))
+})
+
+
+test_that("split_pref_suff() works with a list", {
+  res <- split_pref_suff(c("a [b]", "c [d]"), bracket_notation)
+  expect_equal(res[[1]], c(pref = "a", suff = "b"))
+  expect_equal(res[[2]], c(pref = "c", suff = "d"))
 })
 
 
@@ -112,12 +136,27 @@ test_that("split_pref_suff() works in a data frame", {
     dplyr::mutate(
       split = split_pref_suff(orig, notation = arrow_notation)
     )
-  expect_equal(splitted$split, list(list(pref = "a", suff = "b"), list(pref = "c", suff = "d")))
+  expect_equal(splitted$split, list(c(pref = "a", suff = "b"), c(pref = "c", suff = "d")))
 })
 
 
-test_that("join_pref_suff() works properly", {
-  ps <- list(pref = "a", suff = "b")
+test_that("split_pref_suff() works in a data frame containing lists", {
+  df <- tibble::tibble(donttouch = c(1, 2), orig = list(c("a -> b", "c -> d"),
+                                                         c("e -> f", "g -> h")))
+  splitted <- df |>
+    dplyr::mutate(
+      split = split_pref_suff(orig, notation = arrow_notation)
+    )
+
+  expect_equal(splitted$split[[1]], list(c(pref = "a", suff = "b"),
+                                         c(pref = "c", suff = "d")))
+  expect_equal(splitted$split[[2]], list(c(pref = "e", suff = "f"),
+                                         c(pref = "g", suff = "h")))
+})
+
+
+test_that("paste_pref_suff() works properly", {
+  ps <- c(pref = "a", suff = "b")
   expect_equal(paste_pref_suff(ps, notation = arrow_notation), "a -> b")
   # Make sure that they are the inverse of each other
   expect_equal(paste_pref_suff(ps, notation = arrow_notation) |>
@@ -175,20 +214,20 @@ test_that("keep_pref_suff() works as expected", {
 
   # Try with a list
   expect_equal(keep_pref_suff(list("a -> b", "c -> d"), keep = "pref", notation = arrow_notation),
-               c("a", "c"))
+               list("a", "c"))
   expect_equal(keep_pref_suff(list("a -> b", "c -> d"), keep = "suff", notation = arrow_notation),
-               c("b", "d"))
+               list("b", "d"))
 
   expect_equal(keep_pref_suff(list("a [b]", "abcde"), keep = "suff", notation = bracket_notation),
-               c("b", "abcde"))
+               list("b", ""))
 
   # Try degenerate cases
   expect_equal(keep_pref_suff("abcde", keep = "pref", notation = arrow_notation), "abcde")
-  expect_equal(keep_pref_suff("abcde", keep = "suff", notation = arrow_notation), "abcde")
+  expect_equal(keep_pref_suff("abcde", keep = "suff", notation = arrow_notation), "")
   expect_equal(keep_pref_suff(list("abcde", "fghij"), keep = "pref", notation = arrow_notation),
-               c("abcde", "fghij"))
+               list("abcde", "fghij"))
   expect_equal(keep_pref_suff(list("abcde", "fghij"), keep = "suff", notation = arrow_notation),
-               c("abcde", "fghij"))
+               list("", ""))
 
   # Test in a data frame using mutate.
   df <- data.frame(v1 = c("a -> b", "c -> d"), v2 = c("e [f]", "g [h]"))
@@ -207,17 +246,30 @@ test_that("keep_pref_suff() works as expected", {
   expect_equal(res$pref[[2]], "c")
   expect_equal(res$suff[[1]], "f")
   expect_equal(res$suff[[2]], "h")
-  expect_equal(res$fail[[1]], "a -> b")
-  expect_equal(res$fail[[2]], "c -> d")
+  expect_equal(res$fail[[1]], "")
+  expect_equal(res$fail[[2]], "")
+})
+
+
+test_that("keep_pref_suff() works with deeply-nested labels", {
+  df <- tibble::tibble(labs = list(c("a -> b", "c -> d"), c("e -> f", "g -> h")))
+  res <- df |>
+    dplyr::mutate(
+      pref = keep_pref_suff(labs, keep = "pref", notation = arrow_notation),
+      suff = keep_pref_suff(labs, keep = "suff", notation = arrow_notation)
+    )
+  expect_equal(res$pref[[1]], list("a", "c"))
+  expect_equal(res$pref[[2]], list("e", "g"))
+  expect_equal(res$suff[[1]], list("b", "d"))
+  expect_equal(res$suff[[2]], list("f", "h"))
 })
 
 
 test_that("keep_pref_suff() works when there is no prefix or suffix", {
   expect_equal(keep_pref_suff("a", keep = "pref", notation = arrow_notation), "a")
-  expect_equal(keep_pref_suff("a", keep = "suff", notation = arrow_notation), "a")
+  expect_equal(keep_pref_suff("a", keep = "suff", notation = arrow_notation), "")
   expect_equal(keep_pref_suff("a", keep = "pref", notation = from_notation), "a")
-  expect_equal(keep_pref_suff("a", keep = "suff", notation = arrow_notation), "a")
-
+  expect_equal(keep_pref_suff("a", keep = "suff", notation = arrow_notation), "")
 })
 
 

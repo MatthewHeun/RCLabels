@@ -5,7 +5,7 @@
 \alias{arrow_notation}
 \title{Arrow notation}
 \format{
-A list of notational symbols that provides an arrow separator ("a -> b")
+A vector of notational symbols that provides an arrow separator ("a -> b")
 between prefix and suffix.
 }
 \usage{

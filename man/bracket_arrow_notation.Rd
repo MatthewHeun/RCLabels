@@ -5,7 +5,7 @@
 \alias{bracket_arrow_notation}
 \title{Bracket arrow notation}
 \format{
-A list of notational symbols that provides bracket arrow ("a [-> b]") notation.
+A vector of notational symbols that provides bracket arrow ("a [-> b]") notation.
 }
 \usage{
 bracket_arrow_notation

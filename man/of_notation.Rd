@@ -5,7 +5,7 @@
 \alias{of_notation}
 \title{Of notation}
 \format{
-A list of notational symbols that provides of ("a [of b]") notation.
+A vector of notational symbols that provides of ("a [of b]") notation.
 }
 \usage{
 of_notation

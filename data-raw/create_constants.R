@@ -69,5 +69,5 @@ usethis::use_data(bracket_arrow_notation, overwrite = TRUE)
 # Prepositions
 #
 
-prepositions <- c("in", "into", "from", "of", "->")
+prepositions <- list("in", "into", "from", "of", "->")
 usethis::use_data(prepositions, overwrite = TRUE)

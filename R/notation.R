@@ -11,13 +11,7 @@
 #'                    that is used by `matsbyname` in several places.
 #'                    By default, it builds a list of notation symbols that provides an arrow
 #'                    separator (" -> ") between prefix and suffix.
-#' * `arrow_notation` Builds a list of notation symbols that provides an arrow separator (" -> ")
-#'                      between prefix and suffix.
-#' * `paren_notation` Builds a list of notation symbols that provides parentheses around the suffix ("prefix (suffix)").
-#' * `bracket_notation` Builds a list of notation symbols that provides square brackets around the suffix ("prefix \[suffix\]").
 #' * `preposition_notation()` Builds a list of notation symbols that provides (by default) square brackets around the suffix with a preposition ("prefix \[preposition suffix\]").
-#' * `from_notation` Builds a list of notation symbols that provides (by default) square brackets around a "from" suffix ("prefix \[from suffix\]").
-#' * `of_notation` Builds a list of notation symbols that provides (by default) square brackets around an "of" suffix ("prefix \[of suffix\]").
 #' * `split_pref_suff()` Splits prefixes from suffixes, returning each in a list with names `pref` and `suff`.
 #'                       If no prefix or suffix delimiters are found, `x` is returned in the `pref` item, unmodified,
 #'                       and the `suff` item is returned as `""` (an empty string).
@@ -29,6 +23,7 @@
 #'                      E.g., "a -> b" becomes "b -> a" or "a \[b\]" becomes "b \[a\]".
 #' * `keep_pref_suff()` Selects only prefix or suffix, discarding notational elements
 #'                      and the rejected part.
+#'                      Internally, calls `split_pref_suff()` and selects only the `suff` portions.
 #' * `switch_notation()` Switches from one type of notation to another based on the `from` and `to` arguments.
 #'                       Optionally, prefix and suffix can be `flip`ped.
 #'
@@ -111,46 +106,69 @@ preposition_notation <- function(preposition, suff_start = " [", suff_end = "]")
 
 #' @export
 #' @rdname row-col-notation
-split_pref_suff <- function(x, notation = arrow_notation) {
-  # Strip off first pref_start
-  no_pref_start <- gsub(pattern = paste0("^", Hmisc::escapeRegex(notation[["pref_start"]])), replacement = "", x = x)
-  # Strip off everything from first pref_end to end of string
-  pref <- gsub(pattern = paste0(Hmisc::escapeRegex(notation[["pref_end"]]), ".*$"), replacement = "", x = no_pref_start)
+split_pref_suff <- function(x, notation = RCLabels::arrow_notation) {
 
-  # Strip off last suff_end
-  no_suff_end <- gsub(pattern = paste0(Hmisc::escapeRegex(notation[["suff_end"]]), "$"), replacement = "", x = x)
-  # Strip off everything from start of the string to first suff_start
-  ss <- notation[["suff_start"]]
-  if (!is.na(notation[["pref_start"]]) & !is.na(notation[["suff_start"]])) {
-    if (notation[["pref_start"]] == notation[["suff_start"]]) {
-      ss <- paste0(notation[["pref_end"]], notation[["suff_start"]])
+  # Vectorize so the gsub function works correctly.
+  out <- list()
+  for (i in 1:length(x)) {
+    # Strip off first pref_start
+    this_x <- x[[i]]
+    no_pref_start <- gsub(pattern = paste0("^", Hmisc::escapeRegex(notation[["pref_start"]])), replacement = "", x = this_x)
+    # Strip off everything from first pref_end to end of string to obtain the prefix
+    pref <- gsub(pattern = paste0(Hmisc::escapeRegex(notation[["pref_end"]]), ".*$"), replacement = "", x = no_pref_start)
+    # Strip off last suff_end
+    no_suff_end <- gsub(pattern = paste0(Hmisc::escapeRegex(notation[["suff_end"]]), "$"), replacement = "", x = this_x)
+    # Strip off everything from start of the string to first suff_start
+    ss <- notation[["suff_start"]]
+    if (!is.na(notation[["pref_start"]]) & !is.na(notation[["suff_start"]])) {
+      if (notation[["pref_start"]] == notation[["suff_start"]]) {
+        ss <- paste0(notation[["pref_end"]], notation[["suff_start"]])
+      }
+    }
+    # Split at the first instance of suff_start to get two pieces
+    suff <- stringi::stri_split_fixed(str = no_suff_end, pattern = ss, n = 2)
+    suff <- lapply(suff, function(s) {
+      if (length(s) == 2) {
+        # If we got two pieces, choose the second piece.
+        s <- s[[2]]
+      } else {
+        # We got only 1 piece. Return an empty string ("") to indicate a missing suffix
+        s <- ""
+      }
+      return(s)
+    }) |>
+      unlist()
+
+    if (length(x) == 1) {
+      out <- append(out, list(pref = pref, suff = suff))
+    } else {
+      # length(x) > 1
+      if (length(this_x) == 1) {
+        res <- list(c(pref = pref, suff = suff))
+      } else {
+        # length(this_x) > 1
+        res <- list(pref = pref, suff = suff) |>
+          purrr::transpose() |>
+          # Unlist the pref, suff list.
+          purrr::modify_depth(.depth = 1, unlist) |>
+          list()
+      }
+      out <- append(out, res)
     }
   }
-  # Split at the first instance of suff_start to get two pieces
-  suff <- stringi::stri_split_fixed(str = no_suff_end, pattern = ss, n = 2)
-  suff <- lapply(suff, function(s) {
-    if (length(s) == 2) {
-      # If we got two pieces, choose the second piece.
-      return(s[[2]])
-    }
-    # We got only 1 piece. Return an empty string ("") to indicate a missing suffix
-    return("")
-  })
+  # Check the original structure.
+  # Return the same structure.
   if (length(x) == 1) {
-    suff <- unlist(suff)
+    # Knock one level of list away.
+    out <- unlist(out, recursive = FALSE)
   }
-
-  # Decide what the outgoing structure is
-  if (length(x) > 1) {
-    return(purrr::transpose(list(pref = pref, suff = suff)))
-  }
-  list(pref = pref, suff = suff)
+  return(out)
 }
 
 
 #' @export
 #' @rdname row-col-notation
-paste_pref_suff <- function(ps = list(pref = pref, suff = suff), pref = NULL, suff = NULL, notation = arrow_notation) {
+paste_pref_suff <- function(ps = list(pref = pref, suff = suff), pref = NULL, suff = NULL, notation = RCLabels::arrow_notation) {
   join_func <- function(ps) {
     out <- paste0(notation[["pref_start"]], ps[["pref"]], notation[["pref_end"]])
     if (notation[["pref_end"]] != notation[["suff_start"]]) {
@@ -170,17 +188,17 @@ paste_pref_suff <- function(ps = list(pref = pref, suff = suff), pref = NULL, su
 
 #' @export
 #' @rdname row-col-notation
-flip_pref_suff <- function(x, notation = arrow_notation) {
+flip_pref_suff <- function(x, notation = RCLabels::arrow_notation) {
   # Split prefixes and suffixes
   pref_suff <- split_pref_suff(x, notation = notation)
 
   flip_ps_func <- function(ps) {
     # pf is a list with only 2 items, pref and suff.
-    out <- paste0(notation[["pref_start"]], ps$suff, notation[["pref_end"]])
+    out <- paste0(notation[["pref_start"]], ps[["suff"]], notation[["pref_end"]])
     if (notation[["pref_end"]] != notation[["suff_start"]]) {
       out <- paste0(out, notation[["suff_start"]])
     }
-    paste0(out, ps$pref, notation[["suff_end"]])
+    paste0(out, ps[["pref"]], notation[["suff_end"]])
   }
 
   if (length(x) > 1) {
@@ -193,25 +211,17 @@ flip_pref_suff <- function(x, notation = arrow_notation) {
 
 #' @export
 #' @rdname row-col-notation
-keep_pref_suff <- function(x, keep = c("pref", "suff"), notation) {
+keep_pref_suff <- function(x, keep = c("pref", "suff"), notation = RCLabels::arrow_notation) {
   keep <- match.arg(keep)
-
-  choose_pref_or_suff <- function(ps, which_to_keep) {
-    # ps should be an item with "pref" and "suff" named elements.
-    if (which_to_keep == "pref" | ps[["suff"]] == "") {
-      return(ps[["pref"]])
-    }
-    return(ps[["suff"]])
+  splitted <- split_pref_suff(x, notation = notation)
+  if (length(x) == 1) {
+    return(splitted[[keep]])
   }
-
-  pref_suff <- split_pref_suff(x, notation)
-  if (length(x) > 1) {
-    out <- lapply(pref_suff, choose_pref_or_suff, keep) |>
-      unlist()
-  } else {
-    out <- choose_pref_or_suff(pref_suff, keep)
-  }
-  return(out)
+  splitted |>
+    purrr::modify_depth(.depth = -1, function(this_one) {
+      this_one |>
+        magrittr::extract2(keep)
+    })
 }
 
 
@@ -220,13 +230,13 @@ keep_pref_suff <- function(x, keep = c("pref", "suff"), notation) {
 switch_notation <- function(x, from, to, flip = FALSE) {
   switch_func <- function(x) {
     ps <- split_pref_suff(x, notation = from)
-    if (ps$suff == "") {
+    if (ps[["suff"]] == "") {
       # No split occurred, meaning the notation for prefix and suffix wasn't found.
       # In this case, return the string unmodified.
       return(x)
     }
     if (flip) {
-      ps <- list(pref = ps$suff, suff = ps$pref)
+      ps <- list(pref = ps[["suff"]], suff = ps[["pref"]])
     }
     paste_pref_suff(ps, notation = to)
   }
