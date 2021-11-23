@@ -57,6 +57,24 @@ test_that("split_labels() works as expected", {
   expect_equal(split_labels(c("a [of b in c]", "d [of e into f]"), notation = bracket_notation),
                list(list(noun = "a", pps = c("of b", "in c")),
                     list(noun = "d", pps = c("of e", "into f"))))
+  # Try in a list.
+  # This would be like a column in a data frame.
+  expect_equal(
+    split_labels(list(c("a [of b]", "c [of d]"),
+                      c("e [-> f]", "g [of h in i]")), notation = bracket_notation),
+    list(list(list(noun = "a", pps = "of b")),
+              list(noun = "c", pps = "of d")),
+         list(list(noun = "e", pps = "-> f"),
+              list(noun = "g", pps = c("of h", "in i"))))
+
+
+
 
   # Now try in a data frame.
+  # df <- data.frame(labels = I(list(list("a [in b]", "c [of d into USA]"),
+  #                                  list("e [of f in g]", "h [-> i in j]"))))
+  # splitted <- df |>
+  #   dplyr::mutate(
+  #     splits = split_labels(labels)
+  #   )
 })
