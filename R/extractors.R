@@ -103,12 +103,24 @@ get_pps <- function(labels,
 #' @export
 #'
 #' @examples
+#' split_labels(c("a [of b in c]", "d [of e into f]"),
+#'              notation = bracket_notation)
 split_labels <- function(labels,
                          notation = RCLabels::bracket_notation,
                          prepositions = RCLabels::prepositions) {
   nouns <- get_nouns(labels, notation = notation)
   pps <- get_pps(labels, notation = notation, prepositions = prepositions)
-  list(noun = nouns, pps = pps) |>
-    purrr::transpose()
+  out <- list(noun = nouns, pps = pps)
+  if (length(labels) == 1) {
+    return(out)
+  }
+  out |>
+    # Make it a list so that we get 1 item where there are two,
+    # thereby allowing transose() to work.
+    purrr::modify_depth(.depth = -1, .f = list) |>
+    purrr::transpose() |>
+    # Now undo the list we just made.
+    # It is now up one level.
+    purrr::modify_depth(.depth = -2, .f = unlist)
 }
 

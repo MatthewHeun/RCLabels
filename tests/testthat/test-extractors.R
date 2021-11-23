@@ -50,5 +50,13 @@ test_that("get_pps() works as expected", {
 
 
 test_that("split_labels() works as expected", {
-  split_labels(c("a [of b in c]", "d [of e into f]"), notation = bracket_notation)
+  expect_equal(split_labels("a [of b]", notation = bracket_notation),
+               list(noun = "a", pps = "of b"))
+  expect_equal(split_labels("a [of b in c]", notation = bracket_notation),
+               list(noun = "a", pps = c("of b", "in c")))
+  expect_equal(split_labels(c("a [of b in c]", "d [of e into f]"), notation = bracket_notation),
+               list(list(noun = "a", pps = c("of b", "in c")),
+                    list(noun = "d", pps = c("of e", "into f"))))
+
+  # Now try in a data frame.
 })
