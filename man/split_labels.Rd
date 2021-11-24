@@ -25,7 +25,7 @@ Default is \code{RCLabels::prepositions}.}
 A list of lists with items named \code{noun} and \code{pp}.
 }
 \description{
-Split row and column labels into nouns and prepositional phrases
+This function is not meant for use outside of this package.
 }
 \examples{
 split_labels(c("a [of b in c]", "d [of e into f]"),

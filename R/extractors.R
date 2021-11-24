@@ -91,6 +91,8 @@ get_pps <- function(labels,
 
 #' Split row and column labels into nouns and prepositional phrases
 #'
+#' This function is not meant for use outside of this package.
+#'
 #' @param labels The row and column labels from which prepositional phrases are to be extracted.
 #' @param notation The notation object that describes the labels.
 #'                 Default is `RCLabels::bracket_notation`.
@@ -100,7 +102,6 @@ get_pps <- function(labels,
 #'                     Default is `RCLabels::prepositions`.
 #'
 #' @return A list of lists with items named `noun` and `pp`.
-#' @export
 #'
 #' @examples
 #' split_labels(c("a [of b in c]", "d [of e into f]"),
