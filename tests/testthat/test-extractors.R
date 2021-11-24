@@ -1,21 +1,25 @@
 test_that("get_noun() works as expected", {
   expect_equal(get_nouns("a [b]"), "a")
-  expect_equal(get_nouns(c("a [b]", "c [d]")), list("a", "c"))
-  expect_equal(get_nouns(list("a [b]", "c [d]")), list("a", "c"))
+  expect_equal(get_nouns(c("a [b]", "c [d]")), c("a", "c"))
+  expect_equal(get_nouns(list("a [b]", "c [d]")), c("a", "c"))
 
   # Now try in a data frame
-  df <- data.frame(labels = I(list(list("a [b]", "c [d]"),
-                                   list("e [f]", "g [h]"))))
+  df <- data.frame(labels = c("a [b]", "c [d]", "e [f]", "g [h]"))
   with_nouns <- df |>
     dplyr::mutate(
       nouns = get_nouns(labels)
     )
-  expect_equal(with_nouns$nouns[[1]], list("a", "c"))
-  expect_equal(with_nouns$nouns[[2]], list("e", "g"))
+  expect_equal(with_nouns$nouns, c("a", "c", "e", "g"))
 })
 
 
 test_that("get_pps() works as expected", {
+  # Try a couple simple ones
+  expect_equal(get_pps("a [in b]"), "in b")
+  expect_equal(get_pps(c("a [in b]", "c [of d]")), c("in b", "of d"))
+  # Try a degenerate case
+  expect_equal(get_pps("a [b in c]"), "in c")
+
   # Try with a single string
   expect_equal(get_pps("a [of b in c]", notation = bracket_notation), c("of b", "in c"))
 

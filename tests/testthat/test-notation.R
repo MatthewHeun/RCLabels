@@ -179,6 +179,10 @@ test_that("paste_pref_suff() works properly", {
   expect_equal(paste_pref_suff(pref = "a", suff = "b", notation = arrow_notation), "a -> b")
   joined <- paste_pref_suff(pref = list("a", "c"), suff = list("b", "d"), notation = arrow_notation)
   expect_equal(joined, c("a -> b","c -> d"))
+
+  # Try with 3 components in the lists
+  expect_equal(paste_pref_suff(ps = list(pref = c("a", "b", "c"), suff = c("d", "e", "f"))),
+               c("a -> d", "b -> e", "c -> f"))
 })
 
 
@@ -188,9 +192,9 @@ test_that("flip_pref_suff() works as expected", {
 
   # Make sure it works for lists
   expect_equal(flip_pref_suff(list("a -> b", "a -> b"), notation = arrow_notation),
-               list("b -> a", "b -> a"))
+               c("b -> a", "b -> a"))
   expect_equal(flip_pref_suff(list("a [b]", "a [b]"), notation = bracket_notation),
-               list("b [a]", "b [a]"))
+               c("b [a]", "b [a]"))
 
   # Try a case where prefix and suffix notation is different.
   nl <- notation_vec(pref_start = "(", pref_end = ")", suff_start = "[", suff_end = "]")
@@ -302,3 +306,4 @@ test_that("switch_notation() works in a data frame", {
     )
   expect_equal(switched$new, list("a [b]", "c [d]"))
 })
+

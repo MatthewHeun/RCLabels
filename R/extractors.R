@@ -23,11 +23,51 @@ get_nouns <- function(labels, notation = RCLabels::bracket_notation) {
 }
 
 
-#' Extract prepositional phrases from labels
+#' Extract prepositional phrases of row and column labels
+#'
+#' This function extracts the suffix of a row or column label as a
+#' single string.
+#'
+#' @param labels A list or vector of labels from which nouns are to be extracted.
+#' @param notation The notation type to be used when extracting nouns.
+#'                 Default is `RCLabels::bracket_notation`.
+#' @param prepositions A list of prepositions, used to detect prepositional phrases.
+#'                     Default is `RCLabels::prepositions`.
+#'
+#' @return All prepositional phrases in a suffix.
+#'
+#' @export
+#'
+#' @examples
+#' get_pps(c("a [in b]", "c [of d]"))
+get_pps <- function(labels,
+                    notation = RCLabels::bracket_notation,
+                    prepositions = RCLabels::prepositions) {
+  suffixes <- keep_pref_suff(labels, keep = "suff", notation = notation)
+  # Location prepositions
+  preposition_words <- paste0(prepositions, " ")
+  prep_patterns <- make_or_pattern(preposition_words,
+                                   pattern_type = "anywhere")
+  start_locations <- gregexpr(prep_patterns, text = suffixes) |>
+    unlist()
+  if (length(start_locations) == 0) {
+    start_locations <- NA_real_
+    end_locations <- NA_real_
+  } else if (length(start_locations) == 1) {
+    end_locations <- nchar(suffixes)
+  } else {
+    end_locations <- c(start_locations[-1] - 2, nchar(suffixes))
+  }
+  substring(suffixes,
+            first = start_locations[[1]],
+            last = end_locations[[length(end_locations)]])
+}
+
+
+#' Extract prepositional phrases from row and column labels
 #'
 #' A suffix can consist of several prepositional phrases.
-#' This function splits the prepositional phrases apart,
-#' returning a list of those phrases.
+#' This function returns the prepositional phrases as a single string.
 #' Each prepositional phrase consists of a proposition
 #' (see `RCLabels::prepositions`) and its object.
 #'
@@ -51,7 +91,7 @@ get_nouns <- function(labels, notation = RCLabels::bracket_notation) {
 #'
 #' @examples
 #' get_pps(c("a [of b in c]", "d [of e into f]"), bracket_notation)
-get_pps <- function(labels,
+get_pps_old <- function(labels,
                     notation = RCLabels::bracket_notation,
                     prepositions = RCLabels::prepositions) {
 

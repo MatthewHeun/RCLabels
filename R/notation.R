@@ -174,21 +174,10 @@ paste_pref_suff <- function(ps = list(pref = pref, suff = suff), pref = NULL, su
 flip_pref_suff <- function(x, notation = RCLabels::arrow_notation) {
   # Split prefixes and suffixes
   pref_suff <- split_pref_suff(x, notation = notation)
-
-  flip_ps_func <- function(ps) {
-    # pf is a list with only 2 items, pref and suff.
-    out <- paste0(notation[["pref_start"]], ps[["suff"]], notation[["pref_end"]])
-    if (notation[["pref_end"]] != notation[["suff_start"]]) {
-      out <- paste0(out, notation[["suff_start"]])
-    }
-    paste0(out, ps[["pref"]], notation[["suff_end"]])
-  }
-
-  if (length(x) > 1) {
-    # pref_suff is a list. So lapply to build a flipped list
-    return(lapply(pref_suff, FUN = flip_ps_func))
-  }
-  flip_ps_func(pref_suff)
+  paste_pref_suff(pref = pref_suff[["suff"]],
+                  suff = pref_suff[["pref"]],
+                  notation = notation) |>
+    as.character()
 }
 
 
@@ -196,15 +185,8 @@ flip_pref_suff <- function(x, notation = RCLabels::arrow_notation) {
 #' @rdname row-col-notation
 keep_pref_suff <- function(x, keep = c("pref", "suff"), notation = RCLabels::arrow_notation) {
   keep <- match.arg(keep)
-  splitted <- split_pref_suff(x, notation = notation)
-  if (length(x) == 1) {
-    return(splitted[[keep]])
-  }
-  splitted |>
-    purrr::modify_depth(.depth = -1, function(this_one) {
-      this_one |>
-        magrittr::extract2(keep)
-    }) |>
+  split_pref_suff(x, notation = notation) |>
+    magrittr::extract2(keep) |>
     as.character()
 }
 
