@@ -143,12 +143,26 @@ get_pps_old <- function(labels,
 #'
 #' @return A list of lists with items named `noun` and `pp`.
 #'
+#' @export
+#'
 #' @examples
 #' split_labels(c("a [of b in c]", "d [of e into f]"),
 #'              notation = bracket_notation)
 split_labels <- function(labels,
                          notation = RCLabels::bracket_notation,
                          prepositions = RCLabels::prepositions) {
+
+
+  # This function should return a named vector.
+  # Names are:
+  #  - noun
+  #  - prepositions
+  # Values are:
+  #  - for noun: the noun
+  #  - for prepositions: the object of the prepositions
+  # E.g., "a [of b in c]" would return
+  # c(noun = "a", of = "b", in = "c")
+
   nouns <- get_nouns(labels, notation = notation)
   pps <- get_pps(labels, notation = notation, prepositions = prepositions)
   out <- list(noun = nouns, pps = pps)

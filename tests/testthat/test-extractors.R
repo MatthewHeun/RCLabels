@@ -21,16 +21,16 @@ test_that("get_pps() works as expected", {
   expect_equal(get_pps("a [b in c]"), "in c")
 
   # Try with a single string
-  expect_equal(get_pps("a [of b in c]", notation = bracket_notation), c("of b", "in c"))
+  expect_equal(get_pps("a [of b in c]", notation = bracket_notation), "of b in c")
 
   expect_equal(get_pps(c("a [of b in c]", "d [of e into f]"), notation = bracket_notation),
-               list(c("of b", "in c"), c("of e", "into f")))
+               c("of b in c", "of e into f"))
 
 
 
 
   expect_equal(get_pps(list("a [of b in c]", "d [of e into f]"), notation = bracket_notation),
-               list(c("of b", "in c"), c("of e", "into f")))
+               c("of b in c", "of e into f"))
 
   expect_equal(get_pps("a [in b]"), "in b")
   expect_equal(get_pps(c("a [in b]")), "in b")
@@ -38,18 +38,14 @@ test_that("get_pps() works as expected", {
 
   # Now try in a data frame
 
-  df <- data.frame(labels = I(list(list("e [of f in g]", "h [-> i in j]"),
-                                   list("a [in b]", "c [of d into USA]"))))
+  df <- data.frame(labels = c("e [of f in g]", "h [-> i in j]", "a [in b]", "c [of d into USA]"))
   with_nouns_pps <- df |>
     dplyr::mutate(
       nouns = get_nouns(labels),
       pps = get_pps(labels)
     )
-  expect_equal(with_nouns_pps$nouns[[1]], list("e", "h"))
-  expect_equal(with_nouns_pps$nouns[[2]], list("a", "c"))
-
-  expect_equal(with_nouns_pps$pps[[1]], list(c("of f", "in g"), c("-> i", "in j")))
-  expect_equal(with_nouns_pps$pps[[2]], list("in b", c("of d", "into USA")))
+  expect_equal(with_nouns_pps$nouns, c("e", "h", "a", "c"))
+  expect_equal(with_nouns_pps$pps, c("of f in g", "-> i in j", "in b", "of d into USA"))
 })
 
 
