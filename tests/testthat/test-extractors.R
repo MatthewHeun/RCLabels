@@ -78,3 +78,14 @@ test_that("split_labels() works as expected", {
   #     splits = split_labels(labels)
   #   )
 })
+
+
+test_that("get_preps() works correctly", {
+  labs <- c("a [-> b in c]", "d [from Production]", "Coal [from Imports into US]")
+  expect_equal(get_preps(labs), list(c("->", "in"), "from", c("from", "into")))
+})
+
+
+test_that("get_objects() works correctly", {
+  get_objects(c("a [of b in USA]", "d [of e into GBR]"))
+})

@@ -40,6 +40,7 @@ get_nouns <- function(labels, notation = RCLabels::bracket_notation) {
 #'
 #' @examples
 #' get_pps(c("a [in b]", "c [of d]"))
+#' get_pps(c("a [of b in c]", "d [-> e of f]"))
 get_pps <- function(labels,
                     notation = RCLabels::bracket_notation,
                     prepositions = RCLabels::prepositions) {
@@ -64,15 +65,11 @@ get_pps <- function(labels,
 }
 
 
-#' Extract prepositional phrases from row and column labels
+#' Extract prepositions from row and column labels
 #'
-#' A suffix can consist of several prepositional phrases.
-#' This function returns the prepositional phrases as a single string.
-#' Each prepositional phrase consists of a proposition
-#' (see `RCLabels::prepositions`) and its object.
-#'
-#' Some labels will have no suffix and no prepositions.
-#' When there are no prepositions, `NA` is returned.
+#' This function extracts prepositions from a list of row and column labels.
+#' The list has outer structure of the number of labels and
+#' an inner structure of each prepositional phrase in the specific label.
 #'
 #' @param labels The row and column labels from which prepositional phrases are to be extracted.
 #' @param notation The notation object that describes the labels.
@@ -82,56 +79,152 @@ get_pps <- function(labels,
 #'                     so, e.g., "to" becomes "to ".
 #'                     Default is `RCLabels::prepositions`.
 #'
-#' @return A list of lists of prepositional phrases.
-#'         The structure of the returned list is the same as the length of `labels`
-#'         with an additional level added
-#'         in which each item is one prepositional phrase.
+#' @return A list of prepositions.
 #'
 #' @export
 #'
 #' @examples
-#' get_pps(c("a [of b in c]", "d [of e into f]"), bracket_notation)
-get_pps_old <- function(labels,
-                    notation = RCLabels::bracket_notation,
-                    prepositions = RCLabels::prepositions) {
-
-  # Get all suffixes, which are assumed to be prepositional phrases.
+#' get_preps(c("a [of b into c]", "d [-> e of f]"))
+get_preps <- function(labels,
+                      notation = RCLabels::bracket_notation,
+                      prepositions = RCLabels::prepositions) {
+  pps <- keep_pref_suff(labels, keep = "suff", notation = notation)
   preposition_words <- paste0(prepositions, " ")
   prep_patterns <- make_or_pattern(preposition_words,
                                    pattern_type = "anywhere")
 
-  suffixes <- keep_pref_suff(labels, keep = "suff", notation = notation) |>
-    purrr::modify_depth(.depth = -1, function(this_suff) {
-      start_locations <- gregexpr(prep_patterns, text = this_suff) |>
-        unlist()
-      if (length(start_locations) == 0) {
-        start_locations <- NA_real_
-        end_locations <- NA_real_
-      } else if (length(start_locations) == 1) {
-        end_locations <- nchar(this_suff)
-      } else {
-        end_locations <- c(start_locations[-1] - 2, nchar(this_suff))
-      }
-
-      mapply(start_locations, end_locations, FUN = function(start_loc, end_loc) {
-        substring(this_suff, first = start_loc, last = end_loc)
-      }) |>
-        # Make a list out of the resulting vector,
-        # thereby ensuring 1 item replaces the string.
-        list()
-    })
-  if (length(suffixes) == 1) {
-    return(unlist(suffixes))
+  start_locations <- gregexpr(prep_patterns, text = pps)
+  out <- list()
+  for (i_pp in 1:length(pps)) {
+    pp <- pps[[i_pp]]
+    sl <- start_locations[[i_pp]]
+    out_this_pp <- list()
+    for (i_prep in 1:length(sl)) {
+      this_prep <- substring(pp,
+                             first = sl[[i_prep]],
+                             # -2 accounts for
+                             # the starting character and
+                             # the space.
+                             last = sl[[i_prep]] + attr(sl, which = "match.length")[[i_prep]] - 2)
+      out_this_pp <- append(out_this_pp, this_prep)
+    }
+    out <- append(out, list(as.character(out_this_pp)))
   }
-  suffixes |>
-    # Eliminate the list we just added.
-    purrr::modify_depth(.depth = -2, unlist)
+  return(out)
+}
+
+
+#' Extract objects of prepositional phrases in row and column labels
+#'
+#' This function extracts the objects of prepositional phrases
+#' from row and column labels.
+#' The format of the output is a list of
+#' named items, one name for each preposition encountered in labels.
+#' Objects are `NA` if there is no prepositional phrase starting
+#' with that preposition.
+#'
+#' @param labels The row and column labels from which prepositional phrases are to be extracted.
+#' @param notation The notation object that describes the labels.
+#'                 Default is `RCLabels::bracket_notation`.
+#' @param prepositions A vector of strings to be treated as prepositions.
+#'                     Note that a space is appended to each word internally,
+#'                     so, e.g., "to" becomes "to ".
+#'                     Default is `RCLabels::prepositions`.
+#'
+#' @return A list of objects of prepositional phrases,
+#'         with names being prepositions, and values being objects.
+#'
+#' @export
+#'
+#' @examples
+#' get_objects("a [of b into c]", "d [of Coal from e -> f]")
+get_objects <- function(labels,
+                        notation = RCLabels::bracket_notation,
+                        prepositions = RCLabels::prepositions) {
+  # pps <- keep_pref_suff(labels, keep = "suff", notation = notation)
+  # if (!inherits(pps, what = "list")) {
+  #   pps <- list(pps)
+  # }
+  # preps <- get_preps(labels, notation = notation, prepositions = prepositions)
+  # mapply(pps, preps, FUN = function(this_pp, these_preps) {
+  #   sapply(these_preps, FUN = function(this_prep) {
+  #     this_prep_plus_space <- paste0(this_prep, " ")
+  #     gsub(pattern = this_prep_plus_space, replacement = "", x = this_pp)
+  #   })
+  # })
+
+  pps <- keep_pref_suff(labels, keep = "suff", notation = notation)
+  preposition_words <- paste0(prepositions, " ")
+  prep_patterns <- make_or_pattern(preposition_words,
+                                   pattern_type = "anywhere")
+
+  prep_start_locations <- gregexpr(prep_patterns, text = pps)
+  prep_lengths <- lapply(prep_start_locations, FUN = function(psl) {
+    attr(psl, which = "match.length")
+  })
+
+
+  prep_end_locations <- mapply(prep_start_locations, prep_lengths, SIMPLIFY = FALSE, FUN = function(psl, pl) {
+    mapply(psl, pl, FUN = function(this_psl, this_pl) {
+      this_psl + this_pl - 2
+    })
+  })
+
+  # Figure out the object start and end locations.
+  obj_start_locations <- lapply(prep_end_locations, function(pel) {
+    pel + 2
+  })
+
+  obj_end_locations <- mapply(prep_start_locations, pps, SIMPLIFY = FALSE, FUN = function(this_psl, this_pp) {
+    out <- this_psl[-1] - 2
+    out[[length(out) + 1]] <- nchar(this_pp)
+    return(out)
+  })
+
+  mapply(pps, obj_start_locations, obj_end_locations, SIMPLIFY = FALSE, FUN = function(this_pp, these_osls, these_oels) {
+    mapply(these_osls, these_oels, FUN = function(osl, oel) {
+      substring(this_pp, first = osl, last = oel)
+    })
+  })
+
+
+
+  # prep_end_locations <- lapply(prep_start_locations, FUN = function(psl) {
+  #   psl
+  # })
+  # out <- list()
+  # for (i_pp in 1:length(pps)) {
+  #   pp <- pps[[i_pp]]
+  #   sl <- start_locations[[i_pp]]
+  #   out_this_pp <- list()
+  #   for (i_prep in 1:length(sl)) {
+  #     this_prep <- substring(pp,
+  #                            first = sl[[i_prep]],
+  #                            # -2 accounts for
+  #                            # the starting character and
+  #                            # the space.
+  #                            last = sl[[i_prep]] + attr(sl, which = "match.length")[[i_prep]] - 2)
+  #     out_this_pp <- append(out_this_pp, this_prep)
+  #   }
+  #   out <- append(out, list(as.character(out_this_pp)))
+  # }
+  # return(out)
+
+
+
+
 }
 
 
 #' Split row and column labels into nouns and prepositional phrases
 #'
-#' This function is not meant for use outside of this package.
+#' This function is similar to `split_pref_suff()` in that it returns a list.
+#' However, this function's list is more detailed than
+#' `split_pref_suff()`.
+#' The return value from this function is a list
+#' with the first named item being the prefix (with the name `noun`)
+#' followed by objects of prepositional phrases
+#' (with names being prepositions that precede the objects).
 #'
 #' @param labels The row and column labels from which prepositional phrases are to be extracted.
 #' @param notation The notation object that describes the labels.

@@ -2,8 +2,9 @@
 
 export(flip_pref_suff)
 export(get_nouns)
+export(get_objects)
 export(get_pps)
-export(get_pps_old)
+export(get_preps)
 export(keep_pref_suff)
 export(make_or_pattern)
 export(notation_vec)

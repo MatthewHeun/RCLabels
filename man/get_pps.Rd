@@ -28,4 +28,5 @@ single string.
 }
 \examples{
 get_pps(c("a [in b]", "c [of d]"))
+get_pps(c("a [of b in c]", "d [-> e of f]"))
 }
