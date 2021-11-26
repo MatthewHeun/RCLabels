@@ -34,5 +34,5 @@ Objects are \code{NA} if there is no prepositional phrase starting
 with that preposition.
 }
 \examples{
-get_objects("a [of b into c]", "d [of Coal from e -> f]")
+get_objects(c("a [of b into c]", "d [of Coal from e -> f]"))
 }

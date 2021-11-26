@@ -19,7 +19,8 @@
 #' get_nouns(c("a [b]", "c [d]"))
 #' get_nouns(list("a [b]", "c [d]"))
 get_nouns <- function(labels, notation = RCLabels::bracket_notation) {
-  keep_pref_suff(labels, keep = "pref", notation = notation)
+  keep_pref_suff(labels, keep = "pref", notation = notation) |>
+    magrittr::set_names(rep("noun", length(labels)))
 }
 
 
@@ -84,8 +85,8 @@ get_pps <- function(labels,
 #' @export
 #'
 #' @examples
-#' get_preps(c("a [of b into c]", "d [-> e of f]"))
-get_preps <- function(labels,
+#' get_prepositions(c("a [of b into c]", "d [-> e of f]"))
+get_prepositions <- function(labels,
                       notation = RCLabels::bracket_notation,
                       prepositions = RCLabels::prepositions) {
   pps <- keep_pref_suff(labels, keep = "suff", notation = notation)
@@ -137,21 +138,10 @@ get_preps <- function(labels,
 #' @export
 #'
 #' @examples
-#' get_objects("a [of b into c]", "d [of Coal from e -> f]")
+#' get_objects(c("a [of b into c]", "d [of Coal from e -> f]"))
 get_objects <- function(labels,
                         notation = RCLabels::bracket_notation,
                         prepositions = RCLabels::prepositions) {
-  # pps <- keep_pref_suff(labels, keep = "suff", notation = notation)
-  # if (!inherits(pps, what = "list")) {
-  #   pps <- list(pps)
-  # }
-  # preps <- get_preps(labels, notation = notation, prepositions = prepositions)
-  # mapply(pps, preps, FUN = function(this_pp, these_preps) {
-  #   sapply(these_preps, FUN = function(this_prep) {
-  #     this_prep_plus_space <- paste0(this_prep, " ")
-  #     gsub(pattern = this_prep_plus_space, replacement = "", x = this_pp)
-  #   })
-  # })
 
   pps <- keep_pref_suff(labels, keep = "suff", notation = notation)
   preposition_words <- paste0(prepositions, " ")
@@ -181,38 +171,15 @@ get_objects <- function(labels,
     return(out)
   })
 
-  mapply(pps, obj_start_locations, obj_end_locations, SIMPLIFY = FALSE, FUN = function(this_pp, these_osls, these_oels) {
-    mapply(these_osls, these_oels, FUN = function(osl, oel) {
-      substring(this_pp, first = osl, last = oel)
+  prepositions <- get_prepositions(labels, notation = notation, prepositions = prepositions)
+
+  mapply(pps, obj_start_locations, obj_end_locations, prepositions,
+                    SIMPLIFY = FALSE, USE.NAMES = FALSE, FUN = function(this_pp, these_osls, these_oels, these_pps) {
+    mapply(these_osls, these_oels, these_pps, FUN = function(osl, oel, these_preps) {
+      substring(this_pp, first = osl, last = oel) |>
+        magrittr::set_names(these_preps)
     })
   })
-
-
-
-  # prep_end_locations <- lapply(prep_start_locations, FUN = function(psl) {
-  #   psl
-  # })
-  # out <- list()
-  # for (i_pp in 1:length(pps)) {
-  #   pp <- pps[[i_pp]]
-  #   sl <- start_locations[[i_pp]]
-  #   out_this_pp <- list()
-  #   for (i_prep in 1:length(sl)) {
-  #     this_prep <- substring(pp,
-  #                            first = sl[[i_prep]],
-  #                            # -2 accounts for
-  #                            # the starting character and
-  #                            # the space.
-  #                            last = sl[[i_prep]] + attr(sl, which = "match.length")[[i_prep]] - 2)
-  #     out_this_pp <- append(out_this_pp, this_prep)
-  #   }
-  #   out <- append(out, list(as.character(out_this_pp)))
-  # }
-  # return(out)
-
-
-
-
 }
 
 
@@ -245,30 +212,11 @@ split_labels <- function(labels,
                          notation = RCLabels::bracket_notation,
                          prepositions = RCLabels::prepositions) {
 
+  nouns <- list(get_nouns(labels, notation = notation))
+  objects <- get_objects(labels, notation = notation, prepositions = prepositions)
 
-  # This function should return a named vector.
-  # Names are:
-  #  - noun
-  #  - prepositions
-  # Values are:
-  #  - for noun: the noun
-  #  - for prepositions: the object of the prepositions
-  # E.g., "a [of b in c]" would return
-  # c(noun = "a", of = "b", in = "c")
-
-  nouns <- get_nouns(labels, notation = notation)
-  pps <- get_pps(labels, notation = notation, prepositions = prepositions)
-  out <- list(noun = nouns, pps = pps)
-  if (length(labels) == 1) {
-    return(out)
-  }
-  out |>
-    # Make it a list so that we get 1 item where there are two,
-    # thereby allowing transose() to work.
-    purrr::modify_depth(.depth = -1, .f = list) |>
-    purrr::transpose() |>
-    # Now undo the list we just made.
-    # It is now up one level.
-    purrr::modify_depth(.depth = -2, .f = unlist)
+  mapply(nouns, objects, SIMPLIFY = FALSE, FUN = function(noun, object) {
+    c(noun, object)
+  })
 }
 

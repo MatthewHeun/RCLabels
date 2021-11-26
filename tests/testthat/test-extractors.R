@@ -1,7 +1,7 @@
-test_that("get_noun() works as expected", {
-  expect_equal(get_nouns("a [b]"), "a")
-  expect_equal(get_nouns(c("a [b]", "c [d]")), c("a", "c"))
-  expect_equal(get_nouns(list("a [b]", "c [d]")), c("a", "c"))
+test_that("get_nouns() works as expected", {
+  expect_equal(get_nouns("a [b]"), c(noun = "a"))
+  expect_equal(get_nouns(c("a [b]", "c [d]")), c(noun = "a", noun = "c"))
+  expect_equal(get_nouns(list("a [b]", "c [d]")), c(noun = "a", noun = "c"))
 
   # Now try in a data frame
   df <- data.frame(labels = c("a [b]", "c [d]", "e [f]", "g [h]"))
@@ -9,7 +9,7 @@ test_that("get_noun() works as expected", {
     dplyr::mutate(
       nouns = get_nouns(labels)
     )
-  expect_equal(with_nouns$nouns, c("a", "c", "e", "g"))
+  expect_equal(with_nouns$nouns, c(noun = "a", noun = "c", noun = "e", noun = "g"))
 })
 
 
@@ -44,19 +44,32 @@ test_that("get_pps() works as expected", {
       nouns = get_nouns(labels),
       pps = get_pps(labels)
     )
-  expect_equal(with_nouns_pps$nouns, c("e", "h", "a", "c"))
+  expect_equal(with_nouns_pps$nouns, c(noun = "e", noun = "h", noun = "a", noun = "c"))
   expect_equal(with_nouns_pps$pps, c("of f in g", "-> i in j", "in b", "of d into USA"))
+})
+
+
+test_that("get_prepositions() works correctly", {
+  labs <- c("a [-> b in c]", "d [from Production]", "Coal [from Imports into US]")
+  expect_equal(get_prepositions(labs), list(c("->", "in"), "from", c("from", "into")))
+})
+
+
+test_that("get_objects() works correctly", {
+  expect_equal(get_objects(c("a [of b in USA]", "d [of e into GBR]")),
+               list(c(of = "b", `in` = "USA"),
+                    c(of = "e", into = "GBR")))
 })
 
 
 test_that("split_labels() works as expected", {
   expect_equal(split_labels("a [of b]", notation = bracket_notation),
-               list(noun = "a", pps = "of b"))
+               list(c(noun = "a", of = "b")))
   expect_equal(split_labels("a [of b in c]", notation = bracket_notation),
-               list(noun = "a", pps = c("of b", "in c")))
+               list(c(noun = "a", of = "b", `in` = "c")))
   expect_equal(split_labels(c("a [of b in c]", "d [of e into f]"), notation = bracket_notation),
-               list(list(noun = "a", pps = c("of b", "in c")),
-                    list(noun = "d", pps = c("of e", "into f"))))
+               list(c(noun = "a", of = "b", `in` = "c"),
+                    c(noun = "d", of = "e", into = "f")))
   # Try in a list.
   # This would be like a column in a data frame.
   expect_equal(
@@ -80,12 +93,3 @@ test_that("split_labels() works as expected", {
 })
 
 
-test_that("get_preps() works correctly", {
-  labs <- c("a [-> b in c]", "d [from Production]", "Coal [from Imports into US]")
-  expect_equal(get_preps(labs), list(c("->", "in"), "from", c("from", "into")))
-})
-
-
-test_that("get_objects() works correctly", {
-  get_objects(c("a [of b in USA]", "d [of e into GBR]"))
-})
