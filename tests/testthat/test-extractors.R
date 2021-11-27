@@ -101,6 +101,10 @@ test_that("recombine_labels() works as expected", {
   split <- split_labels(labs)
   expect_equal(recombine_labels(split), labs)
 
+  paren_note <- notation_vec(pref_start = "(", pref_end = ")", suff_start = "(", suff_end = ")")
+  labs2 <- c("(Production)(of Coal in USA)", "(Manufacture)(of Oil in Canada)")
+  split2 <- split_labels(labs2, notation = paren_note)
+  expect_equal(recombine_labels(split2, notation = paren_note), labs2)
 })
 
 

@@ -228,10 +228,10 @@ split_labels <- function(labels,
 
 #' Recombine row and column labels
 #'
-#' This function recobines (unsplits) row or column labels that have
+#' This function recombines (unsplits) row or column labels that have
 #' been separated by `split_labels()`.
 #'
-#' @param ls A vector of split row or column labels.
+#' @param ls A vector of split row or column labels, probably created by `split_labels()`.
 #' @param notation The notation object that describes the labels.
 #'                 Default is `RCLabels::bracket_notation`.
 #'
