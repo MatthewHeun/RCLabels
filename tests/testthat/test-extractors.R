@@ -26,9 +26,6 @@ test_that("get_pps() works as expected", {
   expect_equal(get_pps(c("a [of b in c]", "d [of e into f]"), notation = bracket_notation),
                c("of b in c", "of e into f"))
 
-
-
-
   expect_equal(get_pps(list("a [of b in c]", "d [of e into f]"), notation = bracket_notation),
                c("of b in c", "of e into f"))
 
@@ -46,6 +43,11 @@ test_that("get_pps() works as expected", {
     )
   expect_equal(with_nouns_pps$nouns, c(noun = "e", noun = "h", noun = "a", noun = "c"))
   expect_equal(with_nouns_pps$pps, c("of f in g", "-> i in j", "in b", "of d into USA"))
+})
+
+
+test_that("get_pps() works where there are no prepositions", {
+  expect_equal(get_pps("a []"), "")
 })
 
 
@@ -97,10 +99,17 @@ test_that("split_labels() works as expected", {
 
 
 test_that("recombine_labels() works as expected", {
+  # Try with a single label
+  lab <- "a [of b in c]"
+  split <- split_labels(lab)
+  expect_equal(split, list(c(noun = "a", of = "b", `in` = "c")))
+
+  # Try with a vector of labels
   labs <- c("a [of b in c]", "d [from Coal mines in USA]")
   split <- split_labels(labs)
   expect_equal(recombine_labels(split), labs)
 
+  # Try with a weird notation vector
   paren_note <- notation_vec(pref_start = "(", pref_end = ")", suff_start = "(", suff_end = ")")
   labs2 <- c("(Production)(of Coal in USA)", "(Manufacture)(of Oil in Canada)")
   split2 <- split_labels(labs2, notation = paren_note)

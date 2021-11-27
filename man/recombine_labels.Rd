@@ -7,7 +7,7 @@
 recombine_labels(ls, notation = RCLabels::bracket_notation)
 }
 \arguments{
-\item{ls}{A vector of split row or column labels.}
+\item{ls}{A vector of split row or column labels, probably created by \code{split_labels()}.}
 
 \item{notation}{The notation object that describes the labels.
 Default is \code{RCLabels::bracket_notation}.}
@@ -16,7 +16,7 @@ Default is \code{RCLabels::bracket_notation}.}
 Recombined row and column labels.
 }
 \description{
-This function recobines (unsplits) row or column labels that have
+This function recombines (unsplits) row or column labels that have
 been separated by \code{split_labels()}.
 }
 \examples{

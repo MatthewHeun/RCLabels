@@ -52,10 +52,7 @@ get_pps <- function(labels,
                                    pattern_type = "anywhere")
   start_locations <- gregexpr(prep_patterns, text = suffixes) |>
     unlist()
-  if (length(start_locations) == 0) {
-    start_locations <- NA_real_
-    end_locations <- NA_real_
-  } else if (length(start_locations) == 1) {
+  if (length(start_locations) == 1) {
     end_locations <- nchar(suffixes)
   } else {
     end_locations <- c(start_locations[-1] - 2, nchar(suffixes))
