@@ -25,4 +25,13 @@ labs
 split <- split_labels(labs)
 split
 recombine_labels(split)
+# Also works in a data frame
+df <- tibble::tibble(labels = c("a [in b]", "c [of d into USA]",
+                                "e [of f in g]", "h [-> i in j]"))
+recombined <- df |>
+  dplyr::mutate(
+    splits = split_labels(labels),
+    recombined = recombine_labels(splits)
+  )
+all(recombined$labels == recombined$recombined)
 }
