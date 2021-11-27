@@ -225,3 +225,39 @@ split_labels <- function(labels,
   })
 }
 
+
+#' Recombine row and column labels
+#'
+#' This function recobines (unsplits) row or column labels that have
+#' been separated by `split_labels()`.
+#'
+#' @param ls A vector of split row or column labels.
+#' @param notation The notation object that describes the labels.
+#'                 Default is `RCLabels::bracket_notation`.
+#'
+#' @return Recombined row and column labels.
+#'
+#' @export
+#'
+#' @examples
+#' labs <- c("a [of b in c]", "d [from Coal mines in USA]")
+#' split <- split_labels(labs)
+#' split
+#' recombine_labels(split)
+recombine_labels <- function(ls, notation = RCLabels::bracket_notation) {
+  pps <- ls |>
+    sapply(FUN = function(this_label) {
+      this_label |>
+      purrr::list_modify("noun" = NULL) |>
+      paste0(names(this_pp), " ", this_pp)
+    })
+  sapply(ls, function(this_label) {
+    paste0(notation[["prefix_start"]],
+           ls[["noun"]],
+           notation[["prefix_end"]],
+           notation[["suffix_start"]],
+           pps,
+           notation[["suffix_end"]])
+  })
+}
+
