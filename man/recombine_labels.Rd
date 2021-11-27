@@ -21,6 +21,7 @@ been separated by \code{split_labels()}.
 }
 \examples{
 labs <- c("a [of b in c]", "d [from Coal mines in USA]")
+labs
 split <- split_labels(labs)
 split
 recombine_labels(split)

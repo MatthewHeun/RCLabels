@@ -241,23 +241,33 @@ split_labels <- function(labels,
 #'
 #' @examples
 #' labs <- c("a [of b in c]", "d [from Coal mines in USA]")
+#' labs
 #' split <- split_labels(labs)
 #' split
 #' recombine_labels(split)
 recombine_labels <- function(ls, notation = RCLabels::bracket_notation) {
+  nouns <- ls |>
+    sapply(FUN = function(this_label) {
+      this_label[["noun"]]
+    })
   pps <- ls |>
     sapply(FUN = function(this_label) {
-      this_label |>
-      purrr::list_modify("noun" = NULL) |>
-      paste0(names(this_pp), " ", this_pp)
+      without_noun <- this_label |>
+        as.list() |>
+        purrr::list_modify("noun" = NULL)
+      paste0(names(without_noun), " ", without_noun, collapse = " ")
     })
-  sapply(ls, function(this_label) {
-    paste0(notation[["prefix_start"]],
-           ls[["noun"]],
-           notation[["prefix_end"]],
-           notation[["suffix_start"]],
-           pps,
-           notation[["suffix_end"]])
+  mapply(nouns, pps, USE.NAMES = FALSE, FUN = function(noun, pp) {
+    if (notation[["pref_end"]] == notation[["suff_start"]]) {
+      sep <- notation[["pref_end"]]
+    } else {
+      sep <- paste0(notation[["pref_end"]], notation[["suff_start"]])
+    }
+    paste0(notation[["pref_start"]],
+           noun,
+           sep,
+           pp,
+           notation[["suff_end"]])
   })
 }
 

@@ -96,3 +96,11 @@ test_that("split_labels() works as expected", {
 })
 
 
+test_that("recombine_labels() works as expected", {
+  labs <- c("a [of b in c]", "d [from Coal mines in USA]")
+  split <- split_labels(labs)
+  expect_equal(recombine_labels(split), labs)
+
+})
+
+
