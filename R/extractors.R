@@ -212,7 +212,12 @@ split_labels <- function(labels,
                          notation = RCLabels::bracket_notation,
                          prepositions = RCLabels::prepositions) {
 
-  nouns <- list(get_nouns(labels, notation = notation))
+  nouns <- get_nouns(labels, notation = notation) |>
+    as.list() |>
+    unname() |>
+    lapply(FUN = function(this_noun) {
+      magrittr::set_names(this_noun, "noun")
+    })
   objects <- get_objects(labels, notation = notation, prepositions = prepositions)
 
   mapply(nouns, objects, SIMPLIFY = FALSE, FUN = function(noun, object) {

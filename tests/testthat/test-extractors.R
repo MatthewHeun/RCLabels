@@ -71,25 +71,28 @@ test_that("split_labels() works as expected", {
                list(c(noun = "a", of = "b", `in` = "c"),
                     c(noun = "d", of = "e", into = "f")))
   # Try in a list.
-  # This would be like a column in a data frame.
-  expect_equal(
-    split_labels(list(c("a [of b]", "c [of d]"),
-                      c("e [-> f]", "g [of h in i]")), notation = bracket_notation),
-    list(list(list(noun = "a", pps = "of b")),
-              list(noun = "c", pps = "of d")),
-         list(list(noun = "e", pps = "-> f"),
-              list(noun = "g", pps = c("of h", "in i"))))
+  expect_equal(split_labels(list("a [of b in c]",
+                                 "d [of e into f]",
+                                 "Production [of Coal in GB]"),
+                            notation = bracket_notation),
+               list(c(noun = "a", of = "b", `in` = "c"),
+                    c(noun = "d", of = "e", into = "f"),
+                    c(noun = "Production", of = "Coal", `in` = "GB")))
 
 
 
 
   # Now try in a data frame.
-  # df <- data.frame(labels = I(list(list("a [in b]", "c [of d into USA]"),
-  #                                  list("e [of f in g]", "h [-> i in j]"))))
-  # splitted <- df |>
-  #   dplyr::mutate(
-  #     splits = split_labels(labels)
-  #   )
+  df <- data.frame(labels = I(list("a [in b]", "c [of d into USA]",
+                                   "e [of f in g]", "h [-> i in j]")))
+  splitted <- df |>
+    dplyr::mutate(
+      splits = split_labels(labels)
+    )
+  expect_equal(splitted$splits[[1]], c(noun = "a", `in` = "b"))
+  expect_equal(splitted$splits[[2]], c(noun = "c", of = "d", into = "USA"))
+  expect_equal(splitted$splits[[3]], c(noun = "e", of = "f", `in` = "g"))
+  expect_equal(splitted$splits[[4]], c(noun = "h", `->` = "i", `in` = "j"))
 })
 
 
