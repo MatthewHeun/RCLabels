@@ -21,4 +21,9 @@ with \code{new_nouns}.
 }
 \description{
 This function sets the nouns of row and column labels.
+The length of \code{new_nouns} must be the same as the length of \code{labels}.
+}
+\examples{
+labels <- c("a [of b in c]", "d [of e in USA]")
+set_nouns(labels, c("a_plus", "g"))
 }
