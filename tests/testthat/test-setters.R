@@ -66,8 +66,7 @@ test_that("modify_label_pieces() works with 2x piece", {
                                    piece = c("noun", "in"),
                                    label_map = list(new_noun = c("a", "b", "c"),
                                                     new_in   = c("c", "f"))),
-               c("new_noun1 [of b in new_in]", "d [-> e in new_in]"))
-
+               c("new_noun [of b in new_in]", "d [-> e in new_in]"))
 })
 
 
@@ -78,5 +77,4 @@ test_that("modify_label_pieces() works with 2x label_map", {
                                    label_map = list(new_noun1 = c("a", "b", "c"),
                                                     new_noun2 = c("d", "e", "f"))),
                c("new_noun1 [of b in c]", "new_noun2 [-> e in f]"))
-
 })

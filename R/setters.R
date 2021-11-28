@@ -61,19 +61,40 @@ set_nouns <- function(labels, new_nouns, notation = RCLabels::bracket_notation) 
 modify_label_pieces <- function(labels, piece, label_map) {
   splitted <- labels |>
     split_labels()
-  modified <- splitted |>
-    lapply(FUN = function(this_split_label) {
-      purrr::modify_at(this_split_label, .at = piece, .f = function(this_piece) {
-        mapply(label_map, names(label_map), FUN = function(this_modification, this_modification_name) {
-          if (this_piece %in% this_modification) {
-            this_modification_name
-          } else {
-            this_piece
-          }
-        })
-      })
+  # modified <- splitted |>
+  #   lapply(FUN = function(this_split_label) {
+  #     purrr::modify_at(this_split_label, .at = piece, .f = function(this_piece) {
+  #       mapply(label_map, names(label_map), FUN = function(this_modification, this_modification_name) {
+  #         if (this_piece %in% this_modification) {
+  #           this_modification_name
+  #         } else {
+  #           this_piece
+  #         }
+  #       })
+  #     })
+  #
+  #   })
 
-    })
+  # Loop over everything to modify pieces.
+  modified <- lapply(splitted, FUN = function(this_label) {
+    # Loop over each piece
+    for (i_piece in 1:length(this_label)) {
+      this_piece <- this_label[i_piece]
+      this_piece_name <- names(this_piece)
+      if (this_piece_name %in% piece) {
+        # Loop over all parts of the label_map
+        for (i_replacement in 1:length(label_map)) {
+          this_replacement <- label_map[[i_replacement]]
+          this_replacement_name <- names(label_map[i_replacement])
+          if (this_piece %in% this_replacement) {
+            this_label[[this_piece_name]] <- this_replacement_name
+          }
+        }
+      }
+    }
+    this_label
+  })
+
   modified |>
     recombine_labels()
 }
