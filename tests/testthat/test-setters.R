@@ -24,7 +24,7 @@ test_that("set_nouns() fails when the shape of new_nouns is wrong", {
 })
 
 
-test_that("modify_label_pieces() works as expected", {
+test_that("modify_label_pieces() works as expected with single strings", {
   label <- "a [of b in c]"
   expect_equal(modify_label_pieces(label, piece = "noun", label_map = list(new_noun = c("a", "b"))),
                "new_noun [of b in c]")
@@ -37,5 +37,15 @@ test_that("modify_label_pieces() works as expected", {
   # Now, let's make it work.
   expect_equal(modify_label_pieces(label, piece = "in", label_map = list(USA = c("a", "b", "c"))),
                "a [of b in USA]")
+})
+
+
+test_that("modify_label_pieces() works with vectors, lists, and in data frames", {
+  labs <- c("a [of b in c]", "d [-> e in f]")
+  expect_equal(modify_label_pieces(labs, piece = "noun", label_map = list(new_noun = c("d", "e"))),
+               c("a [of b in c]", "new_noun [-> e in f]"))
+  labs2 <- list("a [of b in c]", "d [-> e in f]")
+  expect_equal(modify_label_pieces(labs2, piece = "->", label_map = list(`new_->` = c("d", "e"))),
+               c("a [of b in c]", "d [-> new_-> in f]"))
 
 })
