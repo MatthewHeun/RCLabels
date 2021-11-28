@@ -15,7 +15,7 @@ such as "in" or "from".
 See \code{RCLabels::prepositions} for additional examples.
 This argument may be a single string or a character vector.}
 
-\item{label_map}{A named character vector in which names indicate
+\item{label_map}{A named list of character vectors in which names indicate
 strings to be inserted and values indicate
 values that should be replaced.}
 }

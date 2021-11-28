@@ -41,11 +41,42 @@ test_that("modify_label_pieces() works as expected with single strings", {
 
 
 test_that("modify_label_pieces() works with vectors, lists, and in data frames", {
+  # Try with a vector
   labs <- c("a [of b in c]", "d [-> e in f]")
   expect_equal(modify_label_pieces(labs, piece = "noun", label_map = list(new_noun = c("d", "e"))),
                c("a [of b in c]", "new_noun [-> e in f]"))
+  # Try with a list
   labs2 <- list("a [of b in c]", "d [-> e in f]")
   expect_equal(modify_label_pieces(labs2, piece = "->", label_map = list(`new_->` = c("d", "e"))),
                c("a [of b in c]", "d [-> new_-> in f]"))
+
+  # Try in a data frame
+  df <- tibble::tibble(labs = c("a [of b in c]", "d [of e in f]"))
+  res <- df |>
+    dplyr::mutate(
+      mod1 = modify_label_pieces(labs, piece = "noun", label_map = list(new_a = c("a", "b", "c")))
+    )
+  expect_equal(res$mod1, c("new_a [of b in c]", "d [of e in f]"))
+})
+
+
+test_that("modify_label_pieces() works with 2x piece", {
+  labs <- c("a [of b in c]", "d [-> e in f]")
+  expect_equal(modify_label_pieces(labs,
+                                   piece = c("noun", "in"),
+                                   label_map = list(new_noun = c("a", "b", "c"),
+                                                    new_in   = c("c", "f"))),
+               c("new_noun1 [of b in new_in]", "d [-> e in new_in]"))
+
+})
+
+
+test_that("modify_label_pieces() works with 2x label_map", {
+  labs <- c("a [of b in c]", "d [-> e in f]")
+  expect_equal(modify_label_pieces(labs,
+                                   piece = "noun",
+                                   label_map = list(new_noun1 = c("a", "b", "c"),
+                                                    new_noun2 = c("d", "e", "f"))),
+               c("new_noun1 [of b in c]", "new_noun2 [-> e in f]"))
 
 })
