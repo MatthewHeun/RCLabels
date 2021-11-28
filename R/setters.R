@@ -58,17 +58,17 @@ set_nouns <- function(labels, new_nouns, notation = RCLabels::bracket_notation) 
 #' @export
 #'
 #' @examples
-replace_label_pieces <- function(labels, piece, label_map) {
+modify_label_pieces <- function(labels, piece, label_map) {
   splitted <- labels |>
     split_labels()
   modified <- splitted |>
     lapply(FUN = function(this_split_label) {
       purrr::modify_at(this_split_label, .at = piece, .f = function(this_piece) {
-        sapply(label_map, function(this_replacement) {
-          if (any(this_replacement %in% this_split_label)) {
-            name(this_replacement)
+        mapply(label_map, names(label_map), FUN = function(this_modification, this_modification_name) {
+          if (this_piece %in% this_modification) {
+            this_modification_name
           } else {
-            this_split_label
+            this_piece
           }
         })
       })

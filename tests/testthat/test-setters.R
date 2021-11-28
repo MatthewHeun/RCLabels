@@ -24,9 +24,18 @@ test_that("set_nouns() fails when the shape of new_nouns is wrong", {
 })
 
 
-test_that("replace_label_pieces() works as expected", {
+test_that("modify_label_pieces() works as expected", {
   label <- "a [of b in c]"
-  expect_equal(replace_label_pieces(label, piece = "noun", label_map = list(new_noun = c("a", "b"))),
+  expect_equal(modify_label_pieces(label, piece = "noun", label_map = list(new_noun = c("a", "b"))),
                "new_noun [of b in c]")
+  expect_equal(modify_label_pieces(label, piece = "of", label_map = list(new_of = c("a", "b"))),
+               "a [of new_of in c]")
+  # This one should result in no replacements,
+  # because "c" is not %in% c("a", "b").
+  expect_equal(modify_label_pieces(label, piece = "in", label_map = list(USA = c("a", "b"))),
+               "a [of b in c]")
+  # Now, let's make it work.
+  expect_equal(modify_label_pieces(label, piece = "in", label_map = list(USA = c("a", "b", "c"))),
+               "a [of b in USA]")
 
 })
