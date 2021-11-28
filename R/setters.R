@@ -39,15 +39,16 @@ set_nouns <- function(labels, new_nouns, notation = RCLabels::bracket_notation) 
 #' This function is useful for aggregations.
 #' For example, aggregating by nouns can be done by
 #' `label_map = list(new_noun = c("a", "b", "c"))`.
-#' The string "new_noun" will replace all of "a", "b", and "c"
+#' The string "new_noun" will replace any of "a", "b", or "c"
 #' when they appear as nouns in a row or column label.
-#' See examples for more information.
+#' See examples for details.
 #'
 #' @param labels The row and column labels in which pieces will be replaced.
-#' @param piece The piec of the row or column label that will be replaced.
+#' @param piece The piece of the row or column label that will be replaced.
 #'              Typical examples are "noun" or a preposition,
 #'              such as "in" or "from".
 #'              See `RCLabels::prepositions` for additional examples.
+#'              This argument may be a single string or a character vector.
 #' @param label_map A named character vector in which names indicate
 #'                  strings to be inserted and values indicate
 #'                  values that should be replaced.
@@ -58,5 +59,21 @@ set_nouns <- function(labels, new_nouns, notation = RCLabels::bracket_notation) 
 #'
 #' @examples
 replace_label_pieces <- function(labels, piece, label_map) {
+  splitted <- labels |>
+    split_labels()
+  modified <- splitted |>
+    lapply(FUN = function(this_split_label) {
+      purrr::modify_at(this_split_label, .at = piece, .f = function(this_piece) {
+        sapply(label_map, function(this_replacement) {
+          if (any(this_replacement %in% this_split_label)) {
+            name(this_replacement)
+          } else {
+            this_split_label
+          }
+        })
+      })
 
+    })
+  modified |>
+    recombine_labels()
 }

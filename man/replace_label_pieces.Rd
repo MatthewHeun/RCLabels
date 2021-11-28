@@ -9,10 +9,11 @@ replace_label_pieces(labels, piece, label_map)
 \arguments{
 \item{labels}{The row and column labels in which pieces will be replaced.}
 
-\item{piece}{The piec of the row or column label that will be replaced.
+\item{piece}{The piece of the row or column label that will be replaced.
 Typical examples are "noun" or a preposition,
 such as "in" or "from".
-See \code{RCLabels::prepositions} for additional examples.}
+See \code{RCLabels::prepositions} for additional examples.
+This argument may be a single string or a character vector.}
 
 \item{label_map}{A named character vector in which names indicate
 strings to be inserted and values indicate
@@ -27,7 +28,7 @@ according to \code{label_map} that defines "one or many to one" relationships.
 This function is useful for aggregations.
 For example, aggregating by nouns can be done by
 \code{label_map = list(new_noun = c("a", "b", "c"))}.
-The string "new_noun" will replace all of "a", "b", and "c"
+The string "new_noun" will replace any of "a", "b", or "c"
 when they appear as nouns in a row or column label.
-See examples for more information.
+See examples for details.
 }
