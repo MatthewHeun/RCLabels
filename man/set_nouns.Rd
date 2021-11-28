@@ -7,7 +7,7 @@
 set_nouns(labels, new_nouns, notation = RCLabels::bracket_notation)
 }
 \arguments{
-\item{labels}{The labels in which the nouns will be set.}
+\item{labels}{The row and column labels in which the nouns will be set.}
 
 \item{new_nouns}{The new nouns to be set in \code{labels}.
 Must be same length as \code{labels}.}
