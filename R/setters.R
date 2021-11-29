@@ -1,16 +1,16 @@
-#' Set nouns in labels
+#' Modify nouns in labels
 #'
-#' This function sets the nouns of row and column labels.
+#' This function modifies the nouns of row and column labels.
 #' The length of `new_nouns` must be the same as the length of `labels`.
 #'
-#' @param labels The row and column labels in which the nouns will be set.
+#' @param labels The row and column labels in which the nouns will be modified.
 #' @param new_nouns The new nouns to be set in `labels`.
 #'                  Must be same length as `labels`.
 #' @param notation The notation used in `labels`.
 #'                 Default is `RCLabels::bracket_notation`.
 #'
 #' @return A character vector of same length as labels
-#'         with `new_nouns`.
+#'         with nouns modified to be `new_nouns`.
 #'
 #' @export
 #'

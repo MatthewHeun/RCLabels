@@ -81,9 +81,6 @@ test_that("split_labels() works as expected", {
                     c(noun = "d", of = "e", into = "f"),
                     c(noun = "Production", of = "Coal", `in` = "GB")))
 
-
-
-
   # Now try in a data frame.
   df <- data.frame(labels = I(list("a [in b]", "c [of d into USA]",
                                    "e [of f in g]", "h [-> i in j]")))

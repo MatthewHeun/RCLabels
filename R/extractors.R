@@ -263,17 +263,6 @@ recombine_labels <- function(ls, notation = RCLabels::bracket_notation) {
         purrr::list_modify("noun" = NULL)
       paste0(names(without_noun), " ", without_noun, collapse = " ")
     })
-  mapply(nouns, pps, USE.NAMES = FALSE, FUN = function(noun, pp) {
-    if (notation[["pref_end"]] == notation[["suff_start"]]) {
-      sep <- notation[["pref_end"]]
-    } else {
-      sep <- paste0(notation[["pref_end"]], notation[["suff_start"]])
-    }
-    paste0(notation[["pref_start"]],
-           noun,
-           sep,
-           pp,
-           notation[["suff_end"]])
-  })
+  paste_pref_suff(pref = nouns, suff = pps, notation = notation)
 }
 

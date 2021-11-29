@@ -2,12 +2,12 @@
 % Please edit documentation in R/setters.R
 \name{modify_nouns}
 \alias{modify_nouns}
-\title{Set nouns in labels}
+\title{Modify nouns in labels}
 \usage{
 modify_nouns(labels, new_nouns, notation = RCLabels::bracket_notation)
 }
 \arguments{
-\item{labels}{The row and column labels in which the nouns will be set.}
+\item{labels}{The row and column labels in which the nouns will be modified.}
 
 \item{new_nouns}{The new nouns to be set in \code{labels}.
 Must be same length as \code{labels}.}
@@ -17,10 +17,10 @@ Default is \code{RCLabels::bracket_notation}.}
 }
 \value{
 A character vector of same length as labels
-with \code{new_nouns}.
+with nouns modified to be \code{new_nouns}.
 }
 \description{
-This function sets the nouns of row and column labels.
+This function modifies the nouns of row and column labels.
 The length of \code{new_nouns} must be the same as the length of \code{labels}.
 }
 \examples{
