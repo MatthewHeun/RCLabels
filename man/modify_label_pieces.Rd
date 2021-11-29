@@ -4,7 +4,13 @@
 \alias{modify_label_pieces}
 \title{Modify pieces of row and column labels}
 \usage{
-modify_label_pieces(labels, piece, mod_map)
+modify_label_pieces(
+  labels,
+  piece,
+  mod_map,
+  prepositions = RCLabels::prepositions,
+  notation = RCLabels::bracket_notation
+)
 }
 \arguments{
 \item{labels}{The row and column labels in which pieces will be modified.}
@@ -12,6 +18,12 @@ modify_label_pieces(labels, piece, mod_map)
 \item{piece}{The piece (or pieces) of the row or column label that will be modified.}
 
 \item{mod_map}{A modification map. See details.}
+
+\item{prepositions}{A list of prepositions, used to detect prepositional phrases.
+Default is \code{RCLabels::prepositions}.}
+
+\item{notation}{The notation used in \code{labels}.
+Default is \code{RCLabels::bracket_notation}.}
 }
 \value{
 \code{labels} with replacements according to \code{piece} and \code{mod_map}.
@@ -36,8 +48,9 @@ The \code{mod_map} argument should consist of a
 named list of character vectors in which names indicate
 strings to be inserted and values indicate
 values that should be replaced.
-The sense is \code{new = old}, where "new" is the new name (the replacement) and
-"old" is a string or vector of strings,
+The sense is \code{new = old} of \code{new = olds},
+where "new" is the new name (the replacement) and
+"old" and "olds" is/are a string/vector of strings,
 any one of which will be replaced by "new".
 }
 \examples{

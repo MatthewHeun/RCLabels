@@ -16,8 +16,8 @@
 #'
 #' @examples
 #' labels <- c("a [of b in c]", "d [of e in USA]")
-#' set_nouns(labels, c("a_plus", "g"))
-set_nouns <- function(labels, new_nouns, notation = RCLabels::bracket_notation) {
+#' modify_nouns(labels, c("a_plus", "g"))
+modify_nouns <- function(labels, new_nouns, notation = RCLabels::bracket_notation) {
   num_labels <- length(labels)
   num_new_nouns <- length(new_nouns)
   if (num_labels != num_new_nouns) {
@@ -52,13 +52,18 @@ set_nouns <- function(labels, new_nouns, notation = RCLabels::bracket_notation) 
 #' named list of character vectors in which names indicate
 #' strings to be inserted and values indicate
 #' values that should be replaced.
-#' The sense is `new = old`, where "new" is the new name (the replacement) and
-#' "old" is a string or vector of strings,
+#' The sense is `new = old` of `new = olds`,
+#' where "new" is the new name (the replacement) and
+#' "old" and "olds" is/are a string/vector of strings,
 #' any one of which will be replaced by "new".
 #'
 #' @param labels The row and column labels in which pieces will be modified.
 #' @param piece The piece (or pieces) of the row or column label that will be modified.
 #' @param mod_map A modification map. See details.
+#' @param prepositions A list of prepositions, used to detect prepositional phrases.
+#'                     Default is `RCLabels::prepositions`.
+#' @param notation The notation used in `labels`.
+#'                 Default is `RCLabels::bracket_notation`.
 #'
 #' @return `labels` with replacements according to `piece` and `mod_map`.
 #'
@@ -83,9 +88,11 @@ set_nouns <- function(labels, new_nouns, notation = RCLabels::bracket_notation) 
 #'                     piece = c("noun", "in"),
 #'                     mod_map = list(new_noun = c("a", "b", "c"),
 #'                                    new_in   = c("c", "f")))
-modify_label_pieces <- function(labels, piece, mod_map) {
+modify_label_pieces <- function(labels, piece, mod_map,
+                                prepositions = RCLabels::prepositions,
+                                notation = RCLabels::bracket_notation) {
   splitted <- labels |>
-    split_labels()
+    split_labels(notation = notation, prepositions = prepositions)
 
   # Loop over everything to modify pieces.
   modified <- lapply(splitted, FUN = function(this_label) {
@@ -108,5 +115,5 @@ modify_label_pieces <- function(labels, piece, mod_map) {
   })
 
   modified |>
-    recombine_labels()
+    recombine_labels(notation = notation)
 }
