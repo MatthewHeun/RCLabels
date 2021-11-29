@@ -4,23 +4,17 @@
 \alias{modify_label_pieces}
 \title{Modify pieces of row and column labels}
 \usage{
-modify_label_pieces(labels, piece, label_map)
+modify_label_pieces(labels, piece, mod_map)
 }
 \arguments{
 \item{labels}{The row and column labels in which pieces will be modified.}
 
-\item{piece}{The piece (or pieces) of the row or column label that will be modified.
-Typical examples are "noun" or a preposition,
-such as "in" or "from".
-See \code{RCLabels::prepositions} for additional examples.
-This argument may be a single string or a character vector.}
+\item{piece}{The piece (or pieces) of the row or column label that will be modified.}
 
-\item{label_map}{A named list of character vectors in which names indicate
-strings to be inserted and values indicate
-values that should be replaced.}
+\item{mod_map}{A modification map. See details.}
 }
 \value{
-\code{labels} with replacements according to \code{piece} and \code{label_map}.
+\code{labels} with replacements according to \code{piece} and \code{mod_map}.
 }
 \description{
 This function modifies pieces of row and column labels
@@ -31,4 +25,25 @@ For example, replacing nouns can be done by
 The string "new_noun" will replace any of "a", "b", or "c"
 when they appear as nouns in a row or column label.
 See examples for details.
+}
+\details{
+Typical \code{piece}s include "noun" or a preposition,
+such as "in" or "from".
+See \code{RCLabels::prepositions} for additional examples.
+This argument may be a single string or a character vector.
+
+The \code{mod_map} argument should consist of a
+named list of character vectors in which names indicate
+strings to be inserted and values indicate
+values that should be replaced.
+The sense is \code{new = old}, where "new" is the new name (the replacement) and
+"old" is a string or vector of strings,
+any one of which will be replaced by "new".
+}
+\examples{
+modify_label_pieces("a [of b in c]",
+                    piece = "noun",
+                    mod_map = list(new_noun = c("a", "b")))
+labs <- c("a [of b in c]", "d [-> e in f]")
+modify_label_pieces(labs, piece = "noun", mod_map = list(new_noun = c("d", "e")))
 }

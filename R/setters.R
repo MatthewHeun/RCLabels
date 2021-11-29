@@ -43,22 +43,34 @@ set_nouns <- function(labels, new_nouns, notation = RCLabels::bracket_notation) 
 #' when they appear as nouns in a row or column label.
 #' See examples for details.
 #'
+#' Typical `piece`s include "noun" or a preposition,
+#' such as "in" or "from".
+#' See `RCLabels::prepositions` for additional examples.
+#' This argument may be a single string or a character vector.
+#'
+#' The `mod_map` argument should consist of a
+#' named list of character vectors in which names indicate
+#' strings to be inserted and values indicate
+#' values that should be replaced.
+#' The sense is `new = old`, where "new" is the new name (the replacement) and
+#' "old" is a string or vector of strings,
+#' any one of which will be replaced by "new".
+#'
 #' @param labels The row and column labels in which pieces will be modified.
 #' @param piece The piece (or pieces) of the row or column label that will be modified.
-#'              Typical examples are "noun" or a preposition,
-#'              such as "in" or "from".
-#'              See `RCLabels::prepositions` for additional examples.
-#'              This argument may be a single string or a character vector.
-#' @param label_map A named list of character vectors in which names indicate
-#'                  strings to be inserted and values indicate
-#'                  values that should be replaced.
+#' @param mod_map A modification map. See details.
 #'
-#' @return `labels` with replacements according to `piece` and `label_map`.
+#' @return `labels` with replacements according to `piece` and `mod_map`.
 #'
 #' @export
 #'
 #' @examples
-modify_label_pieces <- function(labels, piece, label_map) {
+#' modify_label_pieces("a [of b in c]",
+#'                     piece = "noun",
+#'                     mod_map = list(new_noun = c("a", "b")))
+#' labs <- c("a [of b in c]", "d [-> e in f]")
+#' modify_label_pieces(labs, piece = "noun", mod_map = list(new_noun = c("d", "e")))
+modify_label_pieces <- function(labels, piece, mod_map) {
   splitted <- labels |>
     split_labels()
 
@@ -69,10 +81,10 @@ modify_label_pieces <- function(labels, piece, label_map) {
       this_piece <- this_label[[i_piece]]
       this_piece_name <- names(this_label[i_piece])
       if (this_piece_name %in% piece) {
-        # Loop over all parts of the label_map
-        for (i_replacement in 1:length(label_map)) {
-          this_replacement <- label_map[[i_replacement]]
-          this_replacement_name <- names(label_map[i_replacement])
+        # Loop over all parts of the mod_map
+        for (i_replacement in 1:length(mod_map)) {
+          this_replacement <- mod_map[[i_replacement]]
+          this_replacement_name <- names(mod_map[i_replacement])
           if (this_piece %in% this_replacement) {
             this_label[[this_piece_name]] <- this_replacement_name
           }
