@@ -2,14 +2,14 @@
 % Please edit documentation in R/setters.R
 \name{modify_label_pieces}
 \alias{modify_label_pieces}
-\title{Replace pieces of row and column labels}
+\title{Modify pieces of row and column labels}
 \usage{
 modify_label_pieces(labels, piece, label_map)
 }
 \arguments{
-\item{labels}{The row and column labels in which pieces will be replaced.}
+\item{labels}{The row and column labels in which pieces will be modified.}
 
-\item{piece}{The piece of the row or column label that will be replaced.
+\item{piece}{The piece (or pieces) of the row or column label that will be modified.
 Typical examples are "noun" or a preposition,
 such as "in" or "from".
 See \code{RCLabels::prepositions} for additional examples.
@@ -20,14 +20,14 @@ strings to be inserted and values indicate
 values that should be replaced.}
 }
 \value{
-\code{labels} with replacements according to \code{label_map}.
+\code{labels} with replacements according to \code{piece} and \code{label_map}.
 }
 \description{
-This function replaces pieces of row and column labels
+This function modifies pieces of row and column labels
 according to \code{label_map} that defines "one or many to one" relationships.
 This function is useful for aggregations.
-For example, aggregating by nouns can be done by
-\code{label_map = list(new_noun = c("a", "b", "c"))}.
+For example, replacing nouns can be done by
+\verb{modify_label_pieces(<<labels>>, piece = "noun", label_map = list(new_noun = c("a", "b", "c"))}.
 The string "new_noun" will replace any of "a", "b", or "c"
 when they appear as nouns in a row or column label.
 See examples for details.

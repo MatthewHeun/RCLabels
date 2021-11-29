@@ -32,19 +32,19 @@ set_nouns <- function(labels, new_nouns, notation = RCLabels::bracket_notation) 
 }
 
 
-#' Replace pieces of row and column labels
+#' Modify pieces of row and column labels
 #'
-#' This function replaces pieces of row and column labels
+#' This function modifies pieces of row and column labels
 #' according to `label_map` that defines "one or many to one" relationships.
 #' This function is useful for aggregations.
-#' For example, aggregating by nouns can be done by
-#' `label_map = list(new_noun = c("a", "b", "c"))`.
+#' For example, replacing nouns can be done by
+#' `modify_label_pieces(<<labels>>, piece = "noun", label_map = list(new_noun = c("a", "b", "c"))`.
 #' The string "new_noun" will replace any of "a", "b", or "c"
 #' when they appear as nouns in a row or column label.
 #' See examples for details.
 #'
-#' @param labels The row and column labels in which pieces will be replaced.
-#' @param piece The piece of the row or column label that will be replaced.
+#' @param labels The row and column labels in which pieces will be modified.
+#' @param piece The piece (or pieces) of the row or column label that will be modified.
 #'              Typical examples are "noun" or a preposition,
 #'              such as "in" or "from".
 #'              See `RCLabels::prepositions` for additional examples.
@@ -53,7 +53,7 @@ set_nouns <- function(labels, new_nouns, notation = RCLabels::bracket_notation) 
 #'                  strings to be inserted and values indicate
 #'                  values that should be replaced.
 #'
-#' @return `labels` with replacements according to `label_map`.
+#' @return `labels` with replacements according to `piece` and `label_map`.
 #'
 #' @export
 #'
