@@ -65,11 +65,24 @@ set_nouns <- function(labels, new_nouns, notation = RCLabels::bracket_notation) 
 #' @export
 #'
 #' @examples
+#' # Simple case
 #' modify_label_pieces("a [of b in c]",
 #'                     piece = "noun",
 #'                     mod_map = list(new_noun = c("a", "b")))
-#' labs <- c("a [of b in c]", "d [-> e in f]")
-#' modify_label_pieces(labs, piece = "noun", mod_map = list(new_noun = c("d", "e")))
+#' # Works with a vector or list of labels
+#' modify_label_pieces(c("a [of b in c]", "d [-> e in f]"),
+#'                     piece = "noun",
+#'                     mod_map = list(new_noun = c("d", "e")))
+#' # Works with multiple items in the mod_map
+#' modify_label_pieces(c("a [of b in c]", "d [-> e in f]"),
+#'                     piece = "noun",
+#'                     mod_map = list(new_noun1 = c("a", "b", "c"),
+#'                                    new_noun2 = c("d", "e", "f")))
+#' # Works with multiple pieces to be modified
+#' modify_label_pieces(c("a [of b in c]", "d [-> e in f]"),
+#'                     piece = c("noun", "in"),
+#'                     mod_map = list(new_noun = c("a", "b", "c"),
+#'                                    new_in   = c("c", "f")))
 modify_label_pieces <- function(labels, piece, mod_map) {
   splitted <- labels |>
     split_labels()
