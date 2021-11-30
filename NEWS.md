@@ -1,3 +1,13 @@
+---
+title: "Release notes for `RCLabels`"
+output: html_document
+---
+
+
+
+* Added automated spell checking to the package.
+
+
 # RCLabels 0.0.2
 
 * First release.
