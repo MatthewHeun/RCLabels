@@ -29,17 +29,38 @@ The `RCLabels` package (row and column labels)
 provides convenient tools for manipulating those labels.
 
 
+## Use cases
+
+Two applications of matrix mathematics are 
+input-output analysis in economics and
+the physical supply use table (PSUT) structure 
+of energy conversion chain (ECC) analysis.
+In those contexts, 
+row and column labels describe processing stages or
+flows of goods or services between processing stages.
+Row and column labels can benefit those applications,
+ensuring that like quantities are added, subtracted, multiplied, or divided, etc.,
+provided that row and column labels are respected.
+
+One package that respects row and column labels is `matsbyname`,
+thereby making economic and ECC input-output analyses easier.
+Easy manipulation of row and column labels
+is an enabling capability.
+This package (`RCLabels`) provides easy manipulation of row and column labels.
+In fact, the `matsbyname` packages uses functions from `RCLabels` internally.
+
+
 ## Label structure
 
 Row and column labels are always character strings and
 often have a prefix--suffix structure, 
-where the prefix and suffix can be separated by a separator
+where the prefix and suffix are denoted by a separator
 or delimited in other ways.
-Example labels include
+Example row and column labels include
 
 * "pref -> suff" (separator "->")
-* "pref [suff]" (suffix delimited by '' [" and "]")
-* "(pref) (suff)" (prefix and suffix both surrounded by "(" and ")")
+* "pref [suff]" (suffix delimited by “ [” and “]”)
+* "(pref) (suff)" (prefix and suffix both surrounded by “(” and “)”)
 
 Prefixes are usually the "thing" of interest, e.g.
 an energy carrier ("Coal") or 
@@ -47,10 +68,71 @@ a processing stage in an energy conversion chain
 ("Main activity producer electricity plants"). 
 Suffixes are usually modifiers or metadata about the thing.
 Suffixes can describe the destination of an energy carrier 
-("Light [-> Industry in USA]") .
+("Light [-> Industry in USA]").
 Suffixes can describe the output of a processing stage 
 ("Production [of Coal in ZAR]"). 
 
 
-## Use cases
+## Working with row and column labels
+
+The `RCLabels` package streamlines working with row and column labels.
+
+
+### Notation
+
+`RCLabels` enables creation of notation objects that describe the structure 
+of a row or column label.
+
+```{r}
+# Create a notation object
+my_notation <- notation_vec(pref_start = "(", pref_end = ") ",
+                            suff_start = "[", suff_end = "]")
+# Notation objects are character vectors
+my_notation
+```
+
+Several notation objects are provided for convenience within RCLabels.
+
+```{r}
+arrow_notation
+paren_notation
+bracket_notation
+from_notation
+of_notation
+to_notation
+bracket_arrow_notation
+```
+
+
+### Creating row and column labels
+
+Row and column labels can be created with the `paste_pref_suff()` function
+
+```{r}
+my_label <- paste_pref_suff(pref = "Coal", suff = "from Coal mines in USA", 
+                            notation = my_notation)
+my_label
+```
+
+
+### Manipulating row and column labels
+
+Row and column labels can be manipulated using several helpful functions.
+
+```{r}
+split_pref_suff(my_label, notation = my_notation)
+flip_pref_suff(my_label, notation = my_notation)
+switch_notation(my_label, from = my_notation, to = paren_notation)
+switch_notation(my_label, from = my_notation, to = paren_notation, flip = TRUE)
+```
+
+The prefix or suffix can be extracted from a row or column label.
+
+```{r}
+keep_pref_suff(my_label, keep = "pref", notation = my_notation)
+keep_pref_suff(my_label, keep = "suff", notation = my_notation)
+```
+
+
+
 
