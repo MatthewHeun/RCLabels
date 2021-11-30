@@ -1,21 +1,21 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# PFURCLabels
+# RCLabels
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of PFURCLabels is to …
+The goal of RCLabels is to …
 
 ## Installation
 
-You can install the development version of PFURCLabels from
+You can install the development version of RCLabels from
 [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("MatthewHeun/PFURCLabels")
+devtools::install_github("MatthewHeun/RCLabels")
 ```
 
 ## Example
@@ -23,7 +23,7 @@ devtools::install_github("MatthewHeun/PFURCLabels")
 This is a basic example which shows you how to solve a common problem:
 
 ``` r
-# library(PFURCLabels)
+# library(RCLabels)
 ## basic example code
 ```
 
