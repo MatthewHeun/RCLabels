@@ -17,6 +17,7 @@ RoxygenNote: 7.1.2
 Suggests: 
     knitr,
     rmarkdown,
+    spelling,
     testthat (>= 3.0.0),
     tibble
 Config/testthat/edition: 3
@@ -30,3 +31,4 @@ Depends:
     R (>= 2.10)
 LazyData: true
 VignetteBuilder: knitr
+Language: en-US
