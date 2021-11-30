@@ -1,6 +1,7 @@
 # RCLabels 0.0.1
 
 * First release.
+* Added GitHub pages site.
 * Added a vignette.
 * Added extraction functions. 
 * Added a `NEWS.md` file to track changes to the package.
