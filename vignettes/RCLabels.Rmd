@@ -136,7 +136,27 @@ keep_pref_suff(my_label, keep = "suff", notation = my_notation)
 
 ### Working with multiple row and column labels
 
+The functions in `RCLabels` work with vectors and lists of labels.
 
+```{r}
+labels <- c("a [of b in c]", "d [of e in f]", "g [of h in i]")
+split_pref_suff(labels, notation = bracket_notation)
+```
+
+This feature means that the functions in `RCLabels` can be used on data frames.
+Note that `r `transpose = TRUE` ensures that a single list
+column is created.
+
+```{r}
+df <- tibble::tibble(labels = labels)
+result <- df |> 
+  dplyr::mutate(
+    splitted = split_pref_suff(labels, notation = bracket_notation, transpose = TRUE)
+  )
+result$splitted[[1]]
+result$splitted[[2]]
+result$splitted[[3]]
+```
 
 ## Prepositions
 
