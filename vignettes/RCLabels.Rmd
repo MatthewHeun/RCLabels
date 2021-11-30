@@ -226,6 +226,7 @@ recombine_labels(splitted_labels, notation = paren_notation)
 ## Modifying row and column labels
 
 To modify row and column labels, use one of the `modify_*` functions.
+`modify_nouns()` replaces nouns with other values.
 
 ```{r}
 modify_nouns(labels, 
@@ -234,6 +235,8 @@ modify_nouns(labels,
 ```
 
 To modify other pieces of labels, use the `modify_label_pieces()` function.
+`modify_label_pieces()` enables assigning new values using a "one-to-many" approach
+that enables aggregation.
 
 ```{r}
 modify_label_pieces(labels, 
@@ -247,9 +250,22 @@ modify_label_pieces(labels,
                     notation = bracket_notation)
 modify_label_pieces(labels, 
                     piece = "of", 
-                    mod_map = list(Coal = "b", Oil = c("e", "h")), 
+                    mod_map = list(Coal = "b", `Crude oil` = c("e", "h")), 
                     notation = bracket_notation)
 ```
+
+To eliminate a piece of a label altogether, use the `remove_label_pieces()` function.
+
+```{r}
+remove_label_pieces(labels, 
+                    piece = "in", 
+                    notation = bracket_notation)
+remove_label_pieces(labels, 
+                    piece = c("of", "in"), 
+                    notation = bracket_notation)
+```
+
+With much power comes much responsibility!
 
 
 ## Conclusion
