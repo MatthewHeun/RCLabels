@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # RCLabels
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/MatthewHeun/RCLabels/workflows/R-CMD-check/badge.svg)](https://github.com/MatthewHeun/RCLabels/actions)
 <!-- badges: end -->
 
 The goal of RCLabels is to ...
