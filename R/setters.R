@@ -124,14 +124,16 @@ modify_label_pieces <- function(labels, piece, mod_map,
 #' This function removes a prepositional phrase from
 #' row and column labels.
 #'
-#' @param labels
-#' @param preps
-#' @param notation
+#' @param labels The row and column labels from which prepositional phrases will be removed.
+#' @param prepositions The prepositions whose phrases will be removed.
+#' @param notation The notation used in `labels`.
+#'                 Default is `RCLabels::bracket_notation`.
 #'
-#' @return
+#' @return `labels` with prepositional phrases removed.
+#'
 #' @export
 #'
 #' @examples
-remove_pp <- function(labels, preps, notation = RCLables::bracket_notation) {
+remove_pp <- function(labels, prepositions, notation = RCLables::bracket_notation) {
 
 }
