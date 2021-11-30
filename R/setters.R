@@ -1,23 +1,23 @@
-#' Set nouns in labels
+#' Modify nouns in labels
 #'
-#' This function sets the nouns of row and column labels.
+#' This function modifies the nouns of row and column labels.
 #' The length of `new_nouns` must be the same as the length of `labels`.
 #'
-#' @param labels The row and column labels in which the nouns will be set.
+#' @param labels The row and column labels in which the nouns will be modified.
 #' @param new_nouns The new nouns to be set in `labels`.
 #'                  Must be same length as `labels`.
 #' @param notation The notation used in `labels`.
 #'                 Default is `RCLabels::bracket_notation`.
 #'
 #' @return A character vector of same length as labels
-#'         with `new_nouns`.
+#'         with nouns modified to be `new_nouns`.
 #'
 #' @export
 #'
 #' @examples
 #' labels <- c("a [of b in c]", "d [of e in USA]")
-#' set_nouns(labels, c("a_plus", "g"))
-set_nouns <- function(labels, new_nouns, notation = RCLabels::bracket_notation) {
+#' modify_nouns(labels, c("a_plus", "g"))
+modify_nouns <- function(labels, new_nouns, notation = RCLabels::bracket_notation) {
   num_labels <- length(labels)
   num_new_nouns <- length(new_nouns)
   if (num_labels != num_new_nouns) {
@@ -43,24 +43,56 @@ set_nouns <- function(labels, new_nouns, notation = RCLabels::bracket_notation) 
 #' when they appear as nouns in a row or column label.
 #' See examples for details.
 #'
+#' Typical `piece`s include "noun" or a preposition,
+#' such as "in" or "from".
+#' See `RCLabels::prepositions` for additional examples.
+#' This argument may be a single string or a character vector.
+#'
+#' The `mod_map` argument should consist of a
+#' named list of character vectors in which names indicate
+#' strings to be inserted and values indicate
+#' values that should be replaced.
+#' The sense is `new = old` of `new = olds`,
+#' where "new" is the new name (the replacement) and
+#' "old" and "olds" is/are a string/vector of strings,
+#' any one of which will be replaced by "new".
+#'
 #' @param labels The row and column labels in which pieces will be modified.
 #' @param piece The piece (or pieces) of the row or column label that will be modified.
-#'              Typical examples are "noun" or a preposition,
-#'              such as "in" or "from".
-#'              See `RCLabels::prepositions` for additional examples.
-#'              This argument may be a single string or a character vector.
-#' @param label_map A named list of character vectors in which names indicate
-#'                  strings to be inserted and values indicate
-#'                  values that should be replaced.
+#' @param mod_map A modification map. See details.
+#' @param prepositions A list of prepositions, used to detect prepositional phrases.
+#'                     Default is `RCLabels::prepositions`.
+#' @param notation The notation used in `labels`.
+#'                 Default is `RCLabels::bracket_notation`.
 #'
-#' @return `labels` with replacements according to `piece` and `label_map`.
+#' @return `labels` with replacements according to `piece` and `mod_map`.
 #'
 #' @export
 #'
 #' @examples
-modify_label_pieces <- function(labels, piece, label_map) {
+#' # Simple case
+#' modify_label_pieces("a [of b in c]",
+#'                     piece = "noun",
+#'                     mod_map = list(new_noun = c("a", "b")))
+#' # Works with a vector or list of labels
+#' modify_label_pieces(c("a [of b in c]", "d [-> e in f]"),
+#'                     piece = "noun",
+#'                     mod_map = list(new_noun = c("d", "e")))
+#' # Works with multiple items in the mod_map
+#' modify_label_pieces(c("a [of b in c]", "d [-> e in f]"),
+#'                     piece = "noun",
+#'                     mod_map = list(new_noun1 = c("a", "b", "c"),
+#'                                    new_noun2 = c("d", "e", "f")))
+#' # Works with multiple pieces to be modified
+#' modify_label_pieces(c("a [of b in c]", "d [-> e in f]"),
+#'                     piece = c("noun", "in"),
+#'                     mod_map = list(new_noun = c("a", "b", "c"),
+#'                                    new_in   = c("c", "f")))
+modify_label_pieces <- function(labels, piece, mod_map,
+                                prepositions = RCLabels::prepositions,
+                                notation = RCLabels::bracket_notation) {
   splitted <- labels |>
-    split_labels()
+    split_labels(notation = notation, prepositions = prepositions)
 
   # Loop over everything to modify pieces.
   modified <- lapply(splitted, FUN = function(this_label) {
@@ -69,10 +101,10 @@ modify_label_pieces <- function(labels, piece, label_map) {
       this_piece <- this_label[[i_piece]]
       this_piece_name <- names(this_label[i_piece])
       if (this_piece_name %in% piece) {
-        # Loop over all parts of the label_map
-        for (i_replacement in 1:length(label_map)) {
-          this_replacement <- label_map[[i_replacement]]
-          this_replacement_name <- names(label_map[i_replacement])
+        # Loop over all parts of the mod_map
+        for (i_replacement in 1:length(mod_map)) {
+          this_replacement <- mod_map[[i_replacement]]
+          this_replacement_name <- names(mod_map[i_replacement])
           if (this_piece %in% this_replacement) {
             this_label[[this_piece_name]] <- this_replacement_name
           }
@@ -83,5 +115,5 @@ modify_label_pieces <- function(labels, piece, label_map) {
   })
 
   modified |>
-    recombine_labels()
+    recombine_labels(notation = notation)
 }
