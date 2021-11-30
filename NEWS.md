@@ -1,4 +1,4 @@
-# RCLabels 0.0.1
+# RCLabels 0.0.2
 
 * First release.
 * Added GitHub pages site.
