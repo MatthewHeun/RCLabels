@@ -121,19 +121,46 @@ modify_label_pieces <- function(labels, piece, mod_map,
 
 #' Remove a prepositional phrase in a row or column label
 #'
-#' This function removes a prepositional phrase from
+#' This function removes pieces from
 #' row and column labels.
 #'
 #' @param labels The row and column labels from which prepositional phrases will be removed.
-#' @param prepositions The prepositions whose phrases will be removed.
+#' @param pieces_to_remove The names of pieces of the label to be removed,
+#'                         typically "noun" or a preposition such as "of" or "in"
+#'                         See `RCLabels::prepositions` for a list of known prepositions.
+#' @param prepositions A list of prepositions, used to detect prepositional phrases.
+#'                     Default is `RCLabels::prepositions`.
 #' @param notation The notation used in `labels`.
 #'                 Default is `RCLabels::bracket_notation`.
 #'
-#' @return `labels` with prepositional phrases removed.
+#' @return `labels` with pieces removed.
 #'
 #' @export
 #'
 #' @examples
-remove_pp <- function(labels, prepositions, notation = RCLables::bracket_notation) {
+#' labs <- c("a [of b in c]", "d [-> e in f]")
+#' remove_label_pieces(labs, pieces_to_remove = "of")
+#' remove_label_pieces(labs, pieces_to_remove = c("of", "->"))
+#' remove_label_pieces(labs, pieces_to_remove = c("in", "into"))
+#' remove_label_pieces(labs, pieces_to_remove = c("of", "in"))
+remove_label_pieces <- function(labels,
+                                pieces_to_remove,
+                                prepositions = RCLabels::prepositions,
+                                notation = RCLabels::bracket_notation) {
+  splitted <- labels |>
+    split_labels(notation = notation, prepositions = prepositions)
 
+  for (i_split_label in 1:length(splitted)) {
+    this_split_label <- splitted[[i_split_label]]
+    # Go backwards so as not to mess up indexing when removing pieces.
+    for (i_piece in length(this_split_label):1) {
+      this_split_label_name <- names(this_split_label[i_piece])
+      if (this_split_label_name %in% pieces_to_remove) {
+        this_split_label <- this_split_label[-i_piece]
+      }
+    }
+    splitted[[i_split_label]] <- this_split_label
+  }
+  splitted |>
+    recombine_labels(notation = notation)
 }

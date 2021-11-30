@@ -4,7 +4,12 @@ Version: 0.0.1
 Authors@R: 
     person("Matthew", "Heun", , "matthew.heun@me.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-7438-214X"))
-Description: What the package does (one paragraph).
+Description: This package provides functions to assist with manipulating matrix 
+             row and column labels for all types of matrix mathematics
+             where row and column labels are to be respected.
+             Example applications include economic and energy conversion chain analyses
+             using input-output (IO) analysis or
+             physical supply-use table (PSUT) analysis.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
