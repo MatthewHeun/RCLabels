@@ -115,7 +115,7 @@ my_label
 ```
 
 
-### Manipulating row and column labels
+### Manipulating row and column labels (prefixes and suffixes)
 
 Row and column labels can be manipulated using several helpful functions.
 
@@ -134,9 +134,9 @@ keep_pref_suff(my_label, keep = "suff", notation = my_notation)
 ```
 
 
-### Working with multiple row and column labels
+### Vectors and lists of row and column labels
 
-The functions in `RCLabels` work with vectors and lists of labels.
+The functions in `RCLabels` work with vectors and lists of row and column labels.
 
 ```{r}
 labels <- c("a [of b in c]", "d [of e in f]", "g [of h in i]")
@@ -165,13 +165,21 @@ As discussed above, the prefix is often the "thing" of interest, and
 the remainder of the label (the suffix) modifies the prefix.
 This use case is so common that we introduce additional terms 
 that enable additional functionality.
-The prefix is usually a noun (one or more words), and
-the suffix usually consists of prepositional phrases
-(consisting of a preposition and an object).
+The prefix is usually a _noun_ (one or more words), and
+the suffix usually consists of _prepositional phrases_
+(each consisting of a preposition and an object).
+`RCLabels` includes a list of common prepositions.
+
+```{r}
+prepositions
+```
+
+
+## Working with row and column labels (nouns and prepositions)
+
 `RCLabels` supports the "nouns and prepositions" view
 of row and column labels 
 with several functions.
-
 `get_nouns()` extracts the nouns from a row or column label.
 
 ```{r}
@@ -196,3 +204,50 @@ Note the the objects are named by the preposition of their phrase.
 ```{r}
 get_objects(labels, notation = bracket_notation)
 ```
+
+`split_labels()` breaks labels into nouns and objects with names
+of "noun" and the prepositions.
+
+```{r}
+splitted_labels <- split_labels(labels, 
+                                prepositions = prepositions, 
+                                notation = bracket_notation)
+splitted_labels
+```
+
+Row and column labels that have been split can be recombined.
+
+```{r}
+recombine_labels(splitted_labels, notation = bracket_notation)
+recombine_labels(splitted_labels, notation = paren_notation)
+```
+
+
+## Modifying row and column labels
+
+To modify row and column labels, use one of the `modify_*` functions.
+
+```{r}
+modify_nouns(labels, 
+             new_nouns = c("Coal", "Oil", "Natural gas"), 
+             notation = bracket_notation)
+```
+
+To modify other pieces of labels, use the `modify_label_pieces()` function.
+
+```{r}
+modify_label_pieces(labels, 
+                    piece = "noun", 
+                    mod_map = list(Production = c("a", "b", "c", "d"),
+                                   Manufacture = c("g", "h", "i", "j")), 
+                    notation = bracket_notation)
+modify_label_pieces(labels, 
+                    piece = "in", 
+                    mod_map = list(GHA = "c", ZAF = c("f", "i")), 
+                    notation = bracket_notation)
+modify_label_pieces(labels, 
+                    piece = "of", 
+                    mod_map = list(Coal = "b", Oil = c("e", "h")), 
+                    notation = bracket_notation)
+```
+
