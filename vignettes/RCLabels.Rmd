@@ -158,6 +158,41 @@ result$splitted[[2]]
 result$splitted[[3]]
 ```
 
-## Prepositions
 
+## Nouns and prepositions
 
+As discussed above, the prefix is often the "thing" of interest, and
+the remainder of the label (the suffix) modifies the prefix.
+This use case is so common that we introduce additional terms 
+that enable additional functionality.
+The prefix is usually a noun (one or more words), and
+the suffix usually consists of prepositional phrases
+(consisting of a preposition and an object).
+`RCLabels` supports the "nouns and prepositions" view
+of row and column labels 
+with several functions.
+
+`get_nouns()` extracts the nouns from a row or column label.
+
+```{r}
+get_nouns(labels, notation = bracket_notation)
+```
+
+`get_pps()` extracts prepositional phrases.
+
+```{r}
+get_pps(labels, notation = bracket_notation)
+```
+
+`get_prepositions()` extracts the prepositions themselves.
+
+```{r}
+get_prepositions(labels, notation = bracket_notation)
+```
+
+`get_objects()` returns the objects of those prepositions.
+Note the the objects are named by the preposition of their phrase.
+
+```{r}
+get_objects(labels, notation = bracket_notation)
+```
