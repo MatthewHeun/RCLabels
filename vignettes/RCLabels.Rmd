@@ -251,3 +251,10 @@ modify_label_pieces(labels,
                     notation = bracket_notation)
 ```
 
+
+## Conclusion
+
+The `RCLabels` package streamlines the manipulation of row and column labels 
+for matrices. 
+Applications include input-output analysis in economics and energy conversion chain analysis
+or anywhere row and column labels are important for matrix mathematics.

@@ -117,3 +117,21 @@ modify_label_pieces <- function(labels, piece, mod_map,
   modified |>
     recombine_labels(notation = notation)
 }
+
+
+#' Remove a prepositional phrase in a row or column label
+#'
+#' This function removes a prepositional phrase from
+#' row and column labels.
+#'
+#' @param labels
+#' @param preps
+#' @param notation
+#'
+#' @return
+#' @export
+#'
+#' @examples
+remove_pp <- function(labels, preps, notation = RCLables::bracket_notation) {
+
+}
