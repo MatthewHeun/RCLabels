@@ -214,8 +214,8 @@ get_objects(labels, notation = bracket_notation)
 
 # Split the labels into pieces, named by "noun" and prepositions.
 split_labels <- split_labels(labels, 
-                                prepositions = prepositions, 
-                                notation = bracket_notation)
+                             prepositions = prepositions, 
+                             notation = bracket_notation)
 split_labels
 
 # Recombine split labels.
