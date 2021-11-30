@@ -1,0 +1,56 @@
+---
+title: "RCLabels"
+author: "Matthew Kuperus Heun"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{RCLabels}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, include = FALSE}
+library(RCLabels)
+```
+
+## Introduction
+
+Working with matrices in the `matsbyname` world
+often requires manipulating row and column labels 
+to achieve desired outcomes for matrix manipulation.
+The `RCLabels` package (row and column labels)
+provides convenient tools for manipulating those labels.
+
+
+## Label structure
+
+Row and column labels are always character strings and
+often have a prefix--suffix structure, 
+where the prefix and suffix can be separated by a separator
+or delimited in other ways.
+Example labels include
+
+* "pref -> suff" (separator "->")
+* "pref [suff]" (suffix delimited by '' [" and "]")
+* "(pref) (suff)" (prefix and suffix both surrounded by "(" and ")")
+
+Prefixes are usually the "thing" of interest, e.g.
+an energy carrier ("Coal") or 
+a processing stage in an energy conversion chain
+("Main activity producer electricity plants"). 
+Suffixes are usually modifiers or metadata about the thing.
+Suffixes can describe the destination of an energy carrier 
+("Light [-> Industry in USA]") .
+Suffixes can describe the output of a processing stage 
+("Production [of Coal in ZAR]"). 
+
+
+## Use cases
+
