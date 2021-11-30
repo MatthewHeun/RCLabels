@@ -151,11 +151,11 @@ column is created.
 df <- tibble::tibble(labels = labels)
 result <- df |> 
   dplyr::mutate(
-    splitted = split_pref_suff(labels, notation = bracket_notation, transpose = TRUE)
+    split = split_pref_suff(labels, notation = bracket_notation, transpose = TRUE)
   )
-result$splitted[[1]]
-result$splitted[[2]]
-result$splitted[[3]]
+result$split[[1]]
+result$split[[2]]
+result$split[[3]]
 ```
 
 
@@ -209,17 +209,17 @@ get_objects(labels, notation = bracket_notation)
 of "noun" and the prepositions.
 
 ```{r}
-splitted_labels <- split_labels(labels, 
+split_labels <- split_labels(labels, 
                                 prepositions = prepositions, 
                                 notation = bracket_notation)
-splitted_labels
+split_labels
 ```
 
 Row and column labels that have been split can be recombined.
 
 ```{r}
-recombine_labels(splitted_labels, notation = bracket_notation)
-recombine_labels(splitted_labels, notation = paren_notation)
+recombine_labels(split_labels, notation = bracket_notation)
+recombine_labels(split_labels, notation = paren_notation)
 ```
 
 

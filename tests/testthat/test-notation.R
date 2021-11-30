@@ -138,11 +138,11 @@ test_that("split_pref_suff() works with full notation", {
 
 test_that("split_pref_suff() works in a data frame", {
   df <- data.frame(donottouch = c(1, 2, 3), orig = c("a -> b", "c -> d", "e -> f"))
-  splitted <- df |>
+  split <- df |>
     dplyr::mutate(
       split = RCLabels:::split_pref_suff(orig, notation = arrow_notation, transpose = TRUE)
     )
-  expect_equal(splitted$split, list(list(pref = "a", suff = "b"),
+  expect_equal(split$split, list(list(pref = "a", suff = "b"),
                                     list(pref = "c", suff = "d"),
                                     list(pref = "e", suff = "f")))
 })

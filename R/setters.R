@@ -23,8 +23,8 @@ modify_nouns <- function(labels, new_nouns, notation = RCLabels::bracket_notatio
   if (num_labels != num_new_nouns) {
     stop("The number of labels must equal the number of new nouns in set_nouns()")
   }
-  splitted <- split_labels(labels)
-  mapply(splitted, new_nouns, SIMPLIFY = FALSE, FUN = function(this_split_label, this_new_noun) {
+  split <- split_labels(labels)
+  mapply(split, new_nouns, SIMPLIFY = FALSE, FUN = function(this_split_label, this_new_noun) {
     this_split_label[["noun"]] <- this_new_noun
     this_split_label
   }) |>
@@ -91,11 +91,11 @@ modify_nouns <- function(labels, new_nouns, notation = RCLabels::bracket_notatio
 modify_label_pieces <- function(labels, piece, mod_map,
                                 prepositions = RCLabels::prepositions,
                                 notation = RCLabels::bracket_notation) {
-  splitted <- labels |>
+  split <- labels |>
     split_labels(notation = notation, prepositions = prepositions)
 
   # Loop over everything to modify pieces.
-  modified <- lapply(splitted, FUN = function(this_label) {
+  modified <- lapply(split, FUN = function(this_label) {
     # Loop over each piece in this_label
     for (i_piece in 1:length(this_label)) {
       this_piece <- this_label[[i_piece]]
@@ -147,11 +147,11 @@ remove_label_pieces <- function(labels,
                                 pieces_to_remove,
                                 prepositions = RCLabels::prepositions,
                                 notation = RCLabels::bracket_notation) {
-  splitted <- labels |>
+  split <- labels |>
     split_labels(notation = notation, prepositions = prepositions)
 
-  for (i_split_label in 1:length(splitted)) {
-    this_split_label <- splitted[[i_split_label]]
+  for (i_split_label in 1:length(split)) {
+    this_split_label <- split[[i_split_label]]
     # Go backwards so as not to mess up indexing when removing pieces.
     for (i_piece in length(this_split_label):1) {
       this_split_label_name <- names(this_split_label[i_piece])
@@ -159,8 +159,8 @@ remove_label_pieces <- function(labels,
         this_split_label <- this_split_label[-i_piece]
       }
     }
-    splitted[[i_split_label]] <- this_split_label
+    split[[i_split_label]] <- this_split_label
   }
-  splitted |>
+  split |>
     recombine_labels(notation = notation)
 }
