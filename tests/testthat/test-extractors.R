@@ -84,14 +84,14 @@ test_that("split_labels() works as expected", {
   # Now try in a data frame.
   df <- data.frame(labels = I(list("a [in b]", "c [of d into USA]",
                                    "e [of f in g]", "h [-> i in j]")))
-  splitted <- df |>
+  split <- df |>
     dplyr::mutate(
       splits = split_labels(labels)
     )
-  expect_equal(splitted$splits[[1]], c(noun = "a", `in` = "b"))
-  expect_equal(splitted$splits[[2]], c(noun = "c", of = "d", into = "USA"))
-  expect_equal(splitted$splits[[3]], c(noun = "e", of = "f", `in` = "g"))
-  expect_equal(splitted$splits[[4]], c(noun = "h", `->` = "i", `in` = "j"))
+  expect_equal(split$splits[[1]], c(noun = "a", `in` = "b"))
+  expect_equal(split$splits[[2]], c(noun = "c", of = "d", into = "USA"))
+  expect_equal(split$splits[[3]], c(noun = "e", of = "f", `in` = "g"))
+  expect_equal(split$splits[[4]], c(noun = "h", `->` = "i", `in` = "j"))
 })
 
 

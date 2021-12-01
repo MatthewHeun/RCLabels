@@ -22,10 +22,10 @@ library(RCLabels)
 
 ## Introduction
 
-Working with matrices in the `matsbyname` world
+Working with matrices
 often requires manipulating row and column labels 
-to achieve desired outcomes for matrix manipulation.
-The `RCLabels` package (row and column labels)
+to achieve desired outcomes for matrix mathematics.
+The `RCLabels` package (Row and Column Labels)
 provides convenient tools for manipulating those labels.
 
 
@@ -33,27 +33,28 @@ provides convenient tools for manipulating those labels.
 
 Two applications of matrix mathematics are 
 input-output analysis in economics and
-the physical supply use table (PSUT) structure 
-of energy conversion chain (ECC) analysis.
+physical supply-use table (PSUT) matrices 
+for energy conversion chain (ECC) analysis.
 In those contexts, 
 row and column labels describe processing stages or
 flows of goods or services between processing stages.
 Row and column labels can benefit those applications,
 ensuring that like quantities are added, subtracted, multiplied, or divided, etc.,
-provided that row and column labels are respected.
+provided that row and column labels are respected
+during matrix operations.
 
 One package that respects row and column labels is `matsbyname`,
 thereby making economic and ECC input-output analyses easier.
 Easy manipulation of row and column labels
-is an enabling capability.
+is, therefore, an enabling capability for using the `matsbyname` package.
 This package (`RCLabels`) provides easy manipulation of row and column labels.
-In fact, the `matsbyname` packages uses functions from `RCLabels` internally.
+In fact, the `matsbyname` package uses `RCLabels` functions internally.
 
 
 ## Label structure
 
-Row and column labels are always character strings and
-often have a prefix--suffix structure, 
+Row and column labels are always character strings, 
+often with a prefix--suffix structure, 
 where the prefix and suffix are denoted by a separator
 or delimited in other ways.
 Example row and column labels include
@@ -66,7 +67,7 @@ Prefixes are usually the "thing" of interest, e.g.
 an energy carrier ("Coal") or 
 a processing stage in an energy conversion chain
 ("Main activity producer electricity plants"). 
-Suffixes are usually modifiers or metadata about the thing.
+Suffixes are usually modifiers or metadata about the thing (the prefix).
 Suffixes can describe the destination of an energy carrier 
 ("Light [-> Industry in USA]").
 Suffixes can describe the output of a processing stage 
@@ -81,13 +82,15 @@ The `RCLabels` package streamlines working with row and column labels.
 ### Notation
 
 `RCLabels` enables creation of notation objects that describe the structure 
-of a row or column label.
+of a row or column label
+via the `notation_vec()` function.
 
 ```{r}
-# Create a notation object
+# Create a notation object.
 my_notation <- notation_vec(pref_start = "(", pref_end = ") ",
                             suff_start = "[", suff_end = "]")
-# Notation objects are character vectors
+
+# Notation objects are character vectors.
 my_notation
 ```
 
@@ -102,6 +105,12 @@ of_notation
 to_notation
 bracket_arrow_notation
 ```
+
+Note that identical `pref_end` and `suff_start` values
+(as shown in all notations above)
+are interpreted as a single delimiter throughout the `RCLables` package.
+Empty strings (`""`) mean that no indication is given
+for the start or end of a prefix or suffix.
 
 
 ### Creating row and column labels
@@ -120,9 +129,16 @@ my_label
 Row and column labels can be manipulated using several helpful functions.
 
 ```{r}
+# Split the prefix from the suffix to obtain a named list of strings.
 split_pref_suff(my_label, notation = my_notation)
+
+# Flip the prefix and suffix, maintaining the same notation.
 flip_pref_suff(my_label, notation = my_notation)
+
+# Change the notation.
 switch_notation(my_label, from = my_notation, to = paren_notation)
+
+# Change the notation and flip the prefix and suffix.
 switch_notation(my_label, from = my_notation, to = paren_notation, flip = TRUE)
 ```
 
@@ -140,22 +156,26 @@ The functions in `RCLabels` work with vectors and lists of row and column labels
 
 ```{r}
 labels <- c("a [of b in c]", "d [of e in f]", "g [of h in i]")
+labels
+
 split_pref_suff(labels, notation = bracket_notation)
 ```
 
 This feature means that the functions in `RCLabels` can be used on data frames.
-Note that `r `transpose = TRUE` ensures that a single list
+Note that `transpose = TRUE` ensures that a single list
 column is created.
 
 ```{r}
+labels
+
 df <- tibble::tibble(labels = labels)
 result <- df |> 
   dplyr::mutate(
-    splitted = split_pref_suff(labels, notation = bracket_notation, transpose = TRUE)
+    split = split_pref_suff(labels, notation = bracket_notation, transpose = TRUE)
   )
-result$splitted[[1]]
-result$splitted[[2]]
-result$splitted[[3]]
+result$split[[1]]
+result$split[[2]]
+result$split[[3]]
 ```
 
 
@@ -183,43 +203,32 @@ with several functions.
 `get_nouns()` extracts the nouns from a row or column label.
 
 ```{r}
+labels
+
+# Extract the nouns.
 get_nouns(labels, notation = bracket_notation)
-```
 
-`get_pps()` extracts prepositional phrases.
-
-```{r}
+# Extract the prepositional phrases.
 get_pps(labels, notation = bracket_notation)
-```
 
-`get_prepositions()` extracts the prepositions themselves.
-
-```{r}
+# Extract the prepositions themselves.
 get_prepositions(labels, notation = bracket_notation)
-```
 
-`get_objects()` returns the objects of those prepositions.
-Note the the objects are named by the preposition of their phrase.
-
-```{r}
+# Extract the objects of the prepositions.
+# Objects are named by the preposition of their phrase.
 get_objects(labels, notation = bracket_notation)
-```
 
-`split_labels()` breaks labels into nouns and objects with names
-of "noun" and the prepositions.
+# Split the labels into pieces, named by "noun" and prepositions.
+split_labels <- split_labels(labels, 
+                             prepositions = prepositions, 
+                             notation = bracket_notation)
+split_labels
 
-```{r}
-splitted_labels <- split_labels(labels, 
-                                prepositions = prepositions, 
-                                notation = bracket_notation)
-splitted_labels
-```
+# Recombine split labels.
+recombine_labels(split_labels, notation = bracket_notation)
 
-Row and column labels that have been split can be recombined.
-
-```{r}
-recombine_labels(splitted_labels, notation = bracket_notation)
-recombine_labels(splitted_labels, notation = paren_notation)
+# Recombine with a new notation.
+recombine_labels(split_labels, notation = paren_notation)
 ```
 
 
@@ -228,28 +237,62 @@ recombine_labels(splitted_labels, notation = paren_notation)
 To modify row and column labels, use one of the `modify_*` functions.
 
 ```{r}
+labels
+
+# Set new values for nouns.
 modify_nouns(labels, 
              new_nouns = c("Coal", "Oil", "Natural gas"), 
              notation = bracket_notation)
 ```
 
 To modify other pieces of labels, use the `modify_label_pieces()` function.
+`modify_label_pieces()` enables assigning new values using a "one-to-many" approach
+that enables aggregation.
 
 ```{r}
+labels
+
+# Change nouns in several labels to "Production" and "Manufacture",
+# as indicated by the modification map.
 modify_label_pieces(labels, 
                     piece = "noun", 
                     mod_map = list(Production = c("a", "b", "c", "d"),
                                    Manufacture = c("g", "h", "i", "j")), 
                     notation = bracket_notation)
+
+# Change the objects of the "in" preposition, 
+# according to the modification map.
 modify_label_pieces(labels, 
                     piece = "in", 
                     mod_map = list(GHA = "c", ZAF = c("f", "i")), 
                     notation = bracket_notation)
+
+# Change the objects of "of" prepositions,
+# according to the modification map.
 modify_label_pieces(labels, 
                     piece = "of", 
-                    mod_map = list(Coal = "b", Oil = c("e", "h")), 
+                    mod_map = list(Coal = "b", `Crude oil` = c("e", "h")), 
                     notation = bracket_notation)
 ```
+
+To eliminate a piece of a label altogether, use the `remove_label_pieces()` function.
+
+```{r}
+labels
+
+# Eliminate all of the prepositional phrases that begin with "in".
+remove_label_pieces(labels, 
+                    piece = "in", 
+                    notation = bracket_notation)
+
+# Eliminate all of the prepositional phrases that begin with "of" and "in".
+# Note that some spaces remain.
+remove_label_pieces(labels, 
+                    piece = c("of", "in"), 
+                    notation = bracket_notation)
+```
+
+With much power comes much responsibility!
 
 
 ## Conclusion

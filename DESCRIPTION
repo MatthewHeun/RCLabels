@@ -1,10 +1,15 @@
 Package: RCLabels
 Title: Manipulate Matrix Row and Column Labels With Ease
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: 
     person("Matthew", "Heun", , "matthew.heun@me.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-7438-214X"))
-Description: What the package does (one paragraph).
+Description: This package provides functions to assist with manipulating matrix 
+             row and column labels for all types of matrix mathematics
+             where row and column labels are to be respected.
+             Example applications include economic and energy conversion chain analyses
+             using input-output (IO) analysis or
+             physical supply-use table (PSUT) analysis.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -12,6 +17,7 @@ RoxygenNote: 7.1.2
 Suggests: 
     knitr,
     rmarkdown,
+    spelling,
     testthat (>= 3.0.0),
     tibble
 Config/testthat/edition: 3
@@ -25,3 +31,4 @@ Depends:
     R (>= 2.10)
 LazyData: true
 VignetteBuilder: knitr
+Language: en-US

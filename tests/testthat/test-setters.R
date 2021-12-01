@@ -78,3 +78,16 @@ test_that("modify_label_pieces() works with 2x mod_map", {
                                                     new_noun2 = c("d", "e", "f"))),
                c("new_noun1 [of b in c]", "new_noun2 [-> e in f]"))
 })
+
+
+test_that("remove_pp() works as expected", {
+  labs <- c("a [of b in c]", "d [-> e in f]")
+  expect_equal(remove_label_pieces(labs, pieces_to_remove = "of"),
+               c("a [in c]", "d [-> e in f]"))
+  expect_equal(remove_label_pieces(labs, pieces_to_remove = c("of", "->")),
+               c("a [in c]", "d [in f]"))
+  expect_equal(remove_label_pieces(labs, pieces_to_remove = c("in", "into")),
+               c("a [of b]", "d [-> e]"))
+  expect_equal(remove_label_pieces(labs, pieces_to_remove = c("of", "in")),
+               c("a [ ]", "d [-> e]"))
+})
