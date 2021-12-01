@@ -4,7 +4,7 @@ output: html_document
 ---
 
 
-
+* Added code coverage.
 * Added automated spell checking to the package.
 
 
@@ -20,3 +20,7 @@ output: html_document
     * 156 tests, all passing.
     * Test coverage is at 100 %.
 
+
+# RCLabels 0.0.1
+
+* First commit.
