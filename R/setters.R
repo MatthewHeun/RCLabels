@@ -52,7 +52,7 @@ modify_nouns <- function(labels, new_nouns, notation = RCLabels::bracket_notatio
 #' named list of character vectors in which names indicate
 #' strings to be inserted and values indicate
 #' values that should be replaced.
-#' The sense is `new = old` of `new = olds`,
+#' The sense is `new = old` or `new = olds`,
 #' where "new" is the new name (the replacement) and
 #' "old" and "olds" is/are a string/vector of strings,
 #' any one of which will be replaced by "new".

@@ -11,12 +11,12 @@
 #'
 #' \code{pattern_type} controls the type of pattern created:
 #' \itemize{
-#'   \item{`exact` produces a pregex attern that selects row or column names by exact match.}
+#'   \item{`exact` produces a regex pattern that selects row or column names by exact match.}
 #'   \item{`leading` produces a regex pattern that selects row or column names if the item in `strings` matches
 #'         the beginnings of row or column names.}
 #'   \item{`trailing` produces a regex pattern that selects row or column names if the item in `strings` matches
 #'         the ends of row or column names.}
-#'   \item{`anywhere` produces a tegex pattern that selects row or column names if the item in `strings` matches
+#'   \item{`anywhere` produces a regex pattern that selects row or column names if the item in `strings` matches
 #'         any substring of row or column names.}
 #'   \item{`literal` returns `strings` unmodified, and it is up to the caller to formulate a correct regex.}
 #' }
