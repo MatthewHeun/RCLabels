@@ -106,6 +106,12 @@ to_notation
 bracket_arrow_notation
 ```
 
+Note that identical `pref_end` and `suff_start` values
+(as shown in all notations above)
+are interpreted as a single delimiter throughout the `RCLables` package.
+Empty strings (`""`) mean that no indication is given
+for the start or end of a prefix or suffix.
+
 
 ### Creating row and column labels
 
