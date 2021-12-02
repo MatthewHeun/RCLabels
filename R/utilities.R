@@ -47,3 +47,8 @@ make_or_pattern <- function(strings, pattern_type = c("exact", "leading", "trail
   }
   paste0(out, collapse = "|")
 }
+
+
+match_pattern <- function(labels, regex_pattern, pieces, notation = RCLabels::arrow_notation) {
+
+}
