@@ -49,6 +49,76 @@ make_or_pattern <- function(strings, pattern_type = c("exact", "leading", "trail
 }
 
 
-match_pattern <- function(labels, regex_pattern, pieces, notation = RCLabels::arrow_notation) {
+#' Tell whether row or column labels match a regular expression
+#'
+#' This function tells whether row or column labels
+#' match a regular expression.
+#' Internally, `grepl()` decides whether a match occurs.
+#'
+#' By default (`pieces = "all`), complete labels (as strings) are checked for matches.
+#' If `pieces == "pref"` or `pieces == "suff"`,
+#' only the prefix or the suffix is checked for matches.
+#' Alternatively, `pieces = "noun"` or `pieces = <<preposition>>` indicate
+#' that only specific pieces of labels are to be checked for matches.
+#'
+#' @param labels The row and column labels in which pieces will be modified.
+#' @param regex_pattern The regular expression pattern to determine matches.
+#'                      `regex_pattern` is escaped internally using
+#'                      `Hmisc::escapeRegex()`.
+#' @param piece The piece (or pieces) of row or column labels to be checked for matches.
+#'              See details.
+#' @param notation The notation used in `labels`.
+#'                 Default is `RCLabels::bracket_notation`.
+#' @param ... Other arguments passed to `grepl()`, such as `ignore.case`, `perl`, `fixed`,
+#'            or `useBytes`.
+#'            See examples.
+#'
+#' @return A logical vector of same length as `labels`,
+#'         where `TRUE` indicates a match was found and `FALSE` indicates otherwise.
+#' @export
+#'
+#' @examples
+match_pattern <- function(labels, regex_pattern, pieces = "all", notation = RCLabels::bracket_notation, ...) {
+  if (pieces == "all") {
+    return(grepl(pattern = regex_pattern, x = labels, ...))
+  }
+
+  if (pieces == "pref") {
+    return(grepl(pattern = regex_pattern, x = keep_pref_suff(labels, keep = "pref", notation = notation), ...))
+  }
+
+  if (pieces == "suff") {
+    return(grepl(pattern = regex_pattern, x = keep_pref_suff(labels, keep = "suff", notation = notation), ...))
+  }
+
+
+
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

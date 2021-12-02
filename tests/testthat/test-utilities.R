@@ -1,4 +1,4 @@
-test_that("make_pattern() works as expected", {
+test_that("make_or_pattern() works as expected", {
   expect_equal(make_or_pattern(c("a", "b")), "^a$|^b$")
   expect_equal(make_or_pattern(c("a", "b"), pattern_type = "exact"), "^a$|^b$")
   expect_equal(make_or_pattern(c("a", "b"), pattern_type = "leading"), "^a|^b")
@@ -17,4 +17,51 @@ test_that('prepositions make good "or" patterns', {
   expect_equal(attr(res[[1]], which = "match.length"), 2)
   expect_equal(attr(res[[2]], which = "match.length"), 4)
   expect_equal(attr(res[[3]], which = "match.length"), 2)
+})
+
+
+test_that("match_pattern() works as expected for string matches", {
+  labels <- c("Production [of b in c]", "d [of Coal in f]", "g [of h in USA]")
+  # Simple matching
+  expect_equal(match_pattern(labels,
+                             regex_pattern = "Production"),
+               c(TRUE, FALSE, FALSE))
+  expect_equal(match_pattern(labels,
+                             regex_pattern = "Coal"),
+               c(FALSE, TRUE, FALSE))
+  expect_equal(match_pattern(labels,
+                             regex_pattern = "USA"),
+               c(FALSE, FALSE, TRUE))
+
+  # Check word positions
+  expect_equal(match_pattern(labels,
+                             regex_pattern = "^Production"),
+               c(TRUE, FALSE, FALSE))
+  # This should fail, because Production is at the start of the first string,
+  # not the end of a string.
+  expect_equal(match_pattern(labels,
+                             regex_pattern = "Production$"),
+               c(FALSE, FALSE, FALSE))
+})
+
+
+test_that("match_pattern() works for prefixes and suffixes", {
+  # This should work, because "Production" is in the prefix.
+  expect_equal(match_pattern(labels,
+                             regex_pattern = "Production",
+                             pieces = "pref"),
+               c(TRUE, FALSE, FALSE))
+
+  # This should fail, because "Production" is not in the suffix.
+  expect_equal(match_pattern(labels,
+                             regex_pattern = "Production",
+                             pieces = "suff"),
+               c(FALSE, FALSE, FALSE))
+
+  # This should pass, because "Production" is a noun.
+  expect_equal(match_pattern(labels,
+                             regex_pattern = "Production",
+                             pieces = "noun"),
+               c(TRUE, FALSE, FALSE))
+
 })
