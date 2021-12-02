@@ -31,12 +31,12 @@ constructing patterns for row and column selections with
 \details{
 \code{pattern_type} controls the type of pattern created:
 \itemize{
-\item{\code{exact} produces a pregex attern that selects row or column names by exact match.}
+\item{\code{exact} produces a regex pattern that selects row or column names by exact match.}
 \item{\code{leading} produces a regex pattern that selects row or column names if the item in \code{strings} matches
 the beginnings of row or column names.}
 \item{\code{trailing} produces a regex pattern that selects row or column names if the item in \code{strings} matches
 the ends of row or column names.}
-\item{\code{anywhere} produces a tegex pattern that selects row or column names if the item in \code{strings} matches
+\item{\code{anywhere} produces a regex pattern that selects row or column names if the item in \code{strings} matches
 any substring of row or column names.}
 \item{\code{literal} returns \code{strings} unmodified, and it is up to the caller to formulate a correct regex.}
 }

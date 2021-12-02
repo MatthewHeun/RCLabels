@@ -23,3 +23,8 @@ You can install the development version of RCLabels from
 # install.packages("devtools")
 devtools::install_github("MatthewHeun/RCLabels")
 ```
+
+## More Information
+
+Find more information, including vignettes and function documentation,
+at <https://MatthewHeun.github.io/RCLabels/>.
