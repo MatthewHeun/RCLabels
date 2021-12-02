@@ -4,8 +4,13 @@ output: html_document
 ---
 
 
+# RCLabels 0.0.3
+
 * Added code coverage.
 * Added automated spell checking to the package.
+* No new tests.
+    * 156 tests, all passing.
+    * Test coverage remains at 100 %.
 
 
 # RCLabels 0.0.2
