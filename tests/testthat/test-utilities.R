@@ -46,6 +46,7 @@ test_that("match_pattern() works as expected for string matches", {
 
 
 test_that("match_pattern() works for prefixes and suffixes", {
+  labels <- c("Production [of b in c]", "d [of Coal in f]", "g [of h in USA]")
   # This should work, because "Production" is in the prefix.
   expect_equal(match_pattern(labels,
                              regex_pattern = "Production",

@@ -63,8 +63,8 @@ make_or_pattern <- function(strings, pattern_type = c("exact", "leading", "trail
 #'
 #' @param labels The row and column labels in which pieces will be modified.
 #' @param regex_pattern The regular expression pattern to determine matches.
-#'                      `regex_pattern` is escaped internally using
-#'                      `Hmisc::escapeRegex()`.
+#'                      Consider using `Hmisc::escapeRegex()` to escape `regex_pattern`
+#'                      before calling this function.
 #' @param piece The piece (or pieces) of row or column labels to be checked for matches.
 #'              See details.
 #' @param notation The notation used in `labels`.
@@ -78,7 +78,11 @@ make_or_pattern <- function(strings, pattern_type = c("exact", "leading", "trail
 #' @export
 #'
 #' @examples
-match_pattern <- function(labels, regex_pattern, pieces = "all", notation = RCLabels::bracket_notation, ...) {
+match_pattern <- function(labels,
+                          regex_pattern,
+                          pieces = "all",
+                          prepositions = RCLabels::prepositions,
+                          notation = RCLabels::bracket_notation, ...) {
   if (pieces == "all") {
     return(grepl(pattern = regex_pattern, x = labels, ...))
   }
@@ -91,15 +95,17 @@ match_pattern <- function(labels, regex_pattern, pieces = "all", notation = RCLa
     return(grepl(pattern = regex_pattern, x = keep_pref_suff(labels, keep = "suff", notation = notation), ...))
   }
 
+  # At this point, assume that pieces is a preposition.
+  keepers <- split_labels(labels, prepositions = prepositions, notation = notation) |>
+    lapply(FUN = function(this_split_label) {
+      this_split_label[pieces]
+    })
 
-
+  sapply(keepers, FUN = function(this_keeper) {
+    grepl(pattern = regex_pattern,  x = this_keeper, ...)
+  })
 
 }
-
-
-
-
-
 
 
 

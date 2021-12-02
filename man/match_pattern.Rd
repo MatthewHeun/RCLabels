@@ -8,6 +8,7 @@ match_pattern(
   labels,
   regex_pattern,
   pieces = "all",
+  prepositions = RCLabels::prepositions,
   notation = RCLabels::bracket_notation,
   ...
 )
@@ -16,8 +17,8 @@ match_pattern(
 \item{labels}{The row and column labels in which pieces will be modified.}
 
 \item{regex_pattern}{The regular expression pattern to determine matches.
-\code{regex_pattern} is escaped internally using
-\code{Hmisc::escapeRegex()}.}
+Consider using \code{Hmisc::escapeRegex()} to escape \code{regex_pattern}
+before calling this function.}
 
 \item{notation}{The notation used in \code{labels}.
 Default is \code{RCLabels::bracket_notation}.}
