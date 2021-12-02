@@ -79,7 +79,7 @@ matsbyname::select_rows_byname() and matsbyname::select_cols_byname()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RCLabels</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
       </span>
     </div>
 
@@ -157,12 +157,12 @@ Amenable for use with <code><a href='https://rdrr.io/pkg/matsbyname/man/select_r
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><code>pattern_type</code> controls the type of pattern created:</p><ul>
-<li><p><code>exact</code> produces a pregex attern that selects row or column names by exact match.</p></li>
+<li><p><code>exact</code> produces a regex pattern that selects row or column names by exact match.</p></li>
 <li><p><code>leading</code> produces a regex pattern that selects row or column names if the item in <code>strings</code> matches
 the beginnings of row or column names.</p></li>
 <li><p><code>trailing</code> produces a regex pattern that selects row or column names if the item in <code>strings</code> matches
 the ends of row or column names.</p></li>
-<li><p><code>anywhere</code> produces a tegex pattern that selects row or column names if the item in <code>strings</code> matches
+<li><p><code>anywhere</code> produces a regex pattern that selects row or column names if the item in <code>strings</code> matches
 any substring of row or column names.</p></li>
 <li><p><code>literal</code> returns <code>strings</code> unmodified, and it is up to the caller to formulate a correct regex.</p></li>
 </ul>
