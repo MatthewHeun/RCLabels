@@ -49,30 +49,37 @@ make_or_pattern <- function(strings, pattern_type = c("exact", "leading", "trail
 }
 
 
-#' Tell whether row or column labels match a regular expression
+#' Find or replace row or column labels that match a regular expression
 #'
-#' This function tells whether row or column labels
+#' `match_by_pattern()` tells whether row or column labels
 #' match a regular expression.
 #' Internally, `grepl()` decides whether a match occurs.
+#' `replace_by_pattern()` replaces portions of row of column labels
+#' when a regular expression is matched.
+#' Internally, `gsub()` performs the replacements.
 #'
-#' By default (`pieces = "all"`), complete labels (as strings) are checked for matches.
+#' By default (`pieces = "all"`), complete labels (as strings) are checked for matches
+#' and replacements.
 #' If `pieces == "pref"` or `pieces == "suff"`,
-#' only the prefix or the suffix is checked for matches.
+#' only the prefix or the suffix is checked for matches and replacements.
 #' Alternatively, `pieces = "noun"` or `pieces = <<preposition>>` indicate
-#' that only specific pieces of labels are to be checked for matches.
+#' that only specific pieces of labels are to be checked for matches and replacements.
 #' When `pieces = <<preposition>>`, only the object of `<<preposition>>` is
-#' checked for matches.
+#' checked for matches and replacement.
 #'
-#' `pieces` can be a vector, indicating multiple pieces to be checked for matches.
-#' But if any of the `pieces` are "all", all pieces are checked.
+#' `pieces` can be a vector, indicating multiple pieces to be checked for matches
+#' and replacements.
+#' But if any of the `pieces` are "all", all pieces are checked and replaced.
 #' If `pieces` is "pref" or "suff", only one can be specified.
 #'
 #'
-#' @param labels The row and column labels in which pieces will be modified.
-#' @param regex_pattern The regular expression pattern to determine matches.
+#' @param labels The row and column labels to be modified.
+#' @param regex_pattern The regular expression pattern to determine matches and replacements.
 #'                      Consider using `Hmisc::escapeRegex()` to escape `regex_pattern`
 #'                      before calling this function.
-#' @param pieces The pieces of row or column labels to be checked for matches.
+#' @param replacement For `replace_by_pattern()`, the string that replaces
+#'                    all matches to `regex_pattern`.
+#' @param pieces The pieces of row or column labels to be checked for matches or replacements.
 #'               See details.
 #' @param prepositions A vector of strings that count as prepositions.
 #'                     Default is `RCLabels::prepositions`.
@@ -80,13 +87,13 @@ make_or_pattern <- function(strings, pattern_type = c("exact", "leading", "trail
 #'                     if `pieces` are to be interpreted as prepositions.
 #' @param notation The notation used in `labels`.
 #'                 Default is `RCLabels::bracket_notation`.
-#' @param ... Other arguments passed to `grepl()`, such as `ignore.case`, `perl`, `fixed`,
+#' @param ... Other arguments passed to `grepl()` or `gsub()`,
+#'            such as `ignore.case`, `perl`, `fixed`,
 #'            or `useBytes`.
 #'            See examples.
 #'
 #' @return A logical vector of same length as `labels`,
 #'         where `TRUE` indicates a match was found and `FALSE` indicates otherwise.
-#' @export
 #'
 #' @examples
 #' labels <- c("Production [of b in c]", "d [of Coal in f]", "g [of h in USA]")
@@ -102,11 +109,18 @@ make_or_pattern <- function(strings, pattern_type = c("exact", "leading", "trail
 #' match_by_pattern(labels, regex_pattern = "Production", pieces = "noun")
 #' # Gives FALSE, because "Production" is a noun.
 #' match_by_pattern(labels, regex_pattern = "Production", pieces = "in")
+#' @name regex_funcs
+NULL
+
+
+#' @export
+#' @rdname regex_funcs
 match_by_pattern <- function(labels,
-                          regex_pattern,
-                          pieces = "all",
-                          prepositions = RCLabels::prepositions,
-                          notation = RCLabels::bracket_notation, ...) {
+                             regex_pattern,
+                             pieces = "all",
+                             prepositions = RCLabels::prepositions,
+                             notation = RCLabels::bracket_notation,
+                             ...) {
 
   if ("all" %in% pieces) {
     return(grepl(pattern = regex_pattern, x = labels, ...))
@@ -140,10 +154,45 @@ match_by_pattern <- function(labels,
 }
 
 
+#' @export
+#' @rdname regex_funcs
+replace_by_pattern <- function(labels,
+                               regex_pattern,
+                               replacement,
+                               pieces = "all",
+                               propostiions = RCLabels::prepositions,
+                               notation = RCLabels::bracket_notation,
+                               ...) {
+  if ("all" %in% pieces) {
+    return(gsub(pattern = regex_pattern, replacement = replacement, x = labels, ...))
+  }
 
+  if ("pref" %in% pieces | "suff" %in% pieces) {
+    # Ensure the length is 1
+    if (length(pieces) != 1) {
+      stop(paste0('If pieces contains "pref" or "suff", its length must be 1. Length was ', length(pieces), '.'))
+    }
+    if (pieces == "pref") {
+      return(grepl(pattern = regex_pattern, x = keep_pref_suff(labels, keep = "pref", notation = notation), ...))
+    }
 
+    if (pieces == "suff") {
+      return(grepl(pattern = regex_pattern, x = keep_pref_suff(labels, keep = "suff", notation = notation), ...))
+    }
+  }
 
+  # At this point, treat pieces as specifying a noun or prepositions.
+  keepers <- split_labels(labels, prepositions = prepositions, notation = notation) |>
+    lapply(FUN = function(this_split_label) {
+      this_split_label[pieces]
+    })
 
+  sapply(keepers, FUN = function(this_keeper) {
+    grepl(pattern = regex_pattern,  x = this_keeper, ...) |>
+      # any() takes care of multiple pieces.
+      any(na.rm = TRUE)
+  })
+}
 
 
 
