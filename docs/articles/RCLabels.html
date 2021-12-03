@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RCLabels</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.3</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../articles/RCLabels.html">Get started</a>
 </li>
@@ -63,13 +59,13 @@
 
       
 
-      </header><script src="RCLabels_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>RCLabels</h1>
-                        <h4 class="author">Matthew Kuperus Heun</h4>
+                        <h4 data-toc-skip class="author">Matthew Kuperus Heun</h4>
             
-            <h4 class="date">2021-12-02</h4>
+            <h4 data-toc-skip class="date">2021-12-03</h4>
       
       
       <div class="hidden name"><code>RCLabels.Rmd</code></div>
@@ -78,20 +74,20 @@
 
     
     
-<div id="introduction" class="section level2">
-<h2 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h2>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
 <p>Working with matrices often requires manipulating row and column labels to achieve desired outcomes for matrix mathematics. The <code>RCLabels</code> package (Row and Column Labels) provides convenient tools for manipulating those labels.</p>
 </div>
-<div id="use-cases" class="section level2">
-<h2 class="hasAnchor">
-<a href="#use-cases" class="anchor"></a>Use cases</h2>
+<div class="section level2">
+<h2 id="use-cases">Use cases<a class="anchor" aria-label="anchor" href="#use-cases"></a>
+</h2>
 <p>Two applications of matrix mathematics are input-output analysis in economics and physical supply-use table (PSUT) matrices for energy conversion chain (ECC) analysis. In those contexts, row and column labels describe processing stages or flows of goods or services between processing stages. Row and column labels can benefit those applications, ensuring that like quantities are added, subtracted, multiplied, or divided, etc., provided that row and column labels are respected during matrix operations.</p>
 <p>One package that respects row and column labels is <code>matsbyname</code>, thereby making economic and ECC input-output analyses easier. Easy manipulation of row and column labels is, therefore, an enabling capability for using the <code>matsbyname</code> package. This package (<code>RCLabels</code>) provides easy manipulation of row and column labels. In fact, the <code>matsbyname</code> package uses <code>RCLabels</code> functions internally.</p>
 </div>
-<div id="label-structure" class="section level2">
-<h2 class="hasAnchor">
-<a href="#label-structure" class="anchor"></a>Label structure</h2>
+<div class="section level2">
+<h2 id="label-structure">Label structure<a class="anchor" aria-label="anchor" href="#label-structure"></a>
+</h2>
 <p>Row and column labels are always character strings, often with a prefix–suffix structure, where the prefix and suffix are denoted by a separator or delimited in other ways. Example row and column labels include</p>
 <ul>
 <li>“pref -&gt; suff” (separator “-&gt;”)</li>
@@ -100,13 +96,13 @@
 </ul>
 <p>Prefixes are usually the “thing” of interest, e.g. an energy carrier (“Coal”) or a processing stage in an energy conversion chain (“Main activity producer electricity plants”). Suffixes are usually modifiers or metadata about the thing (the prefix). Suffixes can describe the destination of an energy carrier (“Light [-&gt; Industry in USA]”). Suffixes can describe the output of a processing stage (“Production [of Coal in ZAR]”).</p>
 </div>
-<div id="working-with-row-and-column-labels" class="section level2">
-<h2 class="hasAnchor">
-<a href="#working-with-row-and-column-labels" class="anchor"></a>Working with row and column labels</h2>
+<div class="section level2">
+<h2 id="working-with-row-and-column-labels">Working with row and column labels<a class="anchor" aria-label="anchor" href="#working-with-row-and-column-labels"></a>
+</h2>
 <p>The <code>RCLabels</code> package streamlines working with row and column labels.</p>
-<div id="notation" class="section level3">
-<h3 class="hasAnchor">
-<a href="#notation" class="anchor"></a>Notation</h3>
+<div class="section level3">
+<h3 id="notation">Notation<a class="anchor" aria-label="anchor" href="#notation"></a>
+</h3>
 <p><code>RCLabels</code> enables creation of notation objects that describe the structure of a row or column label via the <code><a href="../reference/row-col-notation.html">notation_vec()</a></code> function.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create a notation object.</span>
@@ -142,9 +138,9 @@
 <span class="co">#&gt;         ""    " [-&gt; "    " [-&gt; "        "]"</span></code></pre></div>
 <p>Note that identical <code>pref_end</code> and <code>suff_start</code> values (as shown in all notations above) are interpreted as a single delimiter throughout the <code>RCLables</code> package. Empty strings (<code>""</code>) mean that no indication is given for the start or end of a prefix or suffix.</p>
 </div>
-<div id="creating-row-and-column-labels" class="section level3">
-<h3 class="hasAnchor">
-<a href="#creating-row-and-column-labels" class="anchor"></a>Creating row and column labels</h3>
+<div class="section level3">
+<h3 id="creating-row-and-column-labels">Creating row and column labels<a class="anchor" aria-label="anchor" href="#creating-row-and-column-labels"></a>
+</h3>
 <p>Row and column labels can be created with the <code><a href="../reference/row-col-notation.html">paste_pref_suff()</a></code> function</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_label</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/row-col-notation.html">paste_pref_suff</a></span><span class="op">(</span>pref <span class="op">=</span> <span class="st">"Coal"</span>, suff <span class="op">=</span> <span class="st">"from Coal mines in USA"</span>, 
@@ -152,9 +148,9 @@
 <span class="va">my_label</span>
 <span class="co">#&gt; [1] "(Coal) [from Coal mines in USA]"</span></code></pre></div>
 </div>
-<div id="manipulating-row-and-column-labels-prefixes-and-suffixes" class="section level3">
-<h3 class="hasAnchor">
-<a href="#manipulating-row-and-column-labels-prefixes-and-suffixes" class="anchor"></a>Manipulating row and column labels (prefixes and suffixes)</h3>
+<div class="section level3">
+<h3 id="manipulating-row-and-column-labels-prefixes-and-suffixes">Manipulating row and column labels (prefixes and suffixes)<a class="anchor" aria-label="anchor" href="#manipulating-row-and-column-labels-prefixes-and-suffixes"></a>
+</h3>
 <p>Row and column labels can be manipulated using several helpful functions.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Split the prefix from the suffix to obtain a named list of strings.</span>
@@ -183,12 +179,12 @@
 <span class="fu"><a href="../reference/row-col-notation.html">keep_pref_suff</a></span><span class="op">(</span><span class="va">my_label</span>, keep <span class="op">=</span> <span class="st">"suff"</span>, notation <span class="op">=</span> <span class="va">my_notation</span><span class="op">)</span>
 <span class="co">#&gt; [1] "from Coal mines in USA"</span></code></pre></div>
 </div>
-<div id="vectors-and-lists-of-row-and-column-labels" class="section level3">
-<h3 class="hasAnchor">
-<a href="#vectors-and-lists-of-row-and-column-labels" class="anchor"></a>Vectors and lists of row and column labels</h3>
+<div class="section level3">
+<h3 id="vectors-and-lists-of-row-and-column-labels">Vectors and lists of row and column labels<a class="anchor" aria-label="anchor" href="#vectors-and-lists-of-row-and-column-labels"></a>
+</h3>
 <p>The functions in <code>RCLabels</code> work with vectors and lists of row and column labels.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a [of b in c]"</span>, <span class="st">"d [of e in f]"</span>, <span class="st">"g [of h in i]"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a [of b in c]"</span>, <span class="st">"d [of e in f]"</span>, <span class="st">"g [of h in i]"</span><span class="op">)</span>
 <span class="va">labels</span>
 <span class="co">#&gt; [1] "a [of b in c]" "d [of e in f]" "g [of h in i]"</span>
 
@@ -203,9 +199,9 @@
 <code class="sourceCode R"><span class="va">labels</span>
 <span class="co">#&gt; [1] "a [of b in c]" "d [of e in f]" "g [of h in i]"</span>
 
-<span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="va">labels</span><span class="op">)</span>
+<span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="va">labels</span><span class="op">)</span>
 <span class="va">result</span> <span class="op">&lt;-</span> <span class="va">df</span> |&gt; 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>
     split <span class="op">=</span> <span class="fu"><a href="../reference/row-col-notation.html">split_pref_suff</a></span><span class="op">(</span><span class="va">labels</span>, notation <span class="op">=</span> <span class="va">bracket_notation</span>, transpose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
   <span class="op">)</span>
 <span class="va">result</span><span class="op">$</span><span class="va">split</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
@@ -228,17 +224,17 @@
 <span class="co">#&gt; [1] "of h in i"</span></code></pre></div>
 </div>
 </div>
-<div id="nouns-and-prepositions" class="section level2">
-<h2 class="hasAnchor">
-<a href="#nouns-and-prepositions" class="anchor"></a>Nouns and prepositions</h2>
+<div class="section level2">
+<h2 id="nouns-and-prepositions">Nouns and prepositions<a class="anchor" aria-label="anchor" href="#nouns-and-prepositions"></a>
+</h2>
 <p>As discussed above, the prefix is often the “thing” of interest, and the remainder of the label (the suffix) modifies the prefix. This use case is so common that we introduce additional terms that enable additional functionality. The prefix is usually a <em>noun</em> (one or more words), and the suffix usually consists of <em>prepositional phrases</em> (each consisting of a preposition and an object). <code>RCLabels</code> includes a list of common prepositions.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">prepositions</span>
 <span class="co">#&gt; [1] "in"   "into" "from" "of"   "-&gt;"</span></code></pre></div>
 </div>
-<div id="working-with-row-and-column-labels-nouns-and-prepositions" class="section level2">
-<h2 class="hasAnchor">
-<a href="#working-with-row-and-column-labels-nouns-and-prepositions" class="anchor"></a>Working with row and column labels (nouns and prepositions)</h2>
+<div class="section level2">
+<h2 id="working-with-row-and-column-labels-nouns-and-prepositions">Working with row and column labels (nouns and prepositions)<a class="anchor" aria-label="anchor" href="#working-with-row-and-column-labels-nouns-and-prepositions"></a>
+</h2>
 <p><code>RCLabels</code> supports the “nouns and prepositions” view of row and column labels with several functions. <code><a href="../reference/get_nouns.html">get_nouns()</a></code> extracts the nouns from a row or column label.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">labels</span>
@@ -304,9 +300,9 @@
 <span class="fu"><a href="../reference/recombine_labels.html">recombine_labels</a></span><span class="op">(</span><span class="va">split_labels</span>, notation <span class="op">=</span> <span class="va">paren_notation</span><span class="op">)</span>
 <span class="co">#&gt; [1] "a (of b in c)" "d (of e in f)" "g (of h in i)"</span></code></pre></div>
 </div>
-<div id="modifying-row-and-column-labels" class="section level2">
-<h2 class="hasAnchor">
-<a href="#modifying-row-and-column-labels" class="anchor"></a>Modifying row and column labels</h2>
+<div class="section level2">
+<h2 id="modifying-row-and-column-labels">Modifying row and column labels<a class="anchor" aria-label="anchor" href="#modifying-row-and-column-labels"></a>
+</h2>
 <p>To modify row and column labels, use one of the <code>modify_*</code> functions.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">labels</span>
@@ -314,7 +310,7 @@
 
 <span class="co"># Set new values for nouns.</span>
 <span class="fu"><a href="../reference/modify_nouns.html">modify_nouns</a></span><span class="op">(</span><span class="va">labels</span>, 
-             new_nouns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Coal"</span>, <span class="st">"Oil"</span>, <span class="st">"Natural gas"</span><span class="op">)</span>, 
+             new_nouns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Coal"</span>, <span class="st">"Oil"</span>, <span class="st">"Natural gas"</span><span class="op">)</span>, 
              notation <span class="op">=</span> <span class="va">bracket_notation</span><span class="op">)</span>
 <span class="co">#&gt; [1] "Coal [of b in c]"        "Oil [of e in f]"        </span>
 <span class="co">#&gt; [3] "Natural gas [of h in i]"</span></code></pre></div>
@@ -327,8 +323,8 @@
 <span class="co"># as indicated by the modification map.</span>
 <span class="fu"><a href="../reference/modify_label_pieces.html">modify_label_pieces</a></span><span class="op">(</span><span class="va">labels</span>, 
                     piece <span class="op">=</span> <span class="st">"noun"</span>, 
-                    mod_map <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Production <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"d"</span><span class="op">)</span>,
-                                   Manufacture <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"g"</span>, <span class="st">"h"</span>, <span class="st">"i"</span>, <span class="st">"j"</span><span class="op">)</span><span class="op">)</span>, 
+                    mod_map <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Production <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"d"</span><span class="op">)</span>,
+                                   Manufacture <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"g"</span>, <span class="st">"h"</span>, <span class="st">"i"</span>, <span class="st">"j"</span><span class="op">)</span><span class="op">)</span>, 
                     notation <span class="op">=</span> <span class="va">bracket_notation</span><span class="op">)</span>
 <span class="co">#&gt; [1] "Production [of b in c]"  "Production [of e in f]" </span>
 <span class="co">#&gt; [3] "Manufacture [of h in i]"</span>
@@ -337,7 +333,7 @@
 <span class="co"># according to the modification map.</span>
 <span class="fu"><a href="../reference/modify_label_pieces.html">modify_label_pieces</a></span><span class="op">(</span><span class="va">labels</span>, 
                     piece <span class="op">=</span> <span class="st">"in"</span>, 
-                    mod_map <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>GHA <span class="op">=</span> <span class="st">"c"</span>, ZAF <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"f"</span>, <span class="st">"i"</span><span class="op">)</span><span class="op">)</span>, 
+                    mod_map <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>GHA <span class="op">=</span> <span class="st">"c"</span>, ZAF <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"f"</span>, <span class="st">"i"</span><span class="op">)</span><span class="op">)</span>, 
                     notation <span class="op">=</span> <span class="va">bracket_notation</span><span class="op">)</span>
 <span class="co">#&gt; [1] "a [of b in GHA]" "d [of e in ZAF]" "g [of h in ZAF]"</span>
 
@@ -345,7 +341,7 @@
 <span class="co"># according to the modification map.</span>
 <span class="fu"><a href="../reference/modify_label_pieces.html">modify_label_pieces</a></span><span class="op">(</span><span class="va">labels</span>, 
                     piece <span class="op">=</span> <span class="st">"of"</span>, 
-                    mod_map <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Coal <span class="op">=</span> <span class="st">"b"</span>, `Crude oil` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"e"</span>, <span class="st">"h"</span><span class="op">)</span><span class="op">)</span>, 
+                    mod_map <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Coal <span class="op">=</span> <span class="st">"b"</span>, `Crude oil` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"e"</span>, <span class="st">"h"</span><span class="op">)</span><span class="op">)</span>, 
                     notation <span class="op">=</span> <span class="va">bracket_notation</span><span class="op">)</span>
 <span class="co">#&gt; [1] "a [of Coal in c]"      "d [of Crude oil in f]" "g [of Crude oil in i]"</span></code></pre></div>
 <p>To eliminate a piece of a label altogether, use the <code><a href="../reference/remove_label_pieces.html">remove_label_pieces()</a></code> function.</p>
@@ -362,14 +358,70 @@
 <span class="co"># Eliminate all of the prepositional phrases that begin with "of" and "in".</span>
 <span class="co"># Note that some spaces remain.</span>
 <span class="fu"><a href="../reference/remove_label_pieces.html">remove_label_pieces</a></span><span class="op">(</span><span class="va">labels</span>, 
-                    piece <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"of"</span>, <span class="st">"in"</span><span class="op">)</span>, 
+                    piece <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"of"</span>, <span class="st">"in"</span><span class="op">)</span>, 
                     notation <span class="op">=</span> <span class="va">bracket_notation</span><span class="op">)</span>
 <span class="co">#&gt; [1] "a [ ]" "d [ ]" "g [ ]"</span></code></pre></div>
 <p>With much power comes much responsibility!</p>
 </div>
-<div id="conclusion" class="section level2">
-<h2 class="hasAnchor">
-<a href="#conclusion" class="anchor"></a>Conclusion</h2>
+<div class="section level2">
+<h2 id="detecting-strings-in-labels">Detecting strings in labels<a class="anchor" aria-label="anchor" href="#detecting-strings-in-labels"></a>
+</h2>
+<p>There are times when it is helpful to know if a string is in a label. <code><a href="../reference/match_by_pattern.html">match_by_pattern()</a></code> searches for matches in row and column labels by regular expression.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Production [of b in c]"</span>, <span class="st">"d [of Coal in f]"</span>, <span class="st">"g [of h in USA]"</span><span class="op">)</span>
+
+<span class="co"># With default `pieces` argument, matching is done for whole labels.</span>
+<span class="fu"><a href="../reference/match_by_pattern.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, regex_pattern <span class="op">=</span> <span class="st">"Production"</span><span class="op">)</span>
+<span class="co">#&gt; [1]  TRUE FALSE FALSE</span>
+<span class="fu"><a href="../reference/match_by_pattern.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, regex_pattern <span class="op">=</span> <span class="st">"Coal"</span><span class="op">)</span>
+<span class="co">#&gt; [1] FALSE  TRUE FALSE</span>
+<span class="fu"><a href="../reference/match_by_pattern.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, regex_pattern <span class="op">=</span> <span class="st">"USA"</span><span class="op">)</span>
+<span class="co">#&gt; [1] FALSE FALSE  TRUE</span>
+
+<span class="co"># Check beginnings of labels: match!</span>
+<span class="fu"><a href="../reference/match_by_pattern.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, regex_pattern <span class="op">=</span> <span class="st">"^Production"</span><span class="op">)</span>
+<span class="co">#&gt; [1]  TRUE FALSE FALSE</span>
+<span class="co"># Check at ends of labels: no match!</span>
+<span class="fu"><a href="../reference/match_by_pattern.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, regex_pattern <span class="op">=</span> <span class="st">"Production$"</span><span class="op">)</span>
+<span class="co">#&gt; [1] FALSE FALSE FALSE</span>
+
+<span class="co"># Search by prefix or suffix.</span>
+<span class="fu"><a href="../reference/match_by_pattern.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, regex_pattern <span class="op">=</span> <span class="st">"Production"</span>, pieces <span class="op">=</span> <span class="st">"pref"</span><span class="op">)</span>
+<span class="co">#&gt; [1]  TRUE FALSE FALSE</span>
+<span class="fu"><a href="../reference/match_by_pattern.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, regex_pattern <span class="op">=</span> <span class="st">"Production"</span>, pieces <span class="op">=</span> <span class="st">"suff"</span><span class="op">)</span>
+<span class="co">#&gt; [1] FALSE FALSE FALSE</span>
+<span class="co"># When pieces is "pref" or "suff", only one can be specified.</span>
+<span class="co"># The following function call gives an error.</span>
+<span class="co"># match_by_pattern(labels, regex_pattern = "Production", pieces = c("pref", "to"))</span>
+
+<span class="co"># Search by noun or preposition.</span>
+<span class="fu"><a href="../reference/match_by_pattern.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, regex_pattern <span class="op">=</span> <span class="st">"Production"</span>, pieces <span class="op">=</span> <span class="st">"noun"</span><span class="op">)</span>
+<span class="co">#&gt; [1]  TRUE FALSE FALSE</span>
+<span class="fu"><a href="../reference/match_by_pattern.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, regex_pattern <span class="op">=</span> <span class="st">"Production"</span>, pieces <span class="op">=</span> <span class="st">"in"</span><span class="op">)</span>
+<span class="co">#&gt; [1] FALSE FALSE FALSE</span>
+<span class="co"># Searching can be done with complicated regex patterns.</span>
+<span class="fu"><a href="../reference/match_by_pattern.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, 
+                 regex_pattern <span class="op">=</span> <span class="fu"><a href="../reference/make_or_pattern.html">make_or_pattern</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c"</span>, <span class="st">"f"</span><span class="op">)</span><span class="op">)</span>,
+                 pieces <span class="op">=</span> <span class="st">"in"</span><span class="op">)</span>
+<span class="co">#&gt; [1]  TRUE  TRUE FALSE</span>
+<span class="fu"><a href="../reference/match_by_pattern.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>,
+                 regex_pattern <span class="op">=</span> <span class="fu"><a href="../reference/make_or_pattern.html">make_or_pattern</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"b"</span>, <span class="st">"Coal"</span>, <span class="st">"USA"</span><span class="op">)</span><span class="op">)</span>,
+                 pieces <span class="op">=</span> <span class="st">"in"</span><span class="op">)</span>
+<span class="co">#&gt; [1] FALSE FALSE  TRUE</span>
+<span class="fu"><a href="../reference/match_by_pattern.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>,
+                 regex_pattern <span class="op">=</span> <span class="fu"><a href="../reference/make_or_pattern.html">make_or_pattern</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"b"</span>, <span class="st">"Coal"</span>, <span class="st">"USA"</span><span class="op">)</span><span class="op">)</span>,
+                 pieces <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"of"</span>, <span class="st">"in"</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; [1] TRUE TRUE TRUE</span>
+<span class="co"># Works with custom lists of prepositions.</span>
+<span class="fu"><a href="../reference/match_by_pattern.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>,
+                 regex_pattern <span class="op">=</span> <span class="fu"><a href="../reference/make_or_pattern.html">make_or_pattern</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"b"</span>, <span class="st">"Coal"</span>, <span class="st">"GBR"</span>, <span class="st">"USA"</span><span class="op">)</span><span class="op">)</span>,
+                 pieces <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"noun"</span>, <span class="st">"of"</span>, <span class="st">"in"</span>, <span class="st">"to"</span><span class="op">)</span>,
+                 prepositions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"of"</span>, <span class="st">"to"</span>, <span class="st">"in"</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; [1] TRUE TRUE TRUE</span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
+</h2>
 <p>The <code>RCLabels</code> package streamlines the manipulation of row and column labels for matrices. Applications include input-output analysis in economics and energy conversion chain analysis or anywhere row and column labels are important for matrix mathematics.</p>
 </div>
   </div>
@@ -385,11 +437,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Matthew Heun.</p>
+  <p></p>
+<p>Developed by Matthew Heun.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -397,6 +451,8 @@
 
   
 
+
+  
 
   </body>
 </html>
