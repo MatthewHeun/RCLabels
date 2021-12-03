@@ -83,6 +83,15 @@ make_or_pattern <- function(strings, pattern_type = c("exact", "leading", "trail
 #' @export
 #'
 #' @examples
+#' labels <- c("Production [of b in c]", "d [of Coal in f]", "g [of h in USA]")
+#' # With default `pieces` argument, matching is done for whole labels.
+#' match_by_pattern(labels, regex_pattern = "Production")
+#' match_by_pattern(labels, regex_pattern = "Coal")
+#' match_by_pattern(labels, regex_pattern = "USA")
+#' # Check beginnings of labels
+#' match_by_pattern(labels, regex_pattern = "^Production")
+#' # Check at ends of labels: no match.
+#' match_by_pattern(labels, regex_pattern = "Production$")
 match_by_pattern <- function(labels,
                           regex_pattern,
                           pieces = "all",

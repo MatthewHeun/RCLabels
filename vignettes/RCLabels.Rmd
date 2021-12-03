@@ -295,6 +295,53 @@ remove_label_pieces(labels,
 With much power comes much responsibility!
 
 
+## Detecting strings in labels
+
+There are times when it is helpful to know if a string is in a label.
+`match_by_pattern()` searches for matches in row and column labels
+by regular expression.
+
+```{r}
+labels <- c("Production [of b in c]", "d [of Coal in f]", "g [of h in USA]")
+
+# With default `pieces` argument, matching is done for whole labels.
+match_by_pattern(labels, regex_pattern = "Production")
+match_by_pattern(labels, regex_pattern = "Coal")
+match_by_pattern(labels, regex_pattern = "USA")
+
+# Check beginnings of labels: match!
+match_by_pattern(labels, regex_pattern = "^Production")
+# Check at ends of labels: no match!
+match_by_pattern(labels, regex_pattern = "Production$")
+
+# Search by prefix or suffix.
+match_by_pattern(labels, regex_pattern = "Production", pieces = "pref")
+match_by_pattern(labels, regex_pattern = "Production", pieces = "suff")
+# When pieces is "pref" or "suff", only one can be specified.
+# The following function call resutls in an error.
+# match_by_pattern(labels, regex_pattern = "Production", pieces = c("pref", "to"))
+
+# Search by noun or preposition.
+match_by_pattern(labels, regex_pattern = "Production", pieces = "noun")
+match_by_pattern(labels, regex_pattern = "Production", pieces = "in")
+# Searching can be done with complicated regex patterns.
+match_by_pattern(labels, 
+                 regex_pattern = make_or_pattern(c("c", "f")),
+                 pieces = "in")
+match_by_pattern(labels,
+                 regex_pattern = make_or_pattern(c("b", "Coal", "USA")),
+                 pieces = "in")
+match_by_pattern(labels,
+                 regex_pattern = make_or_pattern(c("b", "Coal", "USA")),
+                 pieces = c("of", "in"))
+# Works with custom lists of prepositions.
+match_by_pattern(labels,
+                 regex_pattern = make_or_pattern(c("b", "Coal", "GBR", "USA")),
+                 pieces = c("noun", "of", "in", "to"),
+                 prepositions = c("of", "to", "in"))
+```
+
+
 ## Conclusion
 
 The `RCLabels` package streamlines the manipulation of row and column labels 
