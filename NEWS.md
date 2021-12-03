@@ -4,7 +4,7 @@ output: html_document
 ---
 
 
-* New function `match_pattern`.
+* New function `match_by_pattern`.
 
 
 # RCLabels 0.0.3

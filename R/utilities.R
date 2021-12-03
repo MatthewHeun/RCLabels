@@ -61,6 +61,11 @@ make_or_pattern <- function(strings, pattern_type = c("exact", "leading", "trail
 #' Alternatively, `pieces = "noun"` or `pieces = <<preposition>>` indicate
 #' that only specific pieces of labels are to be checked for matches.
 #'
+#' `pieces` can be a vector, indicating multiple pieces to be checked for matches.
+#' But if any of the `pieces` are "all", all pieces are checked.
+#' If `pieces` is "pref" or "suff", only one can be specified.
+#'
+#'
 #' @param labels The row and column labels in which pieces will be modified.
 #' @param regex_pattern The regular expression pattern to determine matches.
 #'                      Consider using `Hmisc::escapeRegex()` to escape `regex_pattern`
@@ -78,33 +83,41 @@ make_or_pattern <- function(strings, pattern_type = c("exact", "leading", "trail
 #' @export
 #'
 #' @examples
-match_pattern <- function(labels,
+match_by_pattern <- function(labels,
                           regex_pattern,
                           pieces = "all",
                           prepositions = RCLabels::prepositions,
                           notation = RCLabels::bracket_notation, ...) {
-  if (pieces == "all") {
+
+  if ("all" %in% pieces) {
     return(grepl(pattern = regex_pattern, x = labels, ...))
   }
 
-  if (pieces == "pref") {
-    return(grepl(pattern = regex_pattern, x = keep_pref_suff(labels, keep = "pref", notation = notation), ...))
+  if ("pref" %in% pieces | "suff" %in% pieces) {
+    # Ensure the length is 1
+    if (length(pieces) != 1) {
+      stop(paste0('If pieces contains "pref" or "suff", its length must be 1. Length was ', length(pieces), '.'))
+    }
+    if (pieces == "pref") {
+      return(grepl(pattern = regex_pattern, x = keep_pref_suff(labels, keep = "pref", notation = notation), ...))
+    }
+
+    if (pieces == "suff") {
+      return(grepl(pattern = regex_pattern, x = keep_pref_suff(labels, keep = "suff", notation = notation), ...))
+    }
   }
 
-  if (pieces == "suff") {
-    return(grepl(pattern = regex_pattern, x = keep_pref_suff(labels, keep = "suff", notation = notation), ...))
-  }
-
-  # At this point, assume that pieces is a preposition.
+  # At this point, treat pieces as specifying a noun or prepositions.
   keepers <- split_labels(labels, prepositions = prepositions, notation = notation) |>
     lapply(FUN = function(this_split_label) {
       this_split_label[pieces]
     })
 
   sapply(keepers, FUN = function(this_keeper) {
-    grepl(pattern = regex_pattern,  x = this_keeper, ...)
+    grepl(pattern = regex_pattern,  x = this_keeper, ...) |>
+      # any() takes care of multiple pieces.
+      any(na.rm = TRUE)
   })
-
 }
 
 
