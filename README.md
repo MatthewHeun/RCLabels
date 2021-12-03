@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![Codecov test
+coverage](https://codecov.io/gh/MatthewHeun/RCLabels/branch/main/graph/badge.svg)](https://codecov.io/gh/MatthewHeun/RCLabels?branch=main)
 [![R-CMD-check](https://github.com/MatthewHeun/RCLabels/workflows/R-CMD-check/badge.svg)](https://github.com/MatthewHeun/RCLabels/actions)
 <!-- badges: end -->
 
