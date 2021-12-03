@@ -55,11 +55,13 @@ make_or_pattern <- function(strings, pattern_type = c("exact", "leading", "trail
 #' match a regular expression.
 #' Internally, `grepl()` decides whether a match occurs.
 #'
-#' By default (`pieces = "all`), complete labels (as strings) are checked for matches.
+#' By default (`pieces = "all"`), complete labels (as strings) are checked for matches.
 #' If `pieces == "pref"` or `pieces == "suff"`,
 #' only the prefix or the suffix is checked for matches.
 #' Alternatively, `pieces = "noun"` or `pieces = <<preposition>>` indicate
 #' that only specific pieces of labels are to be checked for matches.
+#' When `pieces = <<preposition>>`, only the object of `<<preposition>>` is
+#' checked for matches.
 #'
 #' `pieces` can be a vector, indicating multiple pieces to be checked for matches.
 #' But if any of the `pieces` are "all", all pieces are checked.
@@ -70,8 +72,12 @@ make_or_pattern <- function(strings, pattern_type = c("exact", "leading", "trail
 #' @param regex_pattern The regular expression pattern to determine matches.
 #'                      Consider using `Hmisc::escapeRegex()` to escape `regex_pattern`
 #'                      before calling this function.
-#' @param piece The piece (or pieces) of row or column labels to be checked for matches.
-#'              See details.
+#' @param pieces The pieces of row or column labels to be checked for matches.
+#'               See details.
+#' @param prepositions A vector of strings that count as prepositions.
+#'                     Default is `RCLabels::prepositions`.
+#'                     Used to detect prepositional phrases
+#'                     if `pieces` are to be interpreted as prepositions.
 #' @param notation The notation used in `labels`.
 #'                 Default is `RCLabels::bracket_notation`.
 #' @param ... Other arguments passed to `grepl()`, such as `ignore.case`, `perl`, `fixed`,
@@ -92,6 +98,10 @@ make_or_pattern <- function(strings, pattern_type = c("exact", "leading", "trail
 #' match_by_pattern(labels, regex_pattern = "^Production")
 #' # Check at ends of labels: no match.
 #' match_by_pattern(labels, regex_pattern = "Production$")
+#' # Can match on nouns or prepositions.
+#' match_by_pattern(labels, regex_pattern = "Production", pieces = "noun")
+#' # Gives FALSE, because "Production" is a noun.
+#' match_by_pattern(labels, regex_pattern = "Production", pieces = "in")
 match_by_pattern <- function(labels,
                           regex_pattern,
                           pieces = "all",

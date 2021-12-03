@@ -20,15 +20,20 @@ match_by_pattern(
 Consider using \code{Hmisc::escapeRegex()} to escape \code{regex_pattern}
 before calling this function.}
 
+\item{pieces}{The pieces of row or column labels to be checked for matches.
+See details.}
+
+\item{prepositions}{A vector of strings that count as prepositions.
+Default is \code{RCLabels::prepositions}.
+Used to detect prepositional phrases
+if \code{pieces} are to be interpreted as prepositions.}
+
 \item{notation}{The notation used in \code{labels}.
 Default is \code{RCLabels::bracket_notation}.}
 
 \item{...}{Other arguments passed to \code{grepl()}, such as \code{ignore.case}, \code{perl}, \code{fixed},
 or \code{useBytes}.
 See examples.}
-
-\item{piece}{The piece (or pieces) of row or column labels to be checked for matches.
-See details.}
 }
 \value{
 A logical vector of same length as \code{labels},
@@ -40,13 +45,30 @@ match a regular expression.
 Internally, \code{grepl()} decides whether a match occurs.
 }
 \details{
-By default (\verb{pieces = "all}), complete labels (as strings) are checked for matches.
+By default (\code{pieces = "all"}), complete labels (as strings) are checked for matches.
 If \code{pieces == "pref"} or \code{pieces == "suff"},
 only the prefix or the suffix is checked for matches.
 Alternatively, \code{pieces = "noun"} or \verb{pieces = <<preposition>>} indicate
 that only specific pieces of labels are to be checked for matches.
+When \verb{pieces = <<preposition>>}, only the object of \verb{<<preposition>>} is
+checked for matches.
 
 \code{pieces} can be a vector, indicating multiple pieces to be checked for matches.
 But if any of the \code{pieces} are "all", all pieces are checked.
 If \code{pieces} is "pref" or "suff", only one can be specified.
+}
+\examples{
+labels <- c("Production [of b in c]", "d [of Coal in f]", "g [of h in USA]")
+# With default `pieces` argument, matching is done for whole labels.
+match_by_pattern(labels, regex_pattern = "Production")
+match_by_pattern(labels, regex_pattern = "Coal")
+match_by_pattern(labels, regex_pattern = "USA")
+# Check beginnings of labels
+match_by_pattern(labels, regex_pattern = "^Production")
+# Check at ends of labels: no match.
+match_by_pattern(labels, regex_pattern = "Production$")
+# Can match on nouns or prepositions.
+match_by_pattern(labels, regex_pattern = "Production", pieces = "noun")
+# Gives FALSE, because "Production" is a noun.
+match_by_pattern(labels, regex_pattern = "Production", pieces = "in")
 }

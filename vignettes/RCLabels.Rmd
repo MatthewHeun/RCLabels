@@ -318,7 +318,7 @@ match_by_pattern(labels, regex_pattern = "Production$")
 match_by_pattern(labels, regex_pattern = "Production", pieces = "pref")
 match_by_pattern(labels, regex_pattern = "Production", pieces = "suff")
 # When pieces is "pref" or "suff", only one can be specified.
-# The following function call resutls in an error.
+# The following function call gives an error.
 # match_by_pattern(labels, regex_pattern = "Production", pieces = c("pref", "to"))
 
 # Search by noun or preposition.
