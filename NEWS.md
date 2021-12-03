@@ -4,6 +4,9 @@ output: html_document
 ---
 
 
+* New function `match_pattern`.
+
+
 # RCLabels 0.0.3
 
 * Added code coverage.

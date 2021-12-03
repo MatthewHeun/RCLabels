@@ -58,11 +58,22 @@ test_that("match_pattern() works for prefixes and suffixes", {
                              regex_pattern = "Production",
                              pieces = "suff"),
                c(FALSE, FALSE, FALSE))
+})
 
-  # This should pass, because "Production" is a noun.
+
+test_that("match_pattern() works for nouns and prepositions", {
+  labels <- c("Production [of b in c]", "d [of Coal in f]", "g [of h in USA]")
+  # This should work, because "Production" is a noun.
   expect_equal(match_pattern(labels,
                              regex_pattern = "Production",
                              pieces = "noun"),
                c(TRUE, FALSE, FALSE))
+
+  # This won't work, because "Production" is a noun, not in a prepositional phrase.
+  expect_equal(match_pattern(labels,
+                             regex_pattern = "Production",
+                             pieces = "in"),
+               c(FALSE, FALSE, FALSE))
+
 
 })
