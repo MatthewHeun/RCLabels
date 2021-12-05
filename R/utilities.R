@@ -131,13 +131,11 @@ match_by_pattern <- function(labels,
     if (length(pieces) != 1) {
       stop(paste0('If pieces contains "pref" or "suff", its length must be 1. Length was ', length(pieces), '.'))
     }
-    if (pieces == "pref") {
-      return(grepl(pattern = regex_pattern, x = keep_pref_suff(labels, keep = "pref", notation = notation), ...))
-    }
-
-    if (pieces == "suff") {
-      return(grepl(pattern = regex_pattern, x = keep_pref_suff(labels, keep = "suff", notation = notation), ...))
-    }
+    return(grepl(pattern = regex_pattern,
+                 x = keep_pref_suff(labels,
+                                    keep = pieces,
+                                    notation = notation),
+                 ...))
   }
 
   # At this point, treat pieces as specifying a noun or prepositions.
@@ -164,7 +162,10 @@ replace_by_pattern <- function(labels,
                                notation = RCLabels::bracket_notation,
                                ...) {
   if ("all" %in% pieces) {
-    return(gsub(pattern = regex_pattern, replacement = replacement, x = labels, ...))
+    return(gsub(pattern = regex_pattern,
+                replacement = replacement,
+                x = labels,
+                ...))
   }
 
   if ("pref" %in% pieces | "suff" %in% pieces) {
@@ -172,13 +173,14 @@ replace_by_pattern <- function(labels,
     if (length(pieces) != 1) {
       stop(paste0('If pieces contains "pref" or "suff", its length must be 1. Length was ', length(pieces), '.'))
     }
-    if (pieces == "pref") {
-      return(grepl(pattern = regex_pattern, x = keep_pref_suff(labels, keep = "pref", notation = notation), ...))
-    }
-
-    if (pieces == "suff") {
-      return(grepl(pattern = regex_pattern, x = keep_pref_suff(labels, keep = "suff", notation = notation), ...))
-    }
+    split <- split_pref_suff(labels, notation = notation)
+    piece_for_replacement <- split[[pieces]]
+    replaced_piece <- gsub(pattern = regex_pattern,
+                           replacement = replacement,
+                           x = piece_for_replacement,
+                           ...)
+    split[[pieces]] <- replaced_piece
+    return(paste_pref_suff(split, notation = notation))
   }
 
   # At this point, treat pieces as specifying a noun or prepositions.
