@@ -197,6 +197,10 @@ get_objects <- function(labels,
 #'                     Note that a space is appended to each word internally,
 #'                     so, e.g., "to" becomes "to ".
 #'                     Default is `RCLabels::prepositions`.
+#' @param transpose A boolean that tells whether to `purr::transpose()` the result.
+#'                  Set `transpose = TRUE` when using `split_labels()` in a `dplyr::mutate()`
+#'                  call in the context of a data frame.
+#'                  Default is `FALSE`.
 #'
 #' @return A list of lists with items named `noun` and `pp`.
 #'
@@ -207,7 +211,8 @@ get_objects <- function(labels,
 #'              notation = bracket_notation)
 split_labels <- function(labels,
                          notation = RCLabels::bracket_notation,
-                         prepositions = RCLabels::prepositions) {
+                         prepositions = RCLabels::prepositions,
+                         transpose = FALSE) {
 
   nouns <- get_nouns(labels, notation = notation) |>
     as.list() |>
@@ -217,9 +222,13 @@ split_labels <- function(labels,
     })
   objects <- get_objects(labels, notation = notation, prepositions = prepositions)
 
-  mapply(nouns, objects, SIMPLIFY = FALSE, FUN = function(noun, object) {
+  out <- mapply(nouns, objects, SIMPLIFY = FALSE, FUN = function(noun, object) {
     c(noun, object)
   })
+  if (transpose) {
+    return(purrr::transpose(out))
+  }
+  return(out)
 }
 
 

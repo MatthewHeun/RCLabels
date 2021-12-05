@@ -184,16 +184,22 @@ replace_by_pattern <- function(labels,
   }
 
   # At this point, treat pieces as specifying a noun or prepositions.
-  keepers <- split_labels(labels, prepositions = prepositions, notation = notation) |>
-    lapply(FUN = function(this_split_label) {
-      this_split_label[pieces]
-    })
-
-  sapply(keepers, FUN = function(this_keeper) {
-    grepl(pattern = regex_pattern,  x = this_keeper, ...) |>
-      # any() takes care of multiple pieces.
-      any(na.rm = TRUE)
-  })
+  split <- split_labels(labels,
+                        prepositions = prepositions,
+                        notation = notation,
+                        transpose = TRUE)
+  for (this_piece in pieces) {
+    this_piece_for_replacement <- split[[this_piece]]
+    replaced_piece <- gsub(pattern = regex_pattern,
+                           replacement = replacement,
+                           x = this_piece_for_replacement,
+                           ...) |>
+      as.list()
+    split[[this_piece]] <- replaced_piece
+  }
+  split |>
+    purrr::transpose() |>
+    recombine_labels(notation = notation)
 }
 
 

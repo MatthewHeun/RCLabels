@@ -60,7 +60,7 @@ switch_notation(x, from, to, flip = FALSE)
 Default is \code{arrow_notation}.}
 
 \item{transpose}{A boolean that tells whether to \code{purr::transpose()} the result.
-Set \code{transpose = TRUE} when using \code{split_pref_suff()} in \code{dplyr::mutate()}
+Set \code{transpose = TRUE} when using \code{split_pref_suff()} in a \code{dplyr::mutate()}
 call in the context of a data frame.
 Default is \code{FALSE}.}
 

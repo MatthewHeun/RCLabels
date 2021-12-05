@@ -138,4 +138,35 @@ test_that("replace_by_pattern() works as expected with prefixes and suffixes", {
                                   replacement = "Manufacture",
                                   pieces = "pref"),
                c("Manufacture [of b in c]", "d [of Coal in f]", "g [of h in USA]"))
+
+  expect_equal(replace_by_pattern(labels,
+                                  regex_pattern = "Coa",
+                                  replacement = "Bow",
+                                  pieces = "suff"),
+               c("Production [of b in c]", "d [of Bowl in f]", "g [of h in USA]"))
+
+  # Nothing should change, because USA is in the suffix.
+  expect_equal(replace_by_pattern(labels,
+                                  regex_pattern = "SA",
+                                  replacement = "SSR",
+                                  pieces = "pref"),
+               c("Production [of b in c]", "d [of Coal in f]", "g [of h in USA]"))
+
+  # Now UAS --> USSR, because USA is in the suffix.
+  expect_equal(replace_by_pattern(labels,
+                                  regex_pattern = "SA",
+                                  replacement = "SSR",
+                                  pieces = "suff"),
+               c("Production [of b in c]", "d [of Coal in f]", "g [of h in USSR]"))
+})
+
+
+test_that("replace_by_pattern() works for nouns and prepositions", {
+  labels <- c("Production [of b in c]", "d [of Coal in f]", "g [of h in USA]")
+  expect_equal(replace_by_pattern(labels,
+                                  regex_pattern = "Production",
+                                  replacement = "Manufacture",
+                                  pieces = "noun"),
+               c("Manufacture [of b in c]", "d [of Coal in f]", "g [of h in USA]"))
+
 })

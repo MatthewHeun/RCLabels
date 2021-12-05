@@ -49,7 +49,7 @@
 #'                 `notation_vec()`, `arrow_notation`, or `bracket_notation`.
 #'                 Default is `arrow_notation`.
 #' @param transpose A boolean that tells whether to `purr::transpose()` the result.
-#'                  Set `transpose = TRUE` when using `split_pref_suff()` in `dplyr::mutate()`
+#'                  Set `transpose = TRUE` when using `split_pref_suff()` in a `dplyr::mutate()`
 #'                  call in the context of a data frame.
 #'                  Default is `FALSE`.
 #' @param from The `notation` to switch _away from_.

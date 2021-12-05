@@ -7,7 +7,8 @@
 split_labels(
   labels,
   notation = RCLabels::bracket_notation,
-  prepositions = RCLabels::prepositions
+  prepositions = RCLabels::prepositions,
+  transpose = FALSE
 )
 }
 \arguments{
@@ -20,6 +21,11 @@ Default is \code{RCLabels::bracket_notation}.}
 Note that a space is appended to each word internally,
 so, e.g., "to" becomes "to ".
 Default is \code{RCLabels::prepositions}.}
+
+\item{transpose}{A boolean that tells whether to \code{purr::transpose()} the result.
+Set \code{transpose = TRUE} when using \code{split_labels()} in a \code{dplyr::mutate()}
+call in the context of a data frame.
+Default is \code{FALSE}.}
 }
 \value{
 A list of lists with items named \code{noun} and \code{pp}.
