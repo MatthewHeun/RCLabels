@@ -190,6 +190,11 @@ get_objects <- function(labels,
 #' followed by objects of prepositional phrases
 #' (with names being prepositions that precede the objects).
 #'
+#' Unlike `split_pref_suff()`, it does not make sense to have a `transpose`
+#' argument on `split_labels()`.
+#' Labels may not have the same structure,
+#' e.g., they may have different prepositions.
+#'
 #' @param labels The row and column labels from which prepositional phrases are to be extracted.
 #' @param notation The notation object that describes the labels.
 #'                 Default is `RCLabels::bracket_notation`.
@@ -241,17 +246,17 @@ split_labels <- function(labels,
 #' labs
 #' split <- split_labels(labs)
 #' split
-#' recombine_labels(split)
+#' paste_pieces(split)
 #' # Also works in a data frame
 #' df <- tibble::tibble(labels = c("a [in b]", "c [of d into USA]",
 #'                                 "e [of f in g]", "h [-> i in j]"))
 #' recombined <- df |>
 #'   dplyr::mutate(
 #'     splits = split_labels(labels),
-#'     recombined = recombine_labels(splits)
+#'     recombined = paste_pieces(splits)
 #'   )
 #' all(recombined$labels == recombined$recombined)
-recombine_labels <- function(ls, notation = RCLabels::bracket_notation) {
+paste_pieces <- function(ls, notation = RCLabels::bracket_notation) {
   nouns <- ls |>
     sapply(FUN = function(this_label) {
       this_label[["noun"]]

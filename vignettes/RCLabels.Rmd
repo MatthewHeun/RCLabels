@@ -225,10 +225,10 @@ split_labels <- split_labels(labels,
 split_labels
 
 # Recombine split labels.
-recombine_labels(split_labels, notation = bracket_notation)
+paste_pieces(split_labels, notation = bracket_notation)
 
 # Recombine with a new notation.
-recombine_labels(split_labels, notation = paren_notation)
+paste_pieces(split_labels, notation = paren_notation)
 ```
 
 
@@ -300,6 +300,7 @@ With much power comes much responsibility!
 There are times when it is helpful to know if a string is in a label.
 `match_by_pattern()` searches for matches in row and column labels
 by regular expression.
+Internally, `match_by_pattern()` uses `grepl()` for regular expression matching.
 
 ```{r}
 labels <- c("Production [of b in c]", "d [of Coal in f]", "g [of h in USA]")
@@ -339,6 +340,98 @@ match_by_pattern(labels,
                  regex_pattern = make_or_pattern(c("b", "Coal", "GBR", "USA")),
                  pieces = c("noun", "of", "in", "to"),
                  prepositions = c("of", "to", "in"))
+```
+
+
+## Replacing strings in labels
+
+There are times when it is helpful to replace strings in labels.
+The `replace_by_pattern()` function will replace strings
+in row and column labels by regular expression pattern.
+Note that `replace_by_pattern()` is similar to `match_by_pattern()`, 
+except `replace_by_pattern()` has an additional argument, `replacement`.
+Internally, `replace_by_pattern()` uses `gsub()` 
+to perform regular expression matching.
+
+```{r}
+labels <- c("Production [of b in c]", "d [of Coal in f]", "g [of h in USA]")
+labels
+
+# If `pieces = "all"` (the default), the entire label is available for replacements.
+replace_by_pattern(labels,
+                   regex_pattern = "Production",
+                   replacement = "Manufacture")
+replace_by_pattern(labels,
+                   regex_pattern = "Coal",
+                   replacement = "Oil")
+replace_by_pattern(labels,
+                   regex_pattern = "USA",
+                   replacement = "GHA")
+
+# Replace by prefix and suffix.
+replace_by_pattern(labels,
+                   regex_pattern = "Production",
+                   replacement = "Manufacture",
+                   pieces = "pref")
+replace_by_pattern(labels,
+                   regex_pattern = "Coa",
+                   replacement = "Bow",
+                   pieces = "suff")
+# Nothing should change, because USA is in the suffix.
+replace_by_pattern(labels,
+                   regex_pattern = "SA",
+                   replacement = "SSR",
+                   pieces = "pref")
+# Now USA --> USSR, because USA is in the suffix.
+replace_by_pattern(labels,
+                   regex_pattern = "SA",
+                   replacement = "SSR",
+                   pieces = "suff")
+# This will throw an error, because only "pref" or "suff" can be specified.
+# replace_by_pattern(labels,
+#                    regex_pattern = "SA",
+#                    replacement = "SSR",
+#                    pieces = c("pref", "suff")
+
+# Replace by noun or preposition.
+replace_by_pattern(labels,
+                   regex_pattern = "Production",
+                   replacement = "Manufacture",
+                   pieces = "noun")
+replace_by_pattern(labels,
+                   regex_pattern = "^Pro",
+                   replacement = "Con",
+                   pieces = "noun")
+# Won't match: wrong side of string.
+replace_by_pattern(labels,
+                   regex_pattern = "Pro$",
+                   replacement = "Con",
+                   pieces = "noun")
+# No change, because "Production" is a noun.
+replace_by_pattern(labels,
+                   regex_pattern = "Production",
+                   replacement = "Manufacture",
+                   pieces = "of")
+# Now try with "of".
+replace_by_pattern(labels,
+                   regex_pattern = "Coal",
+                   replacement = "Oil",
+                   pieces = "of")
+# No change, because "Coal" is not "in" anything.
+replace_by_pattern(labels,
+                   regex_pattern = "Coal",
+                   replacement = "Oil",
+                   pieces = "in")
+# Now try in "in".
+replace_by_pattern(labels,
+                   regex_pattern = "USA",
+                   replacement = "GBR",
+                   pieces = "in")
+replace_by_pattern(labels,
+                   regex_pattern = "A$",
+                   replacement = "upercalifragilisticexpialidocious",
+                   pieces = "in")
+
 ```
 
 

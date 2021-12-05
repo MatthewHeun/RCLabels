@@ -95,7 +95,7 @@ test_that("split_labels() works as expected", {
 })
 
 
-test_that("recombine_labels() works as expected", {
+test_that("paste_pieces() works as expected", {
   # Try with a single label
   lab <- "a [of b in c]"
   split <- split_labels(lab)
@@ -104,13 +104,13 @@ test_that("recombine_labels() works as expected", {
   # Try with a vector of labels
   labs <- c("a [of b in c]", "d [from Coal mines in USA]")
   split <- split_labels(labs)
-  expect_equal(recombine_labels(split), labs)
+  expect_equal(paste_pieces(split), labs)
 
   # Try with a weird notation vector
   paren_note <- notation_vec(pref_start = "(", pref_end = ")", suff_start = "(", suff_end = ")")
   labs2 <- c("(Production)(of Coal in USA)", "(Manufacture)(of Oil in Canada)")
   split2 <- split_labels(labs2, notation = paren_note)
-  expect_equal(recombine_labels(split2, notation = paren_note), labs2)
+  expect_equal(paste_pieces(split2, notation = paren_note), labs2)
 
   # Try in a data frame
   df <- tibble::tibble(labels = c("a [in b]", "c [of d into USA]",
@@ -118,7 +118,7 @@ test_that("recombine_labels() works as expected", {
   recombined <- df |>
     dplyr::mutate(
       splits = split_labels(labels),
-      recombined = recombine_labels(splits)
+      recombined = paste_pieces(splits)
     )
   expect_equal(recombined$recombined, recombined$labels)
 })
