@@ -158,7 +158,7 @@ replace_by_pattern <- function(labels,
                                regex_pattern,
                                replacement,
                                pieces = "all",
-                               propostiions = RCLabels::prepositions,
+                               prepositions = RCLabels::prepositions,
                                notation = RCLabels::bracket_notation,
                                ...) {
   if ("all" %in% pieces) {
@@ -184,36 +184,19 @@ replace_by_pattern <- function(labels,
   }
 
   # At this point, treat pieces as specifying a noun or prepositions.
-  split <- split_labels(labels,
-                        prepositions = prepositions,
-                        notation = notation,
-                        transpose = TRUE)
-  for (this_piece in pieces) {
-    this_piece_for_replacement <- split[[this_piece]]
-    replaced_piece <- gsub(pattern = regex_pattern,
-                           replacement = replacement,
-                           x = this_piece_for_replacement,
-                           ...) |>
-      as.list()
-    split[[this_piece]] <- replaced_piece
+  splits <- split_labels(labels, prepositions = prepositions, notation = notation)
+  for (i_splits in 1:length(splits)) {
+    this_split_label <- splits[[i_splits]]
+    for (this_piece in pieces) {
+      this_piece_for_replacement <- this_split_label[[this_piece]]
+      replaced_piece <- gsub(pattern = regex_pattern,
+                             replacement = replacement,
+                             x = this_piece_for_replacement,
+                             ...)
+      this_split_label[[this_piece]] <- replaced_piece
+    }
+    splits[[i_splits]] <- this_split_label
   }
-  split |>
-    purrr::transpose() |>
-    recombine_labels(notation = notation)
+  recombine_labels(splits, notation = notation)
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

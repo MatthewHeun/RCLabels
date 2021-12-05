@@ -20,7 +20,7 @@ replace_by_pattern(
   regex_pattern,
   replacement,
   pieces = "all",
-  propostiions = RCLabels::prepositions,
+  prepositions = RCLabels::prepositions,
   notation = RCLabels::bracket_notation,
   ...
 )

@@ -190,6 +190,11 @@ get_objects <- function(labels,
 #' followed by objects of prepositional phrases
 #' (with names being prepositions that precede the objects).
 #'
+#' Unlike `split_pref_suff()`, it does not make sense to have a `transpose`
+#' argument on `split_labels()`.
+#' Labels may not have the same structure,
+#' e.g., they may have different prepositions.
+#'
 #' @param labels The row and column labels from which prepositional phrases are to be extracted.
 #' @param notation The notation object that describes the labels.
 #'                 Default is `RCLabels::bracket_notation`.
@@ -197,10 +202,6 @@ get_objects <- function(labels,
 #'                     Note that a space is appended to each word internally,
 #'                     so, e.g., "to" becomes "to ".
 #'                     Default is `RCLabels::prepositions`.
-#' @param transpose A boolean that tells whether to `purr::transpose()` the result.
-#'                  Set `transpose = TRUE` when using `split_labels()` in a `dplyr::mutate()`
-#'                  call in the context of a data frame.
-#'                  Default is `FALSE`.
 #'
 #' @return A list of lists with items named `noun` and `pp`.
 #'
@@ -211,8 +212,7 @@ get_objects <- function(labels,
 #'              notation = bracket_notation)
 split_labels <- function(labels,
                          notation = RCLabels::bracket_notation,
-                         prepositions = RCLabels::prepositions,
-                         transpose = FALSE) {
+                         prepositions = RCLabels::prepositions) {
 
   nouns <- get_nouns(labels, notation = notation) |>
     as.list() |>
@@ -222,13 +222,9 @@ split_labels <- function(labels,
     })
   objects <- get_objects(labels, notation = notation, prepositions = prepositions)
 
-  out <- mapply(nouns, objects, SIMPLIFY = FALSE, FUN = function(noun, object) {
+  mapply(nouns, objects, SIMPLIFY = FALSE, FUN = function(noun, object) {
     c(noun, object)
   })
-  if (transpose) {
-    return(purrr::transpose(out))
-  }
-  return(out)
 }
 
 

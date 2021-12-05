@@ -7,8 +7,7 @@
 split_labels(
   labels,
   notation = RCLabels::bracket_notation,
-  prepositions = RCLabels::prepositions,
-  transpose = FALSE
+  prepositions = RCLabels::prepositions
 )
 }
 \arguments{
@@ -21,11 +20,6 @@ Default is \code{RCLabels::bracket_notation}.}
 Note that a space is appended to each word internally,
 so, e.g., "to" becomes "to ".
 Default is \code{RCLabels::prepositions}.}
-
-\item{transpose}{A boolean that tells whether to \code{purr::transpose()} the result.
-Set \code{transpose = TRUE} when using \code{split_labels()} in a \code{dplyr::mutate()}
-call in the context of a data frame.
-Default is \code{FALSE}.}
 }
 \value{
 A list of lists with items named \code{noun} and \code{pp}.
@@ -38,6 +32,12 @@ The return value from this function is a list
 with the first named item being the prefix (with the name \code{noun})
 followed by objects of prepositional phrases
 (with names being prepositions that precede the objects).
+}
+\details{
+Unlike \code{split_pref_suff()}, it does not make sense to have a \code{transpose}
+argument on \code{split_labels()}.
+Labels may not have the same structure,
+e.g., they may have different prepositions.
 }
 \examples{
 split_labels(c("a [of b in c]", "d [of e into f]"),
