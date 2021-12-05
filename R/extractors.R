@@ -246,17 +246,17 @@ split_labels <- function(labels,
 #' labs
 #' split <- split_labels(labs)
 #' split
-#' recombine_labels(split)
+#' paste_pieces(split)
 #' # Also works in a data frame
 #' df <- tibble::tibble(labels = c("a [in b]", "c [of d into USA]",
 #'                                 "e [of f in g]", "h [-> i in j]"))
 #' recombined <- df |>
 #'   dplyr::mutate(
 #'     splits = split_labels(labels),
-#'     recombined = recombine_labels(splits)
+#'     recombined = paste_pieces(splits)
 #'   )
 #' all(recombined$labels == recombined$recombined)
-recombine_labels <- function(ls, notation = RCLabels::bracket_notation) {
+paste_pieces <- function(ls, notation = RCLabels::bracket_notation) {
   nouns <- ls |>
     sapply(FUN = function(this_label) {
       this_label[["noun"]]
