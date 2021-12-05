@@ -19,11 +19,9 @@ Suggests:
     tibble
 Config/testthat/edition: 3
 Imports:
-    dplyr,
     Hmisc,
     magrittr, 
-    purrr, 
-    stringi
+    purrr
 Depends: 
     R (>= 2.10)
 LazyData: true
