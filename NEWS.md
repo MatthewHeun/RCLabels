@@ -8,6 +8,7 @@ output: html_document
 
 * New function `replace_by_pattern()`.
 * New function `match_by_pattern()`.
+* First CRAN release.
 * New tests for new functions.
     * 187 tests, all passing.
     * Test coverage remains at 100 %.
