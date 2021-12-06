@@ -2,7 +2,7 @@
 % Please edit documentation in R/extractors.R
 \name{get_pps}
 \alias{get_pps}
-\title{Extract prepositional phrases from labels}
+\title{Extract prepositional phrases of row and column labels}
 \usage{
 get_pps(
   labels,
@@ -11,33 +11,22 @@ get_pps(
 )
 }
 \arguments{
-\item{labels}{The row and column labels from which prepositional phrases are to be extracted.}
+\item{labels}{A list or vector of labels from which nouns are to be extracted.}
 
-\item{notation}{The notation object that describes the labels.
+\item{notation}{The notation type to be used when extracting nouns.
 Default is \code{RCLabels::bracket_notation}.}
 
-\item{prepositions}{A vector of strings to be treated as prepositions.
-Note that a space is appended to each word internally,
-so, e.g., "to" becomes "to ".
+\item{prepositions}{A list of prepositions, used to detect prepositional phrases.
 Default is \code{RCLabels::prepositions}.}
 }
 \value{
-A list of lists of prepositional phrases.
-The structure of the returned list is the same as the length of \code{labels}
-with an additional level added
-in which each item is one prepositional phrase.
+All prepositional phrases in a suffix.
 }
 \description{
-A suffix can consist of several prepositional phrases.
-This function splits the prepositional phrases apart,
-returning a list of those phrases.
-Each prepositional phrase consists of a proposition
-(see \code{RCLabels::prepositions}) and its object.
-}
-\details{
-Some labels will have no suffix and no prepositions.
-When there are no prepositions, \code{NA} is returned.
+This function extracts the suffix of a row or column label as a
+single string.
 }
 \examples{
-get_pps(c("a [of b in c]", "d [of e into f]"), bracket_notation)
+get_pps(c("a [in b]", "c [of d]"))
+get_pps(c("a [of b in c]", "d [-> e of f]"))
 }

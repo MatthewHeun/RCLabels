@@ -1,4 +1,4 @@
-test_that("make_pattern() works as expected", {
+test_that("make_or_pattern() works as expected", {
   expect_equal(make_or_pattern(c("a", "b")), "^a$|^b$")
   expect_equal(make_or_pattern(c("a", "b"), pattern_type = "exact"), "^a$|^b$")
   expect_equal(make_or_pattern(c("a", "b"), pattern_type = "leading"), "^a|^b")
@@ -17,4 +17,212 @@ test_that('prepositions make good "or" patterns', {
   expect_equal(attr(res[[1]], which = "match.length"), 2)
   expect_equal(attr(res[[2]], which = "match.length"), 4)
   expect_equal(attr(res[[3]], which = "match.length"), 2)
+})
+
+
+test_that("match_by_pattern() works as expected for string matches", {
+  labels <- c("Production [of b in c]", "d [of Coal in f]", "g [of h in USA]")
+  # Simple matching
+  expect_equal(match_by_pattern(labels,
+                                regex_pattern = "Production"),
+               c(TRUE, FALSE, FALSE))
+  expect_equal(match_by_pattern(labels,
+                                regex_pattern = "Coal"),
+               c(FALSE, TRUE, FALSE))
+  expect_equal(match_by_pattern(labels,
+                                regex_pattern = "USA"),
+               c(FALSE, FALSE, TRUE))
+
+  # Check word positions
+  expect_equal(match_by_pattern(labels,
+                                regex_pattern = "^Production"),
+               c(TRUE, FALSE, FALSE))
+  # This should fail, because Production is at the start of the first string,
+  # not the end of a string.
+  expect_equal(match_by_pattern(labels,
+                                regex_pattern = "Production$"),
+               c(FALSE, FALSE, FALSE))
+})
+
+
+test_that("match_by_pattern() works for prefixes and suffixes", {
+  labels <- c("Production [of b in c]", "d [of Coal in f]", "g [of h in USA]")
+
+  # This should give an error,
+  # because we should have only "pref" or "suff", not both.
+  expect_error(match_by_pattern(labels,
+                                regex_pattern = "Production",
+                                pieces = c("pref", "to")),
+               'If pieces contains "pref" or "suff", its length')
+
+  # This should work, because "Production" is in the prefix.
+  expect_equal(match_by_pattern(labels,
+                                regex_pattern = "Production",
+                                pieces = "pref"),
+               c(TRUE, FALSE, FALSE))
+
+  # This should fail, because "Production" is not in the suffix.
+  expect_equal(match_by_pattern(labels,
+                                regex_pattern = "Production",
+                                pieces = "suff"),
+               c(FALSE, FALSE, FALSE))
+})
+
+
+test_that("match_by_pattern() works for nouns and prepositions", {
+  labels <- c("Production [of b in c]", "d [of Coal in f]", "g [of h in USA]")
+  # This should work, because "Production" is a noun.
+  expect_equal(match_by_pattern(labels,
+                                regex_pattern = "Production",
+                                pieces = "noun"),
+               c(TRUE, FALSE, FALSE))
+
+  # This won't work, because "Production" is a noun, not in a prepositional phrase.
+  expect_equal(match_by_pattern(labels,
+                                regex_pattern = "Production",
+                                pieces = "in"),
+               c(FALSE, FALSE, FALSE))
+
+  # Try a preposition
+  expect_equal(match_by_pattern(labels,
+                                regex_pattern = make_or_pattern(c("c", "f")),
+                                pieces = "in"),
+               c(TRUE, TRUE, FALSE))
+
+  # This should match only the USA one.
+  expect_equal(match_by_pattern(labels,
+                                regex_pattern = make_or_pattern(c("b", "Coal", "USA")),
+                                pieces = "in"),
+               c(FALSE, FALSE, TRUE))
+
+  # This should match all labels.
+  expect_equal(match_by_pattern(labels,
+                                regex_pattern = make_or_pattern(c("b", "Coal", "USA")),
+                                pieces = c("of", "in")),
+               c(TRUE, TRUE, TRUE))
+})
+
+
+test_that("match_by_pattern() works for degenerate case", {
+  labels <- c("Production [of b to GBR in c]", "d [of Coal in f]", "g [of h in USA]")
+  # Try a situation that will return non-square results.
+  expect_equal(match_by_pattern(labels,
+                                regex_pattern = make_or_pattern(c("b", "Coal", "GBR", "USA")),
+                                pieces = c("noun", "of", "in", "to"),
+                                prepositions = c("of", "to", "in")),
+               c(TRUE, TRUE, TRUE))
+})
+
+
+test_that("replace_by_pattern() works as expected", {
+  labels <- c("Production [of b in c]", "d [of Coal in f]", "g [of h in USA]")
+  expect_equal(replace_by_pattern(labels,
+                                  regex_pattern = "Production",
+                                  replacement = "Manufacture"),
+               c("Manufacture [of b in c]", "d [of Coal in f]", "g [of h in USA]"))
+  expect_equal(replace_by_pattern(labels,
+                                  regex_pattern = "Coal",
+                                  replacement = "Oil"),
+               c("Production [of b in c]", "d [of Oil in f]", "g [of h in USA]"))
+  expect_equal(replace_by_pattern(labels,
+                                  regex_pattern = "USA",
+                                  replacement = "GHA"),
+               c("Production [of b in c]", "d [of Coal in f]", "g [of h in GHA]"))
+})
+
+
+test_that("replace_by_pattern() works as expected with prefixes and suffixes", {
+  labels <- c("Production [of b in c]", "d [of Coal in f]", "g [of h in USA]")
+  expect_equal(replace_by_pattern(labels,
+                                  regex_pattern = "Production",
+                                  replacement = "Manufacture",
+                                  pieces = "pref"),
+               c("Manufacture [of b in c]", "d [of Coal in f]", "g [of h in USA]"))
+
+  expect_equal(replace_by_pattern(labels,
+                                  regex_pattern = "Coa",
+                                  replacement = "Bow",
+                                  pieces = "suff"),
+               c("Production [of b in c]", "d [of Bowl in f]", "g [of h in USA]"))
+
+  # Nothing should change, because USA is in the suffix.
+  expect_equal(replace_by_pattern(labels,
+                                  regex_pattern = "SA",
+                                  replacement = "SSR",
+                                  pieces = "pref"),
+               c("Production [of b in c]", "d [of Coal in f]", "g [of h in USA]"))
+
+  # Now USA --> USSR, because USA is in the suffix.
+  expect_equal(replace_by_pattern(labels,
+                                  regex_pattern = "SA",
+                                  replacement = "SSR",
+                                  pieces = "suff"),
+               c("Production [of b in c]", "d [of Coal in f]", "g [of h in USSR]"))
+
+  # This should throw an error, because only "pref" or "suff" can be specified.
+  expect_error(replace_by_pattern(labels,
+                                  regex_pattern = "SA",
+                                  replacement = "SSR",
+                                  pieces = c("pref", "suff")),
+               'If pieces contains "pref" or "suff", its length must be 1. Length was 2.')
+
+  # This should throw an error, because only "pref" or "suff" can be specified.
+  expect_error(replace_by_pattern(labels,
+                                  regex_pattern = "SA",
+                                  replacement = "SSR",
+                                  pieces = c("pref", "bogus", "42")),
+               'If pieces contains "pref" or "suff", its length must be 1. Length was 3.')
+})
+
+
+test_that("replace_by_pattern() works for nouns and prepositions", {
+  labels <- c("Production [of b in c]", "d [of Coal in f]", "g [of h in USA]")
+  expect_equal(replace_by_pattern(labels,
+                                  regex_pattern = "Production",
+                                  replacement = "Manufacture",
+                                  pieces = "noun"),
+               c("Manufacture [of b in c]", "d [of Coal in f]", "g [of h in USA]"))
+
+  expect_equal(replace_by_pattern(labels,
+                                  regex_pattern = "^Pro",
+                                  replacement = "Con",
+                                  pieces = "noun"),
+               c("Conduction [of b in c]", "d [of Coal in f]", "g [of h in USA]"))
+  # Won't match: wrong side of string.
+  expect_equal(replace_by_pattern(labels,
+                                  regex_pattern = "Pro$",
+                                  replacement = "Con",
+                                  pieces = "noun"),
+               c("Production [of b in c]", "d [of Coal in f]", "g [of h in USA]"))
+  # No change, because "Production" is a noun.
+  expect_equal(replace_by_pattern(labels,
+                                  regex_pattern = "Production",
+                                  replacement = "Manufacture",
+                                  pieces = "of"),
+               c("Production [of b in c]", "d [of Coal in f]", "g [of h in USA]"))
+  # Now try with "of".
+  expect_equal(replace_by_pattern(labels,
+                                  regex_pattern = "Coal",
+                                  replacement = "Oil",
+                                  pieces = "of"),
+               c("Production [of b in c]", "d [of Oil in f]", "g [of h in USA]"))
+  # No change, because "Coal" is not "in" anything.
+  expect_equal(replace_by_pattern(labels,
+                                  regex_pattern = "Coal",
+                                  replacement = "Oil",
+                                  pieces = "in"),
+               c("Production [of b in c]", "d [of Coal in f]", "g [of h in USA]"))
+
+  # Now try in "in".
+  expect_equal(replace_by_pattern(labels,
+                                  regex_pattern = "USA",
+                                  replacement = "GBR",
+                                  pieces = "in"),
+               c("Production [of b in c]", "d [of Coal in f]", "g [of h in GBR]"))
+  # Replace at end of word
+  expect_equal(replace_by_pattern(labels,
+                                  regex_pattern = "A$",
+                                  replacement = "upercalifragilisticexpialidocious",
+                                  pieces = "in"),
+               c("Production [of b in c]", "d [of Coal in f]", "g [of h in USupercalifragilisticexpialidocious]"))
 })

@@ -25,7 +25,19 @@ Default is \code{RCLabels::prepositions}.}
 A list of lists with items named \code{noun} and \code{pp}.
 }
 \description{
-Split row and column labels into nouns and prepositional phrases
+This function is similar to \code{split_pref_suff()} in that it returns a list.
+However, this function's list is more detailed than
+\code{split_pref_suff()}.
+The return value from this function is a list
+with the first named item being the prefix (with the name \code{noun})
+followed by objects of prepositional phrases
+(with names being prepositions that precede the objects).
+}
+\details{
+Unlike \code{split_pref_suff()}, it does not make sense to have a \code{transpose}
+argument on \code{split_labels()}.
+Labels may not have the same structure,
+e.g., they may have different prepositions.
 }
 \examples{
 split_labels(c("a [of b in c]", "d [of e into f]"),

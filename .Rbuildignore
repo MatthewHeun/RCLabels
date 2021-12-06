@@ -3,3 +3,9 @@
 ^README\.Rmd$
 ^LICENSE\.md$
 ^data-raw$
+^\.github$
+^docs$
+^_pkgdown\.yml$
+^pkgdown$
+^cran-comments\.md$
+^CRAN-SUBMISSION$
