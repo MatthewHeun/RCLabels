@@ -45,8 +45,8 @@ that are now in `RCLabels`.
     * `devtools::check_win_release()`, R version 4.1.2 (2021-08-10)
         * ERRORs: 0
         * WARNINGs: 0
-        * NOTEs: 0
-    * `devtools::check_win_devel()`, R Under development (unstable) (2021-10-07 r81018)
+        * NOTEs: 1 --- As expected, the note identifies `RCLabels` as a new submission to CRAN.
+    * `devtools::check_win_devel()`, R Under development (unstable) (2021-12-03 r81290)
         * ERRORs: 0
         * WARNINGs: 0
         * NOTEs: 0
@@ -55,7 +55,7 @@ that are now in `RCLabels`.
         * Windows Server 2008 R2 SP1, R-devel, 32/64 bit
             * ERRORs: 0
             * WARNINGs: 0
-            * NOTEs: 0
+            * NOTEs: 1 --- New submission.
         * Ubuntu Linux 20.04.1 LTS, R-release, GCC
             * ERRORs: 0
             * WARNINGs: 0
@@ -68,5 +68,5 @@ that are now in `RCLabels`.
 
 ## revdepcheck results
 
-Becasue this is a new submission, there are no reverse dependencies.
+Because this is a new submission, there are no reverse dependencies.
  
