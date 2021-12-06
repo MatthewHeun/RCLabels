@@ -1,6 +1,6 @@
 ## Context
 
-`RCLabels` v0.0.4 ________________
+`RCLabels` v0.0.4 is a new submission to CRAN.
 
 See `NEWS.md` for details.
 
