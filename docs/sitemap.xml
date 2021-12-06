@@ -73,10 +73,16 @@
     <loc>/reference/paren_notation.html</loc>
   </url>
   <url>
+    <loc>/reference/paste_pieces.html</loc>
+  </url>
+  <url>
     <loc>/reference/prepositions.html</loc>
   </url>
   <url>
     <loc>/reference/recombine_labels.html</loc>
+  </url>
+  <url>
+    <loc>/reference/regex_funcs.html</loc>
   </url>
   <url>
     <loc>/reference/remove_label_pieces.html</loc>
