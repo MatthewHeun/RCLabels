@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">RCLabels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +61,7 @@
       <img src="" class="logo" alt=""><h1>RCLabels</h1>
                         <h4 data-toc-skip class="author">Matthew Kuperus Heun</h4>
             
-            <h4 data-toc-skip class="date">2021-12-03</h4>
+            <h4 data-toc-skip class="date">2021-12-05</h4>
       
       
       <div class="d-none name"><code>RCLabels.Rmd</code></div>
@@ -288,11 +288,11 @@
 <span class="co">#&gt;  "g"  "h"  "i"</span>
 
 <span class="co"># Recombine split labels.</span>
-<span class="fu"><a href="../reference/recombine_labels.html">recombine_labels</a></span><span class="op">(</span><span class="va">split_labels</span>, notation <span class="op">=</span> <span class="va">bracket_notation</span><span class="op">)</span>
+<span class="fu"><a href="../reference/paste_pieces.html">paste_pieces</a></span><span class="op">(</span><span class="va">split_labels</span>, notation <span class="op">=</span> <span class="va">bracket_notation</span><span class="op">)</span>
 <span class="co">#&gt; [1] "a [of b in c]" "d [of e in f]" "g [of h in i]"</span>
 
 <span class="co"># Recombine with a new notation.</span>
-<span class="fu"><a href="../reference/recombine_labels.html">recombine_labels</a></span><span class="op">(</span><span class="va">split_labels</span>, notation <span class="op">=</span> <span class="va">paren_notation</span><span class="op">)</span>
+<span class="fu"><a href="../reference/paste_pieces.html">paste_pieces</a></span><span class="op">(</span><span class="va">split_labels</span>, notation <span class="op">=</span> <span class="va">paren_notation</span><span class="op">)</span>
 <span class="co">#&gt; [1] "a (of b in c)" "d (of e in f)" "g (of h in i)"</span></code></pre></div>
 </div>
 <div class="section level2">
@@ -361,58 +361,162 @@
 <div class="section level2">
 <h2 id="detecting-strings-in-labels">Detecting strings in labels<a class="anchor" aria-label="anchor" href="#detecting-strings-in-labels"></a>
 </h2>
-<p>There are times when it is helpful to know if a string is in a label. <code><a href="../reference/match_by_pattern.html">match_by_pattern()</a></code> searches for matches in row and column labels by regular expression.</p>
+<p>There are times when it is helpful to know if a string is in a label. <code><a href="../reference/regex_funcs.html">match_by_pattern()</a></code> searches for matches in row and column labels by regular expression. Internally, <code><a href="../reference/regex_funcs.html">match_by_pattern()</a></code> uses <code><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl()</a></code> for regular expression matching.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Production [of b in c]"</span>, <span class="st">"d [of Coal in f]"</span>, <span class="st">"g [of h in USA]"</span><span class="op">)</span>
 
 <span class="co"># With default `pieces` argument, matching is done for whole labels.</span>
-<span class="fu"><a href="../reference/match_by_pattern.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, regex_pattern <span class="op">=</span> <span class="st">"Production"</span><span class="op">)</span>
+<span class="fu"><a href="../reference/regex_funcs.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, regex_pattern <span class="op">=</span> <span class="st">"Production"</span><span class="op">)</span>
 <span class="co">#&gt; [1]  TRUE FALSE FALSE</span>
-<span class="fu"><a href="../reference/match_by_pattern.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, regex_pattern <span class="op">=</span> <span class="st">"Coal"</span><span class="op">)</span>
+<span class="fu"><a href="../reference/regex_funcs.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, regex_pattern <span class="op">=</span> <span class="st">"Coal"</span><span class="op">)</span>
 <span class="co">#&gt; [1] FALSE  TRUE FALSE</span>
-<span class="fu"><a href="../reference/match_by_pattern.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, regex_pattern <span class="op">=</span> <span class="st">"USA"</span><span class="op">)</span>
+<span class="fu"><a href="../reference/regex_funcs.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, regex_pattern <span class="op">=</span> <span class="st">"USA"</span><span class="op">)</span>
 <span class="co">#&gt; [1] FALSE FALSE  TRUE</span>
 
 <span class="co"># Check beginnings of labels: match!</span>
-<span class="fu"><a href="../reference/match_by_pattern.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, regex_pattern <span class="op">=</span> <span class="st">"^Production"</span><span class="op">)</span>
+<span class="fu"><a href="../reference/regex_funcs.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, regex_pattern <span class="op">=</span> <span class="st">"^Production"</span><span class="op">)</span>
 <span class="co">#&gt; [1]  TRUE FALSE FALSE</span>
 <span class="co"># Check at ends of labels: no match!</span>
-<span class="fu"><a href="../reference/match_by_pattern.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, regex_pattern <span class="op">=</span> <span class="st">"Production$"</span><span class="op">)</span>
+<span class="fu"><a href="../reference/regex_funcs.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, regex_pattern <span class="op">=</span> <span class="st">"Production$"</span><span class="op">)</span>
 <span class="co">#&gt; [1] FALSE FALSE FALSE</span>
 
 <span class="co"># Search by prefix or suffix.</span>
-<span class="fu"><a href="../reference/match_by_pattern.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, regex_pattern <span class="op">=</span> <span class="st">"Production"</span>, pieces <span class="op">=</span> <span class="st">"pref"</span><span class="op">)</span>
+<span class="fu"><a href="../reference/regex_funcs.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, regex_pattern <span class="op">=</span> <span class="st">"Production"</span>, pieces <span class="op">=</span> <span class="st">"pref"</span><span class="op">)</span>
 <span class="co">#&gt; [1]  TRUE FALSE FALSE</span>
-<span class="fu"><a href="../reference/match_by_pattern.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, regex_pattern <span class="op">=</span> <span class="st">"Production"</span>, pieces <span class="op">=</span> <span class="st">"suff"</span><span class="op">)</span>
+<span class="fu"><a href="../reference/regex_funcs.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, regex_pattern <span class="op">=</span> <span class="st">"Production"</span>, pieces <span class="op">=</span> <span class="st">"suff"</span><span class="op">)</span>
 <span class="co">#&gt; [1] FALSE FALSE FALSE</span>
 <span class="co"># When pieces is "pref" or "suff", only one can be specified.</span>
 <span class="co"># The following function call gives an error.</span>
 <span class="co"># match_by_pattern(labels, regex_pattern = "Production", pieces = c("pref", "to"))</span>
 
 <span class="co"># Search by noun or preposition.</span>
-<span class="fu"><a href="../reference/match_by_pattern.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, regex_pattern <span class="op">=</span> <span class="st">"Production"</span>, pieces <span class="op">=</span> <span class="st">"noun"</span><span class="op">)</span>
+<span class="fu"><a href="../reference/regex_funcs.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, regex_pattern <span class="op">=</span> <span class="st">"Production"</span>, pieces <span class="op">=</span> <span class="st">"noun"</span><span class="op">)</span>
 <span class="co">#&gt; [1]  TRUE FALSE FALSE</span>
-<span class="fu"><a href="../reference/match_by_pattern.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, regex_pattern <span class="op">=</span> <span class="st">"Production"</span>, pieces <span class="op">=</span> <span class="st">"in"</span><span class="op">)</span>
+<span class="fu"><a href="../reference/regex_funcs.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, regex_pattern <span class="op">=</span> <span class="st">"Production"</span>, pieces <span class="op">=</span> <span class="st">"in"</span><span class="op">)</span>
 <span class="co">#&gt; [1] FALSE FALSE FALSE</span>
 <span class="co"># Searching can be done with complicated regex patterns.</span>
-<span class="fu"><a href="../reference/match_by_pattern.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, 
+<span class="fu"><a href="../reference/regex_funcs.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>, 
                  regex_pattern <span class="op">=</span> <span class="fu"><a href="../reference/make_or_pattern.html">make_or_pattern</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c"</span>, <span class="st">"f"</span><span class="op">)</span><span class="op">)</span>,
                  pieces <span class="op">=</span> <span class="st">"in"</span><span class="op">)</span>
 <span class="co">#&gt; [1]  TRUE  TRUE FALSE</span>
-<span class="fu"><a href="../reference/match_by_pattern.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>,
+<span class="fu"><a href="../reference/regex_funcs.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>,
                  regex_pattern <span class="op">=</span> <span class="fu"><a href="../reference/make_or_pattern.html">make_or_pattern</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"b"</span>, <span class="st">"Coal"</span>, <span class="st">"USA"</span><span class="op">)</span><span class="op">)</span>,
                  pieces <span class="op">=</span> <span class="st">"in"</span><span class="op">)</span>
 <span class="co">#&gt; [1] FALSE FALSE  TRUE</span>
-<span class="fu"><a href="../reference/match_by_pattern.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>,
+<span class="fu"><a href="../reference/regex_funcs.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>,
                  regex_pattern <span class="op">=</span> <span class="fu"><a href="../reference/make_or_pattern.html">make_or_pattern</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"b"</span>, <span class="st">"Coal"</span>, <span class="st">"USA"</span><span class="op">)</span><span class="op">)</span>,
                  pieces <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"of"</span>, <span class="st">"in"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] TRUE TRUE TRUE</span>
 <span class="co"># Works with custom lists of prepositions.</span>
-<span class="fu"><a href="../reference/match_by_pattern.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>,
+<span class="fu"><a href="../reference/regex_funcs.html">match_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>,
                  regex_pattern <span class="op">=</span> <span class="fu"><a href="../reference/make_or_pattern.html">make_or_pattern</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"b"</span>, <span class="st">"Coal"</span>, <span class="st">"GBR"</span>, <span class="st">"USA"</span><span class="op">)</span><span class="op">)</span>,
                  pieces <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"noun"</span>, <span class="st">"of"</span>, <span class="st">"in"</span>, <span class="st">"to"</span><span class="op">)</span>,
                  prepositions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"of"</span>, <span class="st">"to"</span>, <span class="st">"in"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] TRUE TRUE TRUE</span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="replacing-strings-in-labels">Replacing strings in labels<a class="anchor" aria-label="anchor" href="#replacing-strings-in-labels"></a>
+</h2>
+<p>There are times when it is helpful to replace strings in labels. The <code><a href="../reference/regex_funcs.html">replace_by_pattern()</a></code> function will replace strings in row and column labels by regular expression pattern. Note that <code><a href="../reference/regex_funcs.html">replace_by_pattern()</a></code> is similar to <code><a href="../reference/regex_funcs.html">match_by_pattern()</a></code>, except <code><a href="../reference/regex_funcs.html">replace_by_pattern()</a></code> has an additional argument, <code>replacement</code>. Internally, <code><a href="../reference/regex_funcs.html">replace_by_pattern()</a></code> uses <code><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub()</a></code> to perform regular expression matching.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Production [of b in c]"</span>, <span class="st">"d [of Coal in f]"</span>, <span class="st">"g [of h in USA]"</span><span class="op">)</span>
+<span class="va">labels</span>
+<span class="co">#&gt; [1] "Production [of b in c]" "d [of Coal in f]"       "g [of h in USA]"</span>
+
+<span class="co"># If `pieces = "all"` (the default), the entire label is available for replacements.</span>
+<span class="fu"><a href="../reference/regex_funcs.html">replace_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>,
+                   regex_pattern <span class="op">=</span> <span class="st">"Production"</span>,
+                   replacement <span class="op">=</span> <span class="st">"Manufacture"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "Manufacture [of b in c]" "d [of Coal in f]"       </span>
+<span class="co">#&gt; [3] "g [of h in USA]"</span>
+<span class="fu"><a href="../reference/regex_funcs.html">replace_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>,
+                   regex_pattern <span class="op">=</span> <span class="st">"Coal"</span>,
+                   replacement <span class="op">=</span> <span class="st">"Oil"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "Production [of b in c]" "d [of Oil in f]"        "g [of h in USA]"</span>
+<span class="fu"><a href="../reference/regex_funcs.html">replace_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>,
+                   regex_pattern <span class="op">=</span> <span class="st">"USA"</span>,
+                   replacement <span class="op">=</span> <span class="st">"GHA"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "Production [of b in c]" "d [of Coal in f]"       "g [of h in GHA]"</span>
+
+<span class="co"># Replace by prefix and suffix.</span>
+<span class="fu"><a href="../reference/regex_funcs.html">replace_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>,
+                   regex_pattern <span class="op">=</span> <span class="st">"Production"</span>,
+                   replacement <span class="op">=</span> <span class="st">"Manufacture"</span>,
+                   pieces <span class="op">=</span> <span class="st">"pref"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "Manufacture [of b in c]" "d [of Coal in f]"       </span>
+<span class="co">#&gt; [3] "g [of h in USA]"</span>
+<span class="fu"><a href="../reference/regex_funcs.html">replace_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>,
+                   regex_pattern <span class="op">=</span> <span class="st">"Coa"</span>,
+                   replacement <span class="op">=</span> <span class="st">"Bow"</span>,
+                   pieces <span class="op">=</span> <span class="st">"suff"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "Production [of b in c]" "d [of Bowl in f]"       "g [of h in USA]"</span>
+<span class="co"># Nothing should change, because USA is in the suffix.</span>
+<span class="fu"><a href="../reference/regex_funcs.html">replace_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>,
+                   regex_pattern <span class="op">=</span> <span class="st">"SA"</span>,
+                   replacement <span class="op">=</span> <span class="st">"SSR"</span>,
+                   pieces <span class="op">=</span> <span class="st">"pref"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "Production [of b in c]" "d [of Coal in f]"       "g [of h in USA]"</span>
+<span class="co"># Now USA --&gt; USSR, because USA is in the suffix.</span>
+<span class="fu"><a href="../reference/regex_funcs.html">replace_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>,
+                   regex_pattern <span class="op">=</span> <span class="st">"SA"</span>,
+                   replacement <span class="op">=</span> <span class="st">"SSR"</span>,
+                   pieces <span class="op">=</span> <span class="st">"suff"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "Production [of b in c]" "d [of Coal in f]"       "g [of h in USSR]"</span>
+<span class="co"># This will throw an error, because only "pref" or "suff" can be specified.</span>
+<span class="co"># replace_by_pattern(labels,</span>
+<span class="co">#                    regex_pattern = "SA",</span>
+<span class="co">#                    replacement = "SSR",</span>
+<span class="co">#                    pieces = c("pref", "suff")</span>
+
+<span class="co"># Replace by noun or preposition.</span>
+<span class="fu"><a href="../reference/regex_funcs.html">replace_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>,
+                   regex_pattern <span class="op">=</span> <span class="st">"Production"</span>,
+                   replacement <span class="op">=</span> <span class="st">"Manufacture"</span>,
+                   pieces <span class="op">=</span> <span class="st">"noun"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "Manufacture [of b in c]" "d [of Coal in f]"       </span>
+<span class="co">#&gt; [3] "g [of h in USA]"</span>
+<span class="fu"><a href="../reference/regex_funcs.html">replace_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>,
+                   regex_pattern <span class="op">=</span> <span class="st">"^Pro"</span>,
+                   replacement <span class="op">=</span> <span class="st">"Con"</span>,
+                   pieces <span class="op">=</span> <span class="st">"noun"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "Conduction [of b in c]" "d [of Coal in f]"       "g [of h in USA]"</span>
+<span class="co"># Won't match: wrong side of string.</span>
+<span class="fu"><a href="../reference/regex_funcs.html">replace_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>,
+                   regex_pattern <span class="op">=</span> <span class="st">"Pro$"</span>,
+                   replacement <span class="op">=</span> <span class="st">"Con"</span>,
+                   pieces <span class="op">=</span> <span class="st">"noun"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "Production [of b in c]" "d [of Coal in f]"       "g [of h in USA]"</span>
+<span class="co"># No change, because "Production" is a noun.</span>
+<span class="fu"><a href="../reference/regex_funcs.html">replace_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>,
+                   regex_pattern <span class="op">=</span> <span class="st">"Production"</span>,
+                   replacement <span class="op">=</span> <span class="st">"Manufacture"</span>,
+                   pieces <span class="op">=</span> <span class="st">"of"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "Production [of b in c]" "d [of Coal in f]"       "g [of h in USA]"</span>
+<span class="co"># Now try with "of".</span>
+<span class="fu"><a href="../reference/regex_funcs.html">replace_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>,
+                   regex_pattern <span class="op">=</span> <span class="st">"Coal"</span>,
+                   replacement <span class="op">=</span> <span class="st">"Oil"</span>,
+                   pieces <span class="op">=</span> <span class="st">"of"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "Production [of b in c]" "d [of Oil in f]"        "g [of h in USA]"</span>
+<span class="co"># No change, because "Coal" is not "in" anything.</span>
+<span class="fu"><a href="../reference/regex_funcs.html">replace_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>,
+                   regex_pattern <span class="op">=</span> <span class="st">"Coal"</span>,
+                   replacement <span class="op">=</span> <span class="st">"Oil"</span>,
+                   pieces <span class="op">=</span> <span class="st">"in"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "Production [of b in c]" "d [of Coal in f]"       "g [of h in USA]"</span>
+<span class="co"># Now try in "in".</span>
+<span class="fu"><a href="../reference/regex_funcs.html">replace_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>,
+                   regex_pattern <span class="op">=</span> <span class="st">"USA"</span>,
+                   replacement <span class="op">=</span> <span class="st">"GBR"</span>,
+                   pieces <span class="op">=</span> <span class="st">"in"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "Production [of b in c]" "d [of Coal in f]"       "g [of h in GBR]"</span>
+<span class="fu"><a href="../reference/regex_funcs.html">replace_by_pattern</a></span><span class="op">(</span><span class="va">labels</span>,
+                   regex_pattern <span class="op">=</span> <span class="st">"A$"</span>,
+                   replacement <span class="op">=</span> <span class="st">"upercalifragilisticexpialidocious"</span>,
+                   pieces <span class="op">=</span> <span class="st">"in"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "Production [of b in c]"                         </span>
+<span class="co">#&gt; [2] "d [of Coal in f]"                               </span>
+<span class="co">#&gt; [3] "g [of h in USupercalifragilisticexpialidocious]"</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
