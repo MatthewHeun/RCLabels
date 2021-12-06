@@ -4,8 +4,13 @@ output: html_document
 ---
 
 
+# RCLabels 0.0.4
+
 * New function `replace_by_pattern()`.
 * New function `match_by_pattern()`.
+* New tests for new functions.
+    * 187 tests, all passing.
+    * Test coverage remains at 100 %.
 
 
 # RCLabels 0.0.3
