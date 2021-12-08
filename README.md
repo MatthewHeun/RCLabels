@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![CRAN
+status](https://www.r-pkg.org/badges/version/RCLabels)](https://CRAN.R-project.org/package=RCLabels)
 [![Codecov test
 coverage](https://codecov.io/gh/MatthewHeun/RCLabels/branch/main/graph/badge.svg)](https://app.codecov.io/gh/MatthewHeun/RCLabels?branch=main)
 [![R-CMD-check](https://github.com/MatthewHeun/RCLabels/workflows/R-CMD-check/badge.svg)](https://github.com/MatthewHeun/RCLabels/actions)
