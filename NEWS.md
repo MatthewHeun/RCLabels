@@ -4,6 +4,11 @@ output: html_document
 ---
 
 
+* Added note to README.Rmd about installing from CRAN.
+* Added project status badge.
+* Added CRAN status badge.
+
+
 # RCLabels 0.0.4 (2021-12-06)
 
 * New function `replace_by_pattern()`.
