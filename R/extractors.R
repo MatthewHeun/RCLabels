@@ -292,7 +292,7 @@ paste_pieces <- function(ls, notation = RCLabels::bracket_notation) {
 #' If a `piece` is missing in a label, "" (empty string) is returned.
 #'
 #' @param labels The row and column labels from which prepositional phrases are to be extracted.
-#' @param which The name of the item to return.
+#' @param piece The name of the item to return.
 #' @param notation The notation object that describes the labels.
 #'                 Default is `RCLabels::bracket_notation`.
 #' @param prepositions A vector of strings to be treated as prepositions.

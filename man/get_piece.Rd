@@ -14,6 +14,8 @@ get_piece(
 \arguments{
 \item{labels}{The row and column labels from which prepositional phrases are to be extracted.}
 
+\item{piece}{The name of the item to return.}
+
 \item{notation}{The notation object that describes the labels.
 Default is \code{RCLabels::bracket_notation}.}
 
@@ -21,8 +23,6 @@ Default is \code{RCLabels::bracket_notation}.}
 Note that a space is appended to each word internally,
 so, e.g., "to" becomes "to ".
 Default is \code{RCLabels::prepositions}.}
-
-\item{which}{The name of the item to return.}
 }
 \value{
 A \code{piece} of \code{labels}.
@@ -46,4 +46,11 @@ in \code{labels}.
 \code{piece} must be a character vector of length 1.
 
 If a \code{piece} is missing in a label, "" (empty string) is returned.
+}
+\examples{
+labs <- c("a [from b in c]", "d [of e in f]", "Export [of Coal from USA to MEX]")
+get_piece(labs, "pref")
+get_piece(labs, "suff")
+get_piece(labs, piece = "noun")
+get_piece(labs, "from")
 }
