@@ -124,3 +124,18 @@ test_that("paste_pieces() works as expected", {
 })
 
 
+test_that("get() works as expected", {
+  labs <- c("a [from b in c]", "d [of e in f]", "Export [of Coal from USA to MEX]")
+
+  expect_equal(get(labs), labs)
+
+  expect_equal(get(labs, "pref"),
+               c("a", "d", "Export"))
+  expect_equal(get(labs, "suff"),
+               c("from b in c", "of e in f", "of Coal from USA to MEX"))
+  expect_equal(get(labs, piece = "noun"),
+               c(noun = "a", noun = "d", noun = "Export"))
+  expect_equal(get(labs, "from"),
+               list(c(from = "b"), c(from = ""), c(from = "USA")))
+})
+

@@ -271,3 +271,62 @@ paste_pieces <- function(ls, notation = RCLabels::bracket_notation) {
   paste_pref_suff(pref = nouns, suff = pps, notation = notation)
 }
 
+
+#' Get a part of a label
+#'
+#' This is a wrapper function for `keep_pref_suff()`, `get_nouns()`, and
+#' `get_objects()`.
+#'
+#' `piece` is typically one of
+#'
+#' * "all" (which returns `labels` directly),
+#' * "pref" (for the prefixes),
+#' * "suff" (for the suffixes),
+#' * "noun" (returns the noun) or
+#' * "<<a preposition>>" which will return the objects of <<a preposition>>
+#'   in `labels`.
+#'
+#' @param labels The row and column labels from which prepositional phrases are to be extracted.
+#' @param which The name of the item to return.
+#' @param notation The notation object that describes the labels.
+#'                 Default is `RCLabels::bracket_notation`.
+#' @param prepositions A vector of strings to be treated as prepositions.
+#'                     Note that a space is appended to each word internally,
+#'                     so, e.g., "to" becomes "to ".
+#'                     Default is `RCLabels::prepositions`.
+#'
+#' @return
+#' @export
+#'
+#' @examples
+get <- function(labels,
+                piece = "all",
+                notation = RCLabels::bracket_notation,
+                prepositions = RCLabels::prepositions) {
+  if (piece == "all") {
+    return(labels)
+  } else if (piece == "pref" | piece == "suff") {
+    return(keep_pref_suff(labels, keep = piece, notation = notation))
+  } else if (piece == "noun") {
+    return(get_nouns(labels, notation = notation))
+  }
+  # If we get here, assume we want the object of a preposition
+  out <- get_objects(labels, notation = notation, prepositions = prepositions)
+  lapply(out, FUN = function(pieces){
+    theoneswewant <- pieces[names(pieces) == piece]
+    if (length(theoneswewant) == 0) {
+      return("" |> magrittr::set_names(piece))
+    }
+    return(theoneswewant)
+  })
+}
+
+
+
+
+
+
+
+
+
+
