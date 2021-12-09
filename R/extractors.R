@@ -286,6 +286,8 @@ paste_pieces <- function(ls, notation = RCLabels::bracket_notation) {
 #' * "<<a preposition>>" which will return the objects of <<a preposition>>
 #'   in `labels`.
 #'
+#' `piece` must be a character vector of length 1.
+#'
 #' @param labels The row and column labels from which prepositional phrases are to be extracted.
 #' @param which The name of the item to return.
 #' @param notation The notation object that describes the labels.
@@ -303,6 +305,7 @@ get <- function(labels,
                 piece = "all",
                 notation = RCLabels::bracket_notation,
                 prepositions = RCLabels::prepositions) {
+  assertthat::assert_that(length(piece) == 1, msg = "piece must be a character vector of length 1 in RCLabels::get()")
   if (piece == "all") {
     return(labels)
   } else if (piece == "pref" | piece == "suff") {

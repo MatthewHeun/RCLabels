@@ -127,6 +127,8 @@ test_that("paste_pieces() works as expected", {
 test_that("get() works as expected", {
   labs <- c("a [from b in c]", "d [of e in f]", "Export [of Coal from USA to MEX]")
 
+  expect_error(get(labs, piece = c("from", "to")), "piece must be a character vector of length 1 in RCLabels::get")
+
   expect_equal(get(labs), labs)
 
   expect_equal(get(labs, "pref"),

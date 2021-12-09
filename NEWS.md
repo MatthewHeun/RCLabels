@@ -4,6 +4,7 @@ output: html_document
 ---
 
 
+* New wrapper function `get()` returns requested piece of a label.
 * Added note to README.Rmd about installing from CRAN.
 * Added project status badge.
 * Added CRAN status badge.

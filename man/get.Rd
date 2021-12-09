@@ -41,4 +41,6 @@ This is a wrapper function for \code{keep_pref_suff()}, \code{get_nouns()}, and
 \item "<<a preposition>>" which will return the objects of <<a preposition>>
 in \code{labels}.
 }
+
+\code{piece} must be a character vector of length 1.
 }
