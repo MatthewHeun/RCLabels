@@ -218,6 +218,21 @@ get_prepositions(labels, notation = bracket_notation)
 # Objects are named by the preposition of their phrase.
 get_objects(labels, notation = bracket_notation)
 
+# The get_piece() function is a convenience function
+# that extracts just what you want.
+get_piece(labels, piece = "noun", notation = bracket_notation)
+get_piece(labels, piece = "pref")
+get_piece(labels, piece = "suff")
+get_piece(labels, piece = "of")
+get_piece(labels, piece = "in")
+# An empty string is returned when the preposition is missing.
+get_piece(labels, piece = "bogus")
+```
+
+Labels can be split into their component pieces.
+
+```{r}
+labels
 # Split the labels into pieces, named by "noun" and prepositions.
 split_labels <- split_labels(labels, 
                              prepositions = prepositions, 

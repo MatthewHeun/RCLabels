@@ -272,10 +272,11 @@ paste_pieces <- function(ls, notation = RCLabels::bracket_notation) {
 }
 
 
-#' Get a part of a label
+#' Get a piece of a label
 #'
 #' This is a wrapper function for `keep_pref_suff()`, `get_nouns()`, and
 #' `get_objects()`.
+#' It returns a `piece` of a row or column label.
 #'
 #' `piece` is typically one of
 #'
@@ -283,10 +284,12 @@ paste_pieces <- function(ls, notation = RCLabels::bracket_notation) {
 #' * "pref" (for the prefixes),
 #' * "suff" (for the suffixes),
 #' * "noun" (returns the noun) or
-#' * "<<a preposition>>" which will return the objects of <<a preposition>>
+#' * "<<a preposition>>" which will return the object of <<a preposition>>
 #'   in `labels`.
 #'
 #' `piece` must be a character vector of length 1.
+#'
+#' If a `piece` is missing in a label, "" (empty string) is returned.
 #'
 #' @param labels The row and column labels from which prepositional phrases are to be extracted.
 #' @param which The name of the item to return.
@@ -297,11 +300,17 @@ paste_pieces <- function(ls, notation = RCLabels::bracket_notation) {
 #'                     so, e.g., "to" becomes "to ".
 #'                     Default is `RCLabels::prepositions`.
 #'
-#' @return
+#' @return A `piece` of `labels`.
+#'
 #' @export
 #'
 #' @examples
-get <- function(labels,
+#' labs <- c("a [from b in c]", "d [of e in f]", "Export [of Coal from USA to MEX]")
+#' get_piece(labs, "pref")
+#' get_piece(labs, "suff")
+#' get_piece(labs, piece = "noun")
+#' get_piece(labs, "from")
+get_piece <- function(labels,
                 piece = "all",
                 notation = RCLabels::bracket_notation,
                 prepositions = RCLabels::prepositions) {

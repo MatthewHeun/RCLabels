@@ -124,20 +124,34 @@ test_that("paste_pieces() works as expected", {
 })
 
 
-test_that("get() works as expected", {
+test_that("get_piece() works as expected", {
   labs <- c("a [from b in c]", "d [of e in f]", "Export [of Coal from USA to MEX]")
 
-  expect_error(get(labs, piece = c("from", "to")), "piece must be a character vector of length 1 in RCLabels::get")
+  # Mush have length 1
+  expect_error(get_piece(labs, piece = c("from", "to")), "piece must be a character vector of length 1 in RCLabels::get")
 
-  expect_equal(get(labs), labs)
+  # Returns labs unchanged, because default value for piece is "all".
+  expect_equal(get_piece(labs), labs)
 
-  expect_equal(get(labs, "pref"),
+  # Prefix and suffix
+  expect_equal(get_piece(labs, "pref"),
                c("a", "d", "Export"))
-  expect_equal(get(labs, "suff"),
+  expect_equal(get_piece(labs, "suff"),
                c("from b in c", "of e in f", "of Coal from USA to MEX"))
-  expect_equal(get(labs, piece = "noun"),
+  # Noun
+  expect_equal(get_piece(labs, piece = "noun"),
                c(noun = "a", noun = "d", noun = "Export"))
-  expect_equal(get(labs, "from"),
+  # Prepositions
+  expect_equal(get_piece(labs, "from"),
                list(c(from = "b"), c(from = ""), c(from = "USA")))
+  expect_equal(get_piece(labs, "in"),
+               list(c(`in` = "c"), c(`in` = "f"), c(`in` = "")))
+  expect_equal(get_piece(labs, "of"),
+               list(c(of = ""), c(of = "e"), c(of = "Coal")))
+  expect_equal(get_piece(labs, "from"),
+               list(c(from = "b"), c(from = ""), c(from = "USA")))
+  # Unknown preposition
+  expect_equal(get_piece(labs, "bogus"),
+               list(c(bogus = ""), c(bogus = ""), c(bogus = "")))
 })
 
