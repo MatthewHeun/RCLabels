@@ -7,7 +7,7 @@
 \alias{split_pref_suff}
 \alias{paste_pref_suff}
 \alias{flip_pref_suff}
-\alias{keep_pref_suff}
+\alias{get_pref_suff}
 \alias{switch_notation}
 \title{Row and column notation}
 \usage{
@@ -32,9 +32,9 @@ paste_pref_suff(
 
 flip_pref_suff(x, notation = RCLabels::arrow_notation)
 
-keep_pref_suff(
+get_pref_suff(
   x,
-  keep = c("pref", "suff"),
+  which = c("pref", "suff"),
   notation = RCLabels::arrow_notation
 )
 
@@ -70,7 +70,7 @@ Default is \code{FALSE}.}
 
 \item{suff}{A string of list of strings that are suffixes. Default is \code{NULL}.}
 
-\item{keep}{Tells which to keep, the prefix ("pref") or the suffix ("suff").}
+\item{which}{Tells which to keep, the prefix ("pref") or the suffix ("suff").}
 
 \item{from}{The \code{notation} to switch \emph{away from}.}
 
@@ -103,7 +103,7 @@ separator (" -> ") between prefix and suffix.
 \item \code{flip_pref_suff()} Switches the location of prefix and suffix, such that the prefix becomes the suffix, and
 the suffix becomes the prefix.
 E.g., "a -> b" becomes "b -> a" or "a [b]" becomes "b [a]".
-\item \code{keep_pref_suff()} Selects only prefix or suffix, discarding notational elements
+\item \code{get_pref_suff()} Selects only prefix or suffix, discarding notational elements
 and the rejected part.
 Internally, calls \code{split_pref_suff()} and selects only the \code{suff} portions.
 \item \code{switch_notation()} Switches from one type of notation to another based on the \code{from} and \code{to} arguments.
@@ -131,7 +131,7 @@ split_pref_suff(c("a -> b", "c -> d", "e -> f"), notation = arrow_notation)
 split_pref_suff(c("a -> b", "c -> d", "e -> f"), notation = arrow_notation,
                 transpose = TRUE)
 flip_pref_suff("a [b]", notation = bracket_notation)
-keep_pref_suff("a -> b", keep = "suff", notation = arrow_notation)
+get_pref_suff("a -> b", which = "suff", notation = arrow_notation)
 switch_notation("a -> b", from = arrow_notation, to = bracket_notation)
 switch_notation("a -> b", from = arrow_notation, to = bracket_notation,
                 flip = TRUE)

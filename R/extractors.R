@@ -2,7 +2,7 @@
 #'
 #' Nouns are the first part of a row-column label,
 #' "a" in "a \[b\]".
-#' Internally, this function calls `keep_pref_suff()`
+#' Internally, this function calls `get_pref_suff()`
 #' and asks for the prefix.
 #'
 #' @param labels A list or vector of labels from which nouns are to be extracted.
@@ -19,7 +19,7 @@
 #' get_nouns(c("a [b]", "c [d]"))
 #' get_nouns(list("a [b]", "c [d]"))
 get_nouns <- function(labels, notation = RCLabels::bracket_notation) {
-  keep_pref_suff(labels, keep = "pref", notation = notation) |>
+  get_pref_suff(labels, which = "pref", notation = notation) |>
     magrittr::set_names(rep("noun", length(labels)))
 }
 
@@ -45,7 +45,7 @@ get_nouns <- function(labels, notation = RCLabels::bracket_notation) {
 get_pps <- function(labels,
                     notation = RCLabels::bracket_notation,
                     prepositions = RCLabels::prepositions) {
-  suffixes <- keep_pref_suff(labels, keep = "suff", notation = notation)
+  suffixes <- get_pref_suff(labels, which = "suff", notation = notation)
   # Location prepositions
   preposition_words <- paste0(prepositions, " ")
   prep_patterns <- make_or_pattern(preposition_words,
@@ -86,7 +86,7 @@ get_pps <- function(labels,
 get_prepositions <- function(labels,
                       notation = RCLabels::bracket_notation,
                       prepositions = RCLabels::prepositions) {
-  pps <- keep_pref_suff(labels, keep = "suff", notation = notation)
+  pps <- get_pref_suff(labels, which = "suff", notation = notation)
   preposition_words <- paste0(prepositions, " ")
   prep_patterns <- make_or_pattern(preposition_words,
                                    pattern_type = "anywhere")
@@ -140,7 +140,7 @@ get_objects <- function(labels,
                         notation = RCLabels::bracket_notation,
                         prepositions = RCLabels::prepositions) {
 
-  pps <- keep_pref_suff(labels, keep = "suff", notation = notation)
+  pps <- get_pref_suff(labels, which = "suff", notation = notation)
   preposition_words <- paste0(prepositions, " ")
   prep_patterns <- make_or_pattern(preposition_words,
                                    pattern_type = "anywhere")
@@ -274,7 +274,7 @@ paste_pieces <- function(ls, notation = RCLabels::bracket_notation) {
 
 #' Get a piece of a label
 #'
-#' This is a wrapper function for `keep_pref_suff()`, `get_nouns()`, and
+#' This is a wrapper function for `get_pref_suff()`, `get_nouns()`, and
 #' `get_objects()`.
 #' It returns a `piece` of a row or column label.
 #'
@@ -318,7 +318,7 @@ get_piece <- function(labels,
   if (piece == "all") {
     return(labels)
   } else if (piece == "pref" | piece == "suff") {
-    return(keep_pref_suff(labels, keep = piece, notation = notation))
+    return(get_pref_suff(labels, which = piece, notation = notation))
   } else if (piece == "noun") {
     return(get_nouns(labels, notation = notation))
   }

@@ -4,6 +4,9 @@ output: html_document
 ---
 
 
+* Breaking changes
+    - `keep_pref_suff()` --> `get_pref_suff()` to bring consistency with `get_piece()`.
+    - `keep` --> `which` change name of argument in `get_pref_suff()`.
 * New wrapper function `get()` returns requested piece of a label.
 * Added note to README.Rmd about installing from CRAN.
 * Added project status badge.

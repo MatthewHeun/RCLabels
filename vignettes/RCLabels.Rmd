@@ -145,8 +145,8 @@ switch_notation(my_label, from = my_notation, to = paren_notation, flip = TRUE)
 The prefix or suffix can be extracted from a row or column label.
 
 ```{r}
-keep_pref_suff(my_label, keep = "pref", notation = my_notation)
-keep_pref_suff(my_label, keep = "suff", notation = my_notation)
+get_pref_suff(my_label, which = "pref", notation = my_notation)
+get_pref_suff(my_label, which = "suff", notation = my_notation)
 ```
 
 
