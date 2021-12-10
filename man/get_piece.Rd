@@ -28,7 +28,7 @@ Default is \code{RCLabels::prepositions}.}
 A \code{piece} of \code{labels}.
 }
 \description{
-This is a wrapper function for \code{keep_pref_suff()}, \code{get_nouns()}, and
+This is a wrapper function for \code{get_pref_suff()}, \code{get_nouns()}, and
 \code{get_objects()}.
 It returns a \code{piece} of a row or column label.
 }

@@ -205,31 +205,31 @@ test_that("flip_pref_suff() works as expected", {
 })
 
 
-test_that("keep_pref_suff() works as expected", {
-  expect_equal(keep_pref_suff("a -> b", keep = "pref", notation = arrow_notation), "a")
-  expect_equal(keep_pref_suff("a -> b", keep = "suff", notation = arrow_notation), "b")
+test_that("get_pref_suff() works as expected", {
+  expect_equal(get_pref_suff("a -> b", which = "pref", notation = arrow_notation), "a")
+  expect_equal(get_pref_suff("a -> b", which = "suff", notation = arrow_notation), "b")
 
-  expect_equal(keep_pref_suff("a [b]", keep = "suff", notation = bracket_notation), "b")
+  expect_equal(get_pref_suff("a [b]", which = "suff", notation = bracket_notation), "b")
 
   # Try with a character vector
-  expect_equal(keep_pref_suff(c("a -> b", "c -> d"), keep = "pref", notation = arrow_notation),
+  expect_equal(get_pref_suff(c("a -> b", "c -> d"), which = "pref", notation = arrow_notation),
                c("a", "c"))
 
   # Try with a list
-  expect_equal(keep_pref_suff(list("a -> b", "c -> d"), keep = "pref", notation = arrow_notation),
+  expect_equal(get_pref_suff(list("a -> b", "c -> d"), which = "pref", notation = arrow_notation),
                c("a", "c"))
-  expect_equal(keep_pref_suff(list("a -> b", "c -> d"), keep = "suff", notation = arrow_notation),
+  expect_equal(get_pref_suff(list("a -> b", "c -> d"), which = "suff", notation = arrow_notation),
                c("b", "d"))
 
-  expect_equal(keep_pref_suff(list("a [b]", "abcde"), keep = "suff", notation = bracket_notation),
+  expect_equal(get_pref_suff(list("a [b]", "abcde"), which = "suff", notation = bracket_notation),
                c("b", ""))
 
   # Try degenerate cases
-  expect_equal(keep_pref_suff("abcde", keep = "pref", notation = arrow_notation), "abcde")
-  expect_equal(keep_pref_suff("abcde", keep = "suff", notation = arrow_notation), "")
-  expect_equal(keep_pref_suff(list("abcde", "fghij"), keep = "pref", notation = arrow_notation),
+  expect_equal(get_pref_suff("abcde", which = "pref", notation = arrow_notation), "abcde")
+  expect_equal(get_pref_suff("abcde", which = "suff", notation = arrow_notation), "")
+  expect_equal(get_pref_suff(list("abcde", "fghij"), which = "pref", notation = arrow_notation),
                c("abcde", "fghij"))
-  expect_equal(keep_pref_suff(list("abcde", "fghij"), keep = "suff", notation = arrow_notation),
+  expect_equal(get_pref_suff(list("abcde", "fghij"), which = "suff", notation = arrow_notation),
                c("", ""))
 
   # Test in a data frame using mutate.
@@ -237,13 +237,13 @@ test_that("keep_pref_suff() works as expected", {
   res <- df |>
     dplyr::mutate(
       # Keep the prefixes from the arrow notation column (v1)
-      pref = keep_pref_suff(v1, keep = "pref", notation = arrow_notation),
+      pref = get_pref_suff(v1, which = "pref", notation = arrow_notation),
       # Keep the suffixes from the bracket notation column (v2)
-      suff = keep_pref_suff(v2, keep = "suff", notation = bracket_notation),
+      suff = get_pref_suff(v2, which = "suff", notation = bracket_notation),
       # Keep the suffixes from the arrow notation column (v1), but specify bracket notation.
       # This should basically fail, because there are no suffixes.
       # Then, the entire string will be retained into the "fail" column.
-      fail = keep_pref_suff(v1, keep = "suff", notation = bracket_notation)
+      fail = get_pref_suff(v1, which = "suff", notation = bracket_notation)
     )
   expect_equal(res$pref[[1]], "a")
   expect_equal(res$pref[[2]], "c")
@@ -254,19 +254,19 @@ test_that("keep_pref_suff() works as expected", {
 })
 
 
-test_that("keep_pref_suff() works when there is no prefix or suffix", {
-  expect_equal(keep_pref_suff("a", keep = "pref", notation = arrow_notation), "a")
-  expect_equal(keep_pref_suff("a", keep = "suff", notation = arrow_notation), "")
-  expect_equal(keep_pref_suff("a", keep = "pref", notation = from_notation), "a")
-  expect_equal(keep_pref_suff("a", keep = "suff", notation = arrow_notation), "")
+test_that("get_pref_suff() works when there is no prefix or suffix", {
+  expect_equal(get_pref_suff("a", which = "pref", notation = arrow_notation), "a")
+  expect_equal(get_pref_suff("a", which = "suff", notation = arrow_notation), "")
+  expect_equal(get_pref_suff("a", which = "pref", notation = from_notation), "a")
+  expect_equal(get_pref_suff("a", which = "suff", notation = arrow_notation), "")
 })
 
 
-test_that("keep_pref_suff() preserves column type", {
+test_that("get_pref_suff() preserves column type", {
   df <- data.frame(v1 = c("a -> b", "c -> d"))
   res <- df |>
     dplyr::mutate(
-      pref = keep_pref_suff(v1, keep = "pref", notation = arrow_notation)
+      pref = get_pref_suff(v1, which = "pref", notation = arrow_notation)
     )
   expect_true(inherits(df$v1, what = "character"))
   expect_true(inherits(res$pref, what = "character"))
