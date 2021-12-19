@@ -279,13 +279,12 @@ paste_pieces <- function(ls, notation = RCLabels::bracket_notation) {
 #' It returns a `piece` of a row or column label.
 #'
 #' `piece` is typically one of
-#'
 #' * "all" (which returns `labels` directly),
 #' * "pref" (for the prefixes),
 #' * "suff" (for the suffixes),
 #' * "noun" (returns the noun) or
-#' * "<<a preposition>>" which will return the object of <<a preposition>>
-#'   in `labels`.
+#' * a preposition in `prepositions` (as a string), which will return
+#'   the object of that preposition.
 #'
 #' `piece` must be a character vector of length 1.
 #'

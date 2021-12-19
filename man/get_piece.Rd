@@ -39,8 +39,8 @@ It returns a \code{piece} of a row or column label.
 \item "pref" (for the prefixes),
 \item "suff" (for the suffixes),
 \item "noun" (returns the noun) or
-\item "<<a preposition>>" which will return the object of <<a preposition>>
-in \code{labels}.
+\item a preposition in \code{prepositions} (as a string), which will return
+the object of that preposition.
 }
 
 \code{piece} must be a character vector of length 1.
