@@ -4,6 +4,8 @@ output: html_document
 ---
 
 
+* `RCLabels::prepositions` is now a vector instead of a list,
+  thereby making downstream use of the object clearer.
 * Breaking changes
     - `keep_pref_suff()` --> `get_pref_suff()` to bring consistency with `get_piece()`.
     - `keep` --> `which` change name of argument in `get_pref_suff()`.
