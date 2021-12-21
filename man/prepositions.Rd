@@ -5,7 +5,7 @@
 \alias{prepositions}
 \title{Prepositions}
 \format{
-A list of prepositions used in row and column labels.
+A vector of prepositions used in row and column labels.
 }
 \usage{
 prepositions
