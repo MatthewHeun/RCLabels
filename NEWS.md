@@ -4,6 +4,7 @@ output: html_document
 ---
 
 
+* First version to be used by other packages, so bumping version to v0.1.0.
 * `RCLabels::prepositions` is now a vector instead of a list,
   thereby making downstream use of the object clearer.
 * Breaking changes
