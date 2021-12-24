@@ -14,6 +14,9 @@ output: html_document
 * Added note to README.Rmd about installing from CRAN.
 * Added project status badge.
 * Added CRAN status badge.
+* New tests for new functions.
+    * Now up to 197 tests, all passing.
+    * Test coverage remains at 100 %.
 
 
 # RCLabels 0.0.4 (2021-12-06)
