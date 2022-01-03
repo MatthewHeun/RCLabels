@@ -282,9 +282,12 @@ paste_pieces <- function(ls, notation = RCLabels::bracket_notation) {
 #' * "all" (which returns `labels` directly),
 #' * "pref" (for the prefixes),
 #' * "suff" (for the suffixes),
-#' * "noun" (returns the noun) or
+#' * "noun" (returns the noun),
+#' * "pps" (prepositional phrases, returns prepositional phrases in full),
+#' * "prepositions" (returns a list of prepositions),
+#' * "objects" (returns a list of objects with prepositions as names), or
 #' * a preposition in `prepositions` (as a string), which will return
-#'   the object of that preposition.
+#'   the object of that preposition named by the preposition itself.
 #'
 #' `piece` must be a character vector of length 1.
 #'
@@ -308,7 +311,13 @@ paste_pieces <- function(ls, notation = RCLabels::bracket_notation) {
 #' get_piece(labs, "pref")
 #' get_piece(labs, "suff")
 #' get_piece(labs, piece = "noun")
-#' get_piece(labs, "from")
+#' get_piece(labs, piece = "pps")
+#' get_piece(labs, piece = "prepositions")
+#' get_piece(labs, piece = "objects")
+#' get_piece(labs, piece = "from")
+#' get_piece(labs, piece = "in")
+#' get_piece(labs, piece = "of")
+#' get_piece(labs, piece = "to")
 get_piece <- function(labels,
                 piece = "all",
                 notation = RCLabels::bracket_notation,
@@ -320,6 +329,12 @@ get_piece <- function(labels,
     return(get_pref_suff(labels, which = piece, notation = notation))
   } else if (piece == "noun") {
     return(get_nouns(labels, notation = notation))
+  } else if (piece == "pps") {
+    return(get_pps(labels, notation = notation))
+  } else if (piece == "prepositions") {
+    return(get_prepositions(labels, notation = notation, prepositions = prepositions))
+  } else if (piece == "objects") {
+    return(get_objects(labels, notation = notation, prepositions = prepositions))
   }
   # If we get here, assume we want the object of a preposition
   out <- get_objects(labels, notation = notation, prepositions = prepositions)
