@@ -59,7 +59,8 @@ get_pps <- function(labels,
   }
   substring(suffixes,
             first = start_locations[[1]],
-            last = end_locations[[length(end_locations)]])
+            last = end_locations[[length(end_locations)]]) |>
+    magrittr::set_names(rep("pps", length(labels)))
 }
 
 
@@ -108,6 +109,8 @@ get_prepositions <- function(labels,
     }
     out <- append(out, list(as.character(out_this_pp)))
   }
+  out <- out |>
+    magrittr::set_names(rep("prepositions", length(labels)))
   return(out)
 }
 

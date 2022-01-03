@@ -187,7 +187,8 @@ get_pref_suff <- function(x, which = c("pref", "suff"), notation = RCLabels::arr
   which <- match.arg(which)
   split_pref_suff(x, notation = notation) |>
     magrittr::extract2(which) |>
-    as.character()
+    as.character() |>
+    setNames(rep(which, times = length(x)))
 }
 
 
