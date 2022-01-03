@@ -155,3 +155,25 @@ test_that("get_piece() works as expected", {
                list(c(bogus = ""), c(bogus = ""), c(bogus = "")))
 })
 
+
+test_that("get_piece() works with 'pps'", {
+  labs <- c("a [from b in c]", "d [of e in f]", "Export [of Coal from USA to MEX]")
+  expect_equal(get_piece(labs, piece = "pps"), c("from b in c", "of e in f", "of Coal from USA to MEX"))
+})
+
+
+test_that("get_piece() works with 'prepositions'", {
+  labs <- c("a [from b in c]", "d [of e in f]", "Export [of Coal from USA to MEX]")
+  expect_equal(get_piece(labs, piece = "prepositions"),
+               list(c("from", "in"), c("of", "in"), c("of", "from", "to")))
+})
+
+
+test_that("get_piece() works with 'objects'", {
+  labs <- c("a [from b in c]", "d [of e in f]", "Export [of Coal from USA to MEX]")
+  expect_equal(get_piece(labs, piece = "objects"),
+               list(c(from = "b", `in` = "c"),
+                    c(of = "e", `in` = "f"),
+                    c(of = "Coal", from = "USA", to = "MEX")))
+
+})

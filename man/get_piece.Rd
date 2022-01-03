@@ -38,9 +38,12 @@ It returns a \code{piece} of a row or column label.
 \item "all" (which returns \code{labels} directly),
 \item "pref" (for the prefixes),
 \item "suff" (for the suffixes),
-\item "noun" (returns the noun) or
+\item "noun" (returns the noun),
+\item "pps" (prepositional phrases, returns prepositional phrases in full),
+\item "prepositions" (returns a list of prepositions),
+\item "objects" (returns a list of objects with prepositions as names), or
 \item a preposition in \code{prepositions} (as a string), which will return
-the object of that preposition.
+the object of that preposition named by the preposition itself.
 }
 
 \code{piece} must be a character vector of length 1.
@@ -52,5 +55,11 @@ labs <- c("a [from b in c]", "d [of e in f]", "Export [of Coal from USA to MEX]"
 get_piece(labs, "pref")
 get_piece(labs, "suff")
 get_piece(labs, piece = "noun")
-get_piece(labs, "from")
+get_piece(labs, piece = "pps")
+get_piece(labs, piece = "prepositions")
+get_piece(labs, piece = "objects")
+get_piece(labs, piece = "from")
+get_piece(labs, piece = "in")
+get_piece(labs, piece = "of")
+get_piece(labs, piece = "to")
 }
