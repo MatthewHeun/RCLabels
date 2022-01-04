@@ -59,8 +59,8 @@ test_that("get_prepositions() works correctly", {
 
 test_that("get_objects() works correctly", {
   expect_equal(get_objects(c("a [of b in USA]", "d [of e into GBR]")),
-               list(c(of = "b", `in` = "USA"),
-                    c(of = "e", into = "GBR")))
+               list(objects = c(of = "b", `in` = "USA"),
+                    objects = c(of = "e", into = "GBR")))
 })
 
 
@@ -173,8 +173,14 @@ test_that("get_piece() works with 'prepositions'", {
 test_that("get_piece() works with 'objects'", {
   labs <- c("a [from b in c]", "d [of e in f]", "Export [of Coal from USA to MEX]")
   expect_equal(get_piece(labs, piece = "objects"),
-               list(c(from = "b", `in` = "c"),
-                    c(of = "e", `in` = "f"),
-                    c(of = "Coal", from = "USA", to = "MEX")))
+               list(objects = c(from = "b", `in` = "c"),
+                    objects = c(of = "e", `in` = "f"),
+                    objects = c(of = "Coal", from = "USA", to = "MEX")))
 
+})
+
+
+test_that("get_piece(NULL) returns NULL", {
+  labs <- c("a [from b in c]", "d [of e in f]", "Export [of Coal from USA to MEX]")
+  expect_null(get_piece(NULL, piece = "objects"))
 })

@@ -19,6 +19,9 @@
 #' get_nouns(c("a [b]", "c [d]"))
 #' get_nouns(list("a [b]", "c [d]"))
 get_nouns <- function(labels, notation = RCLabels::bracket_notation) {
+  if (is.null(labels)) {
+    return(NULL)
+  }
   get_pref_suff(labels, which = "pref", notation = notation) |>
     magrittr::set_names(rep("noun", length(labels)))
 }
@@ -45,6 +48,9 @@ get_nouns <- function(labels, notation = RCLabels::bracket_notation) {
 get_pps <- function(labels,
                     notation = RCLabels::bracket_notation,
                     prepositions = RCLabels::prepositions) {
+  if (is.null(labels)) {
+    return(NULL)
+  }
   suffixes <- get_pref_suff(labels, which = "suff", notation = notation)
   # Location prepositions
   preposition_words <- paste0(prepositions, " ")
@@ -87,6 +93,9 @@ get_pps <- function(labels,
 get_prepositions <- function(labels,
                       notation = RCLabels::bracket_notation,
                       prepositions = RCLabels::prepositions) {
+  if (is.null(labels)) {
+    return(NULL)
+  }
   pps <- get_pref_suff(labels, which = "suff", notation = notation)
   preposition_words <- paste0(prepositions, " ")
   prep_patterns <- make_or_pattern(preposition_words,
@@ -142,7 +151,9 @@ get_prepositions <- function(labels,
 get_objects <- function(labels,
                         notation = RCLabels::bracket_notation,
                         prepositions = RCLabels::prepositions) {
-
+  if (is.null(labels)) {
+    return(NULL)
+  }
   pps <- get_pref_suff(labels, which = "suff", notation = notation)
   preposition_words <- paste0(prepositions, " ")
   prep_patterns <- make_or_pattern(preposition_words,
@@ -179,7 +190,8 @@ get_objects <- function(labels,
       substring(this_pp, first = osl, last = oel) |>
         magrittr::set_names(these_preps)
     })
-  })
+  }) |>
+    magrittr::set_names(rep("objects", length(labels)))
 }
 
 
@@ -341,13 +353,15 @@ get_piece <- function(labels,
   }
   # If we get here, assume we want the object of a preposition
   out <- get_objects(labels, notation = notation, prepositions = prepositions)
-  lapply(out, FUN = function(pieces){
+  out <- lapply(out, FUN = function(pieces){
     theoneswewant <- pieces[names(pieces) == piece]
     if (length(theoneswewant) == 0) {
       return("" |> magrittr::set_names(piece))
     }
     return(theoneswewant)
   })
+  out |>
+    magrittr::set_names(rep(NULL, length(labels)))
 }
 
 
