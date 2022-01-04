@@ -4,10 +4,10 @@
 \alias{paste_pieces}
 \title{Recombine row and column labels}
 \usage{
-paste_pieces(ls, notation = RCLabels::bracket_notation)
+paste_pieces(splt_labels, notation = RCLabels::bracket_notation)
 }
 \arguments{
-\item{ls}{A vector of split row or column labels, probably created by \code{split_labels()}.}
+\item{splt_labels}{A vector of split row or column labels, probably created by \code{split_labels()}.}
 
 \item{notation}{The notation object that describes the labels.
 Default is \code{RCLabels::bracket_notation}.}

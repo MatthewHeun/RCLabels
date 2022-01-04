@@ -228,7 +228,9 @@ get_objects <- function(labels,
 split_labels <- function(labels,
                          notation = RCLabels::bracket_notation,
                          prepositions = RCLabels::prepositions) {
-
+  if (is.null(labels)) {
+    return(NULL)
+  }
   nouns <- get_nouns(labels, notation = notation) |>
     as.list() |>
     unname() |>
@@ -248,7 +250,7 @@ split_labels <- function(labels,
 #' This function recombines (unsplits) row or column labels that have
 #' been separated by `split_labels()`.
 #'
-#' @param ls A vector of split row or column labels, probably created by `split_labels()`.
+#' @param splt_labels A vector of split row or column labels, probably created by `split_labels()`.
 #' @param notation The notation object that describes the labels.
 #'                 Default is `RCLabels::bracket_notation`.
 #'
@@ -271,18 +273,20 @@ split_labels <- function(labels,
 #'     recombined = paste_pieces(splits)
 #'   )
 #' all(recombined$labels == recombined$recombined)
-paste_pieces <- function(ls, notation = RCLabels::bracket_notation) {
-  nouns <- ls |>
+paste_pieces <- function(splt_labels, notation = RCLabels::bracket_notation) {
+  if (is.null(splt_labels)) {
+    return(NULL)
+  }
+  nouns <- splt_labels |>
     sapply(FUN = function(this_label) {
       this_label[["noun"]]
     })
-  pps <- ls |>
-    sapply(FUN = function(this_label) {
-      without_noun <- this_label |>
-        as.list() |>
-        purrr::list_modify("noun" = NULL)
-      paste0(names(without_noun), " ", without_noun, collapse = " ")
-    })
+  pps <- sapply(splt_labels, FUN = function(this_label) {
+    without_noun <- this_label |>
+      as.list() |>
+      purrr::list_modify("noun" = NULL)
+    paste0(names(without_noun), " ", without_noun, collapse = " ")
+  })
   paste_pref_suff(pref = nouns, suff = pps, notation = notation)
 }
 
@@ -337,6 +341,9 @@ get_piece <- function(labels,
                 piece = "all",
                 notation = RCLabels::bracket_notation,
                 prepositions = RCLabels::prepositions) {
+  if (is.null(labels)) {
+    return(NULL)
+  }
   assertthat::assert_that(length(piece) == 1, msg = "piece must be a character vector of length 1 in RCLabels::get()")
   if (piece == "all") {
     return(labels)

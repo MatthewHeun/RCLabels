@@ -182,5 +182,10 @@ test_that("get_piece() works with 'objects'", {
 
 test_that("get_piece(NULL) returns NULL", {
   labs <- c("a [from b in c]", "d [of e in f]", "Export [of Coal from USA to MEX]")
+  expect_null(get_piece(NULL, piece = "pref"))
+  expect_null(get_piece(NULL, piece = "suff"))
+  expect_null(get_piece(NULL, piece = "noun"))
+  expect_null(get_piece(NULL, piece = "pps"))
+  expect_null(get_piece(NULL, piece = "prepositions"))
   expect_null(get_piece(NULL, piece = "objects"))
 })
