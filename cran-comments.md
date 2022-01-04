@@ -8,7 +8,7 @@
     * ERRORs: 0
     * WARNINGs: 0
     * NOTEs: 0
-* GitHub Actions
+* GitHub Actions:
     * macOS-latest (release)
         * ERRORs: 0
         * WARNINGs: 0
