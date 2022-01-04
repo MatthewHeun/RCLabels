@@ -1,9 +1,12 @@
 Package: RCLabels
 Title: Manipulate Matrix Row and Column Labels with Ease
-Version: 0.0.4
-Authors@R: 
-    person("Matthew", "Heun", , "matthew.heun@me.com", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0002-7438-214X"))
+Version: 0.1.0
+Date: 2022-01-03
+Authors@R: c(person(given = "Matthew",
+                    family = "Heun", 
+                    role = c("aut", "cre"),
+                    comment = c(ORCID = "0000-0002-7438-214X"),
+                    email = "matthew.heun@me.com"))
 Description: Functions to assist manipulation of matrix 
              row and column labels for all types of matrix mathematics
              where row and column labels are to be respected.
@@ -12,6 +15,7 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Imports:
+    assertthat,
     Hmisc,
     magrittr, 
     purrr

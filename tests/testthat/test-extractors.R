@@ -15,23 +15,23 @@ test_that("get_nouns() works as expected", {
 
 test_that("get_pps() works as expected", {
   # Try a couple simple ones
-  expect_equal(get_pps("a [in b]"), "in b")
-  expect_equal(get_pps(c("a [in b]", "c [of d]")), c("in b", "of d"))
+  expect_equal(get_pps("a [in b]"), c(pps = "in b"))
+  expect_equal(get_pps(c("a [in b]", "c [of d]")), c(pps = "in b", pps = "of d"))
   # Try a degenerate case
-  expect_equal(get_pps("a [b in c]"), "in c")
+  expect_equal(get_pps("a [b in c]"), c(pps = "in c"))
 
   # Try with a single string
-  expect_equal(get_pps("a [of b in c]", notation = bracket_notation), "of b in c")
+  expect_equal(get_pps("a [of b in c]", notation = bracket_notation), c(pps = "of b in c"))
 
   expect_equal(get_pps(c("a [of b in c]", "d [of e into f]"), notation = bracket_notation),
-               c("of b in c", "of e into f"))
+               c(pps = "of b in c", pps = "of e into f"))
 
   expect_equal(get_pps(list("a [of b in c]", "d [of e into f]"), notation = bracket_notation),
-               c("of b in c", "of e into f"))
+               c(pps = "of b in c", pps = "of e into f"))
 
-  expect_equal(get_pps("a [in b]"), "in b")
-  expect_equal(get_pps(c("a [in b]")), "in b")
-  expect_equal(get_pps(list("a [in b]")), "in b")
+  expect_equal(get_pps("a [in b]"), c(pps = "in b"))
+  expect_equal(get_pps(c("a [in b]")), c(pps = "in b"))
+  expect_equal(get_pps(list("a [in b]")), c(pps = "in b"))
 
   # Now try in a data frame
 
@@ -42,25 +42,25 @@ test_that("get_pps() works as expected", {
       pps = get_pps(labels)
     )
   expect_equal(with_nouns_pps$nouns, c(noun = "e", noun = "h", noun = "a", noun = "c"))
-  expect_equal(with_nouns_pps$pps, c("of f in g", "-> i in j", "in b", "of d into USA"))
+  expect_equal(with_nouns_pps$pps, c(pps = "of f in g", pps = "-> i in j", pps = "in b", pps = "of d into USA"))
 })
 
 
 test_that("get_pps() works where there are no prepositions", {
-  expect_equal(get_pps("a []"), "")
+  expect_equal(get_pps("a []"), c(pps = ""))
 })
 
 
 test_that("get_prepositions() works correctly", {
   labs <- c("a [-> b in c]", "d [from Production]", "Coal [from Imports into US]")
-  expect_equal(get_prepositions(labs), list(c("->", "in"), "from", c("from", "into")))
+  expect_equal(get_prepositions(labs), list(prepositions = c("->", "in"), prepositions = "from", prepositions = c("from", "into")))
 })
 
 
 test_that("get_objects() works correctly", {
   expect_equal(get_objects(c("a [of b in USA]", "d [of e into GBR]")),
-               list(c(of = "b", `in` = "USA"),
-                    c(of = "e", into = "GBR")))
+               list(objects = c(of = "b", `in` = "USA"),
+                    objects = c(of = "e", into = "GBR")))
 })
 
 
@@ -121,6 +121,84 @@ test_that("paste_pieces() works as expected", {
       recombined = paste_pieces(splits)
     )
   expect_equal(recombined$recombined, recombined$labels)
+})
+
+
+test_that("get_piece() works as expected", {
+  labs <- c("a [from b in c]", "d [of e in f]", "Export [of Coal from USA to MEX]")
+
+  # Must have length 1
+  expect_error(get_piece(labs, piece = c("from", "to")), "piece must be a character vector of length 1 in RCLabels::get")
+
+  # Returns labs unchanged, because default value for piece is "all".
+  expect_equal(get_piece(labs), labs)
+
+  # Prefix and suffix
+  expect_equal(get_piece(labs, "pref"),
+               c(pref = "a", pref = "d", pref = "Export"))
+  expect_equal(get_piece(labs, "suff"),
+               c(suff = "from b in c", suff = "of e in f", suff = "of Coal from USA to MEX"))
+  # Noun
+  expect_equal(get_piece(labs, piece = "noun"),
+               c(noun = "a", noun = "d", noun = "Export"))
+  # Prepositions
+  expect_equal(get_piece(labs, "from"),
+               list(c(from = "b"), c(from = ""), c(from = "USA")))
+  expect_equal(get_piece(labs, "in"),
+               list(c(`in` = "c"), c(`in` = "f"), c(`in` = "")))
+  expect_equal(get_piece(labs, "of"),
+               list(c(of = ""), c(of = "e"), c(of = "Coal")))
+  expect_equal(get_piece(labs, "from"),
+               list(c(from = "b"), c(from = ""), c(from = "USA")))
+  # Unknown preposition
+  expect_equal(get_piece(labs, "bogus"),
+               list(c(bogus = ""), c(bogus = ""), c(bogus = "")))
+})
+
+
+test_that("get_piece() works with 'pps'", {
+  labs <- c("a [from b in c]", "d [of e in f]", "Export [of Coal from USA to MEX]")
+  expect_equal(get_piece(labs, piece = "pps"),
+               c(pps = "from b in c", pps = "of e in f", pps = "of Coal from USA to MEX"))
+})
+
+
+test_that("get_piece() works with 'prepositions'", {
+  labs <- c("a [from b in c]", "d [of e in f]", "Export [of Coal from USA to MEX]")
+  expect_equal(get_piece(labs, piece = "prepositions"),
+               list(prepositions = c("from", "in"), prepositions = c("of", "in"), prepositions = c("of", "from", "to")))
+})
+
+
+test_that("get_piece() works with 'objects'", {
+  labs <- c("a [from b in c]", "d [of e in f]", "Export [of Coal from USA to MEX]")
+  expect_equal(get_piece(labs, piece = "objects"),
+               list(objects = c(from = "b", `in` = "c"),
+                    objects = c(of = "e", `in` = "f"),
+                    objects = c(of = "Coal", from = "USA", to = "MEX")))
+
+})
+
+
+test_that("passing NULL to extractors returns NULL", {
+  expect_null(get_pref_suff(NULL))
+  expect_null(get_nouns(NULL))
+  expect_null(get_pps(NULL))
+  expect_null(get_prepositions(NULL))
+  expect_null(get_objects(NULL))
+  expect_null(split_labels(NULL))
+  expect_null(paste_pieces(NULL))
+})
+
+
+test_that("get_piece(NULL) returns NULL", {
+  labs <- c("a [from b in c]", "d [of e in f]", "Export [of Coal from USA to MEX]")
+  expect_null(get_piece(NULL, piece = "pref"))
+  expect_null(get_piece(NULL, piece = "suff"))
+  expect_null(get_piece(NULL, piece = "noun"))
+  expect_null(get_piece(NULL, piece = "pps"))
+  expect_null(get_piece(NULL, piece = "prepositions"))
+  expect_null(get_piece(NULL, piece = "objects"))
 })
 
 

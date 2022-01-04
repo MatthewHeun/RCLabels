@@ -132,8 +132,8 @@ match_by_pattern <- function(labels,
       stop(paste0('If pieces contains "pref" or "suff", its length must be 1. Length was ', length(pieces), '.'))
     }
     return(grepl(pattern = regex_pattern,
-                 x = keep_pref_suff(labels,
-                                    keep = pieces,
+                 x = get_pref_suff(labels,
+                                    which = pieces,
                                     notation = notation),
                  ...))
   }
