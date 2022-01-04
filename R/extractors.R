@@ -19,6 +19,9 @@
 #' get_nouns(c("a [b]", "c [d]"))
 #' get_nouns(list("a [b]", "c [d]"))
 get_nouns <- function(labels, notation = RCLabels::bracket_notation) {
+  if (is.null(labels)) {
+    return(NULL)
+  }
   get_pref_suff(labels, which = "pref", notation = notation) |>
     magrittr::set_names(rep("noun", length(labels)))
 }
@@ -45,6 +48,9 @@ get_nouns <- function(labels, notation = RCLabels::bracket_notation) {
 get_pps <- function(labels,
                     notation = RCLabels::bracket_notation,
                     prepositions = RCLabels::prepositions) {
+  if (is.null(labels)) {
+    return(NULL)
+  }
   suffixes <- get_pref_suff(labels, which = "suff", notation = notation)
   # Location prepositions
   preposition_words <- paste0(prepositions, " ")
@@ -59,7 +65,8 @@ get_pps <- function(labels,
   }
   substring(suffixes,
             first = start_locations[[1]],
-            last = end_locations[[length(end_locations)]])
+            last = end_locations[[length(end_locations)]]) |>
+    magrittr::set_names(rep("pps", length(labels)))
 }
 
 
@@ -86,6 +93,9 @@ get_pps <- function(labels,
 get_prepositions <- function(labels,
                       notation = RCLabels::bracket_notation,
                       prepositions = RCLabels::prepositions) {
+  if (is.null(labels)) {
+    return(NULL)
+  }
   pps <- get_pref_suff(labels, which = "suff", notation = notation)
   preposition_words <- paste0(prepositions, " ")
   prep_patterns <- make_or_pattern(preposition_words,
@@ -108,6 +118,8 @@ get_prepositions <- function(labels,
     }
     out <- append(out, list(as.character(out_this_pp)))
   }
+  out <- out |>
+    magrittr::set_names(rep("prepositions", length(labels)))
   return(out)
 }
 
@@ -139,7 +151,9 @@ get_prepositions <- function(labels,
 get_objects <- function(labels,
                         notation = RCLabels::bracket_notation,
                         prepositions = RCLabels::prepositions) {
-
+  if (is.null(labels)) {
+    return(NULL)
+  }
   pps <- get_pref_suff(labels, which = "suff", notation = notation)
   preposition_words <- paste0(prepositions, " ")
   prep_patterns <- make_or_pattern(preposition_words,
@@ -176,7 +190,8 @@ get_objects <- function(labels,
       substring(this_pp, first = osl, last = oel) |>
         magrittr::set_names(these_preps)
     })
-  })
+  }) |>
+    magrittr::set_names(rep("objects", length(labels)))
 }
 
 
@@ -213,7 +228,9 @@ get_objects <- function(labels,
 split_labels <- function(labels,
                          notation = RCLabels::bracket_notation,
                          prepositions = RCLabels::prepositions) {
-
+  if (is.null(labels)) {
+    return(NULL)
+  }
   nouns <- get_nouns(labels, notation = notation) |>
     as.list() |>
     unname() |>
@@ -233,7 +250,7 @@ split_labels <- function(labels,
 #' This function recombines (unsplits) row or column labels that have
 #' been separated by `split_labels()`.
 #'
-#' @param ls A vector of split row or column labels, probably created by `split_labels()`.
+#' @param splt_labels A vector of split row or column labels, probably created by `split_labels()`.
 #' @param notation The notation object that describes the labels.
 #'                 Default is `RCLabels::bracket_notation`.
 #'
@@ -256,18 +273,20 @@ split_labels <- function(labels,
 #'     recombined = paste_pieces(splits)
 #'   )
 #' all(recombined$labels == recombined$recombined)
-paste_pieces <- function(ls, notation = RCLabels::bracket_notation) {
-  nouns <- ls |>
+paste_pieces <- function(splt_labels, notation = RCLabels::bracket_notation) {
+  if (is.null(splt_labels)) {
+    return(NULL)
+  }
+  nouns <- splt_labels |>
     sapply(FUN = function(this_label) {
       this_label[["noun"]]
     })
-  pps <- ls |>
-    sapply(FUN = function(this_label) {
-      without_noun <- this_label |>
-        as.list() |>
-        purrr::list_modify("noun" = NULL)
-      paste0(names(without_noun), " ", without_noun, collapse = " ")
-    })
+  pps <- sapply(splt_labels, FUN = function(this_label) {
+    without_noun <- this_label |>
+      as.list() |>
+      purrr::list_modify("noun" = NULL)
+    paste0(names(without_noun), " ", without_noun, collapse = " ")
+  })
   paste_pref_suff(pref = nouns, suff = pps, notation = notation)
 }
 
@@ -322,6 +341,9 @@ get_piece <- function(labels,
                 piece = "all",
                 notation = RCLabels::bracket_notation,
                 prepositions = RCLabels::prepositions) {
+  if (is.null(labels)) {
+    return(NULL)
+  }
   assertthat::assert_that(length(piece) == 1, msg = "piece must be a character vector of length 1 in RCLabels::get()")
   if (piece == "all") {
     return(labels)
@@ -338,13 +360,15 @@ get_piece <- function(labels,
   }
   # If we get here, assume we want the object of a preposition
   out <- get_objects(labels, notation = notation, prepositions = prepositions)
-  lapply(out, FUN = function(pieces){
+  out <- lapply(out, FUN = function(pieces){
     theoneswewant <- pieces[names(pieces) == piece]
     if (length(theoneswewant) == 0) {
       return("" |> magrittr::set_names(piece))
     }
     return(theoneswewant)
   })
+  out |>
+    magrittr::set_names(rep(NULL, length(labels)))
 }
 
 

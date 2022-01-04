@@ -184,10 +184,14 @@ flip_pref_suff <- function(x, notation = RCLabels::arrow_notation) {
 #' @export
 #' @rdname row-col-notation
 get_pref_suff <- function(x, which = c("pref", "suff"), notation = RCLabels::arrow_notation) {
+  if (is.null(x)) {
+    return(NULL)
+  }
   which <- match.arg(which)
   split_pref_suff(x, notation = notation) |>
     magrittr::extract2(which) |>
-    as.character()
+    as.character() |>
+    magrittr::set_names(rep(which, times = length(x)))
 }
 
 

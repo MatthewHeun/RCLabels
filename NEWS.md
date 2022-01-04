@@ -5,20 +5,23 @@ output: html_document
 
 
 * First version to be used by other packages, so bumping to v0.1.0.
+* `get_piece(labels = NULL)` now returns `NULL`, as expected.
+* All return values from `get_piece()` are now named appropriately.
 * Added new options for the `piece` argument of `get_piece()`: "pps", 
   "prepositions", and "objects".
 * `RCLabels::prepositions` is now a vector instead of a list,
   thereby making downstream use of the object clearer.
 * Breaking changes
     - `keep_pref_suff()` --> `get_pref_suff()` to bring consistency with `get_piece()`.
-    - `keep` --> `which` change name of argument in `get_pref_suff()`.
-* New wrapper function `get()` returns requested piece of a label.
+    - `keep` --> `which` for argument name in `get_pref_suff()`
+      to bring consistency with other functions.
+* New wrapper function `get_piece()` returns requested piece of a label.
 * Added note to README.Rmd about installing from CRAN.
 * Added project status badge.
 * Added CRAN status badge.
 * New tests for new functions.
-    * Now up to 197 tests, all passing.
-    * Test coverage remains at 100 %.
+    * Now up to 216 tests, all passing.
+    * Test coverage remains at 100%.
 
 
 # RCLabels 0.0.4 (2021-12-06)
