@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">RCLabels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,9 +42,34 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.0.4" id="rclabels-004">RCLabels 0.0.4<a class="anchor" aria-label="anchor" href="#rclabels-004"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.1.0" id="rclabels-010-2022-01-03">RCLabels 0.1.0 (2022-01-03)<a class="anchor" aria-label="anchor" href="#rclabels-010-2022-01-03"></a></h2>
+<ul><li>First version to be used by other packages, so bumping to v0.1.0.</li>
+<li>
+<code>get_piece(labels = NULL)</code> now returns <code>NULL</code>, as expected.</li>
+<li>All return values from <code><a href="../reference/get_piece.html">get_piece()</a></code> are now named appropriately.</li>
+<li>Added new options for the <code>piece</code> argument of <code><a href="../reference/get_piece.html">get_piece()</a></code>: “pps”, “prepositions”, and “objects”.</li>
+<li>
+<code><a href="../reference/prepositions.html">RCLabels::prepositions</a></code> is now a vector instead of a list, thereby making downstream use of the object clearer.</li>
+<li>Breaking changes
+<ul><li>
+<code>keep_pref_suff()</code> –&gt; <code><a href="../reference/row-col-notation.html">get_pref_suff()</a></code> to bring consistency with <code><a href="../reference/get_piece.html">get_piece()</a></code>.</li>
+<li>
+<code>keep</code> –&gt; <code>which</code> for argument name in <code><a href="../reference/row-col-notation.html">get_pref_suff()</a></code> to bring consistency with other functions.</li>
+</ul></li>
+<li>New wrapper function <code><a href="../reference/get_piece.html">get_piece()</a></code> returns requested piece of a label.</li>
+<li>Added note to README.Rmd about installing from CRAN.</li>
+<li>Added project status badge.</li>
+<li>Added CRAN status badge.</li>
+<li>New tests for new functions.
+<ul><li>Now up to 216 tests, all passing.</li>
+<li>Test coverage remains at 100%.</li>
+</ul></li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.4" id="rclabels-004-2021-12-06">RCLabels 0.0.4 (2021-12-06)<a class="anchor" aria-label="anchor" href="#rclabels-004-2021-12-06"></a></h2><p class="text-muted">CRAN release: 2021-12-06</p>
 <ul><li>New function <code><a href="../reference/regex_funcs.html">replace_by_pattern()</a></code>.</li>
 <li>New function <code><a href="../reference/regex_funcs.html">match_by_pattern()</a></code>.</li>
+<li>First CRAN release.</li>
 <li>New tests for new functions.
 <ul><li>187 tests, all passing.</li>
 <li>Test coverage remains at 100 %.</li>

@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">RCLabels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +61,7 @@
       <img src="" class="logo" alt=""><h1>RCLabels</h1>
                         <h4 data-toc-skip class="author">Matthew Kuperus Heun</h4>
             
-            <h4 data-toc-skip class="date">2021-12-05</h4>
+            <h4 data-toc-skip class="date">2022-01-03</h4>
       
       
       <div class="d-none name"><code>RCLabels.Rmd</code></div>
@@ -169,10 +169,12 @@
 <span class="co">#&gt; [1] "from Coal mines in USA (Coal)"</span></code></pre></div>
 <p>The prefix or suffix can be extracted from a row or column label.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/row-col-notation.html">keep_pref_suff</a></span><span class="op">(</span><span class="va">my_label</span>, keep <span class="op">=</span> <span class="st">"pref"</span>, notation <span class="op">=</span> <span class="va">my_notation</span><span class="op">)</span>
-<span class="co">#&gt; [1] "Coal"</span>
-<span class="fu"><a href="../reference/row-col-notation.html">keep_pref_suff</a></span><span class="op">(</span><span class="va">my_label</span>, keep <span class="op">=</span> <span class="st">"suff"</span>, notation <span class="op">=</span> <span class="va">my_notation</span><span class="op">)</span>
-<span class="co">#&gt; [1] "from Coal mines in USA"</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/row-col-notation.html">get_pref_suff</a></span><span class="op">(</span><span class="va">my_label</span>, which <span class="op">=</span> <span class="st">"pref"</span>, notation <span class="op">=</span> <span class="va">my_notation</span><span class="op">)</span>
+<span class="co">#&gt;   pref </span>
+<span class="co">#&gt; "Coal"</span>
+<span class="fu"><a href="../reference/row-col-notation.html">get_pref_suff</a></span><span class="op">(</span><span class="va">my_label</span>, which <span class="op">=</span> <span class="st">"suff"</span>, notation <span class="op">=</span> <span class="va">my_notation</span><span class="op">)</span>
+<span class="co">#&gt;                     suff </span>
+<span class="co">#&gt; "from Coal mines in USA"</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="vectors-and-lists-of-row-and-column-labels">Vectors and lists of row and column labels<a class="anchor" aria-label="anchor" href="#vectors-and-lists-of-row-and-column-labels"></a>
@@ -225,7 +227,7 @@
 <p>As discussed above, the prefix is often the “thing” of interest, and the remainder of the label (the suffix) modifies the prefix. This use case is so common that we introduce additional terms that enable additional functionality. The prefix is usually a <em>noun</em> (one or more words), and the suffix usually consists of <em>prepositional phrases</em> (each consisting of a preposition and an object). <code>RCLabels</code> includes a list of common prepositions.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">prepositions</span>
-<span class="co">#&gt; [1] "in"   "into" "from" "of"   "-&gt;"</span></code></pre></div>
+<span class="co">#&gt; [1] "in"   "into" "from" "of"   "-&gt;"   "to"</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="working-with-row-and-column-labels-nouns-and-prepositions">Working with row and column labels (nouns and prepositions)<a class="anchor" aria-label="anchor" href="#working-with-row-and-column-labels-nouns-and-prepositions"></a>
@@ -242,34 +244,87 @@
 
 <span class="co"># Extract the prepositional phrases.</span>
 <span class="fu"><a href="../reference/get_pps.html">get_pps</a></span><span class="op">(</span><span class="va">labels</span>, notation <span class="op">=</span> <span class="va">bracket_notation</span><span class="op">)</span>
-<span class="co">#&gt; [1] "of b in c" "of e in f" "of h in i"</span>
+<span class="co">#&gt;         pps         pps         pps </span>
+<span class="co">#&gt; "of b in c" "of e in f" "of h in i"</span>
 
 <span class="co"># Extract the prepositions themselves.</span>
 <span class="fu"><a href="../reference/get_prepositions.html">get_prepositions</a></span><span class="op">(</span><span class="va">labels</span>, notation <span class="op">=</span> <span class="va">bracket_notation</span><span class="op">)</span>
-<span class="co">#&gt; [[1]]</span>
+<span class="co">#&gt; $prepositions</span>
 <span class="co">#&gt; [1] "of" "in"</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]</span>
+<span class="co">#&gt; $prepositions</span>
 <span class="co">#&gt; [1] "of" "in"</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; [[3]]</span>
+<span class="co">#&gt; $prepositions</span>
 <span class="co">#&gt; [1] "of" "in"</span>
 
 <span class="co"># Extract the objects of the prepositions.</span>
 <span class="co"># Objects are named by the preposition of their phrase.</span>
 <span class="fu"><a href="../reference/get_objects.html">get_objects</a></span><span class="op">(</span><span class="va">labels</span>, notation <span class="op">=</span> <span class="va">bracket_notation</span><span class="op">)</span>
-<span class="co">#&gt; [[1]]</span>
+<span class="co">#&gt; $objects</span>
 <span class="co">#&gt;  of  in </span>
 <span class="co">#&gt; "b" "c" </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]</span>
+<span class="co">#&gt; $objects</span>
 <span class="co">#&gt;  of  in </span>
 <span class="co">#&gt; "e" "f" </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; [[3]]</span>
+<span class="co">#&gt; $objects</span>
 <span class="co">#&gt;  of  in </span>
 <span class="co">#&gt; "h" "i"</span>
 
+<span class="co"># The get_piece() function is a convenience function</span>
+<span class="co"># that extracts just what you want.</span>
+<span class="fu"><a href="../reference/get_piece.html">get_piece</a></span><span class="op">(</span><span class="va">labels</span>, piece <span class="op">=</span> <span class="st">"noun"</span>, notation <span class="op">=</span> <span class="va">bracket_notation</span><span class="op">)</span>
+<span class="co">#&gt; noun noun noun </span>
+<span class="co">#&gt;  "a"  "d"  "g"</span>
+<span class="fu"><a href="../reference/get_piece.html">get_piece</a></span><span class="op">(</span><span class="va">labels</span>, piece <span class="op">=</span> <span class="st">"pref"</span><span class="op">)</span>
+<span class="co">#&gt; pref pref pref </span>
+<span class="co">#&gt;  "a"  "d"  "g"</span>
+<span class="fu"><a href="../reference/get_piece.html">get_piece</a></span><span class="op">(</span><span class="va">labels</span>, piece <span class="op">=</span> <span class="st">"suff"</span><span class="op">)</span>
+<span class="co">#&gt;        suff        suff        suff </span>
+<span class="co">#&gt; "of b in c" "of e in f" "of h in i"</span>
+<span class="fu"><a href="../reference/get_piece.html">get_piece</a></span><span class="op">(</span><span class="va">labels</span>, piece <span class="op">=</span> <span class="st">"of"</span><span class="op">)</span>
+<span class="co">#&gt; [[1]]</span>
+<span class="co">#&gt;  of </span>
+<span class="co">#&gt; "b" </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; [[2]]</span>
+<span class="co">#&gt;  of </span>
+<span class="co">#&gt; "e" </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; [[3]]</span>
+<span class="co">#&gt;  of </span>
+<span class="co">#&gt; "h"</span>
+<span class="fu"><a href="../reference/get_piece.html">get_piece</a></span><span class="op">(</span><span class="va">labels</span>, piece <span class="op">=</span> <span class="st">"in"</span><span class="op">)</span>
+<span class="co">#&gt; [[1]]</span>
+<span class="co">#&gt;  in </span>
+<span class="co">#&gt; "c" </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; [[2]]</span>
+<span class="co">#&gt;  in </span>
+<span class="co">#&gt; "f" </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; [[3]]</span>
+<span class="co">#&gt;  in </span>
+<span class="co">#&gt; "i"</span>
+<span class="co"># An empty string is returned when the preposition is missing.</span>
+<span class="fu"><a href="../reference/get_piece.html">get_piece</a></span><span class="op">(</span><span class="va">labels</span>, piece <span class="op">=</span> <span class="st">"bogus"</span><span class="op">)</span>
+<span class="co">#&gt; [[1]]</span>
+<span class="co">#&gt; bogus </span>
+<span class="co">#&gt;    "" </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; [[2]]</span>
+<span class="co">#&gt; bogus </span>
+<span class="co">#&gt;    "" </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; [[3]]</span>
+<span class="co">#&gt; bogus </span>
+<span class="co">#&gt;    ""</span></code></pre></div>
+<p>Labels can be split into their component pieces.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">labels</span>
+<span class="co">#&gt; [1] "a [of b in c]" "d [of e in f]" "g [of h in i]"</span>
 <span class="co"># Split the labels into pieces, named by "noun" and prepositions.</span>
 <span class="va">split_labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/split_labels.html">split_labels</a></span><span class="op">(</span><span class="va">labels</span>, 
                              prepositions <span class="op">=</span> <span class="va">prepositions</span>, 
@@ -299,7 +354,7 @@
 <h2 id="modifying-row-and-column-labels">Modifying row and column labels<a class="anchor" aria-label="anchor" href="#modifying-row-and-column-labels"></a>
 </h2>
 <p>To modify row and column labels, use one of the <code>modify_*</code> functions.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">labels</span>
 <span class="co">#&gt; [1] "a [of b in c]" "d [of e in f]" "g [of h in i]"</span>
 
@@ -310,7 +365,7 @@
 <span class="co">#&gt; [1] "Coal [of b in c]"        "Oil [of e in f]"        </span>
 <span class="co">#&gt; [3] "Natural gas [of h in i]"</span></code></pre></div>
 <p>To modify other pieces of labels, use the <code><a href="../reference/modify_label_pieces.html">modify_label_pieces()</a></code> function. <code><a href="../reference/modify_label_pieces.html">modify_label_pieces()</a></code> enables assigning new values using a “one-to-many” approach that enables aggregation.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">labels</span>
 <span class="co">#&gt; [1] "a [of b in c]" "d [of e in f]" "g [of h in i]"</span>
 
@@ -340,7 +395,7 @@
                     notation <span class="op">=</span> <span class="va">bracket_notation</span><span class="op">)</span>
 <span class="co">#&gt; [1] "a [of Coal in c]"      "d [of Crude oil in f]" "g [of Crude oil in i]"</span></code></pre></div>
 <p>To eliminate a piece of a label altogether, use the <code><a href="../reference/remove_label_pieces.html">remove_label_pieces()</a></code> function.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">labels</span>
 <span class="co">#&gt; [1] "a [of b in c]" "d [of e in f]" "g [of h in i]"</span>
 
@@ -362,7 +417,7 @@
 <h2 id="detecting-strings-in-labels">Detecting strings in labels<a class="anchor" aria-label="anchor" href="#detecting-strings-in-labels"></a>
 </h2>
 <p>There are times when it is helpful to know if a string is in a label. <code><a href="../reference/regex_funcs.html">match_by_pattern()</a></code> searches for matches in row and column labels by regular expression. Internally, <code><a href="../reference/regex_funcs.html">match_by_pattern()</a></code> uses <code><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl()</a></code> for regular expression matching.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Production [of b in c]"</span>, <span class="st">"d [of Coal in f]"</span>, <span class="st">"g [of h in USA]"</span><span class="op">)</span>
 
 <span class="co"># With default `pieces` argument, matching is done for whole labels.</span>
@@ -418,7 +473,7 @@
 <h2 id="replacing-strings-in-labels">Replacing strings in labels<a class="anchor" aria-label="anchor" href="#replacing-strings-in-labels"></a>
 </h2>
 <p>There are times when it is helpful to replace strings in labels. The <code><a href="../reference/regex_funcs.html">replace_by_pattern()</a></code> function will replace strings in row and column labels by regular expression pattern. Note that <code><a href="../reference/regex_funcs.html">replace_by_pattern()</a></code> is similar to <code><a href="../reference/regex_funcs.html">match_by_pattern()</a></code>, except <code><a href="../reference/regex_funcs.html">replace_by_pattern()</a></code> has an additional argument, <code>replacement</code>. Internally, <code><a href="../reference/regex_funcs.html">replace_by_pattern()</a></code> uses <code><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub()</a></code> to perform regular expression matching.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Production [of b in c]"</span>, <span class="st">"d [of Coal in f]"</span>, <span class="st">"g [of h in USA]"</span><span class="op">)</span>
 <span class="va">labels</span>
 <span class="co">#&gt; [1] "Production [of b in c]" "d [of Coal in f]"       "g [of h in USA]"</span>
