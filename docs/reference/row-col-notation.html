@@ -13,7 +13,7 @@ paste_pref_suff() paste0's prefixes and suffixes, the inverse of split_pref_suff
 flip_pref_suff() Switches the location of prefix and suffix, such that the prefix becomes the suffix, and
 the suffix becomes the prefix.
 E.g., &quot;a -&amp;gt; b&quot; becomes &quot;b -&amp;gt; a&quot; or &quot;a [b]&quot; becomes &quot;b [a]&quot;.
-keep_pref_suff() Selects only prefix or suffix, discarding notational elements
+get_pref_suff() Selects only prefix or suffix, discarding notational elements
 and the rejected part.
 Internally, calls split_pref_suff() and selects only the suff portions.
 switch_notation() Switches from one type of notation to another based on the from and to arguments.
@@ -43,7 +43,7 @@ paste_pref_suff() paste0's prefixes and suffixes, the inverse of split_pref_suff
 flip_pref_suff() Switches the location of prefix and suffix, such that the prefix becomes the suffix, and
 the suffix becomes the prefix.
 E.g., &quot;a -&amp;gt; b&quot; becomes &quot;b -&amp;gt; a&quot; or &quot;a [b]&quot; becomes &quot;b [a]&quot;.
-keep_pref_suff() Selects only prefix or suffix, discarding notational elements
+get_pref_suff() Selects only prefix or suffix, discarding notational elements
 and the rejected part.
 Internally, calls split_pref_suff() and selects only the suff portions.
 switch_notation() Switches from one type of notation to another based on the from and to arguments.
@@ -70,7 +70,7 @@ E.g., &quot;a -&amp;gt; b&quot; in arrow notation means that &quot;a&quot; is th
     
     <a class="navbar-brand me-2" href="../index.html">RCLabels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -116,7 +116,7 @@ separator (" -&gt; ") between prefix and suffix.</p></li>
 <li><p><code>flip_pref_suff()</code> Switches the location of prefix and suffix, such that the prefix becomes the suffix, and
 the suffix becomes the prefix.
 E.g., "a -&gt; b" becomes "b -&gt; a" or "a [b]" becomes "b [a]".</p></li>
-<li><p><code>keep_pref_suff()</code> Selects only prefix or suffix, discarding notational elements
+<li><p><code>get_pref_suff()</code> Selects only prefix or suffix, discarding notational elements
 and the rejected part.
 Internally, calls <code>split_pref_suff()</code> and selects only the <code>suff</code> portions.</p></li>
 <li><p><code>switch_notation()</code> Switches from one type of notation to another based on the <code>from</code> and <code>to</code> arguments.
@@ -156,9 +156,9 @@ E.g., "a -&gt; b" in arrow notation means that "a" is the prefix and "b" is the 
 
 <span class="fu">flip_pref_suff</span><span class="op">(</span><span class="va">x</span>, notation <span class="op">=</span> <span class="fu">RCLabels</span><span class="fu">::</span><span class="va"><a href="arrow_notation.html">arrow_notation</a></span><span class="op">)</span>
 
-<span class="fu">keep_pref_suff</span><span class="op">(</span>
+<span class="fu">get_pref_suff</span><span class="op">(</span>
   <span class="va">x</span>,
-  keep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pref"</span>, <span class="st">"suff"</span><span class="op">)</span>,
+  which <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pref"</span>, <span class="st">"suff"</span><span class="op">)</span>,
   notation <span class="op">=</span> <span class="fu">RCLabels</span><span class="fu">::</span><span class="va"><a href="arrow_notation.html">arrow_notation</a></span>
 <span class="op">)</span>
 
@@ -196,7 +196,7 @@ Default is <code>FALSE</code>.</p></dd>
 <dd><p>A string or list of strings that are prefixes. Default is <code>NULL</code>.</p></dd>
 <dt>suff</dt>
 <dd><p>A string of list of strings that are suffixes. Default is <code>NULL</code>.</p></dd>
-<dt>keep</dt>
+<dt>which</dt>
 <dd><p>Tells which to keep, the prefix ("pref") or the suffix ("suff").</p></dd>
 <dt>from</dt>
 <dd><p>The <code>notation</code> to switch <em>away from</em>.</p></dd>
@@ -269,8 +269,9 @@ For <code>keep_pref_suff</code>, one of the prefix or suffix or a list of prefix
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span class="fu">flip_pref_suff</span><span class="op">(</span><span class="st">"a [b]"</span>, notation <span class="op">=</span> <span class="va">bracket_notation</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "b [a]"</span>
-<span class="r-in"><span class="fu">keep_pref_suff</span><span class="op">(</span><span class="st">"a -&gt; b"</span>, keep <span class="op">=</span> <span class="st">"suff"</span>, notation <span class="op">=</span> <span class="va">arrow_notation</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "b"</span>
+<span class="r-in"><span class="fu">get_pref_suff</span><span class="op">(</span><span class="st">"a -&gt; b"</span>, which <span class="op">=</span> <span class="st">"suff"</span>, notation <span class="op">=</span> <span class="va">arrow_notation</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> suff </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  "b" </span>
 <span class="r-in"><span class="fu">switch_notation</span><span class="op">(</span><span class="st">"a -&gt; b"</span>, from <span class="op">=</span> <span class="va">arrow_notation</span>, to <span class="op">=</span> <span class="va">bracket_notation</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "a [b]"</span>
 <span class="r-in"><span class="fu">switch_notation</span><span class="op">(</span><span class="st">"a -&gt; b"</span>, from <span class="op">=</span> <span class="va">arrow_notation</span>, to <span class="op">=</span> <span class="va">bracket_notation</span>,</span>
