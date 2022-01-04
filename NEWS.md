@@ -5,6 +5,8 @@ output: html_document
 
 
 * First version to be used by other packages, so bumping to v0.1.0.
+* `get_piece(labels = NULL)` now returns `NULL`, as expected.
+* All return values from `get_piece()` are now named appropriately.
 * Added new options for the `piece` argument of `get_piece()`: "pps", 
   "prepositions", and "objects".
 * `RCLabels::prepositions` is now a vector instead of a list,
