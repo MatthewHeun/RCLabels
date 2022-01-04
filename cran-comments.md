@@ -1,23 +1,10 @@
 ## Context
 
-`RCLabels` v0.0.4 is a new submission to CRAN
-that assists with manipulating matrix row and column labels.
-`RCLabels` is re-factored out of `matsbyname`
-so other packages can take advantage of its functions
-while preparing matrices.
-`RCLabels` includes additional functionality, too,
-especially the functions `replace_by_pattern()`
-and `match_by_pattern()`, which provide highly customizable
-regex pattern matching for row and column labels.
-If `RCLabels` is accepted by CRAN, 
-I will release a new version of `matsbyname` 
-that removes several functions 
-that are now in `RCLabels`.
-
+`RCLabels` v0.1.0 is an update to prepare for other packages to use it.
 
 ## Test environments (11 in total) and R CMD check results
 
-* local macOS X install 12.0.1 (Monterey), R4.1.2
+* Local macOS X install 12.1 (Monterey), R4.1.2
     * ERRORs: 0
     * WARNINGs: 0
     * NOTEs: 0

@@ -4,6 +4,8 @@ output: html_document
 ---
 
 
+# RCLabels 0.1.0 (2022-01-03)
+
 * First version to be used by other packages, so bumping to v0.1.0.
 * `get_piece(labels = NULL)` now returns `NULL`, as expected.
 * All return values from `get_piece()` are now named appropriately.
