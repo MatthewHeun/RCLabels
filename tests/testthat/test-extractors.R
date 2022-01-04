@@ -180,6 +180,17 @@ test_that("get_piece() works with 'objects'", {
 })
 
 
+test_that("passing NULL to extractors returns NULL", {
+  expect_null(get_pref_suff(NULL))
+  expect_null(get_nouns(NULL))
+  expect_null(get_pps(NULL))
+  expect_null(get_prepositions(NULL))
+  expect_null(get_objects(NULL))
+  expect_null(split_labels(NULL))
+  expect_null(paste_pieces(NULL))
+})
+
+
 test_that("get_piece(NULL) returns NULL", {
   labs <- c("a [from b in c]", "d [of e in f]", "Export [of Coal from USA to MEX]")
   expect_null(get_piece(NULL, piece = "pref"))
@@ -189,3 +200,5 @@ test_that("get_piece(NULL) returns NULL", {
   expect_null(get_piece(NULL, piece = "prepositions"))
   expect_null(get_piece(NULL, piece = "objects"))
 })
+
+

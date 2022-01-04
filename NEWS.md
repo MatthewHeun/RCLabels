@@ -20,8 +20,8 @@ output: html_document
 * Added project status badge.
 * Added CRAN status badge.
 * New tests for new functions.
-    * Now up to 197 tests, all passing.
-    * Test coverage remains at 100 %.
+    * Now up to 216 tests, all passing.
+    * Test coverage remains at 100%.
 
 
 # RCLabels 0.0.4 (2021-12-06)
