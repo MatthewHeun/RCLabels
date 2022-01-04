@@ -40,10 +40,10 @@
         * NOTEs: 0
 * rhub:
     * `devtools::check_rhub()`
-        * Windows Server 2008 R2 SP1, R-devel, 32/64 bit
+        * Windows Server 2022, R-devel, 64 bit
             * ERRORs: 0
             * WARNINGs: 0
-            * NOTEs: 0
+            * NOTEs: 1 --- "checking for detritus in the temp directory, Found the following files/directories: 'lastMiKTeXException'." This note occurred on only one test system. It seems like a malconfiguration of the test environment.
         * Ubuntu Linux 20.04.1 LTS, R-release, GCC
             * ERRORs: 0
             * WARNINGs: 0
