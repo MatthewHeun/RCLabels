@@ -151,6 +151,9 @@ test_that("split_pref_suff() works first_dot notation", {
   expect_equal(split_pref_suff("A.B.C", notation = first_dot_notation),
                list(pref = "A",
                     suff = "B.C"))
+  expect_equal(split_pref_suff(c("a.b", "c.d.e", "f.g"), notation = first_dot_notation),
+               list(pref = c("a", "c", "f"),
+                    suff = c("b", "d.e", "g")))
 })
 
 
@@ -308,6 +311,10 @@ test_that("switch_notation() works as expected", {
                "a -> b")
   expect_equal(switch_notation("a [b]", from = bracket_notation, to = arrow_notation, flip = TRUE),
                "b -> a")
+  expect_equal(switch_notation("a [b]", from = bracket_notation, to = first_dot_notation),
+               "a.b")
+  expect_equal(switch_notation("a.b.c", from = first_dot_notation, to = arrow_notation),
+               "a -> b.c")
 
   # Try with a list
   expect_equal(switch_notation(list("a -> b", "c -> d"), from = arrow_notation, to = bracket_notation),
