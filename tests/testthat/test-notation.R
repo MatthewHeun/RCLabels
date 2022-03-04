@@ -42,7 +42,7 @@ test_that("preposition_notation() works as expected", {
 })
 
 
-test_that("from_notation works is correct", {
+test_that("from_notation is correct", {
   fn <- from_notation
   expect_equal(fn[["pref_start"]], "")
   expect_equal(fn[["pref_end"]], " [from ")
@@ -51,7 +51,7 @@ test_that("from_notation works is correct", {
 })
 
 
-test_that("of_notation works is correct", {
+test_that("of_notation is correct", {
   on <- of_notation
   expect_equal(on[["pref_start"]], "")
   expect_equal(on[["pref_end"]], " [of ")
@@ -59,6 +59,14 @@ test_that("of_notation works is correct", {
   expect_equal(on[["suff_end"]], "]")
 })
 
+
+test_that("first_dot notation is correct", {
+  fd <- first_dot_notation
+  expect_equal(fd[["pref_start"]], "")
+  expect_equal(fd[["pref_end"]], ".")
+  expect_equal(fd[["suff_start"]], ".")
+  expect_equal(fd[["suff_end"]], "")
+})
 
 
 test_that("split_pref_suff() works properly", {
@@ -133,6 +141,16 @@ test_that("split_pref_suff() works with full notation", {
   expect_equal(RCLabels:::split_pref_suff(c("(a)(b)", "(c)(d)"), note),
                list(pref = c("a", "c"),
                     suff = c("b", "d")))
+})
+
+
+test_that("split_pref_suff() works first_dot notation", {
+  expect_equal(split_pref_suff("A.B", notation = first_dot_notation),
+               list(pref = "A",
+                    suff = "B"))
+  expect_equal(split_pref_suff("A.B.C", notation = first_dot_notation),
+               list(pref = "A",
+                    suff = "B.C"))
 })
 
 

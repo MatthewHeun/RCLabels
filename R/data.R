@@ -70,6 +70,18 @@
 
 
 
+#' First dot notation
+#'
+#' A description of first dot notation.
+#' Note that "a.b.c" splits into prefix ("a") and suffix ("b.c").
+#'
+#' @format A vector of notational symbols that provides first dot ("a.b") notation.
+#' @examples
+#' first_dot_notation
+"first_dot_notation"
+
+
+
 #' Prepositions
 #'
 #' Prepositions used in row and column labels.
