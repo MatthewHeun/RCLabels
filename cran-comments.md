@@ -1,7 +1,7 @@
 ## Context
 
 `RCLabels` v0.1.1 is a minor update that adds
-only one new package-level constant (`first_dot_notation`)
+only a new package-level constant (`first_dot_notation`)
 and tests for the addition.
 
 ## Test environments (11 in total) and R CMD check results
