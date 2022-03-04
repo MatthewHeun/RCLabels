@@ -3,8 +3,12 @@ title: "Release notes for `RCLabels`"
 output: html_document
 ---
 
+# RCLabels 0.1.1 (2022-03-03)
 
 * Added new notation type `first_dot_notation`.
+* New tests for new capabilities.
+    * Now up to 225 tests, all passing.
+    * Test coverage remains at 100%.
 
 
 # RCLabels 0.1.0 (2022-01-03) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5819144.svg)](https://doi.org/10.5281/zenodo.5819144)
