@@ -1,10 +1,12 @@
 ## Context
 
-`RCLabels` v0.1.0 is an update to prepare for other packages to use it.
+`RCLabels` v0.1.1 is a minor update that adds
+only one new package-level constant (`first_dot_notation`)
+and tests for the addition.
 
 ## Test environments (11 in total) and R CMD check results
 
-* Local macOS X install 12.1 (Monterey), R4.1.2
+* Local macOS X install 12.2.1 (Monterey), R4.1.2
     * ERRORs: 0
     * WARNINGs: 0
     * NOTEs: 0
