@@ -4,6 +4,9 @@ output: html_document
 ---
 
 
+* Added new notation type `first_dot_notation`.
+
+
 # RCLabels 0.1.0 (2022-01-03) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5819144.svg)](https://doi.org/10.5281/zenodo.5819144)
 
 * First version to be used by other packages, so bumping to v0.1.0.
