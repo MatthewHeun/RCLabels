@@ -45,7 +45,7 @@ and tests for the addition.
         * Windows Server 2022, R-devel, 64 bit
             * ERRORs: 0
             * WARNINGs: 0
-            * NOTEs: 1 --- "checking for detritus in the temp directory, Found the following files/directories: 'lastMiKTeXException'." This note occurred on only one test system. It seems like a malconfiguration of the test environment.
+            * NOTEs: 0
         * Ubuntu Linux 20.04.1 LTS, R-release, GCC
             * ERRORs: 0
             * WARNINGs: 0
@@ -62,4 +62,4 @@ We checked 1 reverse dependencies, comparing R CMD check results across CRAN and
 
  * We saw 0 new problems
  * We failed to check 0 packages
- 
+
