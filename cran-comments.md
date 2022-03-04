@@ -45,7 +45,12 @@ and tests for the addition.
         * Windows Server 2022, R-devel, 64 bit
             * ERRORs: 0
             * WARNINGs: 0
-            * NOTEs: 0
+            * NOTEs: 1 --- checking for detritus in the temp directory ... NOTE
+                           Found the following files/directories:
+                           'lastMiKTeXException'
+                           This appears to be a mal-configuration 
+                           of this test environment. 
+                           No other test environment gave this note.
         * Ubuntu Linux 20.04.1 LTS, R-release, GCC
             * ERRORs: 0
             * WARNINGs: 0
