@@ -66,6 +66,14 @@ usethis::use_data(bracket_arrow_notation, overwrite = TRUE)
 
 
 #
+# First dot notation: a.b
+#
+
+first_dot_notation <- notation_vec(sep = ".")
+usethis::use_data(first_dot_notation, overwrite = TRUE)
+
+
+#
 # Prepositions
 #
 

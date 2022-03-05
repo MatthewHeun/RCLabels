@@ -42,7 +42,7 @@ test_that("preposition_notation() works as expected", {
 })
 
 
-test_that("from_notation works is correct", {
+test_that("from_notation is correct", {
   fn <- from_notation
   expect_equal(fn[["pref_start"]], "")
   expect_equal(fn[["pref_end"]], " [from ")
@@ -51,7 +51,7 @@ test_that("from_notation works is correct", {
 })
 
 
-test_that("of_notation works is correct", {
+test_that("of_notation is correct", {
   on <- of_notation
   expect_equal(on[["pref_start"]], "")
   expect_equal(on[["pref_end"]], " [of ")
@@ -59,6 +59,14 @@ test_that("of_notation works is correct", {
   expect_equal(on[["suff_end"]], "]")
 })
 
+
+test_that("first_dot notation is correct", {
+  fd <- first_dot_notation
+  expect_equal(fd[["pref_start"]], "")
+  expect_equal(fd[["pref_end"]], ".")
+  expect_equal(fd[["suff_start"]], ".")
+  expect_equal(fd[["suff_end"]], "")
+})
 
 
 test_that("split_pref_suff() works properly", {
@@ -136,9 +144,22 @@ test_that("split_pref_suff() works with full notation", {
 })
 
 
+test_that("split_pref_suff() works first_dot notation", {
+  expect_equal(split_pref_suff("A.B", notation = first_dot_notation),
+               list(pref = "A",
+                    suff = "B"))
+  expect_equal(split_pref_suff("A.B.C", notation = first_dot_notation),
+               list(pref = "A",
+                    suff = "B.C"))
+  expect_equal(split_pref_suff(c("a.b", "c.d.e", "f.g"), notation = first_dot_notation),
+               list(pref = c("a", "c", "f"),
+                    suff = c("b", "d.e", "g")))
+})
+
+
 test_that("split_pref_suff() works in a data frame", {
   df <- data.frame(donottouch = c(1, 2, 3), orig = c("a -> b", "c -> d", "e -> f"))
-  split <- df |>
+  split <- df %>%
     dplyr::mutate(
       split = RCLabels:::split_pref_suff(orig, notation = arrow_notation, transpose = TRUE)
     )
@@ -153,25 +174,25 @@ test_that("paste_pref_suff() works properly", {
   expect_equal(paste_pref_suff(ps, notation = arrow_notation), "a -> b")
   # Make sure that they are the inverse of each other,
   # except for converting to a list.
-  expect_equal(paste_pref_suff(ps, notation = arrow_notation) |>
+  expect_equal(paste_pref_suff(ps, notation = arrow_notation) %>%
                  split_pref_suff(notation = arrow_notation), as.list(ps))
   # Try with paren notation list
-  expect_equal(paste_pref_suff(ps, notation = bracket_notation) |>
+  expect_equal(paste_pref_suff(ps, notation = bracket_notation) %>%
                  split_pref_suff(notation = bracket_notation), as.list(ps))
   # Try with a wacky notation list
   amp_nl <- notation_vec(sep = "&&&&&&&&")
-  expect_equal(paste_pref_suff(ps, notation = amp_nl) |>
+  expect_equal(paste_pref_suff(ps, notation = amp_nl) %>%
                  split_pref_suff(notation = amp_nl), as.list(ps))
   paren_nl <- notation_vec(pref_start = "(", pref_end = ")",
                            suff_start = "(", suff_end = ")")
-  expect_equal(paste_pref_suff(ps, notation = paren_nl) |>
+  expect_equal(paste_pref_suff(ps, notation = paren_nl) %>%
                  split_pref_suff(notation = paren_nl), as.list(ps))
   # Try to join lists
   expect_equal(paste_pref_suff(list(list(pref = "a", suff = "b"), list(pref = "c", suff = "d"))),
                list("a -> b", "c -> d"))
   # Try to split then join lists
   joined <- c("a -> b", "c -> d")
-  expect_equal(split_pref_suff(joined, notation = arrow_notation) |>
+  expect_equal(split_pref_suff(joined, notation = arrow_notation) %>%
                  paste_pref_suff(notation = arrow_notation),
                joined)
 
@@ -234,7 +255,7 @@ test_that("get_pref_suff() works as expected", {
 
   # Test in a data frame using mutate.
   df <- data.frame(v1 = c("a -> b", "c -> d"), v2 = c("e [f]", "g [h]"))
-  res <- df |>
+  res <- df %>%
     dplyr::mutate(
       # Keep the prefixes from the arrow notation column (v1)
       pref = get_pref_suff(v1, which = "pref", notation = arrow_notation),
@@ -267,7 +288,7 @@ test_that("get_pref_suff() works when there is no prefix or suffix", {
 
 test_that("get_pref_suff() preserves column type", {
   df <- data.frame(v1 = c("a -> b", "c -> d"))
-  res <- df |>
+  res <- df %>%
     dplyr::mutate(
       pref = get_pref_suff(v1, which = "pref", notation = arrow_notation)
     )
@@ -290,6 +311,10 @@ test_that("switch_notation() works as expected", {
                "a -> b")
   expect_equal(switch_notation("a [b]", from = bracket_notation, to = arrow_notation, flip = TRUE),
                "b -> a")
+  expect_equal(switch_notation("a [b]", from = bracket_notation, to = first_dot_notation),
+               "a.b")
+  expect_equal(switch_notation("a.b.c", from = first_dot_notation, to = arrow_notation),
+               "a -> b.c")
 
   # Try with a list
   expect_equal(switch_notation(list("a -> b", "c -> d"), from = arrow_notation, to = bracket_notation),
@@ -303,7 +328,7 @@ test_that("switch_notation() works as expected", {
 
 test_that("switch_notation() works in a data frame", {
   df <- data.frame(orig = c("a -> b", "c -> d"))
-  switched <- df |>
+  switched <- df %>%
     dplyr::mutate(
       new = switch_notation(orig, from = arrow_notation, to = bracket_notation)
     )

@@ -14,6 +14,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![Codecov test
 coverage](https://codecov.io/gh/MatthewHeun/RCLabels/branch/main/graph/badge.svg)](https://app.codecov.io/gh/MatthewHeun/RCLabels?branch=main)
 [![R-CMD-check](https://github.com/MatthewHeun/RCLabels/workflows/R-CMD-check/badge.svg)](https://github.com/MatthewHeun/RCLabels/actions)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5819143.svg)](https://doi.org/10.5281/zenodo.5819143)
 <!-- badges: end -->
 
 This package provides functions to assist with manipulating matrix row
