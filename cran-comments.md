@@ -36,7 +36,7 @@ and tests for the addition.
         * ERRORs: 0
         * WARNINGs: 0
         * NOTEs: 0
-    * `devtools::check_win_devel()`, R Under development (unstable) (2022-01-03 r81439 ucrt)
+    * `devtools::check_win_devel()`, R Under development (unstable) (2022-03-03 r81847 ucrt)
         * ERRORs: 0
         * WARNINGs: 0
         * NOTEs: 0
