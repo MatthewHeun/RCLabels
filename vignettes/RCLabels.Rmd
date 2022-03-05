@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup, include = FALSE}
+library(magrittr)
 library(RCLabels)
 ```
 
@@ -62,6 +63,7 @@ Example row and column labels include
 * "pref -> suff" (separator "->")
 * "pref [suff]" (suffix delimited by “ [” and “]”)
 * "(pref) (suff)" (prefix and suffix both surrounded by “(” and “)”)
+* "pref.suff" (separator ".")
 
 Prefixes are usually the "thing" of interest, e.g.
 an energy carrier ("Coal") or 
@@ -100,6 +102,7 @@ Several notation objects are provided for convenience within RCLabels.
 arrow_notation
 paren_notation
 bracket_notation
+first_dot_notation
 from_notation
 of_notation
 to_notation
@@ -169,7 +172,7 @@ column is created.
 labels
 
 df <- tibble::tibble(labels = labels)
-result <- df |> 
+result <- df %>% 
   dplyr::mutate(
     split = split_pref_suff(labels, notation = bracket_notation, transpose = TRUE)
   )

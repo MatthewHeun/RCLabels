@@ -139,13 +139,13 @@ match_by_pattern <- function(labels,
   }
 
   # At this point, treat pieces as specifying a noun or prepositions.
-  keepers <- split_labels(labels, prepositions = prepositions, notation = notation) |>
+  keepers <- split_labels(labels, prepositions = prepositions, notation = notation) %>%
     lapply(FUN = function(this_split_label) {
       this_split_label[pieces]
     })
 
   sapply(keepers, FUN = function(this_keeper) {
-    grepl(pattern = regex_pattern,  x = this_keeper, ...) |>
+    grepl(pattern = regex_pattern,  x = this_keeper, ...) %>%
       # any() takes care of multiple pieces.
       any(na.rm = TRUE)
   })

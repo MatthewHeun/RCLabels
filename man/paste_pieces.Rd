@@ -28,7 +28,7 @@ paste_pieces(split)
 # Also works in a data frame
 df <- tibble::tibble(labels = c("a [in b]", "c [of d into USA]",
                                 "e [of f in g]", "h [-> i in j]"))
-recombined <- df |>
+recombined <- df \%>\%
   dplyr::mutate(
     splits = split_labels(labels),
     recombined = paste_pieces(splits)

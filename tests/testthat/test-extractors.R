@@ -5,7 +5,7 @@ test_that("get_nouns() works as expected", {
 
   # Now try in a data frame
   df <- data.frame(labels = c("a [b]", "c [d]", "e [f]", "g [h]"))
-  with_nouns <- df |>
+  with_nouns <- df %>%
     dplyr::mutate(
       nouns = get_nouns(labels)
     )
@@ -36,7 +36,7 @@ test_that("get_pps() works as expected", {
   # Now try in a data frame
 
   df <- data.frame(labels = c("e [of f in g]", "h [-> i in j]", "a [in b]", "c [of d into USA]"))
-  with_nouns_pps <- df |>
+  with_nouns_pps <- df %>%
     dplyr::mutate(
       nouns = get_nouns(labels),
       pps = get_pps(labels)
@@ -84,7 +84,7 @@ test_that("split_labels() works as expected", {
   # Now try in a data frame.
   df <- data.frame(labels = I(list("a [in b]", "c [of d into USA]",
                                    "e [of f in g]", "h [-> i in j]")))
-  split <- df |>
+  split <- df %>%
     dplyr::mutate(
       splits = split_labels(labels)
     )
@@ -115,7 +115,7 @@ test_that("paste_pieces() works as expected", {
   # Try in a data frame
   df <- tibble::tibble(labels = c("a [in b]", "c [of d into USA]",
                                   "e [of f in g]", "h [-> i in j]"))
-  recombined <- df |>
+  recombined <- df %>%
     dplyr::mutate(
       splits = split_labels(labels),
       recombined = paste_pieces(splits)

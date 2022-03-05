@@ -27,7 +27,7 @@ modify_nouns <- function(labels, new_nouns, notation = RCLabels::bracket_notatio
   mapply(split, new_nouns, SIMPLIFY = FALSE, FUN = function(this_split_label, this_new_noun) {
     this_split_label[["noun"]] <- this_new_noun
     this_split_label
-  }) |>
+  }) %>%
     paste_pieces(notation = notation)
 }
 
@@ -91,7 +91,7 @@ modify_nouns <- function(labels, new_nouns, notation = RCLabels::bracket_notatio
 modify_label_pieces <- function(labels, piece, mod_map,
                                 prepositions = RCLabels::prepositions,
                                 notation = RCLabels::bracket_notation) {
-  split <- labels |>
+  split <- labels %>%
     split_labels(notation = notation, prepositions = prepositions)
 
   # Loop over everything to modify pieces.
@@ -114,7 +114,7 @@ modify_label_pieces <- function(labels, piece, mod_map,
     this_label
   })
 
-  modified |>
+  modified %>%
     paste_pieces(notation = notation)
 }
 
@@ -147,7 +147,7 @@ remove_label_pieces <- function(labels,
                                 pieces_to_remove,
                                 prepositions = RCLabels::prepositions,
                                 notation = RCLabels::bracket_notation) {
-  split <- labels |>
+  split <- labels %>%
     split_labels(notation = notation, prepositions = prepositions)
 
   for (i_split_label in 1:length(split)) {
@@ -161,6 +161,6 @@ remove_label_pieces <- function(labels,
     }
     split[[i_split_label]] <- this_split_label
   }
-  split |>
+  split %>%
     paste_pieces(notation = notation)
 }

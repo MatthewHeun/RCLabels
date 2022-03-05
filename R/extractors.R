@@ -22,7 +22,7 @@ get_nouns <- function(labels, notation = RCLabels::bracket_notation) {
   if (is.null(labels)) {
     return(NULL)
   }
-  get_pref_suff(labels, which = "pref", notation = notation) |>
+  get_pref_suff(labels, which = "pref", notation = notation) %>%
     magrittr::set_names(rep("noun", length(labels)))
 }
 
@@ -56,7 +56,7 @@ get_pps <- function(labels,
   preposition_words <- paste0(prepositions, " ")
   prep_patterns <- make_or_pattern(preposition_words,
                                    pattern_type = "anywhere")
-  start_locations <- gregexpr(prep_patterns, text = suffixes) |>
+  start_locations <- gregexpr(prep_patterns, text = suffixes) %>%
     unlist()
   if (length(start_locations) == 1) {
     end_locations <- nchar(suffixes)
@@ -65,7 +65,7 @@ get_pps <- function(labels,
   }
   substring(suffixes,
             first = start_locations[[1]],
-            last = end_locations[[length(end_locations)]]) |>
+            last = end_locations[[length(end_locations)]]) %>%
     magrittr::set_names(rep("pps", length(labels)))
 }
 
@@ -118,7 +118,7 @@ get_prepositions <- function(labels,
     }
     out <- append(out, list(as.character(out_this_pp)))
   }
-  out <- out |>
+  out <- out %>%
     magrittr::set_names(rep("prepositions", length(labels)))
   return(out)
 }
@@ -187,10 +187,10 @@ get_objects <- function(labels,
   mapply(pps, obj_start_locations, obj_end_locations, prepositions,
                     SIMPLIFY = FALSE, USE.NAMES = FALSE, FUN = function(this_pp, these_osls, these_oels, these_pps) {
     mapply(these_osls, these_oels, these_pps, FUN = function(osl, oel, these_preps) {
-      substring(this_pp, first = osl, last = oel) |>
+      substring(this_pp, first = osl, last = oel) %>%
         magrittr::set_names(these_preps)
     })
-  }) |>
+  }) %>%
     magrittr::set_names(rep("objects", length(labels)))
 }
 
@@ -231,9 +231,9 @@ split_labels <- function(labels,
   if (is.null(labels)) {
     return(NULL)
   }
-  nouns <- get_nouns(labels, notation = notation) |>
-    as.list() |>
-    unname() |>
+  nouns <- get_nouns(labels, notation = notation) %>%
+    as.list() %>%
+    unname() %>%
     lapply(FUN = function(this_noun) {
       magrittr::set_names(this_noun, "noun")
     })
@@ -267,7 +267,7 @@ split_labels <- function(labels,
 #' # Also works in a data frame
 #' df <- tibble::tibble(labels = c("a [in b]", "c [of d into USA]",
 #'                                 "e [of f in g]", "h [-> i in j]"))
-#' recombined <- df |>
+#' recombined <- df %>%
 #'   dplyr::mutate(
 #'     splits = split_labels(labels),
 #'     recombined = paste_pieces(splits)
@@ -277,13 +277,13 @@ paste_pieces <- function(splt_labels, notation = RCLabels::bracket_notation) {
   if (is.null(splt_labels)) {
     return(NULL)
   }
-  nouns <- splt_labels |>
+  nouns <- splt_labels %>%
     sapply(FUN = function(this_label) {
       this_label[["noun"]]
     })
   pps <- sapply(splt_labels, FUN = function(this_label) {
-    without_noun <- this_label |>
-      as.list() |>
+    without_noun <- this_label %>%
+      as.list() %>%
       purrr::list_modify("noun" = NULL)
     paste0(names(without_noun), " ", without_noun, collapse = " ")
   })
@@ -363,11 +363,11 @@ get_piece <- function(labels,
   out <- lapply(out, FUN = function(pieces){
     theoneswewant <- pieces[names(pieces) == piece]
     if (length(theoneswewant) == 0) {
-      return("" |> magrittr::set_names(piece))
+      return("" %>% magrittr::set_names(piece))
     }
     return(theoneswewant)
   })
-  out |>
+  out %>%
     magrittr::set_names(rep(NULL, length(labels)))
 }
 

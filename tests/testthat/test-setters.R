@@ -9,7 +9,7 @@ test_that("modify_nouns() works as expected", {
   # Make sure it works in a data frame.
   df <- tibble::tibble(labels = c("a [of b in c]", "d [of e in USA]"),
                        new_nouns = c("first_noun", "second_noun"))
-  res <- df |>
+  res <- df %>%
     dplyr::mutate(
       with_new_nouns = modify_nouns(labels, new_nouns = new_nouns)
     )
@@ -52,7 +52,7 @@ test_that("modify_label_pieces() works with vectors, lists, and in data frames",
 
   # Try in a data frame
   df <- tibble::tibble(labs = c("a [of b in c]", "d [of e in f]"))
-  res <- df |>
+  res <- df %>%
     dplyr::mutate(
       mod1 = modify_label_pieces(labs, piece = "noun", mod_map = list(new_a = c("a", "b", "c")))
     )
