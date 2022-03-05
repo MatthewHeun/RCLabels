@@ -5,6 +5,8 @@ output: html_document
 
 # RCLabels 0.1.1 (2022-03-03)
 
+* Added backward compatibility with previous versions of R
+  via reverting to the magrittr pipe (%>%) from the system pipe (|>).
 * Added new notation type `first_dot_notation`.
 * New tests for new capabilities.
     * Now up to 225 tests, all passing.
