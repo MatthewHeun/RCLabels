@@ -28,7 +28,7 @@ and tests for the addition.
         * WARNINGs: 0
         * NOTEs: 0
     * ubuntu-latest (oldrel-1)
-        * ERRORs: 1 --- The error is caused by use of the new native pipe (|>).
+        * ERRORs: 1 --- The error is caused by use of the new native pipe (%>%).
         * WARNINGs: 0
         * NOTEs: 0
 * Windows (on win-builder):

@@ -88,6 +88,7 @@
 <li>“pref -&gt; suff” (separator “-&gt;”)</li>
 <li>“pref [suff]” (suffix delimited by “ [” and “]”)</li>
 <li>“(pref) (suff)” (prefix and suffix both surrounded by “(” and “)”)</li>
+<li>“pref.suff” (separator “.”)</li>
 </ul>
 <p>Prefixes are usually the “thing” of interest, e.g. an energy carrier (“Coal”) or a processing stage in an energy conversion chain (“Main activity producer electricity plants”). Suffixes are usually modifiers or metadata about the thing (the prefix). Suffixes can describe the destination of an energy carrier (“Light [-&gt; Industry in USA]”). Suffixes can describe the output of a processing stage (“Production [of Coal in ZAR]”).</p>
 </div>
@@ -119,6 +120,9 @@
 <span class="va">bracket_notation</span>
 <span class="co">#&gt; pref_start   pref_end suff_start   suff_end </span>
 <span class="co">#&gt;         ""       " ["       " ["        "]"</span>
+<span class="va">first_dot_notation</span>
+<span class="co">#&gt; pref_start   pref_end suff_start   suff_end </span>
+<span class="co">#&gt;         ""        "."        "."         ""</span>
 <span class="va">from_notation</span>
 <span class="co">#&gt; pref_start   pref_end suff_start   suff_end </span>
 <span class="co">#&gt;         ""  " [from "  " [from "        "]"</span>
@@ -197,7 +201,7 @@
 <span class="co">#&gt; [1] "a [of b in c]" "d [of e in f]" "g [of h in i]"</span>
 
 <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="va">labels</span><span class="op">)</span>
-<span class="va">result</span> <span class="op">&lt;-</span> <span class="va">df</span> |&gt; 
+<span class="va">result</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>
     split <span class="op">=</span> <span class="fu"><a href="../reference/row-col-notation.html">split_pref_suff</a></span><span class="op">(</span><span class="va">labels</span>, notation <span class="op">=</span> <span class="va">bracket_notation</span>, transpose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
   <span class="op">)</span>

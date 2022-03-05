@@ -125,7 +125,7 @@ split_pref_suff <- function(x, notation = RCLabels::arrow_notation, transpose = 
   # Strip off pref and pref_end
   no_pref <- mapply(pref, no_pref_start, FUN = function(p, npstart) {
     gsub(pattern = paste0("^", Hmisc::escapeRegex(p)), replacement = "", x = npstart)
-  }) |>
+  }) %>%
     unname()
   # Strip off prefix end
   no_pref_end <- gsub(pattern = paste0("^", Hmisc::escapeRegex(notation[["pref_end"]])), replacement = "", x = no_pref)
@@ -142,7 +142,7 @@ split_pref_suff <- function(x, notation = RCLabels::arrow_notation, transpose = 
   # Unless the caller wants to transpose the result,
   # especially if the result will go in a data frame.
   if (transpose) {
-    out <- out |>
+    out <- out %>%
       purrr::transpose()
   }
   return(out)
@@ -176,7 +176,7 @@ flip_pref_suff <- function(x, notation = RCLabels::arrow_notation) {
   pref_suff <- split_pref_suff(x, notation = notation)
   paste_pref_suff(pref = pref_suff[["suff"]],
                   suff = pref_suff[["pref"]],
-                  notation = notation) |>
+                  notation = notation) %>%
     as.character()
 }
 
@@ -188,9 +188,9 @@ get_pref_suff <- function(x, which = c("pref", "suff"), notation = RCLabels::arr
     return(NULL)
   }
   which <- match.arg(which)
-  split_pref_suff(x, notation = notation) |>
-    magrittr::extract2(which) |>
-    as.character() |>
+  split_pref_suff(x, notation = notation) %>%
+    magrittr::extract2(which) %>%
+    as.character() %>%
     magrittr::set_names(rep(which, times = length(x)))
 }
 
