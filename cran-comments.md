@@ -3,10 +3,12 @@
 `RCLabels` v0.1.1 is a minor update that adds
 only a new package-level constant (`first_dot_notation`)
 and tests for the addition.
+The package is now compatible with previous R releases
+after reverting to the magrittr pipe (%>%) from the new pipe (|>).
 
 ## Test environments (11 in total) and R CMD check results
 
-* Local macOS X install 12.2.1 (Monterey), R4.1.2
+* Local macOS X installation 12.2.1 (Monterey), R4.1.2 Patched (2021-12-16 r81394)
     * ERRORs: 0
     * WARNINGs: 0
     * NOTEs: 0
@@ -28,7 +30,7 @@ and tests for the addition.
         * WARNINGs: 0
         * NOTEs: 0
     * ubuntu-latest (oldrel-1)
-        * ERRORs: 1 --- The error is caused by use of the new native pipe (%>%).
+        * ERRORs: 0
         * WARNINGs: 0
         * NOTEs: 0
 * Windows (on win-builder):
