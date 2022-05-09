@@ -29,8 +29,7 @@ get_nouns <- function(labels, notation = RCLabels::bracket_notation) {
 
 #' Extract prepositional phrases of row and column labels
 #'
-#' This function extracts the suffix of a row or column label as a
-#' single string.
+#' This function extracts prepositional phrases from suffixes of row and column labels.
 #'
 #' @param labels A list or vector of labels from which nouns are to be extracted.
 #' @param notation The notation type to be used when extracting nouns.
