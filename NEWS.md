@@ -4,6 +4,9 @@ output: html_document
 ---
 
 
+* Improved accuracy of documentation for `get_pps()`.
+
+
 # RCLabels 0.1.1 (2022-03-05) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6331050.svg)](https://doi.org/10.5281/zenodo.6331050)
 
 * Added backward compatibility with previous versions of R

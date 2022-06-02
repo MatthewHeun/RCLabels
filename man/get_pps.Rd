@@ -23,8 +23,7 @@ Default is \code{RCLabels::prepositions}.}
 All prepositional phrases in a suffix.
 }
 \description{
-This function extracts the suffix of a row or column label as a
-single string.
+This function extracts prepositional phrases from suffixes of row and column labels.
 }
 \examples{
 get_pps(c("a [in b]", "c [of d]"))
