@@ -4,7 +4,7 @@ output: html_document
 ---
 
 
-* Fixed `to_notation` example.
+* Fixed `to_notation` example in the documentation.
   (The example for `to_notation` was `from_notation`.)
 * Improved accuracy of documentation for `get_pps()`.
 
