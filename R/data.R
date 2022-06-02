@@ -55,7 +55,7 @@
 #'
 #' @format A vector of notational symbols that provides to ("a \[to b\]") notation.
 #' @examples
-#' from_notation
+#' to_notation
 "to_notation"
 
 

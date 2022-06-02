@@ -33,7 +33,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="active nav-item">
   <a class="nav-link" href="../articles/RCLabels.html">Get started</a>
@@ -56,12 +56,16 @@
   </div>
 </nav><div class="container template-article">
 
+
+
+
 <div class="row">
   <main id="main"><div class="page-header">
       <img src="" class="logo" alt=""><h1>RCLabels</h1>
-                        <h4 data-toc-skip class="author">Matthew Kuperus Heun</h4>
+                        <h4 data-toc-skip class="author">Matthew Kuperus
+Heun</h4>
             
-            <h4 data-toc-skip class="date">2022-03-05</h4>
+            <h4 data-toc-skip class="date">2022-06-02</h4>
       
       
       <div class="d-none name"><code>RCLabels.Rmd</code></div>
@@ -72,34 +76,63 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>Working with matrices often requires manipulating row and column labels to achieve desired outcomes for matrix mathematics. The <code>RCLabels</code> package (Row and Column Labels) provides convenient tools for manipulating those labels.</p>
+<p>Working with matrices often requires manipulating row and column
+labels to achieve desired outcomes for matrix mathematics. The
+<code>RCLabels</code> package (Row and Column Labels) provides
+convenient tools for manipulating those labels.</p>
 </div>
 <div class="section level2">
 <h2 id="use-cases">Use cases<a class="anchor" aria-label="anchor" href="#use-cases"></a>
 </h2>
-<p>Two applications of matrix mathematics are input-output analysis in economics and physical supply-use table (PSUT) matrices for energy conversion chain (ECC) analysis. In those contexts, row and column labels describe processing stages or flows of goods or services between processing stages. Row and column labels can benefit those applications, ensuring that like quantities are added, subtracted, multiplied, or divided, etc., provided that row and column labels are respected during matrix operations.</p>
-<p>One package that respects row and column labels is <code>matsbyname</code>, thereby making economic and ECC input-output analyses easier. Easy manipulation of row and column labels is, therefore, an enabling capability for using the <code>matsbyname</code> package. This package (<code>RCLabels</code>) provides easy manipulation of row and column labels. In fact, the <code>matsbyname</code> package uses <code>RCLabels</code> functions internally.</p>
+<p>Two applications of matrix mathematics are input-output analysis in
+economics and physical supply-use table (PSUT) matrices for energy
+conversion chain (ECC) analysis. In those contexts, row and column
+labels describe processing stages or flows of goods or services between
+processing stages. Row and column labels can benefit those applications,
+ensuring that like quantities are added, subtracted, multiplied, or
+divided, etc., provided that row and column labels are respected during
+matrix operations.</p>
+<p>One package that respects row and column labels is
+<code>matsbyname</code>, thereby making economic and ECC input-output
+analyses easier. Easy manipulation of row and column labels is,
+therefore, an enabling capability for using the <code>matsbyname</code>
+package. This package (<code>RCLabels</code>) provides easy manipulation
+of row and column labels. In fact, the <code>matsbyname</code> package
+uses <code>RCLabels</code> functions internally.</p>
 </div>
 <div class="section level2">
 <h2 id="label-structure">Label structure<a class="anchor" aria-label="anchor" href="#label-structure"></a>
 </h2>
-<p>Row and column labels are always character strings, often with a prefix–suffix structure, where the prefix and suffix are denoted by a separator or delimited in other ways. Example row and column labels include</p>
+<p>Row and column labels are always character strings, often with a
+prefix–suffix structure, where the prefix and suffix are denoted by a
+separator or delimited in other ways. Example row and column labels
+include</p>
 <ul>
 <li>“pref -&gt; suff” (separator “-&gt;”)</li>
 <li>“pref [suff]” (suffix delimited by “ [” and “]”)</li>
-<li>“(pref) (suff)” (prefix and suffix both surrounded by “(” and “)”)</li>
+<li>“(pref) (suff)” (prefix and suffix both surrounded by “(” and
+“)”)</li>
 <li>“pref.suff” (separator “.”)</li>
 </ul>
-<p>Prefixes are usually the “thing” of interest, e.g. an energy carrier (“Coal”) or a processing stage in an energy conversion chain (“Main activity producer electricity plants”). Suffixes are usually modifiers or metadata about the thing (the prefix). Suffixes can describe the destination of an energy carrier (“Light [-&gt; Industry in USA]”). Suffixes can describe the output of a processing stage (“Production [of Coal in ZAR]”).</p>
+<p>Prefixes are usually the “thing” of interest, e.g. an energy carrier
+(“Coal”) or a processing stage in an energy conversion chain (“Main
+activity producer electricity plants”). Suffixes are usually modifiers
+or metadata about the thing (the prefix). Suffixes can describe the
+destination of an energy carrier (“Light [-&gt; Industry in USA]”).
+Suffixes can describe the output of a processing stage (“Production [of
+Coal in ZAR]”).</p>
 </div>
 <div class="section level2">
 <h2 id="working-with-row-and-column-labels">Working with row and column labels<a class="anchor" aria-label="anchor" href="#working-with-row-and-column-labels"></a>
 </h2>
-<p>The <code>RCLabels</code> package streamlines working with row and column labels.</p>
+<p>The <code>RCLabels</code> package streamlines working with row and
+column labels.</p>
 <div class="section level3">
 <h3 id="notation">Notation<a class="anchor" aria-label="anchor" href="#notation"></a>
 </h3>
-<p><code>RCLabels</code> enables creation of notation objects that describe the structure of a row or column label via the <code><a href="../reference/row-col-notation.html">notation_vec()</a></code> function.</p>
+<p><code>RCLabels</code> enables creation of notation objects that
+describe the structure of a row or column label via the
+<code><a href="../reference/row-col-notation.html">notation_vec()</a></code> function.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create a notation object.</span>
 <span class="va">my_notation</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/row-col-notation.html">notation_vec</a></span><span class="op">(</span>pref_start <span class="op">=</span> <span class="st">"("</span>, pref_end <span class="op">=</span> <span class="st">") "</span>,
@@ -109,7 +142,8 @@
 <span class="va">my_notation</span>
 <span class="co">#&gt; pref_start   pref_end suff_start   suff_end </span>
 <span class="co">#&gt;        "("       ") "        "["        "]"</span></code></pre></div>
-<p>Several notation objects are provided for convenience within RCLabels.</p>
+<p>Several notation objects are provided for convenience within
+RCLabels.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">arrow_notation</span>
 <span class="co">#&gt; pref_start   pref_end suff_start   suff_end </span>
@@ -135,12 +169,17 @@
 <span class="va">bracket_arrow_notation</span>
 <span class="co">#&gt; pref_start   pref_end suff_start   suff_end </span>
 <span class="co">#&gt;         ""    " [-&gt; "    " [-&gt; "        "]"</span></code></pre></div>
-<p>Note that identical <code>pref_end</code> and <code>suff_start</code> values (as shown in all notations above) are interpreted as a single delimiter throughout the <code>RCLables</code> package. Empty strings (<code>""</code>) mean that no indication is given for the start or end of a prefix or suffix.</p>
+<p>Note that identical <code>pref_end</code> and <code>suff_start</code>
+values (as shown in all notations above) are interpreted as a single
+delimiter throughout the <code>RCLables</code> package. Empty strings
+(<code>""</code>) mean that no indication is given for the start or end
+of a prefix or suffix.</p>
 </div>
 <div class="section level3">
 <h3 id="creating-row-and-column-labels">Creating row and column labels<a class="anchor" aria-label="anchor" href="#creating-row-and-column-labels"></a>
 </h3>
-<p>Row and column labels can be created with the <code><a href="../reference/row-col-notation.html">paste_pref_suff()</a></code> function</p>
+<p>Row and column labels can be created with the
+<code><a href="../reference/row-col-notation.html">paste_pref_suff()</a></code> function</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_label</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/row-col-notation.html">paste_pref_suff</a></span><span class="op">(</span>pref <span class="op">=</span> <span class="st">"Coal"</span>, suff <span class="op">=</span> <span class="st">"from Coal mines in USA"</span>, 
                             notation <span class="op">=</span> <span class="va">my_notation</span><span class="op">)</span>
@@ -150,7 +189,8 @@
 <div class="section level3">
 <h3 id="manipulating-row-and-column-labels-prefixes-and-suffixes">Manipulating row and column labels (prefixes and suffixes)<a class="anchor" aria-label="anchor" href="#manipulating-row-and-column-labels-prefixes-and-suffixes"></a>
 </h3>
-<p>Row and column labels can be manipulated using several helpful functions.</p>
+<p>Row and column labels can be manipulated using several helpful
+functions.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Split the prefix from the suffix to obtain a named list of strings.</span>
 <span class="fu"><a href="../reference/row-col-notation.html">split_pref_suff</a></span><span class="op">(</span><span class="va">my_label</span>, notation <span class="op">=</span> <span class="va">my_notation</span><span class="op">)</span>
@@ -183,7 +223,8 @@
 <div class="section level3">
 <h3 id="vectors-and-lists-of-row-and-column-labels">Vectors and lists of row and column labels<a class="anchor" aria-label="anchor" href="#vectors-and-lists-of-row-and-column-labels"></a>
 </h3>
-<p>The functions in <code>RCLabels</code> work with vectors and lists of row and column labels.</p>
+<p>The functions in <code>RCLabels</code> work with vectors and lists of
+row and column labels.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a [of b in c]"</span>, <span class="st">"d [of e in f]"</span>, <span class="st">"g [of h in i]"</span><span class="op">)</span>
 <span class="va">labels</span>
@@ -195,7 +236,9 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $suff</span>
 <span class="co">#&gt; [1] "of b in c" "of e in f" "of h in i"</span></code></pre></div>
-<p>This feature means that the functions in <code>RCLabels</code> can be used on data frames. Note that <code>transpose = TRUE</code> ensures that a single list column is created.</p>
+<p>This feature means that the functions in <code>RCLabels</code> can be
+used on data frames. Note that <code>transpose = TRUE</code> ensures
+that a single list column is created.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">labels</span>
 <span class="co">#&gt; [1] "a [of b in c]" "d [of e in f]" "g [of h in i]"</span>
@@ -228,7 +271,13 @@
 <div class="section level2">
 <h2 id="nouns-and-prepositions">Nouns and prepositions<a class="anchor" aria-label="anchor" href="#nouns-and-prepositions"></a>
 </h2>
-<p>As discussed above, the prefix is often the “thing” of interest, and the remainder of the label (the suffix) modifies the prefix. This use case is so common that we introduce additional terms that enable additional functionality. The prefix is usually a <em>noun</em> (one or more words), and the suffix usually consists of <em>prepositional phrases</em> (each consisting of a preposition and an object). <code>RCLabels</code> includes a list of common prepositions.</p>
+<p>As discussed above, the prefix is often the “thing” of interest, and
+the remainder of the label (the suffix) modifies the prefix. This use
+case is so common that we introduce additional terms that enable
+additional functionality. The prefix is usually a <em>noun</em> (one or
+more words), and the suffix usually consists of <em>prepositional
+phrases</em> (each consisting of a preposition and an object).
+<code>RCLabels</code> includes a list of common prepositions.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">prepositions</span>
 <span class="co">#&gt; [1] "in"   "into" "from" "of"   "-&gt;"   "to"</span></code></pre></div>
@@ -236,7 +285,9 @@
 <div class="section level2">
 <h2 id="working-with-row-and-column-labels-nouns-and-prepositions">Working with row and column labels (nouns and prepositions)<a class="anchor" aria-label="anchor" href="#working-with-row-and-column-labels-nouns-and-prepositions"></a>
 </h2>
-<p><code>RCLabels</code> supports the “nouns and prepositions” view of row and column labels with several functions. <code><a href="../reference/get_nouns.html">get_nouns()</a></code> extracts the nouns from a row or column label.</p>
+<p><code>RCLabels</code> supports the “nouns and prepositions” view of
+row and column labels with several functions. <code><a href="../reference/get_nouns.html">get_nouns()</a></code>
+extracts the nouns from a row or column label.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">labels</span>
 <span class="co">#&gt; [1] "a [of b in c]" "d [of e in f]" "g [of h in i]"</span>
@@ -357,7 +408,8 @@
 <div class="section level2">
 <h2 id="modifying-row-and-column-labels">Modifying row and column labels<a class="anchor" aria-label="anchor" href="#modifying-row-and-column-labels"></a>
 </h2>
-<p>To modify row and column labels, use one of the <code>modify_*</code> functions.</p>
+<p>To modify row and column labels, use one of the <code>modify_*</code>
+functions.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">labels</span>
 <span class="co">#&gt; [1] "a [of b in c]" "d [of e in f]" "g [of h in i]"</span>
@@ -368,7 +420,10 @@
              notation <span class="op">=</span> <span class="va">bracket_notation</span><span class="op">)</span>
 <span class="co">#&gt; [1] "Coal [of b in c]"        "Oil [of e in f]"        </span>
 <span class="co">#&gt; [3] "Natural gas [of h in i]"</span></code></pre></div>
-<p>To modify other pieces of labels, use the <code><a href="../reference/modify_label_pieces.html">modify_label_pieces()</a></code> function. <code><a href="../reference/modify_label_pieces.html">modify_label_pieces()</a></code> enables assigning new values using a “one-to-many” approach that enables aggregation.</p>
+<p>To modify other pieces of labels, use the
+<code><a href="../reference/modify_label_pieces.html">modify_label_pieces()</a></code> function.
+<code><a href="../reference/modify_label_pieces.html">modify_label_pieces()</a></code> enables assigning new values using a
+“one-to-many” approach that enables aggregation.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">labels</span>
 <span class="co">#&gt; [1] "a [of b in c]" "d [of e in f]" "g [of h in i]"</span>
@@ -398,7 +453,8 @@
                     mod_map <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Coal <span class="op">=</span> <span class="st">"b"</span>, `Crude oil` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"e"</span>, <span class="st">"h"</span><span class="op">)</span><span class="op">)</span>, 
                     notation <span class="op">=</span> <span class="va">bracket_notation</span><span class="op">)</span>
 <span class="co">#&gt; [1] "a [of Coal in c]"      "d [of Crude oil in f]" "g [of Crude oil in i]"</span></code></pre></div>
-<p>To eliminate a piece of a label altogether, use the <code><a href="../reference/remove_label_pieces.html">remove_label_pieces()</a></code> function.</p>
+<p>To eliminate a piece of a label altogether, use the
+<code><a href="../reference/remove_label_pieces.html">remove_label_pieces()</a></code> function.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">labels</span>
 <span class="co">#&gt; [1] "a [of b in c]" "d [of e in f]" "g [of h in i]"</span>
@@ -420,7 +476,11 @@
 <div class="section level2">
 <h2 id="detecting-strings-in-labels">Detecting strings in labels<a class="anchor" aria-label="anchor" href="#detecting-strings-in-labels"></a>
 </h2>
-<p>There are times when it is helpful to know if a string is in a label. <code><a href="../reference/regex_funcs.html">match_by_pattern()</a></code> searches for matches in row and column labels by regular expression. Internally, <code><a href="../reference/regex_funcs.html">match_by_pattern()</a></code> uses <code><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl()</a></code> for regular expression matching.</p>
+<p>There are times when it is helpful to know if a string is in a label.
+<code><a href="../reference/regex_funcs.html">match_by_pattern()</a></code> searches for matches in row and column
+labels by regular expression. Internally,
+<code><a href="../reference/regex_funcs.html">match_by_pattern()</a></code> uses <code><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl()</a></code> for regular
+expression matching.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Production [of b in c]"</span>, <span class="st">"d [of Coal in f]"</span>, <span class="st">"g [of h in USA]"</span><span class="op">)</span>
 
@@ -476,7 +536,14 @@
 <div class="section level2">
 <h2 id="replacing-strings-in-labels">Replacing strings in labels<a class="anchor" aria-label="anchor" href="#replacing-strings-in-labels"></a>
 </h2>
-<p>There are times when it is helpful to replace strings in labels. The <code><a href="../reference/regex_funcs.html">replace_by_pattern()</a></code> function will replace strings in row and column labels by regular expression pattern. Note that <code><a href="../reference/regex_funcs.html">replace_by_pattern()</a></code> is similar to <code><a href="../reference/regex_funcs.html">match_by_pattern()</a></code>, except <code><a href="../reference/regex_funcs.html">replace_by_pattern()</a></code> has an additional argument, <code>replacement</code>. Internally, <code><a href="../reference/regex_funcs.html">replace_by_pattern()</a></code> uses <code><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub()</a></code> to perform regular expression matching.</p>
+<p>There are times when it is helpful to replace strings in labels. The
+<code><a href="../reference/regex_funcs.html">replace_by_pattern()</a></code> function will replace strings in row
+and column labels by regular expression pattern. Note that
+<code><a href="../reference/regex_funcs.html">replace_by_pattern()</a></code> is similar to
+<code><a href="../reference/regex_funcs.html">match_by_pattern()</a></code>, except
+<code><a href="../reference/regex_funcs.html">replace_by_pattern()</a></code> has an additional argument,
+<code>replacement</code>. Internally, <code><a href="../reference/regex_funcs.html">replace_by_pattern()</a></code>
+uses <code><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub()</a></code> to perform regular expression matching.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Production [of b in c]"</span>, <span class="st">"d [of Coal in f]"</span>, <span class="st">"g [of h in USA]"</span><span class="op">)</span>
 <span class="va">labels</span>
@@ -580,7 +647,10 @@
 <div class="section level2">
 <h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
 </h2>
-<p>The <code>RCLabels</code> package streamlines the manipulation of row and column labels for matrices. Applications include input-output analysis in economics and energy conversion chain analysis or anywhere row and column labels are important for matrix mathematics.</p>
+<p>The <code>RCLabels</code> package streamlines the manipulation of row
+and column labels for matrices. Applications include input-output
+analysis in economics and energy conversion chain analysis or anywhere
+row and column labels are important for matrix mathematics.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
@@ -595,7 +665,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer>
