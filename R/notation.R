@@ -217,3 +217,44 @@ switch_notation <- function(x, from, to, flip = FALSE) {
   switch_func(x)
 }
 
+
+#' Tells which notations match a row or column label
+#'
+#' It is convenient to know which notation is applicable to a row or column label.
+#' This function tells which `notations` are appropriate for `x`.
+#'
+#' By default (`allow_multiple = FALSE`),
+#' a single notation object is returned if only one notation in `notations`
+#' is appropriate for `x`.
+#' Multiple matches can be returned if `allow_multiple` is set `TRUE`.
+#'
+#' `x` can be a vector, in which case the output is also a vector of notations.
+#'
+#' @param x A row or column label (or vector of labels).
+#' @param notations The notations from which matches can be found.
+#'                  Default is `RCLabels::notations_list`.
+#' @param allow_multiple A boolean that tells whether multiple matches are allowed.
+#'                       If `FALSE` (the default), multiple matches give an error.
+#'
+#' @return A single notation object (if `x` is a single row or column label)
+#'         or a vector of notation objects (if `x` is a vector).
+#'         If no `notations` match `x`, `NULL` is returned.
+#'
+#' @export
+#'
+#' @examples
+match_notation <- function(x,
+                           notations = RCLabels::notations_list,
+                           allow_multiple = FALSE) {
+  out <- list()
+  for (i in 1:length(notations)) {
+    this_notation <- notations[[i]]
+    pos_pref_start <- gregexpr(pattern = this_notation[["pref_start"]], text = x, fixed = TRUE)
+    pos_pref_end <- gregexpr(pattern = this_notation[["pref_end"]], text = x, fixed = TRUE)
+    pos_suff_start <- gregexpr(pattern = this_notation[["suff_start"]], text = x, fixed = TRUE)
+    pos_suff_end <- gregexpr(pattern = this_notation[["suff_end"]], text = x, fixed = TRUE)
+
+  }
+
+}
+
