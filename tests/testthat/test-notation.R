@@ -338,5 +338,5 @@ test_that("switch_notation() works in a data frame", {
 
 test_that("match_notation() works as expected", {
   lab <- "a -> b"
-  expect_equal(match_notation(lab), list(arrow_notation = RCLabels::arrow_notation))
+  expect_equal(match_notation(lab), RCLabels::arrow_notation)
 })

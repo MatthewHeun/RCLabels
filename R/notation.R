@@ -284,6 +284,9 @@ match_notation <- function(x,
     stop("multiple matches in match_notation()")
   }
   the_matches <- which(notation_matches, arr.ind = TRUE)
+  if (length(the_matches) == 1) {
+    return(notations[[the_matches]])
+  }
   notations[the_matches]
 }
 
