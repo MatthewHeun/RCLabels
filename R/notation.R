@@ -246,15 +246,44 @@ switch_notation <- function(x, from, to, flip = FALSE) {
 match_notation <- function(x,
                            notations = RCLabels::notations_list,
                            allow_multiple = FALSE) {
-  out <- list()
+  notation_matches <- list()
   for (i in 1:length(notations)) {
     this_notation <- notations[[i]]
-    pos_pref_start <- gregexpr(pattern = this_notation[["pref_start"]], text = x, fixed = TRUE)
-    pos_pref_end <- gregexpr(pattern = this_notation[["pref_end"]], text = x, fixed = TRUE)
-    pos_suff_start <- gregexpr(pattern = this_notation[["suff_start"]], text = x, fixed = TRUE)
-    pos_suff_end <- gregexpr(pattern = this_notation[["suff_end"]], text = x, fixed = TRUE)
+    locations <- lapply(this_notation, FUN = function(notation_element) {
+      if (nchar(notation_element) == 0) {
+        return(NULL)
+      }
+      gregexpr(pattern = notation_element, text = x, fixed = TRUE) %>%
+        unlist()
+    }) %>%
+      # Eliminate all NULL entries
+      purrr::discard(is.null)
 
+    this_notation_match <- TRUE
+    for (j in 1:(length(locations))) {
+      # Check for appropriateness of the notation for string x.
+      if (locations[[j]] < 0) {
+        # A notation is inappropriate for x if any location is < 0 (meaning the notation delimiter string was not found in x)
+        this_notation_match <- FALSE
+        break
+      }
+      if (j >= 2) {
+        if (locations[[j]] < locations[[j-1]]) {
+          # A notation is inappropriate for x if the location of any two consecutive notation elements are not in sequence.
+          this_notation_match <- FALSE
+          break
+        }
+      }
+    }
+    notation_matches <- notation_matches %>%
+      append(this_notation_match)
   }
-
+  notation_matches <- unlist(notation_matches)
+  num_matches <- sum(notation_matches)
+  if (!allow_multiple & num_matches > 1) {
+    stop("multiple matches in match_notation()")
+  }
+  the_matches <- which(notation_matches, arr.ind = TRUE)
+  notations[the_matches]
 }
 

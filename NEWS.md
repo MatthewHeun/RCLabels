@@ -4,6 +4,7 @@ output: html_document
 ---
 
 
+* Now includes a list of known notations: `RCLabels::notations_list`.
 * Fixed `to_notation` example in the documentation.
   (The example for `to_notation` was `from_notation`.)
 * Improved accuracy of documentation for `get_pps()`.
