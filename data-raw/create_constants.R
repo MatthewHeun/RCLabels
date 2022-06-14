@@ -74,6 +74,21 @@ usethis::use_data(first_dot_notation, overwrite = TRUE)
 
 
 #
+# List of all known notations
+#
+
+notations_list <- list(arrow_notation = arrow_notation,
+                       paren_notation = paren_notation,
+                       bracket_notation = bracket_notation,
+                       from_notation = from_notation,
+                       of_notation = of_notation,
+                       to_notation = to_notation,
+                       bracket_arrow_notation = bracket_arrow_notation,
+                       first_dot_notation = first_dot_notation)
+usethis::use_data(notations_list, overwrite = TRUE)
+
+
+#
 # Prepositions
 #
 

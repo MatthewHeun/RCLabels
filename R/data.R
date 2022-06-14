@@ -81,6 +81,15 @@
 "first_dot_notation"
 
 
+#' Notations list
+#'
+#' A list of all bundled notations.
+#'
+#' @format A list of bundled notations.
+#' @examples
+#' notations_list
+"notations_list"
+
 
 #' Prepositions
 #'
