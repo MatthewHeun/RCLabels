@@ -218,14 +218,16 @@ switch_notation <- function(x, from, to, flip = FALSE) {
 }
 
 
-#' Tells which notations match a row or column label
+#' Infer the notation(s) for a row or column label
 #'
 #' It is convenient to know which notation is applicable to a row or column label.
-#' This function tells which `notations` are appropriate for `x`.
+#' This function infers which `notations` are appropriate for `x`.
 #'
 #' By default (`allow_multiple = FALSE`),
 #' a single notation object is returned if only one notation in `notations`
 #' is appropriate for `x`.
+#' If `allow_multiple = FALSE` and more than one `notation` is applicable to `x`,
+#' an error is thrown.
 #' Multiple matches can be returned if `allow_multiple` is set `TRUE`.
 #'
 #' `x` can be a vector, in which case the output is also a vector of notations.
@@ -238,12 +240,13 @@ switch_notation <- function(x, from, to, flip = FALSE) {
 #'
 #' @return A single notation object (if `x` is a single row or column label)
 #'         or a vector of notation objects (if `x` is a vector).
-#'         If no `notations` match `x`, `NULL` is returned.
+#'         If no `notations` match `x`, `NULL` is returned,
+#'         either alone or in a list.
 #'
 #' @export
 #'
 #' @examples
-match_notation <- function(x,
+infer_notation <- function(x,
                            notations = RCLabels::notations_list,
                            allow_multiple = FALSE) {
   notation_matches <- list()
@@ -258,10 +261,15 @@ match_notation <- function(x,
     }) %>%
       # Eliminate all NULL entries
       purrr::discard(is.null)
-
     this_notation_match <- TRUE
     for (j in 1:(length(locations))) {
       # Check for appropriateness of the notation for string x.
+      if (length(locations[[j]]) > 1) {
+        # We have more than 1 match for this notation's delimiter, which is likely an error.
+        stop(paste0("More than 1 location in '", x, "' matched '",
+                    names(locations[j]), "' ('", this_notation[[names(locations[j])]],
+                    "') for ", names(notations[8])))
+      }
       if (locations[[j]] < 0) {
         # A notation is inappropriate for x if any location is < 0 (meaning the notation delimiter string was not found in x)
         this_notation_match <- FALSE
@@ -286,6 +294,9 @@ match_notation <- function(x,
   the_matches <- which(notation_matches, arr.ind = TRUE)
   if (length(the_matches) == 1) {
     return(notations[[the_matches]])
+  }
+  if (length(the_matches) == 0) {
+    return(NULL)
   }
   notations[the_matches]
 }

@@ -336,7 +336,25 @@ test_that("switch_notation() works in a data frame", {
 })
 
 
-test_that("match_notation() works as expected", {
-  lab <- "a -> b"
-  expect_equal(match_notation(lab), RCLabels::arrow_notation)
+test_that("infer_notation() works as expected for single x values", {
+  expect_equal(infer_notation("abc"), NULL)
+  expect_equal(infer_notation("a -> b"), RCLabels::arrow_notation)
+  expect_equal(infer_notation("a (b)"), RCLabels::paren_notation)
+  expect_equal(infer_notation("a [b]"), RCLabels::bracket_notation)
+  expect_error(infer_notation("a [from b]"), regexp = "multiple matches in match_notation()")
+  expect_equal(infer_notation("a [from b]", allow_multiple = TRUE),
+               list(bracket_notation = RCLabels::bracket_notation, from_notation = RCLabels::from_notation))
+  expect_equal(infer_notation("a [of b]", allow_multiple = TRUE),
+               list(bracket_notation = RCLabels::bracket_notation, of_notation = RCLabels::of_notation))
+  expect_equal(infer_notation("a [to b]", allow_multiple = TRUE),
+               list(bracket_notation = RCLabels::bracket_notation, to_notation = RCLabels::to_notation))
+  expect_equal(infer_notation("a [-> b]", allow_multiple = TRUE),
+               list(bracket_notation = RCLabels::bracket_notation, bracket_arrow_notation = RCLabels::bracket_arrow_notation))
+  expect_equal(infer_notation("a.b"), RCLabels::first_dot_notation)
+  expect_error(infer_notation("a.b.c.d"), regexp = "More than 1 location in 'a.b.c.d' matched 'pref_end'")
+})
+
+
+test_that("infer_notation() works as expected for multiple x value", {
+  expect_equal(infer_notation(c("abcd", "efg")), list(NULL, NULL))
 })
