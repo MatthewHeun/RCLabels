@@ -398,8 +398,11 @@ test_that("infer_notation() works as expected if choose_most_specific = TRUE", {
 
 
 test_that("infer_notation() does not return an array under some circumstances", {
-  infer_notation(c("a [from b]", "c [to d]"),
-                 allow_multiple = TRUE, retain_names = TRUE,
-                 choose_most_specific = FALSE)
+  # At one point, this returned a matrix!
+  expect_equal(infer_notation(c("a [from b]", "c [to d]"),
+                              allow_multiple = TRUE, retain_names = TRUE,
+                              choose_most_specific = FALSE),
+               list(list(bracket_notation = RCLabels::bracket_notation, from_notation = RCLabels::from_notation),
+                    list(bracket_notation = RCLabels::bracket_notation, to_notation = RCLabels::to_notation)))
 })
 
