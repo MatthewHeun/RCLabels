@@ -233,10 +233,13 @@ switch_notation <- function(x, from, to, flip = FALSE) {
 #' `x` can be a vector, in which case the output is also a vector of notations.
 #'
 #' @param x A row or column label (or vector of labels).
-#' @param notations The notations from which matches can be found.
+#' @param notations The notations from which matches can be discerned.
 #'                  Default is `RCLabels::notations_list`.
-#' @param allow_multiple A boolean that tells whether multiple matches are allowed.
+#' @param allow_multiple A boolean that tells whether multiple notation matches
+#'                       are allowed.
 #'                       If `FALSE` (the default), multiple matches give an error.
+#' @param retain_names A boolean that tells whether to retain the names of the
+#'                     inferred notations when `x` is a vector or list.
 #'
 #' @return A single notation object (if `x` is a single row or column label)
 #'         or a vector of notation objects (if `x` is a vector).
@@ -248,7 +251,53 @@ switch_notation <- function(x, from, to, flip = FALSE) {
 #' @examples
 infer_notation <- function(x,
                            notations = RCLabels::notations_list,
-                           allow_multiple = FALSE) {
+                           allow_multiple = FALSE,
+                           retain_names = FALSE) {
+  if (length(x) == 1) {
+    return(infer_notation_for_one_label(x,
+                                        notations = notations,
+                                        allow_multiple = allow_multiple))
+  }
+  if (retain_names) {
+    out <- sapply(x, USE.NAMES = FALSE, FUN = function(one_label) {
+      infer_notation_for_one_label(one_label,
+                                   notations = notations,
+                                   allow_multiple = allow_multiple,
+                                   retain_names = retain_names)
+    })
+    return(out)
+  }
+  lapply(x, FUN = function(one_label) {
+    infer_notation_for_one_label(one_label,
+                                 notations = notations,
+                                 allow_multiple = allow_multiple,
+                                 retain_names = retain_names)
+  })
+}
+
+
+#' Infer the notation from one row or column label
+#'
+#' This is a non-public helper function for vectorized `infer_notation()`.
+#'
+#' @param x A single row or column label.
+#' @param notations The notations from which matches can be discerned.
+#'                  Default is `RCLabels::notations_list`.
+#' @param allow_multiple A boolean that tells whether multiple notation matches
+#'                       are allowed.
+#'                       If `FALSE` (the default), multiple matches give an error.
+#' @param retain_names A boolean that tells whether to retain names on the
+#'                     outgoing matches.
+#'                     Default is `FALSE`.
+#'                     If `TRUE`, the return value is a named list.
+#'
+#' @return A single matching notation object (if `allow_multiple = FALSE`, the default)
+#'         or possibly multiple matching notation objects (if `allow_multiple = TRUE`).
+#'         If no `notations` match `x`, `NULL`.
+infer_notation_for_one_label <- function(x,
+                                         notations = RCLabels::notations_list,
+                                         allow_multiple = FALSE,
+                                         retain_names = FALSE) {
   notation_matches <- list()
   for (i in 1:length(notations)) {
     this_notation <- notations[[i]]
@@ -293,11 +342,16 @@ infer_notation <- function(x,
   }
   the_matches <- which(notation_matches, arr.ind = TRUE)
   if (length(the_matches) == 1) {
-    return(notations[[the_matches]])
+    if (retain_names) {
+      return(notations[the_matches])
+    } else {
+      return(notations[[the_matches]])
+    }
   }
   if (length(the_matches) == 0) {
     return(NULL)
   }
   notations[the_matches]
 }
+
 

@@ -355,6 +355,16 @@ test_that("infer_notation() works as expected for single x values", {
 })
 
 
-test_that("infer_notation() works as expected for multiple x value", {
+test_that("infer_notation() works as expected for multiple x values", {
   expect_equal(infer_notation(c("abcd", "efg")), list(NULL, NULL))
+  expect_equal(infer_notation(c("a -> b", "c -> d"), retain_names = FALSE),
+               list(RCLabels::arrow_notation, RCLabels::arrow_notation))
+  expect_equal(infer_notation(c("a -> b", "c -> d"), retain_names = TRUE),
+               list(arrow_notation = RCLabels::arrow_notation, arrow_notation = RCLabels::arrow_notation))
+  expect_equal(infer_notation(c("a -> b", "c [from d]"),
+                              retain_names = TRUE,
+                              allow_multiple = TRUE),
+               list(list(arrow_notation = RCLabels::arrow_notation),
+                    list(bracket_notation = RCLabels::bracket_notation,
+                         from_notation = RCLabels::from_notation)))
 })

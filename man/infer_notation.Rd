@@ -4,16 +4,25 @@
 \alias{infer_notation}
 \title{Infer the notation(s) for a row or column label}
 \usage{
-infer_notation(x, notations = RCLabels::notations_list, allow_multiple = FALSE)
+infer_notation(
+  x,
+  notations = RCLabels::notations_list,
+  allow_multiple = FALSE,
+  retain_names = FALSE
+)
 }
 \arguments{
 \item{x}{A row or column label (or vector of labels).}
 
-\item{notations}{The notations from which matches can be found.
+\item{notations}{The notations from which matches can be discerned.
 Default is \code{RCLabels::notations_list}.}
 
-\item{allow_multiple}{A boolean that tells whether multiple matches are allowed.
+\item{allow_multiple}{A boolean that tells whether multiple notation matches
+are allowed.
 If \code{FALSE} (the default), multiple matches give an error.}
+
+\item{retain_names}{A boolean that tells whether to retain the names of the
+inferred notations when \code{x} is a vector or list.}
 }
 \value{
 A single notation object (if \code{x} is a single row or column label)
