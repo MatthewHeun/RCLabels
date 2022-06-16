@@ -9,7 +9,7 @@ infer_notation(
   notations = RCLabels::notations_list,
   allow_multiple = FALSE,
   retain_names = FALSE,
-  choose_most_specific = FALSE
+  choose_most_specific = TRUE
 )
 }
 \arguments{
@@ -22,37 +22,55 @@ Default is \code{RCLabels::notations_list}.}
 are allowed.
 If \code{FALSE} (the default), multiple matches give an error.}
 
-\item{retain_names}{A boolean that tells whether to retain names on the
+\item{retain_names}{A boolean that tells whether to retain names from \code{notations} on the
 outgoing matches.
 Default is \code{FALSE}.
-If \code{TRUE}, the return value is a named list.
+If \code{TRUE}, the return value is \emph{always} a named list.
 If only one of \code{notations} is returned,
 names are never supplied.}
 
 \item{choose_most_specific}{A boolean that indicates if the most-specific notation
 will be returned when more than one of \code{notations} matches \code{x}.
-Default is \code{FALSE}.
-When \code{choose_most_specific = TRUE},
-the values of \code{allow_multiple} and \code{retain_names} no longer matter.
-At most one of the \code{notations} will be returned without names.}
+Default is \code{TRUE}.
+See details.}
 }
 \value{
 A single notation object (if \code{x} is a single row or column label)
-or a vector of notation objects (if \code{x} is a vector).
+or a list of notation objects (if \code{x} is a vector or a list).
 If no \code{notations} match \code{x}, \code{NULL} is returned,
 either alone or in a list.
 }
 \description{
-It is convenient to know which notation is applicable to a row or column label.
+It is convenient to know which notation is applicable to row or column labels.
 This function infers which \code{notations} are appropriate for \code{x}.
 }
 \details{
+This function is vectorized.
+Thus, \code{x} can be a vector, in which case the output is a list of notations.
+
 By default (\code{allow_multiple = FALSE}),
 a single notation object is returned if only one notation in \code{notations}
 is appropriate for \code{x}.
-If \code{allow_multiple = FALSE} and more than one \code{notation} is applicable to \code{x},
+If \code{allow_multiple = FALSE} (the default) and more than one \code{notation} is applicable to \code{x},
 an error is thrown.
-Multiple matches can be returned if \code{allow_multiple} is set \code{TRUE}.
+Multiple matches can be returned when \code{allow_multiple = TRUE}.
 
-\code{x} can be a vector, in which case the output is also a vector of notations.
+Often (and in the default case of \code{notations = RCLabels::notation_list}),
+\code{notations} will be a named vector of notations.
+When \code{retain_names = TRUE}, the names on \code{notations} will be retained,
+and the return value is \emph{always} a list.
+
+If multiple notations are matched, the return value is a list.
+
+When \code{choose_most_specific = TRUE} (the default),
+the most specific notation in \code{notations} is returned.
+"Most specific" is defined as the matching notation
+whose sum of characters in the \code{pref_start}, \code{pref_end},
+\code{suff_start} and \code{suff_end} elements
+is greatest.
+If two matching notations in \code{notations} have the same number of characters,
+only the first match is returned.
+When \code{choose_most_specific = TRUE},
+the value of \code{allow_multiple} no longer matters.
+At most one of the \code{notations} will be returned.
 }

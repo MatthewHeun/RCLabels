@@ -9,7 +9,7 @@ infer_notation_for_one_label(
   notations = RCLabels::notations_list,
   allow_multiple = FALSE,
   retain_names = FALSE,
-  choose_most_specific = FALSE
+  choose_most_specific = TRUE
 )
 }
 \arguments{
@@ -31,13 +31,7 @@ names are never supplied.}
 
 \item{choose_most_specific}{A boolean that indicates if the most-specific notation
 will be returned when more than one of \code{notations} matches \code{x}.
-Most specific is defined as the notation with the most characters.
-If two or more notations with the same number of characters match,
-the first matching notation in \code{notations} is returned.
-Default is \code{FALSE}.
-When \code{choose_most_specific = TRUE},
-the values of \code{allow_multiple} and \code{retain_names} no longer matter.
-At most one of the \code{notations} will be returned without names.}
+Default is \code{TRUE}.}
 }
 \value{
 A single matching notation object (if \code{allow_multiple = FALSE}, the default)
