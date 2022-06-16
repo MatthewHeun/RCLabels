@@ -352,6 +352,9 @@ test_that("infer_notation() works as expected for single x values", {
                list(bracket_notation = RCLabels::bracket_notation, bracket_arrow_notation = RCLabels::bracket_arrow_notation))
   expect_equal(infer_notation("a.b"), RCLabels::first_dot_notation)
   expect_error(infer_notation("a.b.c.d"), regexp = "More than 1 location in 'a.b.c.d' matched 'pref_end'")
+  # Try with requesting names
+  expect_equal(infer_notation("a -> b", retain_names = TRUE), list(arrow_notation = RCLabels::arrow_notation))
+  # Try with a restricted set of notations, not expecting a match.
 })
 
 
@@ -368,3 +371,12 @@ test_that("infer_notation() works as expected for multiple x values", {
                     list(bracket_notation = RCLabels::bracket_notation,
                          from_notation = RCLabels::from_notation)))
 })
+
+
+test_that("infer_notation() works as expected if most_specific = TRUE", {
+  expect_equal(infer_notation("a [from b]", choose_most_specific = TRUE), RCLabels::from_notation)
+  expect_equal(infer_notation("a [from b]", retain_names = TRUE, choose_most_specific = TRUE),
+               list(from_notation = RCLabels::from_notation))
+
+})
+

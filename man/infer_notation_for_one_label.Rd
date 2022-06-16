@@ -8,7 +8,8 @@ infer_notation_for_one_label(
   x,
   notations = RCLabels::notations_list,
   allow_multiple = FALSE,
-  retain_names = FALSE
+  retain_names = FALSE,
+  choose_most_specific = FALSE
 )
 }
 \arguments{
@@ -24,7 +25,19 @@ If \code{FALSE} (the default), multiple matches give an error.}
 \item{retain_names}{A boolean that tells whether to retain names on the
 outgoing matches.
 Default is \code{FALSE}.
-If \code{TRUE}, the return value is a named list.}
+If \code{TRUE}, the return value is a named list.
+If only one of \code{notations} is returned,
+names are never supplied.}
+
+\item{choose_most_specific}{A boolean that indicates if the most-specific notation
+will be returned when more than one of \code{notations} matches \code{x}.
+Most specific is defined as the notation with the most characters.
+If two or more notations with the same number of characters match,
+the first matching notation in \code{notations} is returned.
+Default is \code{FALSE}.
+When \code{choose_most_specific = TRUE},
+the values of \code{allow_multiple} and \code{retain_names} no longer matter.
+At most one of the \code{notations} will be returned without names.}
 }
 \value{
 A single matching notation object (if \code{allow_multiple = FALSE}, the default)

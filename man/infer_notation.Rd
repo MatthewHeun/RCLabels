@@ -8,7 +8,8 @@ infer_notation(
   x,
   notations = RCLabels::notations_list,
   allow_multiple = FALSE,
-  retain_names = FALSE
+  retain_names = FALSE,
+  choose_most_specific = FALSE
 )
 }
 \arguments{
@@ -21,8 +22,19 @@ Default is \code{RCLabels::notations_list}.}
 are allowed.
 If \code{FALSE} (the default), multiple matches give an error.}
 
-\item{retain_names}{A boolean that tells whether to retain the names of the
-inferred notations when \code{x} is a vector or list.}
+\item{retain_names}{A boolean that tells whether to retain names on the
+outgoing matches.
+Default is \code{FALSE}.
+If \code{TRUE}, the return value is a named list.
+If only one of \code{notations} is returned,
+names are never supplied.}
+
+\item{choose_most_specific}{A boolean that indicates if the most-specific notation
+will be returned when more than one of \code{notations} matches \code{x}.
+Default is \code{FALSE}.
+When \code{choose_most_specific = TRUE},
+the values of \code{allow_multiple} and \code{retain_names} no longer matter.
+At most one of the \code{notations} will be returned without names.}
 }
 \value{
 A single notation object (if \code{x} is a single row or column label)

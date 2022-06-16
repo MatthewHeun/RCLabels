@@ -238,8 +238,18 @@ switch_notation <- function(x, from, to, flip = FALSE) {
 #' @param allow_multiple A boolean that tells whether multiple notation matches
 #'                       are allowed.
 #'                       If `FALSE` (the default), multiple matches give an error.
-#' @param retain_names A boolean that tells whether to retain the names of the
-#'                     inferred notations when `x` is a vector or list.
+#' @param retain_names A boolean that tells whether to retain names on the
+#'                     outgoing matches.
+#'                     Default is `FALSE`.
+#'                     If `TRUE`, the return value is a named list.
+#'                     If only one of `notations` is returned,
+#'                     names are never supplied.
+#' @param choose_most_specific A boolean that indicates if the most-specific notation
+#'                             will be returned when more than one of `notations` matches `x`.
+#'                             Default is `FALSE`.
+#'                             When `choose_most_specific = TRUE`,
+#'                             the values of `allow_multiple` and `retain_names` no longer matter.
+#'                             At most one of the `notations` will be returned without names.
 #'
 #' @return A single notation object (if `x` is a single row or column label)
 #'         or a vector of notation objects (if `x` is a vector).
@@ -252,18 +262,22 @@ switch_notation <- function(x, from, to, flip = FALSE) {
 infer_notation <- function(x,
                            notations = RCLabels::notations_list,
                            allow_multiple = FALSE,
-                           retain_names = FALSE) {
+                           retain_names = FALSE,
+                           choose_most_specific = FALSE) {
   if (length(x) == 1) {
     return(infer_notation_for_one_label(x,
                                         notations = notations,
-                                        allow_multiple = allow_multiple))
+                                        allow_multiple = allow_multiple,
+                                        retain_names = retain_names,
+                                        choose_most_specific = choose_most_specific))
   }
   if (retain_names) {
     out <- sapply(x, USE.NAMES = FALSE, FUN = function(one_label) {
       infer_notation_for_one_label(one_label,
                                    notations = notations,
                                    allow_multiple = allow_multiple,
-                                   retain_names = retain_names)
+                                   retain_names = retain_names,
+                                   choose_most_specific = choose_most_specific)
     })
     return(out)
   }
@@ -271,7 +285,8 @@ infer_notation <- function(x,
     infer_notation_for_one_label(one_label,
                                  notations = notations,
                                  allow_multiple = allow_multiple,
-                                 retain_names = retain_names)
+                                 retain_names = retain_names,
+                                 choose_most_specific = choose_most_specific)
   })
 }
 
@@ -290,6 +305,17 @@ infer_notation <- function(x,
 #'                     outgoing matches.
 #'                     Default is `FALSE`.
 #'                     If `TRUE`, the return value is a named list.
+#'                     If only one of `notations` is returned,
+#'                     names are never supplied.
+#' @param choose_most_specific A boolean that indicates if the most-specific notation
+#'                             will be returned when more than one of `notations` matches `x`.
+#'                             Most specific is defined as the notation with the most characters.
+#'                             If two or more notations with the same number of characters match,
+#'                             the first matching notation in `notations` is returned.
+#'                             Default is `FALSE`.
+#'                             When `choose_most_specific = TRUE`,
+#'                             the values of `allow_multiple` and `retain_names` no longer matter.
+#'                             At most one of the `notations` will be returned without names.
 #'
 #' @return A single matching notation object (if `allow_multiple = FALSE`, the default)
 #'         or possibly multiple matching notation objects (if `allow_multiple = TRUE`).
@@ -297,7 +323,8 @@ infer_notation <- function(x,
 infer_notation_for_one_label <- function(x,
                                          notations = RCLabels::notations_list,
                                          allow_multiple = FALSE,
-                                         retain_names = FALSE) {
+                                         retain_names = FALSE,
+                                         choose_most_specific = FALSE) {
   notation_matches <- list()
   for (i in 1:length(notations)) {
     this_notation <- notations[[i]]
@@ -337,21 +364,33 @@ infer_notation_for_one_label <- function(x,
   }
   notation_matches <- unlist(notation_matches)
   num_matches <- sum(notation_matches)
+  the_matches_indices <- which(notation_matches, arr.ind = TRUE)
+  the_matches <- notations[which(notation_matches)]
+  if (num_matches > 1 & choose_most_specific) {
+    # If two or more notations match and choose_most_specific is true,
+    # select the notation with the most characters.
+    numchars <- lapply(the_matches, function(this_match) {
+      nchar(this_match) %>% sum()
+    })
+    if (retain_names) {
+      return(the_matches[which.max(numchars)])
+    }
+    return(the_matches[[which.max(numchars)]])
+  }
   if (!allow_multiple & num_matches > 1) {
     stop("multiple matches in match_notation()")
   }
-  the_matches <- which(notation_matches, arr.ind = TRUE)
   if (length(the_matches) == 1) {
     if (retain_names) {
-      return(notations[the_matches])
+      return(notations[the_matches_indices])
     } else {
-      return(notations[[the_matches]])
+      return(notations[[the_matches_indices]])
     }
   }
   if (length(the_matches) == 0) {
     return(NULL)
   }
-  notations[the_matches]
+  notations[the_matches_indices]
 }
 
 
