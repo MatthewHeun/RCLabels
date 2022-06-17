@@ -114,19 +114,55 @@ preposition_notation <- function(preposition, suff_start = " [", suff_end = "]")
 #' @export
 #' @rdname row-col-notation
 split_pref_suff <- function(x, notation = RCLabels::arrow_notation, transpose = FALSE) {
-  # Strip off first pref_start
-  if (notation[["pref_start"]] == "") {
-    no_pref_start <- x
-  } else {
-    no_pref_start <- gsub(pattern = paste0("^", Hmisc::escapeRegex(notation[["pref_start"]])), replacement = "", x = x)
+  if (length(notation) > 1) {
+    notation <- infer_notation(x,  notations = notation, choose_most_specific = TRUE, retain_names = FALSE)
   }
+  # Strip off first pref_start
+  if (length(x) == 1) {
+    if (notation[["pref_start"]] == "") {
+      no_pref_start <- x
+    } else {
+      no_pref_start <- gsub(pattern = paste0("^", Hmisc::escapeRegex(notation[["pref_start"]])), replacement = "", x = x)
+    }
+  } else {
+    # Vectorize over x and notation
+    no_pref_start <- vector(mode = "character", length = length(x))
+    for (i in 1:length(x)) {
+      if (notation[[i]][["pref_start"]] == "") {
+        no_pref_start[[i]] <- x[[i]]
+      } else {
+        no_pref_start[[i]] <- gsub(pattern = paste0("^", Hmisc::escapeRegex(notation[[i]][["pref_start"]])), replacement = "", x = x[[i]])
+      }
+    }
+  }
+
   # Strip off everything from first pref_end to end of string to obtain the prefix
-  pref <- gsub(pattern = paste0(Hmisc::escapeRegex(notation[["pref_end"]]), ".*$"), replacement = "", x = no_pref_start)
+  if (length(x) == 1) {
+    pref <- gsub(pattern = paste0(Hmisc::escapeRegex(notation[["pref_end"]]), ".*$"), replacement = "", x = no_pref_start)
+  } else {
+    # Vectorize over x and notation
+    pref <- vector(mode = "character", length = length(x))
+    for (i in 1:length(x)) {
+      pref[[i]] <- gsub(pattern = paste0(Hmisc::escapeRegex(notation[[i]][["pref_end"]]), ".*$"), replacement = "", x = no_pref_start[[i]])
+    }
+  }
+
   # Strip off pref and pref_end
   no_pref <- mapply(pref, no_pref_start, FUN = function(p, npstart) {
     gsub(pattern = paste0("^", Hmisc::escapeRegex(p)), replacement = "", x = npstart)
   }) %>%
     unname()
+
+
+
+
+
+
+
+
+
+
+
   # Strip off prefix end
   no_pref_end <- gsub(pattern = paste0("^", Hmisc::escapeRegex(notation[["pref_end"]])), replacement = "", x = no_pref)
   # Strip off suffix start

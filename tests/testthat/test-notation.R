@@ -122,15 +122,15 @@ test_that("split_pref_suff() works properly", {
 
 
 test_that("split_pref_suff() works with all structures of input", {
-  expect_equal(RCLabels:::split_pref_suff("a [b]", bracket_notation), list(pref = "a", suff = "b"))
+  expect_equal(split_pref_suff("a [b]", bracket_notation), list(pref = "a", suff = "b"))
 
-  expect_equal(RCLabels:::split_pref_suff(c("a [b]", "c [d]"), bracket_notation),
+  expect_equal(split_pref_suff(c("a [b]", "c [d]"), bracket_notation),
                list(pref = c("a", "c"), suff = c("b", "d")))
 
-  expect_equal(RCLabels:::split_pref_suff(list("a [b]", "c [d]"), bracket_notation),
+  expect_equal(split_pref_suff(list("a [b]", "c [d]"), bracket_notation),
                list(pref = c("a", "c"), suff = c("b", "d")))
 
-  expect_equal(RCLabels:::split_pref_suff(c("a [b]", "c [d]", "e [f]", "g [h]"), bracket_notation),
+  expect_equal(split_pref_suff(c("a [b]", "c [d]", "e [f]", "g [h]"), bracket_notation),
                list(pref = c("a", "c", "e", "g"),
                     suff = c("b", "d", "f", "h")))
 })
@@ -167,6 +167,31 @@ test_that("split_pref_suff() works in a data frame", {
                                     list(pref = "c", suff = "d"),
                                     list(pref = "e", suff = "f")))
 })
+
+
+test_that("split_pref_suff() works while inferring notation", {
+  expect_equal(split_pref_suff("a [b]",
+                               RCLabels::notations_list),
+               list(pref = "a", suff = "b"))
+  expect_equal(split_pref_suff(c("a [b]", "c [from d]"),
+                               RCLabels::notations_list),
+               list(list(pref = "a", suff = "b"),
+                    list(pref = "c", suff = "d")))
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 test_that("paste_pref_suff() works properly", {
