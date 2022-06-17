@@ -377,7 +377,8 @@ infer_notation_for_one_label <- function(x,
         # We have more than 1 match for this notation's delimiter, which is likely an error.
         stop(paste0("More than 1 location in '", x, "' matched '",
                     names(locations[j]), "' ('", this_notation[[names(locations[j])]],
-                    "') for ", names(notations[8])))
+                    "') for ", names(notations[i]), " = ",
+                    paste0(notations[i])))
       }
       if (locations[[j]] < 0) {
         # A notation is inappropriate for x if any location is < 0 (meaning the notation delimiter string was not found in x)

@@ -74,3 +74,22 @@ When \code{choose_most_specific = TRUE},
 the value of \code{allow_multiple} no longer matters.
 At most one of the \code{notations} will be returned.
 }
+\examples{
+# Does not match any notations in RCLabels::notations_list
+infer_notation("abc")
+infer_notation("a -> b")
+# Names of the notations can be retained
+infer_notation("a -> b", retain_names = TRUE)
+# This function is vectorized
+infer_notation(c("a -> b", "a (b)", "a [b]", "a [from b]", "a [of b]",
+                 "a [to b]", "a [-> b]", "a.b"), retain_names = TRUE)
+# By default, the most specific notation is returned.
+# But when two or more matches are present,
+# multiple notations can be returned, too.
+infer_notation("a [from b]",
+               allow_multiple = TRUE, retain_names = TRUE,
+               choose_most_specific = FALSE)
+infer_notation(c("a [from b]", "c [to d]"),
+               allow_multiple = TRUE, retain_names = TRUE,
+               choose_most_specific = FALSE)
+}
