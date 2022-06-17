@@ -4,6 +4,9 @@ output: html_document
 ---
 
 
+* New function `infer_notation()` obtains the notation 
+  for any label or a vector of labels.
+* Now includes a list of known notations: `RCLabels::notations_list`.
 * Fixed `to_notation` example in the documentation.
   (The example for `to_notation` was `from_notation`.)
 * Improved accuracy of documentation for `get_pps()`.

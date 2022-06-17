@@ -217,3 +217,219 @@ switch_notation <- function(x, from, to, flip = FALSE) {
   switch_func(x)
 }
 
+
+#' Infer the notation(s) for a row or column label
+#'
+#' It is convenient to know which notation is applicable to row or column labels.
+#' This function infers which `notations` are appropriate for `x`.
+#'
+#' This function is vectorized.
+#' Thus, `x` can be a vector, in which case the output is a list of notations.
+#'
+#' By default (`allow_multiple = FALSE`),
+#' a single notation object is returned if only one notation in `notations`
+#' is appropriate for `x`.
+#' If `allow_multiple = FALSE` (the default) and more than one `notation` is applicable to `x`,
+#' an error is thrown.
+#' Multiple matches can be returned when `allow_multiple = TRUE`.
+#'
+#' Often (and in the default case of `notations = RCLabels::notation_list`),
+#' `notations` will be a named vector of notations.
+#' When `retain_names = TRUE`, the names on `notations` will be retained,
+#' and the return value is _always_ a list.
+#'
+#' If multiple notations are matched, the return value is a list.
+#'
+#' When `choose_most_specific = TRUE` (the default),
+#' the most specific notation in `notations` is returned.
+#' "Most specific" is defined as the matching notation
+#' whose sum of characters in the `pref_start`, `pref_end`,
+#' `suff_start` and `suff_end` elements
+#' is greatest.
+#' If two matching notations in `notations` have the same number of characters,
+#' only the first match is returned.
+#' When `choose_most_specific = TRUE`,
+#' the value of `allow_multiple` no longer matters.
+#' At most one of the `notations` will be returned.
+#'
+#' @param x A row or column label (or vector of labels).
+#' @param notations The notations from which matches can be discerned.
+#'                  Default is `RCLabels::notations_list`.
+#' @param allow_multiple A boolean that tells whether multiple notation matches
+#'                       are allowed.
+#'                       If `FALSE` (the default), multiple matches give an error.
+#' @param retain_names A boolean that tells whether to retain names from `notations` on the
+#'                     outgoing matches.
+#'                     Default is `FALSE`.
+#'                     If `TRUE`, the return value is _always_ a named list.
+#'                     If only one of `notations` is returned,
+#'                     names are never supplied.
+#' @param choose_most_specific A boolean that indicates if the most-specific notation
+#'                             will be returned when more than one of `notations` matches `x`.
+#'                             Default is `TRUE`.
+#'                             See details.
+#'
+#' @return A single notation object (if `x` is a single row or column label)
+#'         or a list of notation objects (if `x` is a vector or a list).
+#'         If no `notations` match `x`, `NULL` is returned,
+#'         either alone or in a list.
+#'
+#' @export
+#'
+#' @examples
+#' # Does not match any notations in RCLabels::notations_list
+#' infer_notation("abc")
+#' infer_notation("a -> b")
+#' # Names of the notations can be retained
+#' infer_notation("a -> b", retain_names = TRUE)
+#' # This function is vectorized
+#' infer_notation(c("a -> b", "a (b)", "a [b]", "a [from b]", "a [of b]",
+#'                  "a [to b]", "a [-> b]", "a.b"), retain_names = TRUE)
+#' # By default, the most specific notation is returned.
+#' # But when two or more matches are present,
+#' # multiple notations can be returned, too.
+#' infer_notation("a [from b]",
+#'                allow_multiple = TRUE, retain_names = TRUE,
+#'                choose_most_specific = FALSE)
+#' infer_notation(c("a [from b]", "c [to d]"),
+#'                allow_multiple = TRUE, retain_names = TRUE,
+#'                choose_most_specific = FALSE)
+infer_notation <- function(x,
+                           notations = RCLabels::notations_list,
+                           allow_multiple = FALSE,
+                           retain_names = FALSE,
+                           choose_most_specific = TRUE) {
+  if (length(x) == 1) {
+    return(infer_notation_for_one_label(x,
+                                        notations = notations,
+                                        allow_multiple = allow_multiple,
+                                        retain_names = retain_names,
+                                        choose_most_specific = choose_most_specific))
+  }
+  # At this point, if x comes in with names, we don't want them on the output.
+  # We only want names from notations on the output.
+  # So eliminate the names on x.
+  x <- unname(x)
+  out <- lapply(x, FUN = function(one_label) {
+    infer_notation_for_one_label(one_label,
+                                 notations = notations,
+                                 allow_multiple = allow_multiple,
+                                 retain_names = retain_names,
+                                 choose_most_specific = choose_most_specific)
+  })
+  if (all(lapply(out, length) == 1)) {
+    return(unlist(out, recursive = FALSE))
+  }
+  return(out)
+}
+
+
+#' Infer the notation from one row or column label
+#'
+#' This is a non-public helper function for vectorized `infer_notation()`.
+#'
+#' @param x A single row or column label.
+#' @param notations The notations from which matches can be discerned.
+#'                  Default is `RCLabels::notations_list`.
+#' @param allow_multiple A boolean that tells whether multiple notation matches
+#'                       are allowed.
+#'                       If `FALSE` (the default), multiple matches give an error.
+#' @param retain_names A boolean that tells whether to retain names on the
+#'                     outgoing matches.
+#'                     Default is `FALSE`.
+#'                     If `TRUE`, the return value is a named list.
+#'                     If only one of `notations` is returned,
+#'                     names are never supplied.
+#' @param choose_most_specific A boolean that indicates if the most-specific notation
+#'                             will be returned when more than one of `notations` matches `x`.
+#'                             Default is `TRUE`.
+#'
+#' @return A single matching notation object (if `allow_multiple = FALSE`, the default)
+#'         or possibly multiple matching notation objects (if `allow_multiple = TRUE`).
+#'         If no `notations` match `x`, `NULL`.
+infer_notation_for_one_label <- function(x,
+                                         notations = RCLabels::notations_list,
+                                         allow_multiple = FALSE,
+                                         retain_names = FALSE,
+                                         choose_most_specific = TRUE) {
+  notation_matches <- list()
+  for (i in 1:length(notations)) {
+    this_notation <- notations[[i]]
+    locations <- lapply(this_notation, FUN = function(notation_element) {
+      if (nchar(notation_element) == 0) {
+        return(NULL)
+      }
+      gregexpr(pattern = notation_element, text = x, fixed = TRUE) %>%
+        unlist()
+    }) %>%
+      # Eliminate all NULL entries
+      purrr::discard(is.null)
+    this_notation_match <- TRUE
+    for (j in 1:(length(locations))) {
+      # Check for appropriateness of the notation for string x.
+      if (length(locations[[j]]) > 1) {
+        # We have more than 1 match for this notation's delimiter, which is likely an error.
+        stop(paste0("More than 1 location in '", x, "' matched '",
+                    names(locations[j]), "' ('", this_notation[[names(locations[j])]],
+                    "') for ", names(notations[i]), " = ",
+                    paste0(notations[i])))
+      }
+      if (locations[[j]] < 0) {
+        # A notation is inappropriate for x if any location is < 0 (meaning the notation delimiter string was not found in x)
+        this_notation_match <- FALSE
+        break
+      }
+      if (j >= 2) {
+        if (locations[[j]] < locations[[j-1]]) {
+          # A notation is inappropriate for x if the location of any two consecutive notation elements are not in sequence.
+          this_notation_match <- FALSE
+          break
+        }
+      }
+    }
+    notation_matches <- notation_matches %>%
+      append(this_notation_match)
+  }
+  notation_matches <- unlist(notation_matches)
+  num_matches <- sum(notation_matches)
+  the_matches_indices <- which(notation_matches, arr.ind = TRUE)
+  the_matches <- notations[which(notation_matches)]
+  if (num_matches == 0) {
+    return(NULL)
+  }
+  if (num_matches == 1) {
+    if (retain_names) {
+      return(notations[the_matches_indices])
+    } else {
+      return(notations[[the_matches_indices]])
+    }
+  }
+  # We have more than 1 match.
+  if (choose_most_specific) {
+    # If two or more notations match and choose_most_specific is true,
+    # select the notation with the most characters.
+    numchars <- lapply(the_matches, function(this_match) {
+      nchar(this_match) %>% sum()
+    })
+    if (retain_names) {
+      return(the_matches[which.max(numchars)])
+    }
+    return(the_matches[[which.max(numchars)]])
+  }
+  if (!allow_multiple) {
+    stop("multiple matches when allow_multiple = FALSE and choose_most_specific = FALSE in match_notation()")
+  }
+  # At this point, allow_multiple = TRUE and choose_most_specific = FALSE.
+  if (!retain_names) {
+    out <- notations[the_matches_indices] %>%
+      unname()
+    return(out)
+  }
+  # At this point,
+  # allow_multiple = TRUE,
+  # choose_most_specific = FALSE, and
+  # retain_names = TRUE.
+  notations[the_matches_indices]
+}
+
+
