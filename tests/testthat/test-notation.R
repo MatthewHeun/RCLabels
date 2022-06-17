@@ -341,14 +341,14 @@ test_that("infer_notation() works as expected for single x values", {
   expect_equal(infer_notation("a -> b"), RCLabels::arrow_notation)
   expect_equal(infer_notation("a (b)"), RCLabels::paren_notation)
   expect_equal(infer_notation("a [b]"), RCLabels::bracket_notation)
-  expect_error(infer_notation("a [from b]", choose_most_specific = FALSE), regexp = "multiple matches in match_notation()")
-  expect_equal(infer_notation("a [from b]", allow_multiple = TRUE, choose_most_specific = FALSE),
+  expect_error(infer_notation("a [from b]", choose_most_specific = FALSE), regexp = "multiple matches when allow_multiple = FALSE and choose_most_specific = FALSE in match_notation")
+  expect_equal(infer_notation("a [from b]", allow_multiple = TRUE, choose_most_specific = FALSE, retain_names = TRUE),
                list(bracket_notation = RCLabels::bracket_notation, from_notation = RCLabels::from_notation))
-  expect_equal(infer_notation("a [of b]", allow_multiple = TRUE, choose_most_specific = FALSE),
+  expect_equal(infer_notation("a [of b]", allow_multiple = TRUE, choose_most_specific = FALSE, retain_names = TRUE),
                list(bracket_notation = RCLabels::bracket_notation, of_notation = RCLabels::of_notation))
-  expect_equal(infer_notation("a [to b]", allow_multiple = TRUE, choose_most_specific = FALSE),
+  expect_equal(infer_notation("a [to b]", allow_multiple = TRUE, choose_most_specific = FALSE, retain_names = TRUE),
                list(bracket_notation = RCLabels::bracket_notation, to_notation = RCLabels::to_notation))
-  expect_equal(infer_notation("a [-> b]", allow_multiple = TRUE, choose_most_specific = FALSE),
+  expect_equal(infer_notation("a [-> b]", allow_multiple = TRUE, choose_most_specific = FALSE, retain_names = TRUE),
                list(bracket_notation = RCLabels::bracket_notation, bracket_arrow_notation = RCLabels::bracket_arrow_notation))
   expect_equal(infer_notation("a.b"), RCLabels::first_dot_notation)
   expect_error(infer_notation("a.b.c.d"), regexp = "More than 1 location in 'a.b.c.d' matched 'pref_end'")
@@ -398,6 +398,13 @@ test_that("infer_notation() works as expected if choose_most_specific = TRUE", {
 
 
 test_that("infer_notation() does not return an array with a vector of x's and allow_multiple = TRUE", {
+  # This should not return names on the notations, but at one time it did.
+  expect_equal(infer_notation(c("a [from b]", "c [to d]"),
+                              allow_multiple = TRUE,
+                              retain_names = FALSE,
+                              choose_most_specific = FALSE),
+               list(list(RCLabels::bracket_notation, RCLabels::from_notation),
+                    list(RCLabels::bracket_notation, RCLabels::to_notation)))
   # At one time, this returned a matrix!
   expect_equal(infer_notation(c("a [from b]", "c [to d]"),
                               allow_multiple = TRUE,

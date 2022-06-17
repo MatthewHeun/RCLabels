@@ -310,23 +310,27 @@ infer_notation <- function(x,
   # We only want names from notations on the output.
   # So eliminate the names on x.
   x <- unname(x)
-  if (retain_names) {
-    out <- sapply(x, USE.NAMES = FALSE, FUN = function(one_label) {
-      infer_notation_for_one_label(one_label,
-                                   notations = notations,
-                                   allow_multiple = allow_multiple,
-                                   retain_names = retain_names,
-                                   choose_most_specific = choose_most_specific)
-    })
-    return(out)
-  }
-  lapply(x, FUN = function(one_label) {
+  # if (retain_names) {
+  #   out <- sapply(x, USE.NAMES = FALSE, FUN = function(one_label) {
+  #     infer_notation_for_one_label(one_label,
+  #                                  notations = notations,
+  #                                  allow_multiple = allow_multiple,
+  #                                  retain_names = retain_names,
+  #                                  choose_most_specific = choose_most_specific)
+  #   })
+  #   return(out)
+  # }
+  out <- lapply(x, FUN = function(one_label) {
     infer_notation_for_one_label(one_label,
                                  notations = notations,
                                  allow_multiple = allow_multiple,
                                  retain_names = retain_names,
                                  choose_most_specific = choose_most_specific)
   })
+  if (all(lapply(out, length) == 1)) {
+    return(unlist(out, recursive = FALSE))
+  }
+  return(out)
 }
 
 
@@ -400,7 +404,18 @@ infer_notation_for_one_label <- function(x,
   num_matches <- sum(notation_matches)
   the_matches_indices <- which(notation_matches, arr.ind = TRUE)
   the_matches <- notations[which(notation_matches)]
-  if (num_matches > 1 & choose_most_specific) {
+  if (num_matches == 0) {
+    return(NULL)
+  }
+  if (num_matches == 1) {
+    if (retain_names) {
+      return(notations[the_matches_indices])
+    } else {
+      return(notations[[the_matches_indices]])
+    }
+  }
+  # We have more than 1 match.
+  if (choose_most_specific) {
     # If two or more notations match and choose_most_specific is true,
     # select the notation with the most characters.
     numchars <- lapply(the_matches, function(this_match) {
@@ -411,19 +426,19 @@ infer_notation_for_one_label <- function(x,
     }
     return(the_matches[[which.max(numchars)]])
   }
-  if (!allow_multiple & num_matches > 1) {
-    stop("multiple matches in match_notation()")
+  if (!allow_multiple) {
+    stop("multiple matches when allow_multiple = FALSE and choose_most_specific = FALSE in match_notation()")
   }
-  if (length(the_matches) == 1) {
-    if (retain_names) {
-      return(notations[the_matches_indices])
-    } else {
-      return(notations[[the_matches_indices]])
-    }
+  # At this point, allow_multiple = TRUE and choose_most_specific = FALSE.
+  if (!retain_names) {
+    out <- notations[the_matches_indices] %>%
+      unname()
+    return(out)
   }
-  if (length(the_matches) == 0) {
-    return(NULL)
-  }
+  # At this point,
+  # allow_multiple = TRUE,
+  # choose_most_specific = FALSE, and
+  # retain_names = TRUE.
   notations[the_matches_indices]
 }
 
