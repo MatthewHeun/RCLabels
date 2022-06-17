@@ -397,7 +397,7 @@ test_that("infer_notation() works as expected if choose_most_specific = TRUE", {
 })
 
 
-test_that("infer_notation() does not return an array with a vector of x's and allow_multiple = TRUE", {
+test_that("infer_notation() returns a list from a vector of x's and allow_multiple = TRUE", {
   # This should not return names on the notations, but at one time it did.
   expect_equal(infer_notation(c("a [from b]", "c [to d]"),
                               allow_multiple = TRUE,
@@ -413,4 +413,3 @@ test_that("infer_notation() does not return an array with a vector of x's and al
                list(list(bracket_notation = RCLabels::bracket_notation, from_notation = RCLabels::from_notation),
                     list(bracket_notation = RCLabels::bracket_notation, to_notation = RCLabels::to_notation)))
 })
-

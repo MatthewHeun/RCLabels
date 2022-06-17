@@ -310,16 +310,6 @@ infer_notation <- function(x,
   # We only want names from notations on the output.
   # So eliminate the names on x.
   x <- unname(x)
-  # if (retain_names) {
-  #   out <- sapply(x, USE.NAMES = FALSE, FUN = function(one_label) {
-  #     infer_notation_for_one_label(one_label,
-  #                                  notations = notations,
-  #                                  allow_multiple = allow_multiple,
-  #                                  retain_names = retain_names,
-  #                                  choose_most_specific = choose_most_specific)
-  #   })
-  #   return(out)
-  # }
   out <- lapply(x, FUN = function(one_label) {
     infer_notation_for_one_label(one_label,
                                  notations = notations,
