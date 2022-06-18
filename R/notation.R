@@ -114,8 +114,16 @@ preposition_notation <- function(preposition, suff_start = " [", suff_end = "]")
 #' @export
 #' @rdname row-col-notation
 split_pref_suff <- function(x, notation = RCLabels::arrow_notation, transpose = FALSE) {
-  if (length(notation) > 1) {
+  if (length(notation) > 1 & is.list(notation)) {
+    # Any notation list is treated as a store from which appropriate notations are selected.
     notation <- infer_notation(x,  notations = notation, choose_most_specific = TRUE, retain_names = FALSE)
+  }
+  if (length(x) > 1 & !is.list(notation)) {
+    # We have an incoming vector of x with length > 1,
+    # but notation is not a list.
+    # This means that we don't have enough notations to line up with the number of labels in x.
+    # So we need to replicate notation for as many labels as we have.
+    notation <- replicate(n = length(x), expr = notation, simplify = FALSE)
   }
   # Strip off first pref_start
   if (length(x) == 1) {
@@ -153,26 +161,47 @@ split_pref_suff <- function(x, notation = RCLabels::arrow_notation, transpose = 
   }) %>%
     unname()
 
-
-
-
-
-
-
-
-
-
-
   # Strip off prefix end
-  no_pref_end <- gsub(pattern = paste0("^", Hmisc::escapeRegex(notation[["pref_end"]])), replacement = "", x = no_pref)
-  # Strip off suffix start
-  no_suff_start <- gsub(pattern = paste0("^", Hmisc::escapeRegex(notation[["suff_start"]])), replacement = "", x = no_pref_end)
-  # Strip off suffix end
-  if (notation[["suff_end"]] == "") {
-    suff <- no_suff_start
+  if (length(x) == 1) {
+    no_pref_end <- gsub(pattern = paste0("^", Hmisc::escapeRegex(notation[["pref_end"]])), replacement = "", x = no_pref)
   } else {
-    suff <- gsub(pattern = paste0(notation[["suff_end"]], "{1}$"), replacement = "", x = no_suff_start)
+    # Vectorize over x and notation
+    no_pref_end <- vector(mode = "character", length = length(x))
+    for (i in 1:length(x)) {
+      no_pref_end[[i]] <- gsub(pattern = paste0("^", Hmisc::escapeRegex(notation[[i]][["pref_end"]])), replacement = "", x = no_pref[[i]])
+    }
   }
+
+  # Strip off suffix start
+  if (length(x) == 1) {
+    no_suff_start <- gsub(pattern = paste0("^", Hmisc::escapeRegex(notation[["suff_start"]])), replacement = "", x = no_pref_end)
+  } else {
+    # Vectorize over x and notation
+    no_suff_start <- vector(mode = "character", length = length(x))
+    for (i in 1:length(x)) {
+      no_suff_start[[i]] <- gsub(pattern = paste0("^", Hmisc::escapeRegex(notation[[i]][["suff_start"]])), replacement = "", x = no_pref_end[[i]])
+    }
+  }
+
+  # Strip off suffix end
+  if (length(x) == 1) {
+    if (notation[["suff_end"]] == "") {
+      suff <- no_suff_start
+    } else {
+      suff <- gsub(pattern = paste0(notation[["suff_end"]], "{1}$"), replacement = "", x = no_suff_start)
+    }
+  } else {
+    # Vectorize over x and notation
+    suff <- vector(mode = "character", length = length(x))
+    for (i in 1:length(x)) {
+      if (notation[[i]][["suff_end"]] == "") {
+        suff[[i]] <- no_suff_start[[i]]
+      } else {
+        suff[[i]] <- gsub(pattern = paste0(notation[[i]][["suff_end"]], "{1}$"), replacement = "", x = no_suff_start[[i]])
+      }
+    }
+  }
+
   # Return a list with the prefixes and suffixes in two members of a list
   out <- list(pref = pref, suff = suff)
   # Unless the caller wants to transpose the result,

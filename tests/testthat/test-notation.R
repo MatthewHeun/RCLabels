@@ -173,25 +173,16 @@ test_that("split_pref_suff() works while inferring notation", {
   expect_equal(split_pref_suff("a [b]",
                                RCLabels::notations_list),
                list(pref = "a", suff = "b"))
+  expect_equal(split_pref_suff(c("a [from b]", "c [from d]"),
+                               RCLabels::from_notation),
+               list(pref = c("a", "c"), suff = c("b", "d")))
+  expect_equal(split_pref_suff(c("a [from b]", "c [from d]"),
+                               RCLabels::notations_list),
+               list(pref = c("a", "c"), suff = c("b", "d")))
   expect_equal(split_pref_suff(c("a [b]", "c [from d]"),
                                RCLabels::notations_list),
-               list(list(pref = "a", suff = "b"),
-                    list(pref = "c", suff = "d")))
+               list(pref = c("a", "c"), suff = c("b", "d")))
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 test_that("paste_pref_suff() works properly", {
