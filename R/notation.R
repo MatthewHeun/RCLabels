@@ -152,23 +152,7 @@ split_pref_suff <- function(x, notation = RCLabels::notations_list, transpose = 
   no_suff_start <- strip_label_part(no_pref_end, notation = notation, part = "suff_start", pattern_pref = "^")
 
   # Strip off suffix end
-  if (length(x) == 1) {
-    if (notation[["suff_end"]] == "") {
-      suff <- no_suff_start
-    } else {
-      suff <- gsub(pattern = paste0(notation[["suff_end"]], "{1}$"), replacement = "", x = no_suff_start)
-    }
-  } else {
-    # Vectorize over x and notation
-    suff <- vector(mode = "character", length = length(x))
-    for (i in 1:length(x)) {
-      if (notation[[i]][["suff_end"]] == "") {
-        suff[[i]] <- no_suff_start[[i]]
-      } else {
-        suff[[i]] <- gsub(pattern = paste0(notation[[i]][["suff_end"]], "{1}$"), replacement = "", x = no_suff_start[[i]])
-      }
-    }
-  }
+  suff <- strip_label_part(no_suff_start, notation = notation, part = "suff_end", pattern_suff = "{1}$")
 
   # Return a list with the prefixes and suffixes in two members of a list
   out <- list(pref = pref, suff = suff)
