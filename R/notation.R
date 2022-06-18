@@ -134,34 +134,10 @@ split_pref_suff <- function(x, notation = RCLabels::notations_list, transpose = 
     notation <- replicate(n = length(x), expr = notation, simplify = FALSE)
   }
   # Strip off first pref_start
-  if (length(x) == 1) {
-    if (notation[["pref_start"]] == "") {
-      no_pref_start <- x
-    } else {
-      no_pref_start <- gsub(pattern = paste0("^", Hmisc::escapeRegex(notation[["pref_start"]])), replacement = "", x = x)
-    }
-  } else {
-    # Vectorize over x and notation
-    no_pref_start <- vector(mode = "character", length = length(x))
-    for (i in 1:length(x)) {
-      if (notation[[i]][["pref_start"]] == "") {
-        no_pref_start[[i]] <- x[[i]]
-      } else {
-        no_pref_start[[i]] <- gsub(pattern = paste0("^", Hmisc::escapeRegex(notation[[i]][["pref_start"]])), replacement = "", x = x[[i]])
-      }
-    }
-  }
+  no_pref_start <- strip_label_part(x, notation = notation, part = "pref_start", pattern_pref = "^")
 
   # Strip off everything from first pref_end to end of string to obtain the prefix
-  if (length(x) == 1) {
-    pref <- gsub(pattern = paste0(Hmisc::escapeRegex(notation[["pref_end"]]), ".*$"), replacement = "", x = no_pref_start)
-  } else {
-    # Vectorize over x and notation
-    pref <- vector(mode = "character", length = length(x))
-    for (i in 1:length(x)) {
-      pref[[i]] <- gsub(pattern = paste0(Hmisc::escapeRegex(notation[[i]][["pref_end"]]), ".*$"), replacement = "", x = no_pref_start[[i]])
-    }
-  }
+  pref <- strip_label_part(no_pref_start, notation = notation, part = "pref_end", pattern_suff = ".*$")
 
   # Strip off pref and pref_end
   no_pref <- mapply(pref, no_pref_start, FUN = function(p, npstart) {
@@ -170,26 +146,10 @@ split_pref_suff <- function(x, notation = RCLabels::notations_list, transpose = 
     unname()
 
   # Strip off prefix end
-  if (length(x) == 1) {
-    no_pref_end <- gsub(pattern = paste0("^", Hmisc::escapeRegex(notation[["pref_end"]])), replacement = "", x = no_pref)
-  } else {
-    # Vectorize over x and notation
-    no_pref_end <- vector(mode = "character", length = length(x))
-    for (i in 1:length(x)) {
-      no_pref_end[[i]] <- gsub(pattern = paste0("^", Hmisc::escapeRegex(notation[[i]][["pref_end"]])), replacement = "", x = no_pref[[i]])
-    }
-  }
+  no_pref_end <- strip_label_part(no_pref, notation = notation, part = "pref_end", pattern_pref = "^")
 
   # Strip off suffix start
-  if (length(x) == 1) {
-    no_suff_start <- gsub(pattern = paste0("^", Hmisc::escapeRegex(notation[["suff_start"]])), replacement = "", x = no_pref_end)
-  } else {
-    # Vectorize over x and notation
-    no_suff_start <- vector(mode = "character", length = length(x))
-    for (i in 1:length(x)) {
-      no_suff_start[[i]] <- gsub(pattern = paste0("^", Hmisc::escapeRegex(notation[[i]][["suff_start"]])), replacement = "", x = no_pref_end[[i]])
-    }
-  }
+  no_suff_start <- strip_label_part(no_pref_end, notation = notation, part = "suff_start", pattern_pref = "^")
 
   # Strip off suffix end
   if (length(x) == 1) {
@@ -220,6 +180,37 @@ split_pref_suff <- function(x, notation = RCLabels::notations_list, transpose = 
   }
   return(out)
 }
+
+
+#' A convenience function to help splitting prefixes and suffixes
+#'
+#' @param x The label(s) to be split.
+#' @param notation The notations to be used for each `x`.
+#' @param part The part of the label to work on, such as "pref_start", "pref_end", "suff_start", or "suff_end".
+#' @param pattern The regex pattern to be used in `gsub()`.
+#'
+#' @return A label shorn of the part to be stripped.
+strip_label_part <- function(x, notation, part, pattern_pref = "", pattern_suff = "") {
+  if (length(x) == 1) {
+    if (notation[[part]] == "") {
+      out <- x
+    } else {
+      out <- gsub(pattern = paste0(pattern_pref, Hmisc::escapeRegex(notation[[part]]), pattern_suff), replacement = "", x = x)
+    }
+  } else {
+    # Vectorize over x and notation
+    out <- vector(mode = "character", length = length(x))
+    for (i in 1:length(x)) {
+      if (notation[[i]][[part]] == "") {
+        out[[i]] <- x[[i]]
+      } else {
+        out[[i]] <- gsub(pattern = paste0(pattern_pref, Hmisc::escapeRegex(notation[[i]][[part]]), pattern_suff), replacement = "", x = x[[i]])
+      }
+    }
+  }
+  return(out)
+}
+
 
 
 #' @export
