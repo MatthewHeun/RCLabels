@@ -139,7 +139,7 @@ split_pref_suff <- function(x, notation = RCLabels::notations_list, transpose = 
   # Strip off everything from first pref_end to end of string to obtain the prefix
   pref <- strip_label_part(no_pref_start, notation = notation, part = "pref_end", pattern_suff = ".*$")
 
-  # Strip off pref and pref_end
+  # Strip off pref from no_pref_start
   no_pref <- mapply(pref, no_pref_start, FUN = function(p, npstart) {
     gsub(pattern = paste0("^", Hmisc::escapeRegex(p)), replacement = "", x = npstart)
   }) %>%
