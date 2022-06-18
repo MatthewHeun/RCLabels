@@ -164,8 +164,8 @@ test_that("split_pref_suff() works in a data frame", {
       split = RCLabels:::split_pref_suff(orig, notation = arrow_notation, transpose = TRUE)
     )
   expect_equal(split$split, list(list(pref = "a", suff = "b"),
-                                    list(pref = "c", suff = "d"),
-                                    list(pref = "e", suff = "f")))
+                                 list(pref = "c", suff = "d"),
+                                 list(pref = "e", suff = "f")))
 })
 
 
