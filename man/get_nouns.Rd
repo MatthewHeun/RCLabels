@@ -4,13 +4,14 @@
 \alias{get_nouns}
 \title{Extract nouns from labels}
 \usage{
-get_nouns(labels, notation = RCLabels::bracket_notation)
+get_nouns(labels, notation = RCLabels::notations_list)
 }
 \arguments{
 \item{labels}{A list or vector of labels from which nouns are to be extracted.}
 
 \item{notation}{The notation type to be used when extracting nouns.
-Default is \code{RCLabels::bracket_notation}.}
+Default is \code{RCLabels::notations_list}, meaning that
+the notation is inferred using \code{infer_notation()}.}
 }
 \value{
 A list of nouns from row and column labels.

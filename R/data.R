@@ -59,6 +59,16 @@
 "to_notation"
 
 
+#' In notation
+#'
+#' A description of in notation.
+#'
+#' @format A vector of notational symbols that provides to ("a \[in b\]") notation.
+#' @examples
+#' in_notation
+"in_notation"
+
+
 #' Bracket arrow notation
 #'
 #' A description of bracket arrow notation.
@@ -97,5 +107,5 @@
 #'
 #' @format A vector of prepositions used in row and column labels.
 #' @examples
-#' prepositions
-"prepositions"
+#' prepositions_list
+"prepositions_list"

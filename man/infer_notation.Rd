@@ -83,9 +83,19 @@ At most one of the \code{notations} will be returned.
 }
 \examples{
 # Does not match any notations in RCLabels::notations_list
+# and throws an error, because the default value for `must_succeed`
+# is `TRUE`.
+\dontrun{
 infer_notation("abc")
+}
+# This returns `NULL`, because `must_succeed = FALSE`.
+infer_notation("abc", must_succeed = FALSE)
+# This succeeds, because the label is in the form of a
+# notation in `RCLabels::notation_list`,
+# the default value of the `notation` argument.
 infer_notation("a -> b")
-# Names of the notations can be retained
+# Names of the notations can be retained, in which case
+# the return value is always a list.
 infer_notation("a -> b", retain_names = TRUE)
 # This function is vectorized
 infer_notation(c("a -> b", "a (b)", "a [b]", "a [from b]", "a [of b]",
@@ -99,4 +109,32 @@ infer_notation("a [from b]",
 infer_notation(c("a [from b]", "c [to d]"),
                allow_multiple = TRUE, retain_names = TRUE,
                choose_most_specific = FALSE)
+#
+# As shown above, "a [from b]" matches 2 notations:
+# `RCLabels::bracket_notation` and `RCLabels::from_notation`.
+# The default value for the notation argument is
+# RCLabels::notations_list,
+# which includes `RCLabels::bracket_notation`
+# and `RCLabels::from_notation` in that order.
+# Thus, there is some flexibility to how this function works.
+# To review, the next call returns both `RCLabels::bracket_notation` and
+# `RCLabels::from_notation`, because `allow_multiple = TRUE` and
+# `choose_most_specific = FALSE`, neither of which are default.
+infer_notation("a [from b]",
+               allow_multiple = TRUE,
+               choose_most_specific = FALSE,
+               retain_names = TRUE)
+# The next call returns `RCLabels::from_notation`, because
+# the most specific notation is requested, and
+# `RCLabels::from_notation` has more characters in its specification than
+# `RCLabels::bracket_notation`.
+infer_notation("a [from b]",
+               choose_most_specific = TRUE,
+               retain_names = TRUE)
+# The next call returns the `RCLabels::bracket_notation`, becuase
+# `choose_most_specific = FALSE`, and the first matching
+# notation in `RCLabels::notations_list` is `RCLabels::bracket_notation`.
+infer_notation("a [from b]",
+               choose_most_specific = FALSE,
+               retain_names = TRUE)
 }

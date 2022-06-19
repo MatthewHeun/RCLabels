@@ -7,7 +7,7 @@
 remove_label_pieces(
   labels,
   pieces_to_remove,
-  prepositions = RCLabels::prepositions,
+  prepositions = RCLabels::prepositions_list,
   notation = RCLabels::bracket_notation
 )
 }
@@ -16,10 +16,10 @@ remove_label_pieces(
 
 \item{pieces_to_remove}{The names of pieces of the label to be removed,
 typically "noun" or a preposition such as "of" or "in"
-See \code{RCLabels::prepositions} for a list of known prepositions.}
+See \code{RCLabels::prepositions_list} for a list of known prepositions.}
 
 \item{prepositions}{A list of prepositions, used to detect prepositional phrases.
-Default is \code{RCLabels::prepositions}.}
+Default is \code{RCLabels::prepositions_list}.}
 
 \item{notation}{The notation used in \code{labels}.
 Default is \code{RCLabels::bracket_notation}.}

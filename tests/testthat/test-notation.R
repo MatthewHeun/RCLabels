@@ -327,6 +327,12 @@ test_that("get_pref_suff() preserves column type", {
 })
 
 
+test_that("get_pref_suff() works with in notation", {
+  expect_equal(get_pref_suff(c("a [in b]", "c [of d]"), which = "suff"),
+               c(suff = "b", suff = "d"))
+})
+
+
 test_that("switch_notation() works as expected", {
   # Start with a degenerate case
   expect_equal(switch_notation("a", from = arrow_notation, to = bracket_notation), "a")
@@ -465,4 +471,9 @@ test_that("infer_notation() works correctly with must_succeed = TRUE", {
   expect_null(infer_notation("abcde", must_succeed = FALSE))
   expect_equal(infer_notation("a [of b]"), RCLabels::of_notation)
   expect_error(infer_notation(c("a [of b]", "abcde")), regexp = "Unable to infer notation for 'abcde'")
+})
+
+
+test_that("infer_notation() works with 'a [from b]' and must_succeed = TRUE", {
+  expect_equal(infer_notation("a [from b]", choose_most_specific = FALSE, must_succeed = TRUE), RCLabels::bracket_notation)
 })

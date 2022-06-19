@@ -7,7 +7,8 @@
 #'
 #' @param labels A list or vector of labels from which nouns are to be extracted.
 #' @param notation The notation type to be used when extracting nouns.
-#'                 Default is `RCLabels::bracket_notation`.
+#'                 Default is `RCLabels::notations_list`, meaning that
+#'                 the notation is inferred using `infer_notation()`.
 #'
 #' @return A list of nouns from row and column labels.
 #'
@@ -18,7 +19,8 @@
 #' # Also works with vectors and lists.
 #' get_nouns(c("a [b]", "c [d]"))
 #' get_nouns(list("a [b]", "c [d]"))
-get_nouns <- function(labels, notation = RCLabels::bracket_notation) {
+# get_nouns <- function(labels, notation = RCLabels::bracket_notation) {
+get_nouns <- function(labels, notation = RCLabels::notations_list) {
   if (is.null(labels)) {
     return(NULL)
   }
@@ -29,13 +31,14 @@ get_nouns <- function(labels, notation = RCLabels::bracket_notation) {
 
 #' Extract prepositional phrases of row and column labels
 #'
-#' This function extracts prepositional phrases from suffixes of row and column labels.
+#' This function extracts prepositional phrases from suffixes of row and column labels
+#' of the form "a [preposition b]", where "preposition b" is the prepositional phrase.
 #'
-#' @param labels A list or vector of labels from which nouns are to be extracted.
-#' @param notation The notation type to be used when extracting nouns.
+#' @param labels A list or vector of labels from which prepositional phrases are to be extracted.
+#' @param notation The notation type to be used when extracting prepositional phrases.
 #'                 Default is `RCLabels::bracket_notation`.
 #' @param prepositions A list of prepositions, used to detect prepositional phrases.
-#'                     Default is `RCLabels::prepositions`.
+#'                     Default is `RCLabels::bracken_notation`.
 #'
 #' @return All prepositional phrases in a suffix.
 #'
@@ -45,8 +48,9 @@ get_nouns <- function(labels, notation = RCLabels::bracket_notation) {
 #' get_pps(c("a [in b]", "c [of d]"))
 #' get_pps(c("a [of b in c]", "d [-> e of f]"))
 get_pps <- function(labels,
-                    notation = RCLabels::bracket_notation,
-                    prepositions = RCLabels::prepositions) {
+                    # notation = RCLabels::bracket_notation,
+                    notation = RCLabels::notations_list,
+                    prepositions = RCLabels::prepositions_list) {
   if (is.null(labels)) {
     return(NULL)
   }
@@ -81,7 +85,7 @@ get_pps <- function(labels,
 #' @param prepositions A vector of strings to be treated as prepositions.
 #'                     Note that a space is appended to each word internally,
 #'                     so, e.g., "to" becomes "to ".
-#'                     Default is `RCLabels::prepositions`.
+#'                     Default is `RCLabels::prepositions_list`.
 #'
 #' @return A list of prepositions.
 #'
@@ -91,7 +95,7 @@ get_pps <- function(labels,
 #' get_prepositions(c("a [of b into c]", "d [-> e of f]"))
 get_prepositions <- function(labels,
                       notation = RCLabels::bracket_notation,
-                      prepositions = RCLabels::prepositions) {
+                      prepositions = RCLabels::prepositions_list) {
   if (is.null(labels)) {
     return(NULL)
   }
@@ -138,7 +142,7 @@ get_prepositions <- function(labels,
 #' @param prepositions A vector of strings to be treated as prepositions.
 #'                     Note that a space is appended to each word internally,
 #'                     so, e.g., "to" becomes "to ".
-#'                     Default is `RCLabels::prepositions`.
+#'                     Default is `RCLabels::prepositions_list`.
 #'
 #' @return A list of objects of prepositional phrases,
 #'         with names being prepositions, and values being objects.
@@ -149,7 +153,7 @@ get_prepositions <- function(labels,
 #' get_objects(c("a [of b into c]", "d [of Coal from e -> f]"))
 get_objects <- function(labels,
                         notation = RCLabels::bracket_notation,
-                        prepositions = RCLabels::prepositions) {
+                        prepositions = RCLabels::prepositions_list) {
   if (is.null(labels)) {
     return(NULL)
   }
@@ -215,7 +219,7 @@ get_objects <- function(labels,
 #' @param prepositions A vector of strings to be treated as prepositions.
 #'                     Note that a space is appended to each word internally,
 #'                     so, e.g., "to" becomes "to ".
-#'                     Default is `RCLabels::prepositions`.
+#'                     Default is `RCLabels::prepositions_list`.
 #'
 #' @return A list of lists with items named `noun` and `pp`.
 #'
@@ -226,7 +230,7 @@ get_objects <- function(labels,
 #'              notation = bracket_notation)
 split_labels <- function(labels,
                          notation = RCLabels::bracket_notation,
-                         prepositions = RCLabels::prepositions) {
+                         prepositions = RCLabels::prepositions_list) {
   if (is.null(labels)) {
     return(NULL)
   }
@@ -318,7 +322,7 @@ paste_pieces <- function(splt_labels, notation = RCLabels::bracket_notation) {
 #' @param prepositions A vector of strings to be treated as prepositions.
 #'                     Note that a space is appended to each word internally,
 #'                     so, e.g., "to" becomes "to ".
-#'                     Default is `RCLabels::prepositions`.
+#'                     Default is `RCLabels::prepositions_list`.
 #'
 #' @return A `piece` of `labels`.
 #'
@@ -339,7 +343,7 @@ paste_pieces <- function(splt_labels, notation = RCLabels::bracket_notation) {
 get_piece <- function(labels,
                 piece = "all",
                 notation = RCLabels::bracket_notation,
-                prepositions = RCLabels::prepositions) {
+                prepositions = RCLabels::prepositions_list) {
   if (is.null(labels)) {
     return(NULL)
   }

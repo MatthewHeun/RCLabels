@@ -61,7 +61,7 @@ modify_nouns <- function(labels, new_nouns, notation = RCLabels::bracket_notatio
 #' @param piece The piece (or pieces) of the row or column label that will be modified.
 #' @param mod_map A modification map. See details.
 #' @param prepositions A list of prepositions, used to detect prepositional phrases.
-#'                     Default is `RCLabels::prepositions`.
+#'                     Default is `RCLabels::prepositions_list`.
 #' @param notation The notation used in `labels`.
 #'                 Default is `RCLabels::bracket_notation`.
 #'
@@ -89,7 +89,7 @@ modify_nouns <- function(labels, new_nouns, notation = RCLabels::bracket_notatio
 #'                     mod_map = list(new_noun = c("a", "b", "c"),
 #'                                    new_in   = c("c", "f")))
 modify_label_pieces <- function(labels, piece, mod_map,
-                                prepositions = RCLabels::prepositions,
+                                prepositions = RCLabels::prepositions_list,
                                 notation = RCLabels::bracket_notation) {
   split <- labels %>%
     split_labels(notation = notation, prepositions = prepositions)
@@ -127,9 +127,9 @@ modify_label_pieces <- function(labels, piece, mod_map,
 #' @param labels The row and column labels from which prepositional phrases will be removed.
 #' @param pieces_to_remove The names of pieces of the label to be removed,
 #'                         typically "noun" or a preposition such as "of" or "in"
-#'                         See `RCLabels::prepositions` for a list of known prepositions.
+#'                         See `RCLabels::prepositions_list` for a list of known prepositions.
 #' @param prepositions A list of prepositions, used to detect prepositional phrases.
-#'                     Default is `RCLabels::prepositions`.
+#'                     Default is `RCLabels::prepositions_list`.
 #' @param notation The notation used in `labels`.
 #'                 Default is `RCLabels::bracket_notation`.
 #'
@@ -145,7 +145,7 @@ modify_label_pieces <- function(labels, piece, mod_map,
 #' remove_label_pieces(labs, pieces_to_remove = c("of", "in"))
 remove_label_pieces <- function(labels,
                                 pieces_to_remove,
-                                prepositions = RCLabels::prepositions,
+                                prepositions = RCLabels::prepositions_list,
                                 notation = RCLabels::bracket_notation) {
   split <- labels %>%
     split_labels(notation = notation, prepositions = prepositions)

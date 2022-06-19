@@ -8,7 +8,7 @@ modify_label_pieces(
   labels,
   piece,
   mod_map,
-  prepositions = RCLabels::prepositions,
+  prepositions = RCLabels::prepositions_list,
   notation = RCLabels::bracket_notation
 )
 }
@@ -20,7 +20,7 @@ modify_label_pieces(
 \item{mod_map}{A modification map. See details.}
 
 \item{prepositions}{A list of prepositions, used to detect prepositional phrases.
-Default is \code{RCLabels::prepositions}.}
+Default is \code{RCLabels::prepositions_list}.}
 
 \item{notation}{The notation used in \code{labels}.
 Default is \code{RCLabels::bracket_notation}.}

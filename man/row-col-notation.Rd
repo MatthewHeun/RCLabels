@@ -21,7 +21,12 @@ notation_vec(
 
 preposition_notation(preposition, suff_start = " [", suff_end = "]")
 
-split_pref_suff(x, notation = RCLabels::notations_list, transpose = FALSE)
+split_pref_suff(
+  x,
+  notation = RCLabels::notations_list,
+  transpose = FALSE,
+  choose_most_specific = TRUE
+)
 
 paste_pref_suff(
   ps = list(pref = pref, suff = suff),
@@ -35,7 +40,8 @@ flip_pref_suff(x, notation)
 get_pref_suff(
   x,
   which = c("pref", "suff"),
-  notation = RCLabels::notations_list
+  notation = RCLabels::notations_list,
+  choose_most_specific = TRUE
 )
 
 switch_notation(x, from = RCLabels::notations_list, to, flip = FALSE)
@@ -62,6 +68,9 @@ switch_notation(x, from = RCLabels::notations_list, to, flip = FALSE)
 Set \code{transpose = TRUE} when using \code{split_pref_suff()} in a \code{dplyr::mutate()}
 call in the context of a data frame.
 Default is \code{FALSE}.}
+
+\item{choose_most_specific}{A boolean that tells whether to choose the most specific
+notation from the \code{notation} argument when the \code{notation} argument is a list.}
 
 \item{ps}{A list of prefixes and suffixes in which each item of the list is itself a list with two items named \code{pref} and \code{suff}.}
 
@@ -129,6 +138,11 @@ if \code{notation} is a list, it is treated as a store from which
 the most appropriate notation is inferred by \code{infer_notation(choose_most_specific = TRUE)}.
 Because default is \code{RCLabels::notations_list},
 notation is inferred by default.
+The argument \code{choose_most_specific} tells what to do when two \code{notation}s match a label:
+if \code{TRUE} (the default), the notation with most characters is selected.
+If \code{FALSE}, the first matching notation in \code{notation} will be selected.
+See details at \code{infer_notation()}.
+
 For functions that construct labels (such as \code{paste_pref_suff()}),
 \code{notation} must be a single notation vector (not a list).
 }

@@ -4,6 +4,8 @@ output: html_document
 ---
 
 
+* Rename `RCLabels::prepositions` --> `RCLabels::preposition_list`
+  to bring consistency with `RCLables::notations_list`.
 * New function `infer_notation()` obtains the notation 
   for any label or a vector of labels.
 * Now includes a list of known notations: `RCLabels::notations_list`.

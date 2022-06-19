@@ -82,7 +82,7 @@ make_or_pattern <- function(strings, pattern_type = c("exact", "leading", "trail
 #' @param pieces The pieces of row or column labels to be checked for matches or replacements.
 #'               See details.
 #' @param prepositions A vector of strings that count as prepositions.
-#'                     Default is `RCLabels::prepositions`.
+#'                     Default is `RCLabels::prepositions_list`.
 #'                     Used to detect prepositional phrases
 #'                     if `pieces` are to be interpreted as prepositions.
 #' @param notation The notation used in `labels`.
@@ -118,7 +118,7 @@ NULL
 match_by_pattern <- function(labels,
                              regex_pattern,
                              pieces = "all",
-                             prepositions = RCLabels::prepositions,
+                             prepositions = RCLabels::prepositions_list,
                              notation = RCLabels::bracket_notation,
                              ...) {
 
@@ -158,7 +158,7 @@ replace_by_pattern <- function(labels,
                                regex_pattern,
                                replacement,
                                pieces = "all",
-                               prepositions = RCLabels::prepositions,
+                               prepositions = RCLabels::prepositions_list,
                                notation = RCLabels::bracket_notation,
                                ...) {
   if ("all" %in% pieces) {

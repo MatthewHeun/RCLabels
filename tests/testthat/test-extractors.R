@@ -2,6 +2,9 @@ test_that("get_nouns() works as expected", {
   expect_equal(get_nouns("a [b]"), c(noun = "a"))
   expect_equal(get_nouns(c("a [b]", "c [d]")), c(noun = "a", noun = "c"))
   expect_equal(get_nouns(list("a [b]", "c [d]")), c(noun = "a", noun = "c"))
+  # Test with wrong notation
+  expect_equal(get_nouns(list("a [b]", "c [d]"), notation = RCLabels::arrow_notation),
+               c(noun = "a [b]", noun = "c [d]"))
 
   # Now try in a data frame
   df <- data.frame(labels = c("a [b]", "c [d]", "e [f]", "g [h]"))
@@ -10,12 +13,17 @@ test_that("get_nouns() works as expected", {
       nouns = get_nouns(labels)
     )
   expect_equal(with_nouns$nouns, c(noun = "a", noun = "c", noun = "e", noun = "g"))
+
+  # Try with different notations that are inferred for each label
+  expect_equal(get_nouns(c("a -> b", "c [of d]")), c(noun = "a", noun = "c"))
 })
 
 
 test_that("get_pps() works as expected", {
   # Try a couple simple ones
   expect_equal(get_pps("a [in b]"), c(pps = "in b"))
+  expect_equal(get_pps(c("a [in b]", "c [of d]"), notation = RCLabels::bracket_notation), c(pps = "in b", pps = "of d"))
+  # Infer notation
   expect_equal(get_pps(c("a [in b]", "c [of d]")), c(pps = "in b", pps = "of d"))
   # Try a degenerate case
   expect_equal(get_pps("a [b in c]"), c(pps = "in c"))

@@ -8,7 +8,7 @@ get_piece(
   labels,
   piece = "all",
   notation = RCLabels::bracket_notation,
-  prepositions = RCLabels::prepositions
+  prepositions = RCLabels::prepositions_list
 )
 }
 \arguments{
@@ -22,7 +22,7 @@ Default is \code{RCLabels::bracket_notation}.}
 \item{prepositions}{A vector of strings to be treated as prepositions.
 Note that a space is appended to each word internally,
 so, e.g., "to" becomes "to ".
-Default is \code{RCLabels::prepositions}.}
+Default is \code{RCLabels::prepositions_list}.}
 }
 \value{
 A \code{piece} of \code{labels}.

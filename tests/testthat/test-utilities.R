@@ -11,7 +11,7 @@ test_that("make_or_pattern() works as expected", {
 
 
 test_that('prepositions make good "or" patterns', {
-  preps_pattern <- make_or_pattern(RCLabels::prepositions, pattern_type = "anywhere")
+  preps_pattern <- make_or_pattern(RCLabels::prepositions_list, pattern_type = "anywhere")
   res <- gregexpr(preps_pattern, c("a [of b]", "cat [from d]", "haunted [-> house]"))
   expect_equal(res, list(4, 6, 10), ignore_attr = TRUE)
   expect_equal(attr(res[[1]], which = "match.length"), 2)

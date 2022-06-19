@@ -6,24 +6,25 @@
 \usage{
 get_pps(
   labels,
-  notation = RCLabels::bracket_notation,
-  prepositions = RCLabels::prepositions
+  notation = RCLabels::notations_list,
+  prepositions = RCLabels::prepositions_list
 )
 }
 \arguments{
-\item{labels}{A list or vector of labels from which nouns are to be extracted.}
+\item{labels}{A list or vector of labels from which prepositional phrases are to be extracted.}
 
-\item{notation}{The notation type to be used when extracting nouns.
+\item{notation}{The notation type to be used when extracting prepositional phrases.
 Default is \code{RCLabels::bracket_notation}.}
 
 \item{prepositions}{A list of prepositions, used to detect prepositional phrases.
-Default is \code{RCLabels::prepositions}.}
+Default is \code{RCLabels::bracken_notation}.}
 }
 \value{
 All prepositional phrases in a suffix.
 }
 \description{
-This function extracts prepositional phrases from suffixes of row and column labels.
+This function extracts prepositional phrases from suffixes of row and column labels
+of the form "a \link{preposition b}", where "preposition b" is the prepositional phrase.
 }
 \examples{
 get_pps(c("a [in b]", "c [of d]"))

@@ -58,6 +58,14 @@ usethis::use_data(to_notation, overwrite = TRUE)
 
 
 #
+# In notation: a [in b]
+#
+
+in_notation <- preposition_notation(preposition = "in")
+usethis::use_data(in_notation, overwrite = TRUE)
+
+
+#
 # Bracket arrow notation: a [-> b]
 #
 
@@ -83,6 +91,7 @@ notations_list <- list(arrow_notation = arrow_notation,
                        from_notation = from_notation,
                        of_notation = of_notation,
                        to_notation = to_notation,
+                       in_notation = in_notation,
                        bracket_arrow_notation = bracket_arrow_notation,
                        first_dot_notation = first_dot_notation)
 usethis::use_data(notations_list, overwrite = TRUE)
@@ -92,5 +101,8 @@ usethis::use_data(notations_list, overwrite = TRUE)
 # Prepositions
 #
 
-prepositions <- c("in", "into", "from", "of", "->", "to")
-usethis::use_data(prepositions, overwrite = TRUE)
+prepositions_list <- c("in", "into", "from", "of", "->", "to")
+usethis::use_data(prepositions_list, overwrite = TRUE)
+
+
+
