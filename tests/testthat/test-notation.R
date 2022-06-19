@@ -187,8 +187,12 @@ test_that("split_pref_suff() works while inferring notation", {
 
 test_that("split_pref_suff() works with one successful and one unsuccessful inference", {
   expect_error(split_pref_suff("abcde"), regexp = "Unable to infer notation for 'abcde'")
-  expect_equal(split_pref_suff(list("a [b]", "abcde")),
-               list(pref = c("a", "abcde"), suff("b", "")))
+  expect_error(split_pref_suff(list("a [b]", "abcde")), regexp = "Unable to infer notation for 'abcde'")
+  expect_equal(split_pref_suff(list("a [b]", "abcde"), notation = RCLabels::bracket_notation),
+               list(pref = c("a", "abcde"), suff = c("b", "")))
+  # For this one, a notation inference is requested.
+  # But it will fail, because there is no known notation for "abcde".
+  expect_error(split_pref_suff(list("a [b]", "abcde")), regexp = "Unable to infer notation for 'abcde'")
 })
 
 
@@ -267,8 +271,7 @@ test_that("get_pref_suff() works as expected", {
   expect_equal(get_pref_suff(list("a -> b", "c -> d"), which = "suff"),
                c(suff = "b", suff = "d"))
 
-  expect_equal(get_pref_suff(list("a [b]", "abcde"), which = "suff"),
-               c(suff = "b", suff = ""))
+  expect_error(get_pref_suff(list("a [b]", "abcde"), which = "suff"), regexp = "Unable to infer notation for 'abcde'")
 
   # Try degenerate cases
   expect_equal(get_pref_suff("abcde", which = "pref", notation = arrow_notation), c(pref = "abcde"))
@@ -362,7 +365,8 @@ test_that("switch_notation() works in a data frame", {
 
 
 test_that("infer_notation() works as expected for single x values", {
-  expect_equal(infer_notation("abc"), NULL)
+  expect_equal(infer_notation("abc", must_succeed = FALSE), NULL)
+  expect_error(infer_notation("abc"), regexp = "Unable to infer notation for 'abc'")
   expect_equal(infer_notation("a -> b"), RCLabels::arrow_notation)
   expect_equal(infer_notation("a (b)"), RCLabels::paren_notation)
   expect_equal(infer_notation("a [b]"), RCLabels::bracket_notation)
@@ -380,12 +384,12 @@ test_that("infer_notation() works as expected for single x values", {
   # Try with requesting names
   expect_equal(infer_notation("a -> b", retain_names = TRUE), list(arrow_notation = RCLabels::arrow_notation))
   # Try with a restricted set of notations, not expecting a match.
-  expect_equal(infer_notation("a -> b", notations = list(RCLabels::from_notation, RCLabels::bracket_arrow_notation)), NULL)
+  expect_equal(infer_notation("a -> b", notations = list(RCLabels::from_notation, RCLabels::bracket_arrow_notation), must_succeed = FALSE), NULL)
 })
 
 
 test_that("infer_notation() works as expected for multiple x values", {
-  expect_equal(infer_notation(c("abcd", "efg")), list(NULL, NULL))
+  expect_equal(infer_notation(c("abcd", "efg"), must_succeed = FALSE), list(NULL, NULL))
   expect_equal(infer_notation(c("a -> b", "c -> d"), retain_names = FALSE),
                list(RCLabels::arrow_notation, RCLabels::arrow_notation))
   expect_equal(infer_notation(c("a -> b", "c -> d"), retain_names = TRUE),
@@ -398,7 +402,7 @@ test_that("infer_notation() works as expected for multiple x values", {
                     list(bracket_notation = RCLabels::bracket_notation,
                          from_notation = RCLabels::from_notation)))
   # Try when x is a list (as opposed to a vector)
-  expect_equal(infer_notation(list("abcd", "efg")), list(NULL, NULL))
+  expect_equal(infer_notation(list("abcd", "efg"), must_succeed = FALSE), list(NULL, NULL))
   expect_equal(infer_notation(list(label1 = "a -> b", label2 = "c -> d"), retain_names = FALSE),
                list(RCLabels::arrow_notation, RCLabels::arrow_notation))
 })
@@ -443,4 +447,6 @@ test_that("infer_notation() returns a list from a vector of x's and allow_multip
 test_that("infer_notation() works correctly with must_succeed = TRUE", {
   expect_error(infer_notation("abcde"), regexp = "Unable to infer notation for 'abcde'")
   expect_null(infer_notation("abcde", must_succeed = FALSE))
+  expect_equal(infer_notation("a [of b]"), RCLabels::of_notation)
+  expect_error(infer_notation(c("a [of b]", "abcde")), regexp = "Unable to infer notation for 'abcde'")
 })
