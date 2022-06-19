@@ -329,6 +329,8 @@ test_that("switch_notation() works as expected", {
   # Start with a degenerate case
   expect_equal(switch_notation("a", from = arrow_notation, to = bracket_notation), "a")
   expect_equal(switch_notation("a", from = bracket_notation, to = arrow_notation), "a")
+  # Try with notation inference
+  expect_error(switch_notation("a", to = bracket_notation), regexp = "Unable to infer notation for 'a'")
 
   # Now try "real" cases
   expect_equal(switch_notation("a -> b", from = arrow_notation, to = bracket_notation),
@@ -343,14 +345,24 @@ test_that("switch_notation() works as expected", {
                "a.b")
   expect_equal(switch_notation("a.b.c", from = first_dot_notation, to = arrow_notation),
                "a -> b.c")
+  # Try when inferring notation
+  expect_equal(switch_notation("a -> b", to = bracket_notation), "a [b]")
+  expect_equal(switch_notation("a -> b", to = bracket_notation, flip = TRUE), "b [a]")
+  expect_equal(switch_notation("a [b]", to = arrow_notation), "a -> b")
+  expect_equal(switch_notation("a [b]", to = arrow_notation, flip = TRUE), "b -> a")
+  expect_equal(switch_notation("a [b]", to = first_dot_notation), "a.b")
+  expect_error(switch_notation("a.b.c", to = arrow_notation), regexp = "More than 1 location in 'a.b.c' matched 'pref_end")
 
   # Try with a list
-  expect_equal(switch_notation(list("a -> b", "c -> d"), from = arrow_notation, to = bracket_notation),
+  expect_equal(switch_notation(list("a -> b", "c -> d"), to = bracket_notation),
                list("a [b]", "c [d]"))
-  expect_equal(switch_notation(list("a -> b", "c -> d"), from = arrow_notation, to = bracket_notation, flip = TRUE),
+  expect_equal(switch_notation(list("a -> b", "c -> d"), to = bracket_notation, flip = TRUE),
                list("b [a]", "d [c]"))
   expect_equal(switch_notation(list("a [b]", "c [d]"), from = bracket_notation, to = arrow_notation),
                list("a -> b", "c -> d"))
+
+  # Try with 2 different notations
+  expect_equal(switch_notation(list("a -> b", "c [of d]"), to = bracket_notation, flip = TRUE), list("b [a]", "d [c]"))
 })
 
 
@@ -358,9 +370,11 @@ test_that("switch_notation() works in a data frame", {
   df <- data.frame(orig = c("a -> b", "c -> d"))
   switched <- df %>%
     dplyr::mutate(
-      new = switch_notation(orig, from = arrow_notation, to = bracket_notation)
+      new = switch_notation(orig, from = arrow_notation, to = bracket_notation),
+      new_inferred = switch_notation(orig, to = bracket_notation),
     )
   expect_equal(switched$new, list("a [b]", "c [d]"))
+  expect_equal(switched$new_inferred, list("a [b]", "c [d]"))
 })
 
 

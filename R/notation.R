@@ -35,7 +35,8 @@
 #' E.g., "a -> b" in arrow notation means that "a" is the prefix and "b" is the suffix.
 #'
 #' For functions where the `notation` argument is used to identify portions of the row or column label
-#' (such as `split_pref_suff()`, `flip_pref_suff()`, and `get_pref_suff()`),
+#' (such as `split_pref_suff()`, `flip_pref_suff()`, `get_pref_suff()`,
+#' and the `from` argument to `switch_notation()`),
 #' if `notation` is a list, it is treated as a store from which
 #' the most appropriate notation is inferred by `infer_notation(choose_most_specific = TRUE)`.
 #' Because default is `RCLabels::notations_list`,
@@ -247,7 +248,7 @@ get_pref_suff <- function(x, which = c("pref", "suff"), notation = RCLabels::not
 
 #' @export
 #' @rdname row-col-notation
-switch_notation <- function(x, from, to, flip = FALSE) {
+switch_notation <- function(x, from = RCLabels::notations_list, to, flip = FALSE) {
   switch_func <- function(x) {
     ps <- split_pref_suff(x, notation = from)
     if (ps[["suff"]] == "") {

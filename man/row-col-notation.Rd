@@ -38,7 +38,7 @@ get_pref_suff(
   notation = RCLabels::notations_list
 )
 
-switch_notation(x, from, to, flip = FALSE)
+switch_notation(x, from = RCLabels::notations_list, to, flip = FALSE)
 }
 \arguments{
 \item{sep}{A string separator between prefix and suffix. Default is " -> ".}
@@ -122,7 +122,8 @@ None of the strings in a notation vector are considered part of the prefix or su
 E.g., "a -> b" in arrow notation means that "a" is the prefix and "b" is the suffix.
 
 For functions where the \code{notation} argument is used to identify portions of the row or column label
-(such as \code{split_pref_suff()}, \code{flip_pref_suff()}, and \code{get_pref_suff()}),
+(such as \code{split_pref_suff()}, \code{flip_pref_suff()}, \code{get_pref_suff()},
+and the \code{from} argument to \code{switch_notation()}),
 if \code{notation} is a list, it is treated as a store from which
 the most appropriate notation is inferred by \code{infer_notation(choose_most_specific = TRUE)}.
 Because default is \code{RCLabels::notations_list},
