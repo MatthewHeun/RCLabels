@@ -9,7 +9,8 @@ infer_notation(
   notations = RCLabels::notations_list,
   allow_multiple = FALSE,
   retain_names = FALSE,
-  choose_most_specific = TRUE
+  choose_most_specific = TRUE,
+  must_succeed = TRUE
 )
 }
 \arguments{
@@ -33,6 +34,11 @@ names are never supplied.}
 will be returned when more than one of \code{notations} matches \code{x}.
 Default is \code{TRUE}.
 See details.}
+
+\item{must_succeed}{A boolean that if \code{TRUE} (the default),
+causes an error to be thrown if a matching notation is not found
+for any label in \code{x}.
+When \code{FALSE}, an unsuccessful label inference will return \code{NULL}.}
 }
 \value{
 A single notation object (if \code{x} is a single row or column label)
@@ -55,8 +61,9 @@ If \code{allow_multiple = FALSE} (the default) and more than one \code{notation}
 an error is thrown.
 Multiple matches can be returned when \code{allow_multiple = TRUE}.
 
-Often (and in the default case of \code{notations = RCLabels::notation_list}),
-\code{notations} will be a named vector of notations.
+\code{notations} should be a named list of notations.
+\code{notations} is treated as a store of notations from which matches for each label in \code{x}
+can be determined.
 When \code{retain_names = TRUE}, the names on \code{notations} will be retained,
 and the return value is \emph{always} a list.
 

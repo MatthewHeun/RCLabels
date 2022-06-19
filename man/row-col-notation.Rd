@@ -30,12 +30,12 @@ paste_pref_suff(
   notation = RCLabels::arrow_notation
 )
 
-flip_pref_suff(x, notation = RCLabels::arrow_notation)
+flip_pref_suff(x, notation = RCLabels::notations_list)
 
 get_pref_suff(
   x,
   which = c("pref", "suff"),
-  notation = RCLabels::arrow_notation
+  notation = RCLabels::notations_list
 )
 
 switch_notation(x, from, to, flip = FALSE)
@@ -121,14 +121,14 @@ set appropriately.
 None of the strings in a notation vector are considered part of the prefix or suffix.
 E.g., "a -> b" in arrow notation means that "a" is the prefix and "b" is the suffix.
 
-For functions where the \code{notation} argument is used to infer portions of the label
-(such as \code{split_pref_suff()}),
+For functions where the \code{notation} argument is used to identify portions of the row or column label
+(such as \code{split_pref_suff()}, \code{flip_pref_suff()}, and \code{get_pref_suff()}),
 if \code{notation} is a list, it is treated as a store from which
 the most appropriate notation is inferred by \code{infer_notation(choose_most_specific = TRUE)}.
 Because default is \code{RCLabels::notations_list},
 notation is inferred by default.
 For functions that construct labels (such as \code{paste_pref_suff()}),
-\code{notation} must be a vector (not a list).
+\code{notation} must be a single notation vector (not a list).
 }
 \examples{
 notation_vec()

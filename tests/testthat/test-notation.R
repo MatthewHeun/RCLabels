@@ -185,6 +185,13 @@ test_that("split_pref_suff() works while inferring notation", {
 })
 
 
+test_that("split_pref_suff() works with one successful and one unsuccessful inference", {
+  expect_error(split_pref_suff("abcde"), regexp = "Unable to infer notation for 'abcde'")
+  expect_equal(split_pref_suff(list("a [b]", "abcde")),
+               list(pref = c("a", "abcde"), suff("b", "")))
+})
+
+
 test_that("paste_pref_suff() works properly", {
   ps <- c(pref = "a", suff = "b")
   expect_equal(paste_pref_suff(ps, notation = arrow_notation), "a -> b")
@@ -244,21 +251,23 @@ test_that("flip_pref_suff() works as expected", {
 
 test_that("get_pref_suff() works as expected", {
   expect_equal(get_pref_suff("a -> b", which = "pref", notation = arrow_notation), c(pref = "a"))
+  # Infer notation
+  expect_equal(get_pref_suff("a -> b", which = "pref"), c(pref = "a"))
   expect_equal(get_pref_suff("a -> b", which = "suff", notation = arrow_notation), c(suff = "b"))
 
-  expect_equal(get_pref_suff("a [b]", which = "suff", notation = bracket_notation), c(suff = "b"))
+  expect_equal(get_pref_suff("a [b]", which = "suff"), c(suff = "b"))
 
   # Try with a character vector
-  expect_equal(get_pref_suff(c("a -> b", "c -> d"), which = "pref", notation = arrow_notation),
+  expect_equal(get_pref_suff(c("a -> b", "c -> d"), which = "pref"),
                c(pref = "a", pref = "c"))
 
   # Try with a list
-  expect_equal(get_pref_suff(list("a -> b", "c -> d"), which = "pref", notation = arrow_notation),
+  expect_equal(get_pref_suff(list("a -> b", "c -> d"), which = "pref"),
                c(pref = "a", pref = "c"))
-  expect_equal(get_pref_suff(list("a -> b", "c -> d"), which = "suff", notation = arrow_notation),
+  expect_equal(get_pref_suff(list("a -> b", "c -> d"), which = "suff"),
                c(suff = "b", suff = "d"))
 
-  expect_equal(get_pref_suff(list("a [b]", "abcde"), which = "suff", notation = bracket_notation),
+  expect_equal(get_pref_suff(list("a [b]", "abcde"), which = "suff"),
                c(suff = "b", suff = ""))
 
   # Try degenerate cases
@@ -428,4 +437,10 @@ test_that("infer_notation() returns a list from a vector of x's and allow_multip
                               choose_most_specific = FALSE),
                list(list(bracket_notation = RCLabels::bracket_notation, from_notation = RCLabels::from_notation),
                     list(bracket_notation = RCLabels::bracket_notation, to_notation = RCLabels::to_notation)))
+})
+
+
+test_that("infer_notation() works correctly with must_succeed = TRUE", {
+  expect_error(infer_notation("abcde"), regexp = "Unable to infer notation for 'abcde'")
+  expect_null(infer_notation("abcde", must_succeed = FALSE))
 })

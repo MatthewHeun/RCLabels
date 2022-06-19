@@ -34,14 +34,14 @@
 #' None of the strings in a notation vector are considered part of the prefix or suffix.
 #' E.g., "a -> b" in arrow notation means that "a" is the prefix and "b" is the suffix.
 #'
-#' For functions where the `notation` argument is used to infer portions of the label
-#' (such as `split_pref_suff()`),
+#' For functions where the `notation` argument is used to identify portions of the row or column label
+#' (such as `split_pref_suff()`, `flip_pref_suff()`, and `get_pref_suff()`),
 #' if `notation` is a list, it is treated as a store from which
 #' the most appropriate notation is inferred by `infer_notation(choose_most_specific = TRUE)`.
 #' Because default is `RCLabels::notations_list`,
 #' notation is inferred by default.
 #' For functions that construct labels (such as `paste_pref_suff()`),
-#' `notation` must be a vector (not a list).
+#' `notation` must be a single notation vector (not a list).
 #'
 #' @param sep A string separator between prefix and suffix. Default is " -> ".
 #' @param pref_start A string indicating the start of a prefix. Default is `NULL`.
@@ -185,7 +185,9 @@ strip_label_part <- function(x, notation, part, pattern_pref = "", pattern_suff 
     # Vectorize over x and notation
     out <- vector(mode = "character", length = length(x))
     for (i in 1:length(x)) {
-      if (notation[[i]][[part]] == "") {
+      if (is.null(notation[[i]])) {
+        out[[i]] <- x[[i]]
+      } else if (notation[[i]][[part]] == "") {
         out[[i]] <- x[[i]]
       } else {
         out[[i]] <- gsub(pattern = paste0(pattern_pref, Hmisc::escapeRegex(notation[[i]][[part]]), pattern_suff), replacement = "", x = x[[i]])
@@ -219,7 +221,7 @@ paste_pref_suff <- function(ps = list(pref = pref, suff = suff), pref = NULL, su
 
 #' @export
 #' @rdname row-col-notation
-flip_pref_suff <- function(x, notation = RCLabels::arrow_notation) {
+flip_pref_suff <- function(x, notation = RCLabels::notations_list) {
   # Split prefixes and suffixes
   pref_suff <- split_pref_suff(x, notation = notation)
   paste_pref_suff(pref = pref_suff[["suff"]],
@@ -231,7 +233,7 @@ flip_pref_suff <- function(x, notation = RCLabels::arrow_notation) {
 
 #' @export
 #' @rdname row-col-notation
-get_pref_suff <- function(x, which = c("pref", "suff"), notation = RCLabels::arrow_notation) {
+get_pref_suff <- function(x, which = c("pref", "suff"), notation = RCLabels::notations_list) {
   if (is.null(x)) {
     return(NULL)
   }
@@ -281,8 +283,9 @@ switch_notation <- function(x, from, to, flip = FALSE) {
 #' an error is thrown.
 #' Multiple matches can be returned when `allow_multiple = TRUE`.
 #'
-#' Often (and in the default case of `notations = RCLabels::notation_list`),
-#' `notations` will be a named vector of notations.
+#' `notations` should be a named list of notations.
+#' `notations` is treated as a store of notations from which matches for each label in `x`
+#' can be determined.
 #' When `retain_names = TRUE`, the names on `notations` will be retained,
 #' and the return value is _always_ a list.
 #'
@@ -316,6 +319,10 @@ switch_notation <- function(x, from, to, flip = FALSE) {
 #'                             will be returned when more than one of `notations` matches `x`.
 #'                             Default is `TRUE`.
 #'                             See details.
+#' @param must_succeed A boolean that if `TRUE` (the default),
+#'                     causes an error to be thrown if a matching notation is not found
+#'                     for any label in `x`.
+#'                     When `FALSE`, an unsuccessful label inference will return `NULL`.
 #'
 #' @return A single notation object (if `x` is a single row or column label)
 #'         or a list of notation objects (if `x` is a vector or a list).
@@ -346,13 +353,15 @@ infer_notation <- function(x,
                            notations = RCLabels::notations_list,
                            allow_multiple = FALSE,
                            retain_names = FALSE,
-                           choose_most_specific = TRUE) {
+                           choose_most_specific = TRUE,
+                           must_succeed = TRUE) {
   if (length(x) == 1) {
     return(infer_notation_for_one_label(x,
                                         notations = notations,
                                         allow_multiple = allow_multiple,
                                         retain_names = retain_names,
-                                        choose_most_specific = choose_most_specific))
+                                        choose_most_specific = choose_most_specific,
+                                        must_succeed = must_succeed))
   }
   # At this point, if x comes in with names, we don't want them on the output.
   # We only want names from notations on the output.
@@ -363,7 +372,8 @@ infer_notation <- function(x,
                                  notations = notations,
                                  allow_multiple = allow_multiple,
                                  retain_names = retain_names,
-                                 choose_most_specific = choose_most_specific)
+                                 choose_most_specific = choose_most_specific,
+                                 must_succeed = must_succeed)
   })
   if (all(lapply(out, length) == 1)) {
     return(unlist(out, recursive = FALSE))
@@ -391,6 +401,10 @@ infer_notation <- function(x,
 #' @param choose_most_specific A boolean that indicates if the most-specific notation
 #'                             will be returned when more than one of `notations` matches `x`.
 #'                             Default is `TRUE`.
+#' @param must_succeed A boolean that if `TRUE` (the default),
+#'                     causes an error to be thrown if a matching notation is not found
+#'                     for any label in `x`.
+#'                     When `FALSE`, an unsuccessful label inference will return `NULL`.
 #'
 #' @return A single matching notation object (if `allow_multiple = FALSE`, the default)
 #'         or possibly multiple matching notation objects (if `allow_multiple = TRUE`).
@@ -399,7 +413,8 @@ infer_notation_for_one_label <- function(x,
                                          notations = RCLabels::notations_list,
                                          allow_multiple = FALSE,
                                          retain_names = FALSE,
-                                         choose_most_specific = TRUE) {
+                                         choose_most_specific = TRUE,
+                                         must_succeed = TRUE) {
   notation_matches <- list()
   for (i in 1:length(notations)) {
     this_notation <- notations[[i]]
@@ -443,6 +458,9 @@ infer_notation_for_one_label <- function(x,
   the_matches_indices <- which(notation_matches, arr.ind = TRUE)
   the_matches <- notations[which(notation_matches)]
   if (num_matches == 0) {
+    if (must_succeed) {
+      stop(paste0("Unable to infer notation for '", x, "'"))
+    }
     return(NULL)
   }
   if (num_matches == 1) {
