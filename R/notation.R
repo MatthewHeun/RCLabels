@@ -7,8 +7,7 @@
 #' There are several functions that call `notation_vec()` to generate specialized versions
 #' or otherwise manipulate row and column names on their own or as row or column names.
 #'
-#' * `notation_vec()` Builds a vector of notation symbols in a standard format
-#'                    that is used by `matsbyname` in several places.
+#' * `notation_vec()` Builds a vector of notation symbols in a standard format.
 #'                    By default, it builds a list of notation symbols that provides an arrow
 #'                    separator (" -> ") between prefix and suffix.
 #' * `preposition_notation()` Builds a list of notation symbols that provides (by default) square brackets around the suffix with a preposition ("prefix \[preposition suffix\]").
