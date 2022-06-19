@@ -97,9 +97,12 @@ infer_notation("a -> b")
 # Names of the notations can be retained, in which case
 # the return value is always a list.
 infer_notation("a -> b", retain_names = TRUE)
-# This function is vectorized
+# This function is vectorized.
+# The list of labels matches
+# all known notations in `RCLabels::notations_list`.
 infer_notation(c("a -> b", "a (b)", "a [b]", "a [from b]", "a [of b]",
-                 "a [to b]", "a [-> b]", "a.b"), retain_names = TRUE)
+                 "a [to b]", "a [in b]", "a [-> b]", "a.b"),
+                 retain_names = TRUE)
 # By default, the most specific notation is returned.
 # But when two or more matches are present,
 # multiple notations can be returned, too.
@@ -116,7 +119,11 @@ infer_notation(c("a [from b]", "c [to d]"),
 # RCLabels::notations_list,
 # which includes `RCLabels::bracket_notation`
 # and `RCLabels::from_notation` in that order.
-# Thus, there is some flexibility to how this function works.
+# Thus, there is some flexibility to how this function works
+# if the value of the `notation` argument is a list of notations
+# ordered from least specific to most specific,
+# as `RCLabels::notations_list` is ordered.
+#
 # To review, the next call returns both `RCLabels::bracket_notation` and
 # `RCLabels::from_notation`, because `allow_multiple = TRUE` and
 # `choose_most_specific = FALSE`, neither of which are default.

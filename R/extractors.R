@@ -39,6 +39,8 @@ get_nouns <- function(labels, notation = RCLabels::notations_list) {
 #'                 Default is `RCLabels::bracket_notation`.
 #' @param prepositions A list of prepositions, used to detect prepositional phrases.
 #'                     Default is `RCLabels::bracken_notation`.
+#' @param choose_most_specific A boolean that tells whether to choose the most specific
+#'                             `notation` if more than 1 match is found.
 #'
 #' @return All prepositional phrases in a suffix.
 #'
@@ -48,13 +50,13 @@ get_nouns <- function(labels, notation = RCLabels::notations_list) {
 #' get_pps(c("a [in b]", "c [of d]"))
 #' get_pps(c("a [of b in c]", "d [-> e of f]"))
 get_pps <- function(labels,
-                    # notation = RCLabels::bracket_notation,
                     notation = RCLabels::notations_list,
-                    prepositions = RCLabels::prepositions_list) {
+                    prepositions = RCLabels::prepositions_list,
+                    choose_most_specific = TRUE) {
   if (is.null(labels)) {
     return(NULL)
   }
-  suffixes <- get_pref_suff(labels, which = "suff", notation = notation)
+  suffixes <- get_pref_suff(labels, which = "suff", notation = notation, choose_most_specific = choose_most_specific)
   # Location prepositions
   preposition_words <- paste0(prepositions, " ")
   prep_patterns <- make_or_pattern(preposition_words,

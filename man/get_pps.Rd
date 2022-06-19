@@ -7,7 +7,8 @@
 get_pps(
   labels,
   notation = RCLabels::notations_list,
-  prepositions = RCLabels::prepositions_list
+  prepositions = RCLabels::prepositions_list,
+  choose_most_specific = TRUE
 )
 }
 \arguments{
@@ -18,6 +19,9 @@ Default is \code{RCLabels::bracket_notation}.}
 
 \item{prepositions}{A list of prepositions, used to detect prepositional phrases.
 Default is \code{RCLabels::bracken_notation}.}
+
+\item{choose_most_specific}{A boolean that tells whether to choose the most specific
+\code{notation} if more than 1 match is found.}
 }
 \value{
 All prepositional phrases in a suffix.

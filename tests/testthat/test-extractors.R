@@ -21,10 +21,11 @@ test_that("get_nouns() works as expected", {
 
 test_that("get_pps() works as expected", {
   # Try a couple simple ones
-  expect_equal(get_pps("a [in b]"), c(pps = "in b"))
+  expect_equal(get_pps("a [in b]", choose_most_specific = FALSE), c(pps = "in b"))
   expect_equal(get_pps(c("a [in b]", "c [of d]"), notation = RCLabels::bracket_notation), c(pps = "in b", pps = "of d"))
+  expect_equal(get_pps(c("a [in b]", "c [of d]"), choose_most_specific = FALSE), c(pps = "in b", pps = "of d"))
   # Infer notation
-  expect_equal(get_pps(c("a [in b]", "c [of d]")), c(pps = "in b", pps = "of d"))
+  expect_equal(get_pps(c("a [in b]", "c [of d]"), choose_most_specific = FALSE), c(pps = "in b", pps = "of d"))
   # Try a degenerate case
   expect_equal(get_pps("a [b in c]"), c(pps = "in c"))
 
@@ -37,9 +38,9 @@ test_that("get_pps() works as expected", {
   expect_equal(get_pps(list("a [of b in c]", "d [of e into f]"), notation = bracket_notation),
                c(pps = "of b in c", pps = "of e into f"))
 
-  expect_equal(get_pps("a [in b]"), c(pps = "in b"))
-  expect_equal(get_pps(c("a [in b]")), c(pps = "in b"))
-  expect_equal(get_pps(list("a [in b]")), c(pps = "in b"))
+  expect_equal(get_pps("a [in b]", notation = RCLabels::bracket_notation), c(pps = "in b"))
+  expect_equal(get_pps(c("a [in b]"), notation = RCLabels::bracket_notation), c(pps = "in b"))
+  expect_equal(get_pps(list("a [in b]"), notation = RCLabels::bracket_notation), c(pps = "in b"))
 
   # Now try in a data frame
 
@@ -47,7 +48,7 @@ test_that("get_pps() works as expected", {
   with_nouns_pps <- df %>%
     dplyr::mutate(
       nouns = get_nouns(labels),
-      pps = get_pps(labels)
+      pps = get_pps(labels, choose_most_specific = FALSE)
     )
   expect_equal(with_nouns_pps$nouns, c(noun = "e", noun = "h", noun = "a", noun = "c"))
   expect_equal(with_nouns_pps$pps, c(pps = "of f in g", pps = "-> i in j", pps = "in b", pps = "of d into USA"))

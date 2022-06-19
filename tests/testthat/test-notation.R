@@ -392,7 +392,7 @@ test_that("infer_notation() works as expected for single x values", {
   expect_equal(infer_notation("a -> b"), RCLabels::arrow_notation)
   expect_equal(infer_notation("a (b)"), RCLabels::paren_notation)
   expect_equal(infer_notation("a [b]"), RCLabels::bracket_notation)
-  expect_error(infer_notation("a [from b]", choose_most_specific = FALSE), regexp = "multiple matches when allow_multiple = FALSE and choose_most_specific = FALSE in match_notation")
+  expect_equal(infer_notation("a [from b]", choose_most_specific = FALSE), RCLabels::bracket_notation)
   expect_equal(infer_notation("a [from b]", allow_multiple = TRUE, choose_most_specific = FALSE, retain_names = TRUE),
                list(bracket_notation = RCLabels::bracket_notation, from_notation = RCLabels::from_notation))
   expect_equal(infer_notation("a [of b]", allow_multiple = TRUE, choose_most_specific = FALSE, retain_names = TRUE),
@@ -443,7 +443,7 @@ test_that("infer_notation() works as expected if choose_most_specific = TRUE", {
   expect_equal(infer_notation(c("a [to b]", "c [from d]"), choose_most_specific = TRUE, retain_names = TRUE),
                list(to_notation = RCLabels::to_notation, from_notation = RCLabels::from_notation))
   # Test with ALL known notations
-  expect_equal(infer_notation(c("a -> b", "a (b)", "a [b]", "a [from b]", "a [of b]", "a [to b]", "a [-> b]", "a.b"),
+  expect_equal(infer_notation(c("a -> b", "a (b)", "a [b]", "a [from b]", "a [of b]", "a [to b]", "a [in b]", "a [-> b]", "a.b"),
                               retain_names = TRUE), RCLabels::notations_list)
 })
 

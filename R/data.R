@@ -94,6 +94,9 @@
 #' Notations list
 #'
 #' A list of all bundled notations.
+#' This list is organized by least specific to most specific,
+#' thereby enabling some unique behaviors in `infer_notation()`.
+#' See the examples for `infer_notation()`.
 #'
 #' @format A list of bundled notations.
 #' @examples

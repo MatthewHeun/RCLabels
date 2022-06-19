@@ -12,6 +12,9 @@ notations_list
 }
 \description{
 A list of all bundled notations.
+This list is organized by least specific to most specific,
+thereby enabling some unique behaviors in \code{infer_notation()}.
+See the examples for \code{infer_notation()}.
 }
 \examples{
 notations_list

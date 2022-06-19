@@ -152,7 +152,7 @@ preposition_notation <- function(preposition, suff_start = " [", suff_end = "]")
 split_pref_suff <- function(x, notation = RCLabels::notations_list, transpose = FALSE, choose_most_specific = TRUE) {
   if (length(notation) > 1 & is.list(notation)) {
     # Any notation list is treated as a store from which appropriate notations are selected.
-    notation <- infer_notation(x,  notations = notation, choose_most_specific = TRUE, retain_names = FALSE)
+    notation <- infer_notation(x,  notations = notation, choose_most_specific = choose_most_specific, retain_names = FALSE)
   }
   if (length(x) > 1 & !is.list(notation)) {
     # We have an incoming vector of x with length > 1,
@@ -377,9 +377,12 @@ switch_notation <- function(x, from = RCLabels::notations_list, to, flip = FALSE
 #' # Names of the notations can be retained, in which case
 #' # the return value is always a list.
 #' infer_notation("a -> b", retain_names = TRUE)
-#' # This function is vectorized
+#' # This function is vectorized.
+#' # The list of labels matches
+#' # all known notations in `RCLabels::notations_list`.
 #' infer_notation(c("a -> b", "a (b)", "a [b]", "a [from b]", "a [of b]",
-#'                  "a [to b]", "a [-> b]", "a.b"), retain_names = TRUE)
+#'                  "a [to b]", "a [in b]", "a [-> b]", "a.b"),
+#'                  retain_names = TRUE)
 #' # By default, the most specific notation is returned.
 #' # But when two or more matches are present,
 #' # multiple notations can be returned, too.
@@ -396,7 +399,11 @@ switch_notation <- function(x, from = RCLabels::notations_list, to, flip = FALSE
 #' # RCLabels::notations_list,
 #' # which includes `RCLabels::bracket_notation`
 #' # and `RCLabels::from_notation` in that order.
-#' # Thus, there is some flexibility to how this function works.
+#' # Thus, there is some flexibility to how this function works
+#' # if the value of the `notation` argument is a list of notations
+#' # ordered from least specific to most specific,
+#' # as `RCLabels::notations_list` is ordered.
+#' #
 #' # To review, the next call returns both `RCLabels::bracket_notation` and
 #' # `RCLabels::from_notation`, because `allow_multiple = TRUE` and
 #' # `choose_most_specific = FALSE`, neither of which are default.
