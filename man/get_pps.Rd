@@ -18,7 +18,7 @@ get_pps(
 Default is \code{RCLabels::bracket_notation}.}
 
 \item{prepositions}{A list of prepositions, used to detect prepositional phrases.
-Default is \code{RCLabels::bracken_notation}.}
+Default is \code{RCLabels::prepositions_list}.}
 
 \item{choose_most_specific}{A boolean that tells whether to choose the most specific
 \code{notation} if more than 1 match is found.}
@@ -28,7 +28,7 @@ All prepositional phrases in a suffix.
 }
 \description{
 This function extracts prepositional phrases from suffixes of row and column labels
-of the form "a \link{preposition b}", where "preposition b" is the prepositional phrase.
+of the form "a [preposition b]", where "preposition b" is the prepositional phrase.
 }
 \examples{
 get_pps(c("a [in b]", "c [of d]"))

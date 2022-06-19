@@ -35,7 +35,11 @@ paste_pref_suff(
   notation = RCLabels::arrow_notation
 )
 
-flip_pref_suff(x, notation)
+flip_pref_suff(
+  x,
+  notation = RCLabels::notations_list,
+  choose_most_specific = TRUE
+)
 
 get_pref_suff(
   x,

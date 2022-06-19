@@ -199,7 +199,8 @@ split_pref_suff <- function(x, notation = RCLabels::notations_list, transpose = 
 #' @param x The label(s) to be split.
 #' @param notation The notations to be used for each `x`.
 #' @param part The part of the label to work on, such as "pref_start", "pref_end", "suff_start", or "suff_end".
-#' @param pattern The regex pattern to be used in `gsub()`.
+#' @param pattern_pref The prefix to a regex pattern to be used in `gsub()`.
+#' @param pattern_suff The suffix to a regex pattern to be used in `gsub()`.
 #'
 #' @return A label shorn of the part to be stripped.
 strip_label_part <- function(x, notation, part, pattern_pref = "", pattern_suff = "") {
@@ -249,7 +250,16 @@ paste_pref_suff <- function(ps = list(pref = pref, suff = suff), pref = NULL, su
 
 #' @export
 #' @rdname row-col-notation
-flip_pref_suff <- function(x, notation) {
+# flip_pref_suff <- function(x, notation) {
+flip_pref_suff <- function(x, notation = RCLabels::notations_list, choose_most_specific = TRUE) {
+  if (is.list(notation)) {
+    notation <- infer_notation(x,
+                               notations = notation,
+                               allow_multiple = FALSE,
+                               retain_names = FALSE,
+                               must_succeed = TRUE,
+                               choose_most_specific = choose_most_specific)
+  }
   # Split prefixes and suffixes
   pref_suff <- split_pref_suff(x, notation = notation)
   paste_pref_suff(pref = pref_suff[["suff"]],

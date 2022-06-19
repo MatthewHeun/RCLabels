@@ -13,7 +13,9 @@ strip_label_part(x, notation, part, pattern_pref = "", pattern_suff = "")
 
 \item{part}{The part of the label to work on, such as "pref_start", "pref_end", "suff_start", or "suff_end".}
 
-\item{pattern}{The regex pattern to be used in \code{gsub()}.}
+\item{pattern_pref}{The prefix to a regex pattern to be used in \code{gsub()}.}
+
+\item{pattern_suff}{The suffix to a regex pattern to be used in \code{gsub()}.}
 }
 \value{
 A label shorn of the part to be stripped.

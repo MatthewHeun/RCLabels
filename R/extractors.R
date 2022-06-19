@@ -32,13 +32,13 @@ get_nouns <- function(labels, notation = RCLabels::notations_list) {
 #' Extract prepositional phrases of row and column labels
 #'
 #' This function extracts prepositional phrases from suffixes of row and column labels
-#' of the form "a [preposition b]", where "preposition b" is the prepositional phrase.
+#' of the form "a \[preposition b\]", where "preposition b" is the prepositional phrase.
 #'
 #' @param labels A list or vector of labels from which prepositional phrases are to be extracted.
 #' @param notation The notation type to be used when extracting prepositional phrases.
 #'                 Default is `RCLabels::bracket_notation`.
 #' @param prepositions A list of prepositions, used to detect prepositional phrases.
-#'                     Default is `RCLabels::bracken_notation`.
+#'                     Default is `RCLabels::prepositions_list`.
 #' @param choose_most_specific A boolean that tells whether to choose the most specific
 #'                             `notation` if more than 1 match is found.
 #'
