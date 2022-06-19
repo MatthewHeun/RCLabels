@@ -30,7 +30,7 @@ paste_pref_suff(
   notation = RCLabels::arrow_notation
 )
 
-flip_pref_suff(x, notation = RCLabels::notations_list)
+flip_pref_suff(x, notation)
 
 get_pref_suff(
   x,
@@ -122,8 +122,9 @@ If \code{sep} only is specified for \code{notation_vec()} (default is " -> "),
 set appropriately.
 
 For functions where the \code{notation} argument is used to identify portions of the row or column label
-(such as \code{split_pref_suff()}, \code{flip_pref_suff()}, \code{get_pref_suff()},
+(such as \code{split_pref_suff()}, \code{get_pref_suff()},
 and the \code{from} argument to \code{switch_notation()}),
+(Note: \code{flip_pref_suff()} cannot infer notation, because it switches prefix and suffix in a known, single notation.)
 if \code{notation} is a list, it is treated as a store from which
 the most appropriate notation is inferred by \code{infer_notation(choose_most_specific = TRUE)}.
 Because default is \code{RCLabels::notations_list},

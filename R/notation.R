@@ -35,8 +35,9 @@
 #' set appropriately.
 #'
 #' For functions where the `notation` argument is used to identify portions of the row or column label
-#' (such as `split_pref_suff()`, `flip_pref_suff()`, `get_pref_suff()`,
+#' (such as `split_pref_suff()`, `get_pref_suff()`,
 #' and the `from` argument to `switch_notation()`),
+#' (Note: `flip_pref_suff()` cannot infer notation, because it switches prefix and suffix in a known, single notation.)
 #' if `notation` is a list, it is treated as a store from which
 #' the most appropriate notation is inferred by `infer_notation(choose_most_specific = TRUE)`.
 #' Because default is `RCLabels::notations_list`,
@@ -241,15 +242,7 @@ paste_pref_suff <- function(ps = list(pref = pref, suff = suff), pref = NULL, su
 
 #' @export
 #' @rdname row-col-notation
-flip_pref_suff <- function(x, notation = RCLabels::notations_list) {
-  if (is.list(notation)) {
-    notation = infer_notation(x,
-                              notations = notation,
-                              allow_multiple = FALSE,
-                              choose_most_specific = TRUE,
-                              retain_names = FALSE,
-                              must_succeed = TRUE)
-  }
+flip_pref_suff <- function(x, notation) {
   # Split prefixes and suffixes
   pref_suff <- split_pref_suff(x, notation = notation)
   paste_pref_suff(pref = pref_suff[["suff"]],
