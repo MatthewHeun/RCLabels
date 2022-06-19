@@ -237,6 +237,8 @@ test_that("paste_pref_suff() works properly", {
 test_that("flip_pref_suff() works as expected", {
   expect_equal(flip_pref_suff("a -> b", notation = arrow_notation), "b -> a")
   expect_equal(flip_pref_suff("a [b]", notation = bracket_notation), "b [a]")
+  # Try with inference
+  expect_equal(flip_pref_suff("a [b]"), "b [a]")
 
   # Make sure it works for lists
   expect_equal(flip_pref_suff(list("a -> b", "a -> b"), notation = arrow_notation),

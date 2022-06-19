@@ -87,39 +87,39 @@ a string list in notation format specified by various \code{notation} arguments,
 For \code{keep_pref_suff}, one of the prefix or suffix or a list of prefixes or suffixes.
 }
 \description{
-It is often convenient to represent row and column names
+It is often convenient to represent matrix row and column names
 with notation that includes a prefix and a suffix,
 with corresponding separators or start-end string sequences.
-There are several functions that call \code{notation_vec()} to generate specialized versions
+There are several functions to generate specialized versions
 or otherwise manipulate row and column names on their own or as row or column names.
 \itemize{
-\item \code{notation_vec()} Builds a vector of notation symbols in a standard format
-that is used by \code{matsbyname} in several places.
-By default, it builds a list of notation symbols that provides an arrow
-separator (" -> ") between prefix and suffix.
-\item \code{preposition_notation()} Builds a list of notation symbols that provides (by default) square brackets around the suffix with a preposition ("prefix [preposition suffix]").
-\item \code{paste_pref_suff()} \code{paste0}'s prefixes and suffixes, the inverse of \code{split_pref_suff()}.
 \item \code{flip_pref_suff()} Switches the location of prefix and suffix, such that the prefix becomes the suffix, and
 the suffix becomes the prefix.
 E.g., "a -> b" becomes "b -> a" or "a [b]" becomes "b [a]".
 \item \code{get_pref_suff()} Selects only prefix or suffix, discarding notational elements
 and the rejected part.
-Internally, calls \code{split_pref_suff()} and selects only the \code{suff} portions.
-\item \code{switch_notation()} Switches from one type of notation to another based on the \code{from} and \code{to} arguments.
-Optionally, prefix and suffix can be \code{flip}ped.
+Internally, this functino calls \code{split_pref_suff()} and selects only the desired portion.
+\item \code{notation_vec()} Builds a vector of notation symbols in a standard format.
+By default, it builds a list of notation symbols that provides an arrow
+separator (" -> ") between prefix and suffix.
+\item \code{paste_pref_suff()} \code{paste0}'s prefixes and suffixes, the inverse of \code{split_pref_suff()}.
+\item \code{preposition_notation()} Builds a list of notation symbols that provides (by default) square brackets around the suffix with a preposition ("prefix [preposition suffix]").
 \item \code{split_pref_suff()} Splits prefixes from suffixes, returning each in a list with names \code{pref} and \code{suff}.
 If no prefix or suffix delimiters are found, \code{x} is returned in the \code{pref} item, unmodified,
 and the \code{suff} item is returned as \code{""} (an empty string).
 If there is no prefix, and empty string is returned for the \code{pref} item.
 If there is no suffix, and empty string is returned for the \code{suff} item.
+\item \code{switch_notation()} Switches from one type of notation to another based on the \code{from} and \code{to} arguments.
+Optionally, prefix and suffix can be \code{flip}ped.
 }
 
-If \code{sep} only is specified (default is " -> "),
-\code{pref_start}, \code{pref_end}, \code{suff_start}, and \code{suff_end} are
-set appropriately.
-
+Parts of a notation vector are
+"pref_start", "pref_end", "suff_start", and "suff_end".
 None of the strings in a notation vector are considered part of the prefix or suffix.
 E.g., "a -> b" in arrow notation means that "a" is the prefix and "b" is the suffix.
+If \code{sep} only is specified for \code{notation_vec()} (default is " -> "),
+\code{pref_start}, \code{pref_end}, \code{suff_start}, and \code{suff_end} are
+set appropriately.
 
 For functions where the \code{notation} argument is used to identify portions of the row or column label
 (such as \code{split_pref_suff()}, \code{flip_pref_suff()}, \code{get_pref_suff()},
@@ -136,14 +136,33 @@ notation_vec()
 arrow_notation
 bracket_notation
 split_pref_suff("a -> b", notation = arrow_notation)
-split_pref_suff(c("a -> b", "c -> d", "e -> f"), notation = arrow_notation)
-split_pref_suff(c("a -> b", "c -> d", "e -> f"), notation = arrow_notation,
-                transpose = TRUE)
+# Or infer the notation (by default from notations_list)
+split_pref_suff("a -> b")
+split_pref_suff(c("a -> b", "c -> d", "e -> f"))
+split_pref_suff(c("a -> b", "c -> d", "e -> f"), transpose = TRUE)
 flip_pref_suff("a [b]", notation = bracket_notation)
-get_pref_suff("a -> b", which = "suff", notation = arrow_notation)
+# Infer notation
+flip_pref_suff("a [b]")
+get_pref_suff("a -> b", which = "suff")
 switch_notation("a -> b", from = arrow_notation, to = bracket_notation)
-switch_notation("a -> b", from = arrow_notation, to = bracket_notation,
-                flip = TRUE)
+# Infer notation and flip prefix and suffix
+switch_notation("a -> b", to = bracket_notation, flip = TRUE)
 # Also works for vectors
-switch_notation(c("a -> b", "c -> d"), from = arrow_notation, to = bracket_notation)
+switch_notation(c("a -> b", "c -> d"),
+                from = arrow_notation,
+                to = bracket_notation)
+# Functions can infer the correct notation and return multiple matches
+infer_notation("a [to b]",
+               allow_multiple = TRUE,
+               choose_most_specific = FALSE)
+# Or choose the most specific notation
+infer_notation("a [to b]",
+               allow_multiple = TRUE,
+               choose_most_specific = TRUE)
+# When setting the from notation, only that type of notation will be switched
+switch_notation(c("a -> b", "c [to d]"),
+                from = arrow_notation,
+                to = bracket_notation)
+# Buf it notations are inferred, all notations can be switched
+switch_notation(c("a -> b", "c [to d]"), to = bracket_notation)
 }

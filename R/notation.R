@@ -1,37 +1,38 @@
 #' Row and column notation
 #'
 #' @description
-#' It is often convenient to represent row and column names
+#' It is often convenient to represent matrix row and column names
 #' with notation that includes a prefix and a suffix,
 #' with corresponding separators or start-end string sequences.
-#' There are several functions that call `notation_vec()` to generate specialized versions
+#' There are several functions to generate specialized versions
 #' or otherwise manipulate row and column names on their own or as row or column names.
 #'
-#' * `notation_vec()` Builds a vector of notation symbols in a standard format.
-#'                    By default, it builds a list of notation symbols that provides an arrow
-#'                    separator (" -> ") between prefix and suffix.
-#' * `preposition_notation()` Builds a list of notation symbols that provides (by default) square brackets around the suffix with a preposition ("prefix \[preposition suffix\]").
-#' * `paste_pref_suff()` `paste0`'s prefixes and suffixes, the inverse of `split_pref_suff()`.
 #' * `flip_pref_suff()` Switches the location of prefix and suffix, such that the prefix becomes the suffix, and
 #'                      the suffix becomes the prefix.
 #'                      E.g., "a -> b" becomes "b -> a" or "a \[b\]" becomes "b \[a\]".
 #' * `get_pref_suff()` Selects only prefix or suffix, discarding notational elements
 #'                     and the rejected part.
-#'                     Internally, calls `split_pref_suff()` and selects only the `suff` portions.
-#' * `switch_notation()` Switches from one type of notation to another based on the `from` and `to` arguments.
-#'                       Optionally, prefix and suffix can be `flip`ped.
+#'                     Internally, this functino calls `split_pref_suff()` and selects only the desired portion.
+#' * `notation_vec()` Builds a vector of notation symbols in a standard format.
+#'                    By default, it builds a list of notation symbols that provides an arrow
+#'                    separator (" -> ") between prefix and suffix.
+#' * `paste_pref_suff()` `paste0`'s prefixes and suffixes, the inverse of `split_pref_suff()`.
+#' * `preposition_notation()` Builds a list of notation symbols that provides (by default) square brackets around the suffix with a preposition ("prefix \[preposition suffix\]").
 #' * `split_pref_suff()` Splits prefixes from suffixes, returning each in a list with names `pref` and `suff`.
 #'                       If no prefix or suffix delimiters are found, `x` is returned in the `pref` item, unmodified,
 #'                       and the `suff` item is returned as `""` (an empty string).
 #'                       If there is no prefix, and empty string is returned for the `pref` item.
 #'                       If there is no suffix, and empty string is returned for the `suff` item.
+#' * `switch_notation()` Switches from one type of notation to another based on the `from` and `to` arguments.
+#'                       Optionally, prefix and suffix can be `flip`ped.
 #'
-#' If `sep` only is specified (default is " -> "),
-#' `pref_start`, `pref_end`, `suff_start`, and `suff_end` are
-#' set appropriately.
-#'
+#' Parts of a notation vector are
+#' "pref_start", "pref_end", "suff_start", and "suff_end".
 #' None of the strings in a notation vector are considered part of the prefix or suffix.
 #' E.g., "a -> b" in arrow notation means that "a" is the prefix and "b" is the suffix.
+#' If `sep` only is specified for `notation_vec()` (default is " -> "),
+#' `pref_start`, `pref_end`, `suff_start`, and `suff_end` are
+#' set appropriately.
 #'
 #' For functions where the `notation` argument is used to identify portions of the row or column label
 #' (such as `split_pref_suff()`, `flip_pref_suff()`, `get_pref_suff()`,
@@ -78,16 +79,35 @@
 #' arrow_notation
 #' bracket_notation
 #' split_pref_suff("a -> b", notation = arrow_notation)
-#' split_pref_suff(c("a -> b", "c -> d", "e -> f"), notation = arrow_notation)
-#' split_pref_suff(c("a -> b", "c -> d", "e -> f"), notation = arrow_notation,
-#'                 transpose = TRUE)
+#' # Or infer the notation (by default from notations_list)
+#' split_pref_suff("a -> b")
+#' split_pref_suff(c("a -> b", "c -> d", "e -> f"))
+#' split_pref_suff(c("a -> b", "c -> d", "e -> f"), transpose = TRUE)
 #' flip_pref_suff("a [b]", notation = bracket_notation)
-#' get_pref_suff("a -> b", which = "suff", notation = arrow_notation)
+#' # Infer notation
+#' flip_pref_suff("a [b]")
+#' get_pref_suff("a -> b", which = "suff")
 #' switch_notation("a -> b", from = arrow_notation, to = bracket_notation)
-#' switch_notation("a -> b", from = arrow_notation, to = bracket_notation,
-#'                 flip = TRUE)
+#' # Infer notation and flip prefix and suffix
+#' switch_notation("a -> b", to = bracket_notation, flip = TRUE)
 #' # Also works for vectors
-#' switch_notation(c("a -> b", "c -> d"), from = arrow_notation, to = bracket_notation)
+#' switch_notation(c("a -> b", "c -> d"),
+#'                 from = arrow_notation,
+#'                 to = bracket_notation)
+#' # Functions can infer the correct notation and return multiple matches
+#' infer_notation("a [to b]",
+#'                allow_multiple = TRUE,
+#'                choose_most_specific = FALSE)
+#' # Or choose the most specific notation
+#' infer_notation("a [to b]",
+#'                allow_multiple = TRUE,
+#'                choose_most_specific = TRUE)
+#' # When setting the from notation, only that type of notation will be switched
+#' switch_notation(c("a -> b", "c [to d]"),
+#'                 from = arrow_notation,
+#'                 to = bracket_notation)
+#' # Buf it notations are inferred, all notations can be switched
+#' switch_notation(c("a -> b", "c [to d]"), to = bracket_notation)
 #' @name row-col-notation
 NULL
 
@@ -222,6 +242,14 @@ paste_pref_suff <- function(ps = list(pref = pref, suff = suff), pref = NULL, su
 #' @export
 #' @rdname row-col-notation
 flip_pref_suff <- function(x, notation = RCLabels::notations_list) {
+  if (is.list(notation)) {
+    notation = infer_notation(x,
+                              notations = notation,
+                              allow_multiple = FALSE,
+                              choose_most_specific = TRUE,
+                              retain_names = FALSE,
+                              must_succeed = TRUE)
+  }
   # Split prefixes and suffixes
   pref_suff <- split_pref_suff(x, notation = notation)
   paste_pref_suff(pref = pref_suff[["suff"]],
