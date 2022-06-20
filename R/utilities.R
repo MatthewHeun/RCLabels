@@ -197,7 +197,7 @@ replace_by_pattern <- function(labels,
     }
     splits[[i_splits]] <- this_split_label
   }
-  paste_pieces(splits, notation = notation)
+  paste_noun_pp(splits, notation = notation)
 }
 
 

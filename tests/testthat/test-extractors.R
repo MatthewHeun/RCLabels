@@ -120,7 +120,7 @@ test_that("split_noun_pp() works as expected", {
 })
 
 
-test_that("paste_pieces() works as expected", {
+test_that("paste_noun_pp() works as expected", {
   # Try with a single label
   lab <- "a [of b in c]"
   split <- split_noun_pp(lab)
@@ -129,13 +129,16 @@ test_that("paste_pieces() works as expected", {
   # Try with a vector of labels
   labs <- c("a [of b in c]", "d [from Coal mines in USA]")
   split <- split_noun_pp(labs)
-  expect_equal(paste_pieces(split), labs)
+  expect_equal(paste_noun_pp(split), labs)
+  # Try with different notations for each paste
+  expect_equal(paste_noun_pp(split, notation = list(RCLabels::bracket_notation, RCLabels::arrow_notation)),
+               c("a [of b in c]", "d -> from Coal mines in USA"))
 
   # Try with a weird notation vector
   paren_note <- notation_vec(pref_start = "(", pref_end = ")", suff_start = "(", suff_end = ")")
   labs2 <- c("(Production)(of Coal in USA)", "(Manufacture)(of Oil in Canada)")
   split2 <- split_noun_pp(labs2, notation = paren_note)
-  expect_equal(paste_pieces(split2, notation = paren_note), labs2)
+  expect_equal(paste_noun_pp(split2, notation = paren_note), labs2)
 
   # Try in a data frame
   df <- tibble::tibble(labels = c("a [in b]", "c [of d into USA]",
@@ -143,9 +146,18 @@ test_that("paste_pieces() works as expected", {
   recombined <- df %>%
     dplyr::mutate(
       splits = split_noun_pp(labels),
-      recombined = paste_pieces(splits)
+      recombined = paste_noun_pp(splits)
     )
   expect_equal(recombined$recombined, recombined$labels)
+
+  # Try with different notations for each row of the data frame.
+  df2 <- recombined %>%
+    dplyr::mutate(
+      notn = list(arrow_notation, in_notation, bracket_notation, bracket_arrow_notation),
+      recombined2 = paste_noun_pp(splits, notn)
+    )
+  expect_equal(df2$recombined2, c("a -> in b", "c [in of d into USA]", "e [of f in g]", "h [-> -> i in j]"))
+
 })
 
 
@@ -212,7 +224,7 @@ test_that("passing NULL to extractors returns NULL", {
   expect_null(get_prepositions(NULL))
   expect_null(get_objects(NULL))
   expect_null(split_noun_pp(NULL))
-  expect_null(paste_pieces(NULL))
+  expect_null(paste_noun_pp(NULL))
 })
 
 

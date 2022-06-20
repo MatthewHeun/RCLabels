@@ -52,6 +52,9 @@ Labels may not have the same structure,
 e.g., they may have different prepositions.
 }
 \examples{
+# Specify the notation
 split_noun_pp(c("a [of b in c]", "d [of e into f]"),
               notation = bracket_notation)
+# Infer the notation via default arguments
+split_noun_pp(c("a [of b in c]", "d [of e into f]"))
 }

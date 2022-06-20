@@ -28,7 +28,7 @@ modify_nouns <- function(labels, new_nouns, notation = RCLabels::bracket_notatio
     this_split_label[["noun"]] <- this_new_noun
     this_split_label
   }) %>%
-    paste_pieces(notation = notation)
+    paste_noun_pp(notation = notation)
 }
 
 
@@ -115,7 +115,7 @@ modify_label_pieces <- function(labels, piece, mod_map,
   })
 
   modified %>%
-    paste_pieces(notation = notation)
+    paste_noun_pp(notation = notation)
 }
 
 
@@ -162,5 +162,5 @@ remove_label_pieces <- function(labels,
     split[[i_split_label]] <- this_split_label
   }
   split %>%
-    paste_pieces(notation = notation)
+    paste_noun_pp(notation = notation)
 }

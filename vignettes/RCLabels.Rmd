@@ -243,10 +243,10 @@ split_labels <- split_noun_pp(labels,
 split_labels
 
 # Recombine split labels.
-paste_pieces(split_labels, notation = bracket_notation)
+paste_noun_pp(split_labels, notation = bracket_notation)
 
 # Recombine with a new notation.
-paste_pieces(split_labels, notation = paren_notation)
+paste_noun_pp(split_labels, notation = paren_notation)
 ```
 
 

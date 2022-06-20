@@ -279,8 +279,11 @@ get_objects <- function(labels,
 #' @export
 #'
 #' @examples
+#' # Specify the notation
 #' split_noun_pp(c("a [of b in c]", "d [of e into f]"),
 #'               notation = bracket_notation)
+#' # Infer the notation via default arguments
+#' split_noun_pp(c("a [of b in c]", "d [of e into f]"))
 split_noun_pp <- function(labels,
                           notation = RCLabels::notations_list,
                           choose_most_specific = FALSE,
@@ -325,17 +328,17 @@ split_noun_pp <- function(labels,
 #' labs
 #' split <- split_noun_pp(labs)
 #' split
-#' paste_pieces(split)
+#' paste_noun_pp(split)
 #' # Also works in a data frame
 #' df <- tibble::tibble(labels = c("a [in b]", "c [of d into USA]",
 #'                                 "e [of f in g]", "h [-> i in j]"))
 #' recombined <- df %>%
 #'   dplyr::mutate(
 #'     splits = split_noun_pp(labels),
-#'     recombined = paste_pieces(splits)
+#'     recombined = paste_noun_pp(splits)
 #'   )
 #' all(recombined$labels == recombined$recombined)
-paste_pieces <- function(splt_labels, notation = RCLabels::bracket_notation) {
+paste_noun_pp <- function(splt_labels, notation = RCLabels::bracket_notation) {
   if (is.null(splt_labels)) {
     return(NULL)
   }
