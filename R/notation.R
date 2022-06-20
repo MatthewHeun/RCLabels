@@ -17,6 +17,7 @@
 #'                    By default, it builds a list of notation symbols that provides an arrow
 #'                    separator (" -> ") between prefix and suffix.
 #' * `paste_pref_suff()` `paste0`'s prefixes and suffixes, the inverse of `split_pref_suff()`.
+#'                       Always returns a character vector.
 #' * `preposition_notation()` Builds a list of notation symbols that provides (by default) square brackets around the suffix with a preposition ("prefix \[preposition suffix\]").
 #' * `split_pref_suff()` Splits prefixes from suffixes, returning each in a list with names `pref` and `suff`.
 #'                       If no prefix or suffix delimiters are found, `x` is returned in the `pref` item, unmodified,
@@ -232,21 +233,8 @@ strip_label_part <- function(x, notation, part, pattern_pref = "", pattern_suff 
 #' @export
 #' @rdname row-col-notation
 paste_pref_suff <- function(ps = list(pref = pref, suff = suff), pref = NULL, suff = NULL, notation = RCLabels::arrow_notation) {
-  # join_func <- function(ps) {
-  #   out <- paste0(notation[["pref_start"]], ps[["pref"]], notation[["pref_end"]])
-  #   if (notation[["pref_end"]] != notation[["suff_start"]]) {
-  #     out <- paste0(out, notation[["suff_start"]])
-  #   }
-  #   paste0(out, ps[["suff"]], notation[["suff_end"]])
-  # }
-  # if (!is.null(names(ps))){
-  #   if (length(ps) == 2 & all(names(ps) == c("pref", "suff"))) {
-  #     # We have a single list of the form list(pref = xxxx, suff = yyyy)
-  #     return(join_func(ps))
-  #   }
-  # }
-  # lapply(ps, FUN = join_func)
-  join_func <- function(this_ps, this_notation) {
+
+  single_paste_func <- function(this_ps, this_notation) {
     out <- paste0(this_notation[["pref_start"]], this_ps[["pref"]], this_notation[["pref_end"]])
     if (this_notation[["pref_end"]] != this_notation[["suff_start"]]) {
       out <- paste0(out, this_notation[["suff_start"]])
@@ -254,13 +242,59 @@ paste_pref_suff <- function(ps = list(pref = pref, suff = suff), pref = NULL, su
     paste0(out, this_ps[["suff"]], this_notation[["suff_end"]])
   }
 
-  if (!is.null(names(ps))){
-    if (length(ps) == 2 & all(names(ps) == c("pref", "suff"))) {
-      # We have a single list of the form list(pref = xxxx, suff = yyyy)
-      return(join_func(this_ps = ps, this_notation = notation))
+  orig_ps_was_list <- is.list(ps)
+
+  # Check the lengths of prefix and suffix match
+  len_pref_suff <- length(ps[["pref"]])
+  if (len_pref_suff == 0) {
+    # Try to transpose to see if we get the form that we need.
+    transposed_ps <- purrr::transpose(ps)
+    len_transposed_ps <- length(transposed_ps[["pref"]])
+    if (len_transposed_ps > 0) {
+      # We found a good structure here.
+      len_pref_suff <- len_transposed_ps
+      ps <- transposed_ps
     }
   }
-  Map(f = join_func, ps, notation)
+  if (!len_pref_suff == length(ps[["suff"]])) {
+    stop(paste0("lengths of pref (", len_pref_suff, ") and ",
+                "suff (", length(ps[["suff"]]), ") must match"))
+  }
+  if (is.list(notation)) {
+    len_notation <- length(notation)
+  } else if (is.vector(notation)) {
+    len_notation <- 1
+  } else {
+    stop("notation must be a list or a vector in paste_pref_suff()")
+  }
+
+  # At this point, we need to double-check the shape of both
+  # ps and notation.
+
+  # First, notation.
+  if (len_pref_suff > 1 & len_notation == 1) {
+    # If notation is a single-item list,
+    # it should be replicated to be as long as the number of prefix/suffix combinations.
+    notation <- make_list(notation, n = len_pref_suff, lenx = 1)
+  }
+  if (len_pref_suff == 1 & !is.list(notation)) {
+    # Notation is coming in as a bare notation vector.
+    # Make it a list so we can Map over it.
+    notation <- make_list(notation, n = 1, lenx = 1)
+  }
+  if (!is.null(names(ps))){
+    if (length(ps) == 2 & all(names(ps) == c("pref", "suff")) & !is.list(ps)) {
+      # We have a single vector of the form ps - c(pref = xxxx, suff = yyyy)
+      # Turn it into a list.
+      ps <- list(list(pref = ps[["pref"]], suff = ps[["suff"]])) %>%
+        purrr::transpose()
+    }
+  }
+
+  ps <- purrr::transpose(ps)
+  out <- Map(f = single_paste_func, ps, notation) %>%
+    unlist()
+  return(out)
 }
 
 

@@ -200,3 +200,69 @@ replace_by_pattern <- function(labels,
   paste_pieces(splits, notation = notation)
 }
 
+
+#' Make a list of items in x, regardless of x's type
+#'
+#' Repeats `x` as necessary to make `n` of them.
+#' Does not try to simplify `x`.
+#'
+#' If `x` is itself a vector or list,
+#' you may want to override the default.
+#' For example, if `x` is a list that should be duplicated several times,
+#' set `lenx = 1`.
+#'
+#' @param x The object to be duplicated.
+#' @param n The number of times to be duplicated.
+#' @param lenx The length of item `x`.
+#'             Be default, `lenx` is taken to be `length(x)`,
+#'
+#' @return A list of `x` duplicated `n` times
+#'
+#' @export
+#'
+#' @examples
+#' m <- matrix(c(1:6), nrow=3, dimnames = list(c("r1", "r2", "r3"), c("c2", "c1")))
+#' make_list(m, n = 1)
+#' make_list(m, n = 2)
+#' make_list(m, n = 5)
+#' make_list(list(c(1,2), c(1,2)), n = 4)
+#' m <- matrix(1:4, nrow = 2)
+#' l <- list(m, m+100)
+#' make_list(l, n = 4)
+#' make_list(l, n = 1) # Warning because l is trimmed.
+#' make_list(l, n = 5) # Warning because length(l) (i.e., 2) not evenly divisible by 5
+#' make_list(list(c("r10", "r11"), c("c10", "c11")), n = 2) # Confused by x being a list
+#' make_list(list(c("r10", "r11"), c("c10", "c11")), n = 2, lenx = 1) # Fix by setting lenx = 1
+make_list <- function(x, n, lenx = ifelse(is.vector(x), length(x), 1)){
+  out <- vector(mode = "list", length = n)
+  reptimes <- as.integer(n / lenx)
+  if (n %% lenx != 0 & lenx != 1) {
+    warning("n not evenly divisible by length(x)")
+  }
+  if (lenx == 1) {
+    return(
+      lapply(X = 1:n, FUN = function(i){
+        out[[i]] <- x
+      })
+    )
+  }
+  if (n < lenx) {
+    # Fewer items than length of x is desired
+    return(x[[1:n]])
+  }
+  for (cycle in 1:reptimes) {
+    for (xindex in 1:lenx) {
+      outindex <- (cycle - 1)*lenx + (xindex)
+      out[[outindex]] <- x[[xindex]]
+    }
+  }
+  if (n %% length(x) == 0) {
+    # Had an even number of cycles
+    return(out)
+  }
+  for (outindex in (reptimes*lenx + 1):n) {
+    xindex <- outindex - reptimes*lenx
+    out[[outindex]] <- x[[xindex]]
+  }
+  return(out)
+}

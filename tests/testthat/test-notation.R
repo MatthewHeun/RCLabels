@@ -214,14 +214,15 @@ test_that("paste_pref_suff() works properly", {
                            suff_start = "(", suff_end = ")")
   expect_equal(paste_pref_suff(ps, notation = paren_nl) %>%
                  split_pref_suff(notation = paren_nl), as.list(ps))
-  # Try to join lists
+  # Try to paste lists of prefixes and suffixes
   expect_equal(paste_pref_suff(ps = list(list(pref = "a", suff = "b"), list(pref = "c", suff = "d"))),
-               list("a -> b", "c -> d"))
-  # Try to split then join lists
-  joined <- c("a -> b", "c -> d")
-  expect_equal(split_pref_suff(joined, notation = arrow_notation) %>%
+               c("a -> b", "c -> d"))
+
+  # Try to split then paste vectors
+  pasted <- c("a -> b", "c -> d")
+  expect_equal(split_pref_suff(pasted, notation = arrow_notation) %>%
                  paste_pref_suff(notation = arrow_notation),
-               joined)
+               pasted)
 
   # Try with lists in the pref and suff arguments.
   expect_equal(paste_pref_suff(pref = "a", suff = "b", notation = arrow_notation), "a -> b")
@@ -231,6 +232,11 @@ test_that("paste_pref_suff() works properly", {
   # Try with 3 components in the lists
   expect_equal(paste_pref_suff(ps = list(pref = c("a", "b", "c"), suff = c("d", "e", "f"))),
                c("a -> d", "b -> e", "c -> f"))
+
+  # Try with two lists.
+  expect_equal(paste_pref_suff(ps = list(pref = c("a", "a"), suff = c("b", "b")),
+                  notation = list(RCLabels::arrow_notation, RCLabels::arrow_notation)),
+               c("a -> b", "a -> b"))
 })
 
 
