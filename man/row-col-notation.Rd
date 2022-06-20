@@ -116,6 +116,7 @@ Internally, this functino calls \code{split_pref_suff()} and selects only the de
 By default, it builds a list of notation symbols that provides an arrow
 separator (" -> ") between prefix and suffix.
 \item \code{paste_pref_suff()} \code{paste0}'s prefixes and suffixes, the inverse of \code{split_pref_suff()}.
+Always returns a character vector.
 \item \code{preposition_notation()} Builds a list of notation symbols that provides (by default) square brackets around the suffix with a preposition ("prefix [preposition suffix]").
 \item \code{split_pref_suff()} Splits prefixes from suffixes, returning each in a list with names \code{pref} and \code{suff}.
 If no prefix or suffix delimiters are found, \code{x} is returned in the \code{pref} item, unmodified,

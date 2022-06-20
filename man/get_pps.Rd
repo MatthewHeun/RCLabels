@@ -7,21 +7,29 @@
 get_pps(
   labels,
   notation = RCLabels::notations_list,
-  prepositions = RCLabels::prepositions_list,
-  choose_most_specific = TRUE
+  choose_most_specific = FALSE,
+  prepositions = RCLabels::prepositions_list
 )
 }
 \arguments{
 \item{labels}{A list or vector of labels from which prepositional phrases are to be extracted.}
 
 \item{notation}{The notation type to be used when extracting prepositional phrases.
-Default is \code{RCLabels::bracket_notation}.}
-
-\item{prepositions}{A list of prepositions, used to detect prepositional phrases.
-Default is \code{RCLabels::prepositions_list}.}
+Default is \code{RCLabels::notations_list}, meaning that
+the notation is inferred using \code{infer_notation()}.}
 
 \item{choose_most_specific}{A boolean that tells whether to choose the most specific
-\code{notation} if more than 1 match is found.}
+notation from \code{notation} when inferring notation.
+Default is \code{FALSE} so that a less specific notation can be
+inferred.
+In combination with \code{RCLabels::notations_list},
+The default value of \code{FALSE} means that
+\code{RCLabels::bracket_notation} will be selected over
+anything more specific, such as
+\code{RCLabels::from_notation}.}
+
+\item{prepositions}{A list of prepositions for which to search.
+Default is \code{RCLabels::prepositions_list}.}
 }
 \value{
 All prepositional phrases in a suffix.

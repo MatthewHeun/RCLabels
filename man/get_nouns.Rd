@@ -2,9 +2,13 @@
 % Please edit documentation in R/extractors.R
 \name{get_nouns}
 \alias{get_nouns}
-\title{Extract nouns from labels}
+\title{Extract nouns from row and column labels}
 \usage{
-get_nouns(labels, notation = RCLabels::notations_list)
+get_nouns(
+  labels,
+  notation = RCLabels::notations_list,
+  choose_most_specific = TRUE
+)
 }
 \arguments{
 \item{labels}{A list or vector of labels from which nouns are to be extracted.}
@@ -12,6 +16,9 @@ get_nouns(labels, notation = RCLabels::notations_list)
 \item{notation}{The notation type to be used when extracting nouns.
 Default is \code{RCLabels::notations_list}, meaning that
 the notation is inferred using \code{infer_notation()}.}
+
+\item{choose_most_specific}{A boolean that tells whether to choose the most specific
+notation from \code{notation} when inferring notation.}
 }
 \value{
 A list of nouns from row and column labels.
