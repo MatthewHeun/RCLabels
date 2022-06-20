@@ -111,7 +111,7 @@ the suffix becomes the prefix.
 E.g., "a -> b" becomes "b -> a" or "a [b]" becomes "b [a]".
 \item \code{get_pref_suff()} Selects only prefix or suffix, discarding notational elements
 and the rejected part.
-Internally, this functino calls \code{split_pref_suff()} and selects only the desired portion.
+Internally, this function calls \code{split_pref_suff()} and selects only the desired portion.
 \item \code{notation_vec()} Builds a vector of notation symbols in a standard format.
 By default, it builds a list of notation symbols that provides an arrow
 separator (" -> ") between prefix and suffix.

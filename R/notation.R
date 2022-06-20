@@ -12,7 +12,7 @@
 #'                      E.g., "a -> b" becomes "b -> a" or "a \[b\]" becomes "b \[a\]".
 #' * `get_pref_suff()` Selects only prefix or suffix, discarding notational elements
 #'                     and the rejected part.
-#'                     Internally, this functino calls `split_pref_suff()` and selects only the desired portion.
+#'                     Internally, this function calls `split_pref_suff()` and selects only the desired portion.
 #' * `notation_vec()` Builds a vector of notation symbols in a standard format.
 #'                    By default, it builds a list of notation symbols that provides an arrow
 #'                    separator (" -> ") between prefix and suffix.

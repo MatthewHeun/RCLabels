@@ -379,8 +379,18 @@ paste_noun_pp <- function(splt_labels, notation = RCLabels::bracket_notation) {
 #'
 #' @param labels The row and column labels from which prepositional phrases are to be extracted.
 #' @param piece The name of the item to return.
-#' @param notation The notation object that describes the labels.
-#'                 Default is `RCLabels::bracket_notation`.
+#' @param notation The notation type to be used when extracting prepositions.
+#'                 Default is `RCLabels::notations_list`, meaning that
+#'                 the notation is inferred using `infer_notation()`.
+#' @param choose_most_specific A boolean that tells whether to choose the most specific
+#'                             notation from `notation` when inferring notation.
+#'                             Default is `FALSE` so that a less specific notation can be
+#'                             inferred.
+#'                             In combination with `RCLabels::notations_list`,
+#'                             the default value of `FALSE` means that
+#'                             `RCLabels::bracket_notation` will be selected instead of
+#'                             anything more specific, such as
+#'                             `RCLabels::from_notation`.
 #' @param prepositions A vector of strings to be treated as prepositions.
 #'                     Note that a space is appended to each word internally,
 #'                     so, e.g., "to" becomes "to ".
