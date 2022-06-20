@@ -7,7 +7,8 @@
 get_piece(
   labels,
   piece = "all",
-  notation = RCLabels::bracket_notation,
+  notation = RCLabels::notations_list,
+  choose_most_specific = FALSE,
   prepositions = RCLabels::prepositions_list
 )
 }

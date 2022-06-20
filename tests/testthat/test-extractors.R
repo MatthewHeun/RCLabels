@@ -173,8 +173,12 @@ test_that("get_piece() works as expected", {
   # Prefix and suffix
   expect_equal(get_piece(labs, "pref"),
                c(pref = "a", pref = "d", pref = "Export"))
+  # Default is choose_most_specific = FALSE, which works in this case.
   expect_equal(get_piece(labs, "suff"),
                c(suff = "from b in c", suff = "of e in f", suff = "of Coal from USA to MEX"))
+  # With the most specific match, things look weird.
+  expect_equal(get_piece(labs, "suff", choose_most_specific = TRUE),
+               c(suff = "b in c", suff = "e in f", suff = "Coal from USA to MEX"))
   # Noun
   expect_equal(get_piece(labs, piece = "noun"),
                c(noun = "a", noun = "d", noun = "Export"))

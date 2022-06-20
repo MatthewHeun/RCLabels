@@ -404,7 +404,8 @@ paste_noun_pp <- function(splt_labels, notation = RCLabels::bracket_notation) {
 #' get_piece(labs, piece = "to")
 get_piece <- function(labels,
                 piece = "all",
-                notation = RCLabels::bracket_notation,
+                notation = RCLabels::notations_list,
+                choose_most_specific = FALSE,
                 prepositions = RCLabels::prepositions_list) {
   if (is.null(labels)) {
     return(NULL)
@@ -413,18 +414,18 @@ get_piece <- function(labels,
   if (piece == "all") {
     return(labels)
   } else if (piece == "pref" | piece == "suff") {
-    return(get_pref_suff(labels, which = piece, notation = notation))
+    return(get_pref_suff(labels, which = piece, notation = notation, choose_most_specific = choose_most_specific))
   } else if (piece == "noun") {
-    return(get_nouns(labels, notation = notation))
+    return(get_nouns(labels, notation = notation, choose_most_specific = choose_most_specific))
   } else if (piece == "pps") {
-    return(get_pps(labels, notation = notation))
+    return(get_pps(labels, notation = notation, choose_most_specific = choose_most_specific))
   } else if (piece == "prepositions") {
-    return(get_prepositions(labels, notation = notation, prepositions = prepositions))
+    return(get_prepositions(labels, notation = notation, choose_most_specific = choose_most_specific, prepositions = prepositions))
   } else if (piece == "objects") {
-    return(get_objects(labels, notation = notation, prepositions = prepositions))
+    return(get_objects(labels, notation = notation, choose_most_specific = choose_most_specific, prepositions = prepositions))
   }
   # If we get here, assume we want the object of a preposition
-  out <- get_objects(labels, notation = notation, prepositions = prepositions)
+  out <- get_objects(labels, notation = notation, choose_most_specific = choose_most_specific, prepositions = prepositions)
   out <- lapply(out, FUN = function(pieces){
     theoneswewant <- pieces[names(pieces) == piece]
     if (length(theoneswewant) == 0) {
