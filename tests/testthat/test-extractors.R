@@ -73,6 +73,11 @@ test_that("get_prepositions() works correctly", {
 
 
 test_that("get_objects() works correctly", {
+  # Specify the notation being used
+  expect_equal(get_objects(c("a [of b in USA]", "d [of e into GBR]"), notation = RCLabels::bracket_notation),
+               list(objects = c(of = "b", `in` = "USA"),
+                    objects = c(of = "e", into = "GBR")))
+  # Infer notation
   expect_equal(get_objects(c("a [of b in USA]", "d [of e into GBR]")),
                list(objects = c(of = "b", `in` = "USA"),
                     objects = c(of = "e", into = "GBR")))

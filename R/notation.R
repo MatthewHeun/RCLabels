@@ -51,6 +51,8 @@
 #' For functions that construct labels (such as `paste_pref_suff()`),
 #' `notation` can be a list of notations
 #' over which the paste tasks is mapped.
+#' If `notation` is a list, it must have as many items as
+#' there are prefix/suffix pairs to be pasted.
 #'
 #' @param sep A string separator between prefix and suffix. Default is " -> ".
 #' @param pref_start A string indicating the start of a prefix. Default is `NULL`.
@@ -232,7 +234,10 @@ strip_label_part <- function(x, notation, part, pattern_pref = "", pattern_suff 
 
 #' @export
 #' @rdname row-col-notation
-paste_pref_suff <- function(ps = list(pref = pref, suff = suff), pref = NULL, suff = NULL, notation = RCLabels::arrow_notation) {
+paste_pref_suff <- function(ps = list(pref = pref, suff = suff),
+                            pref = NULL,
+                            suff = NULL,
+                            notation = RCLabels::arrow_notation) {
 
   single_paste_func <- function(this_ps, this_notation) {
     out <- paste0(this_notation[["pref_start"]], this_ps[["pref"]], this_notation[["pref_end"]])

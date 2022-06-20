@@ -11,6 +11,7 @@
 #'                 the notation is inferred using `infer_notation()`.
 #' @param choose_most_specific A boolean that tells whether to choose the most specific
 #'                             notation from `notation` when inferring notation.
+#'                             Default is `TRUE`.
 #'
 #' @return A list of nouns from row and column labels.
 #'
@@ -48,8 +49,8 @@ get_nouns <- function(labels,
 #'                             Default is `FALSE` so that a less specific notation can be
 #'                             inferred.
 #'                             In combination with `RCLabels::notations_list`,
-#'                             The default value of `FALSE` means that
-#'                             `RCLabels::bracket_notation` will be selected over
+#'                             the default value of `FALSE` means that
+#'                             `RCLabels::bracket_notation` will be selected instead of
 #'                             anything more specific, such as
 #'                             `RCLabels::from_notation`.
 #' @param prepositions A list of prepositions for which to search.
@@ -100,6 +101,15 @@ get_pps <- function(labels,
 #' @param notation The notation type to be used when extracting prepositions.
 #'                 Default is `RCLabels::notations_list`, meaning that
 #'                 the notation is inferred using `infer_notation()`.
+#' @param choose_most_specific A boolean that tells whether to choose the most specific
+#'                             notation from `notation` when inferring notation.
+#'                             Default is `FALSE` so that a less specific notation can be
+#'                             inferred.
+#'                             In combination with `RCLabels::notations_list`,
+#'                             the default value of `FALSE` means that
+#'                             `RCLabels::bracket_notation` will be selected instead of
+#'                             anything more specific, such as
+#'                             `RCLabels::from_notation`.
 #' @param prepositions A vector of strings to be treated as prepositions.
 #'                     Note that a space is appended to each word internally,
 #'                     so, e.g., "to" becomes "to ".
@@ -161,6 +171,15 @@ get_prepositions <- function(labels,
 #' @param labels The row and column labels from which prepositional phrases are to be extracted.
 #' @param notation The notation object that describes the labels.
 #'                 Default is `RCLabels::bracket_notation`.
+#' @param choose_most_specific A boolean that tells whether to choose the most specific
+#'                             notation from `notation` when inferring notation.
+#'                             Default is `FALSE` so that a less specific notation can be
+#'                             inferred.
+#'                             In combination with `RCLabels::notations_list`,
+#'                             the default value of `FALSE` means that
+#'                             `RCLabels::bracket_notation` will be selected instead of
+#'                             anything more specific, such as
+#'                             `RCLabels::from_notation`.
 #' @param prepositions A vector of strings to be treated as prepositions.
 #'                     Note that a space is appended to each word internally,
 #'                     so, e.g., "to" becomes "to ".
@@ -174,12 +193,13 @@ get_prepositions <- function(labels,
 #' @examples
 #' get_objects(c("a [of b into c]", "d [of Coal from e -> f]"))
 get_objects <- function(labels,
-                        notation = RCLabels::bracket_notation,
+                        notation = RCLabels::notations_list,
+                        choose_most_specific = FALSE,
                         prepositions = RCLabels::prepositions_list) {
   if (is.null(labels)) {
     return(NULL)
   }
-  pps <- get_pref_suff(labels, which = "suff", notation = notation)
+  pps <- get_pref_suff(labels, which = "suff", notation = notation, choose_most_specific = choose_most_specific)
   preposition_words <- paste0(prepositions, " ")
   prep_patterns <- make_or_pattern(preposition_words,
                                    pattern_type = "anywhere")

@@ -18,6 +18,16 @@ get_prepositions(
 Default is \code{RCLabels::notations_list}, meaning that
 the notation is inferred using \code{infer_notation()}.}
 
+\item{choose_most_specific}{A boolean that tells whether to choose the most specific
+notation from \code{notation} when inferring notation.
+Default is \code{FALSE} so that a less specific notation can be
+inferred.
+In combination with \code{RCLabels::notations_list},
+the default value of \code{FALSE} means that
+\code{RCLabels::bracket_notation} will be selected instead of
+anything more specific, such as
+\code{RCLabels::from_notation}.}
+
 \item{prepositions}{A vector of strings to be treated as prepositions.
 Note that a space is appended to each word internally,
 so, e.g., "to" becomes "to ".

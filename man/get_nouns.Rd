@@ -18,7 +18,8 @@ Default is \code{RCLabels::notations_list}, meaning that
 the notation is inferred using \code{infer_notation()}.}
 
 \item{choose_most_specific}{A boolean that tells whether to choose the most specific
-notation from \code{notation} when inferring notation.}
+notation from \code{notation} when inferring notation.
+Default is \code{TRUE}.}
 }
 \value{
 A list of nouns from row and column labels.

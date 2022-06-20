@@ -151,6 +151,8 @@ See details at \code{infer_notation()}.
 For functions that construct labels (such as \code{paste_pref_suff()}),
 \code{notation} can be a list of notations
 over which the paste tasks is mapped.
+If \code{notation} is a list, it must have as many items as
+there are prefix/suffix pairs to be pasted.
 }
 \examples{
 notation_vec()

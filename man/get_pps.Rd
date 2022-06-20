@@ -23,8 +23,8 @@ notation from \code{notation} when inferring notation.
 Default is \code{FALSE} so that a less specific notation can be
 inferred.
 In combination with \code{RCLabels::notations_list},
-The default value of \code{FALSE} means that
-\code{RCLabels::bracket_notation} will be selected over
+the default value of \code{FALSE} means that
+\code{RCLabels::bracket_notation} will be selected instead of
 anything more specific, such as
 \code{RCLabels::from_notation}.}
 
