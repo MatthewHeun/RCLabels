@@ -7,7 +7,7 @@
 paste_pieces(splt_labels, notation = RCLabels::bracket_notation)
 }
 \arguments{
-\item{splt_labels}{A vector of split row or column labels, probably created by \code{split_labels()}.}
+\item{splt_labels}{A vector of split row or column labels, probably created by \code{split_noun_pp()}.}
 
 \item{notation}{The notation object that describes the labels.
 Default is \code{RCLabels::bracket_notation}.}
@@ -17,12 +17,12 @@ Recombined row and column labels.
 }
 \description{
 This function recombines (unsplits) row or column labels that have
-been separated by \code{split_labels()}.
+been separated by \code{split_noun_pp()}.
 }
 \examples{
 labs <- c("a [of b in c]", "d [from Coal mines in USA]")
 labs
-split <- split_labels(labs)
+split <- split_noun_pp(labs)
 split
 paste_pieces(split)
 # Also works in a data frame
@@ -30,7 +30,7 @@ df <- tibble::tibble(labels = c("a [in b]", "c [of d into USA]",
                                 "e [of f in g]", "h [-> i in j]"))
 recombined <- df \%>\%
   dplyr::mutate(
-    splits = split_labels(labels),
+    splits = split_noun_pp(labels),
     recombined = paste_pieces(splits)
   )
 all(recombined$labels == recombined$recombined)

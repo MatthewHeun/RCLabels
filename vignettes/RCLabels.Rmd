@@ -237,7 +237,7 @@ Labels can be split into their component pieces.
 ```{r}
 labels
 # Split the labels into pieces, named by "noun" and prepositions.
-split_labels <- split_labels(labels, 
+split_labels <- split_noun_pp(labels, 
                              prepositions = prepositions_list, 
                              notation = bracket_notation)
 split_labels

@@ -252,7 +252,7 @@ get_objects <- function(labels,
 #' (with names being prepositions that precede the objects).
 #'
 #' Unlike `split_pref_suff()`, it does not make sense to have a `transpose`
-#' argument on `split_labels()`.
+#' argument on `split_noun_pp()`.
 #' Labels may not have the same structure,
 #' e.g., they may have different prepositions.
 #'
@@ -279,12 +279,12 @@ get_objects <- function(labels,
 #' @export
 #'
 #' @examples
-#' split_labels(c("a [of b in c]", "d [of e into f]"),
-#'              notation = bracket_notation)
-split_labels <- function(labels,
-                         notation = RCLabels::notations_list,
-                         choose_most_specific = FALSE,
-                         prepositions = RCLabels::prepositions_list) {
+#' split_noun_pp(c("a [of b in c]", "d [of e into f]"),
+#'               notation = bracket_notation)
+split_noun_pp <- function(labels,
+                          notation = RCLabels::notations_list,
+                          choose_most_specific = FALSE,
+                          prepositions = RCLabels::prepositions_list) {
   if (is.null(labels)) {
     return(NULL)
   }
@@ -310,9 +310,9 @@ split_labels <- function(labels,
 #' Recombine row and column labels
 #'
 #' This function recombines (unsplits) row or column labels that have
-#' been separated by `split_labels()`.
+#' been separated by `split_noun_pp()`.
 #'
-#' @param splt_labels A vector of split row or column labels, probably created by `split_labels()`.
+#' @param splt_labels A vector of split row or column labels, probably created by `split_noun_pp()`.
 #' @param notation The notation object that describes the labels.
 #'                 Default is `RCLabels::bracket_notation`.
 #'
@@ -323,7 +323,7 @@ split_labels <- function(labels,
 #' @examples
 #' labs <- c("a [of b in c]", "d [from Coal mines in USA]")
 #' labs
-#' split <- split_labels(labs)
+#' split <- split_noun_pp(labs)
 #' split
 #' paste_pieces(split)
 #' # Also works in a data frame
@@ -331,7 +331,7 @@ split_labels <- function(labels,
 #'                                 "e [of f in g]", "h [-> i in j]"))
 #' recombined <- df %>%
 #'   dplyr::mutate(
-#'     splits = split_labels(labels),
+#'     splits = split_noun_pp(labels),
 #'     recombined = paste_pieces(splits)
 #'   )
 #' all(recombined$labels == recombined$recombined)

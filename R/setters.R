@@ -23,7 +23,7 @@ modify_nouns <- function(labels, new_nouns, notation = RCLabels::bracket_notatio
   if (num_labels != num_new_nouns) {
     stop("The number of labels must equal the number of new nouns in set_nouns()")
   }
-  split <- split_labels(labels)
+  split <- split_noun_pp(labels)
   mapply(split, new_nouns, SIMPLIFY = FALSE, FUN = function(this_split_label, this_new_noun) {
     this_split_label[["noun"]] <- this_new_noun
     this_split_label
@@ -92,7 +92,7 @@ modify_label_pieces <- function(labels, piece, mod_map,
                                 prepositions = RCLabels::prepositions_list,
                                 notation = RCLabels::bracket_notation) {
   split <- labels %>%
-    split_labels(notation = notation, prepositions = prepositions)
+    split_noun_pp(notation = notation, prepositions = prepositions)
 
   # Loop over everything to modify pieces.
   modified <- lapply(split, FUN = function(this_label) {
@@ -148,7 +148,7 @@ remove_label_pieces <- function(labels,
                                 prepositions = RCLabels::prepositions_list,
                                 notation = RCLabels::bracket_notation) {
   split <- labels %>%
-    split_labels(notation = notation, prepositions = prepositions)
+    split_noun_pp(notation = notation, prepositions = prepositions)
 
   for (i_split_label in 1:length(split)) {
     this_split_label <- split[[i_split_label]]

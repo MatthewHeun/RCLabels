@@ -84,21 +84,21 @@ test_that("get_objects() works correctly", {
 })
 
 
-test_that("split_labels() works as expected", {
+test_that("split_noun_pp() works as expected", {
   # Try with specific notation
-  expect_equal(split_labels("a [of b]", notation = bracket_notation),
+  expect_equal(split_noun_pp("a [of b]", notation = bracket_notation),
                list(c(noun = "a", of = "b")))
   # Try with notation inference
-  expect_equal(split_labels("a [of b]"),
+  expect_equal(split_noun_pp("a [of b]"),
                list(c(noun = "a", of = "b")))
 
-  expect_equal(split_labels("a [of b in c]", notation = bracket_notation),
+  expect_equal(split_noun_pp("a [of b in c]", notation = bracket_notation),
                list(c(noun = "a", of = "b", `in` = "c")))
-  expect_equal(split_labels(c("a [of b in c]", "d [of e into f]"), notation = bracket_notation),
+  expect_equal(split_noun_pp(c("a [of b in c]", "d [of e into f]"), notation = bracket_notation),
                list(c(noun = "a", of = "b", `in` = "c"),
                     c(noun = "d", of = "e", into = "f")))
   # Try in a list.
-  expect_equal(split_labels(list("a [of b in c]",
+  expect_equal(split_noun_pp(list("a [of b in c]",
                                  "d [of e into f]",
                                  "Production [of Coal in GB]"),
                             notation = bracket_notation),
@@ -111,7 +111,7 @@ test_that("split_labels() works as expected", {
                                    "e [of f in g]", "h [-> i in j]")))
   split <- df %>%
     dplyr::mutate(
-      splits = split_labels(labels)
+      splits = split_noun_pp(labels)
     )
   expect_equal(split$splits[[1]], c(noun = "a", `in` = "b"))
   expect_equal(split$splits[[2]], c(noun = "c", of = "d", into = "USA"))
@@ -123,18 +123,18 @@ test_that("split_labels() works as expected", {
 test_that("paste_pieces() works as expected", {
   # Try with a single label
   lab <- "a [of b in c]"
-  split <- split_labels(lab)
+  split <- split_noun_pp(lab)
   expect_equal(split, list(c(noun = "a", of = "b", `in` = "c")))
 
   # Try with a vector of labels
   labs <- c("a [of b in c]", "d [from Coal mines in USA]")
-  split <- split_labels(labs)
+  split <- split_noun_pp(labs)
   expect_equal(paste_pieces(split), labs)
 
   # Try with a weird notation vector
   paren_note <- notation_vec(pref_start = "(", pref_end = ")", suff_start = "(", suff_end = ")")
   labs2 <- c("(Production)(of Coal in USA)", "(Manufacture)(of Oil in Canada)")
-  split2 <- split_labels(labs2, notation = paren_note)
+  split2 <- split_noun_pp(labs2, notation = paren_note)
   expect_equal(paste_pieces(split2, notation = paren_note), labs2)
 
   # Try in a data frame
@@ -142,7 +142,7 @@ test_that("paste_pieces() works as expected", {
                                   "e [of f in g]", "h [-> i in j]"))
   recombined <- df %>%
     dplyr::mutate(
-      splits = split_labels(labels),
+      splits = split_noun_pp(labels),
       recombined = paste_pieces(splits)
     )
   expect_equal(recombined$recombined, recombined$labels)
@@ -211,7 +211,7 @@ test_that("passing NULL to extractors returns NULL", {
   expect_null(get_pps(NULL))
   expect_null(get_prepositions(NULL))
   expect_null(get_objects(NULL))
-  expect_null(split_labels(NULL))
+  expect_null(split_noun_pp(NULL))
   expect_null(paste_pieces(NULL))
 })
 

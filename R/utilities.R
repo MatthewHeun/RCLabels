@@ -139,7 +139,7 @@ match_by_pattern <- function(labels,
   }
 
   # At this point, treat pieces as specifying a noun or prepositions.
-  keepers <- split_labels(labels, prepositions = prepositions, notation = notation) %>%
+  keepers <- split_noun_pp(labels, prepositions = prepositions, notation = notation) %>%
     lapply(FUN = function(this_split_label) {
       this_split_label[pieces]
     })
@@ -184,7 +184,7 @@ replace_by_pattern <- function(labels,
   }
 
   # At this point, treat pieces as specifying a noun or prepositions.
-  splits <- split_labels(labels, prepositions = prepositions, notation = notation)
+  splits <- split_noun_pp(labels, prepositions = prepositions, notation = notation)
   for (i_splits in 1:length(splits)) {
     this_split_label <- splits[[i_splits]]
     for (this_piece in pieces) {
