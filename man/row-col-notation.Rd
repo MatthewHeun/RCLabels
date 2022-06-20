@@ -148,7 +148,8 @@ If \code{FALSE}, the first matching notation in \code{notation} will be selected
 See details at \code{infer_notation()}.
 
 For functions that construct labels (such as \code{paste_pref_suff()}),
-\code{notation} must be a single notation vector (not a list).
+\code{notation} can be a list of notations
+over which the paste tasks is mapped.
 }
 \examples{
 notation_vec()

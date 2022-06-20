@@ -48,7 +48,8 @@
 #' See details at `infer_notation()`.
 #'
 #' For functions that construct labels (such as `paste_pref_suff()`),
-#' `notation` must be a single notation vector (not a list).
+#' `notation` can be a list of notations
+#' over which the paste tasks is mapped.
 #'
 #' @param sep A string separator between prefix and suffix. Default is " -> ".
 #' @param pref_start A string indicating the start of a prefix. Default is `NULL`.
@@ -231,20 +232,35 @@ strip_label_part <- function(x, notation, part, pattern_pref = "", pattern_suff 
 #' @export
 #' @rdname row-col-notation
 paste_pref_suff <- function(ps = list(pref = pref, suff = suff), pref = NULL, suff = NULL, notation = RCLabels::arrow_notation) {
-  join_func <- function(ps) {
-    out <- paste0(notation[["pref_start"]], ps[["pref"]], notation[["pref_end"]])
-    if (notation[["pref_end"]] != notation[["suff_start"]]) {
-      out <- paste0(out, notation[["suff_start"]])
+  # join_func <- function(ps) {
+  #   out <- paste0(notation[["pref_start"]], ps[["pref"]], notation[["pref_end"]])
+  #   if (notation[["pref_end"]] != notation[["suff_start"]]) {
+  #     out <- paste0(out, notation[["suff_start"]])
+  #   }
+  #   paste0(out, ps[["suff"]], notation[["suff_end"]])
+  # }
+  # if (!is.null(names(ps))){
+  #   if (length(ps) == 2 & all(names(ps) == c("pref", "suff"))) {
+  #     # We have a single list of the form list(pref = xxxx, suff = yyyy)
+  #     return(join_func(ps))
+  #   }
+  # }
+  # lapply(ps, FUN = join_func)
+  join_func <- function(this_ps, this_notation) {
+    out <- paste0(this_notation[["pref_start"]], this_ps[["pref"]], this_notation[["pref_end"]])
+    if (this_notation[["pref_end"]] != this_notation[["suff_start"]]) {
+      out <- paste0(out, this_notation[["suff_start"]])
     }
-    paste0(out, ps[["suff"]], notation[["suff_end"]])
+    paste0(out, this_ps[["suff"]], this_notation[["suff_end"]])
   }
+
   if (!is.null(names(ps))){
     if (length(ps) == 2 & all(names(ps) == c("pref", "suff"))) {
       # We have a single list of the form list(pref = xxxx, suff = yyyy)
-      return(join_func(ps))
+      return(join_func(this_ps = ps, this_notation = notation))
     }
   }
-  lapply(ps, FUN = join_func)
+  Map(f = join_func, ps, notation)
 }
 
 

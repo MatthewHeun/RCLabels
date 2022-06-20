@@ -215,7 +215,7 @@ test_that("paste_pref_suff() works properly", {
   expect_equal(paste_pref_suff(ps, notation = paren_nl) %>%
                  split_pref_suff(notation = paren_nl), as.list(ps))
   # Try to join lists
-  expect_equal(paste_pref_suff(list(list(pref = "a", suff = "b"), list(pref = "c", suff = "d"))),
+  expect_equal(paste_pref_suff(ps = list(list(pref = "a", suff = "b"), list(pref = "c", suff = "d"))),
                list("a -> b", "c -> d"))
   # Try to split then join lists
   joined <- c("a -> b", "c -> d")
