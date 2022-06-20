@@ -85,8 +85,13 @@ test_that("get_objects() works correctly", {
 
 
 test_that("split_labels() works as expected", {
+  # Try with specific notation
   expect_equal(split_labels("a [of b]", notation = bracket_notation),
                list(c(noun = "a", of = "b")))
+  # Try with notation inference
+  expect_equal(split_labels("a [of b]"),
+               list(c(noun = "a", of = "b")))
+
   expect_equal(split_labels("a [of b in c]", notation = bracket_notation),
                list(c(noun = "a", of = "b", `in` = "c")))
   expect_equal(split_labels(c("a [of b in c]", "d [of e into f]"), notation = bracket_notation),

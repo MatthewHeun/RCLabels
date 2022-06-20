@@ -14,8 +14,9 @@ get_objects(
 \arguments{
 \item{labels}{The row and column labels from which prepositional phrases are to be extracted.}
 
-\item{notation}{The notation object that describes the labels.
-Default is \code{RCLabels::bracket_notation}.}
+\item{notation}{The notation type to be used when extracting prepositions.
+Default is \code{RCLabels::notations_list}, meaning that
+the notation is inferred using \code{infer_notation()}.}
 
 \item{choose_most_specific}{A boolean that tells whether to choose the most specific
 notation from \code{notation} when inferring notation.
