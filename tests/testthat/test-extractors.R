@@ -62,7 +62,13 @@ test_that("get_pps() works where there are no prepositions", {
 
 test_that("get_prepositions() works correctly", {
   labs <- c("a [-> b in c]", "d [from Production]", "Coal [from Imports into US]")
+  # Try with notation inference.
+  # This works, because choose_most_specific = FALSE is the default AND
+  # bracket_notation is before in_notation, from_notation, and bracket_arrow_notation.
   expect_equal(get_prepositions(labs), list(prepositions = c("->", "in"), prepositions = "from", prepositions = c("from", "into")))
+  # Try by specifying bracket_notation
+  expect_equal(get_prepositions(labs, notation = RCLabels::bracket_notation),
+               list(prepositions = c("->", "in"), prepositions = "from", prepositions = c("from", "into")))
 })
 
 
