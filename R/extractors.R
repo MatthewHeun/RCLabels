@@ -6,6 +6,9 @@
 #' and asks for the prefix.
 #'
 #' @param labels A list or vector of labels from which nouns are to be extracted.
+#' @param inf_notation A boolean that tells whether to infer notation for `x`.
+#'                     Default is `TRUE`.
+#'                     See `infer_notation()` for details.
 #' @param notation The notation type to be used when extracting nouns.
 #'                 Default is `RCLabels::notations_list`, meaning that
 #'                 the notation is inferred using `infer_notation()`.
@@ -23,12 +26,15 @@
 #' get_nouns(c("a [b]", "c [d]"))
 #' get_nouns(list("a [b]", "c [d]"))
 get_nouns <- function(labels,
+                      inf_notation = TRUE,
                       notation = RCLabels::notations_list,
                       choose_most_specific = TRUE) {
   if (is.null(labels)) {
     return(NULL)
   }
-  get_pref_suff(labels, which = "pref",
+  get_pref_suff(labels,
+                which = "pref",
+                inf_notation = inf_notation,
                 notation = notation,
                 choose_most_specific = choose_most_specific) %>%
     magrittr::set_names(rep("noun", length(labels)))
@@ -41,6 +47,9 @@ get_nouns <- function(labels,
 #' of the form "a \[preposition b\]", where "preposition b" is the prepositional phrase.
 #'
 #' @param labels A list or vector of labels from which prepositional phrases are to be extracted.
+#' @param inf_notation A boolean that tells whether to infer notation for `x`.
+#'                     Default is `TRUE`.
+#'                     See `infer_notation()` for details.
 #' @param notation The notation type to be used when extracting prepositional phrases.
 #'                 Default is `RCLabels::notations_list`, meaning that
 #'                 the notation is inferred using `infer_notation()`.
@@ -64,6 +73,7 @@ get_nouns <- function(labels,
 #' get_pps(c("a [in b]", "c [of d]"))
 #' get_pps(c("a [of b in c]", "d [-> e of f]"))
 get_pps <- function(labels,
+                    inf_notation = TRUE,
                     notation = RCLabels::notations_list,
                     choose_most_specific = FALSE,
                     prepositions = RCLabels::prepositions_list) {
@@ -71,6 +81,7 @@ get_pps <- function(labels,
     return(NULL)
   }
   suffixes <- get_pref_suff(labels, which = "suff",
+                            inf_notation = inf_notation,
                             notation = notation,
                             choose_most_specific = choose_most_specific)
   # Location prepositions

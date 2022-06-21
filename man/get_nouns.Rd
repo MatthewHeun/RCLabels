@@ -6,12 +6,17 @@
 \usage{
 get_nouns(
   labels,
+  inf_notation = TRUE,
   notation = RCLabels::notations_list,
   choose_most_specific = TRUE
 )
 }
 \arguments{
 \item{labels}{A list or vector of labels from which nouns are to be extracted.}
+
+\item{inf_notation}{A boolean that tells whether to infer notation for \code{x}.
+Default is \code{TRUE}.
+See \code{infer_notation()} for details.}
 
 \item{notation}{The notation type to be used when extracting nouns.
 Default is \code{RCLabels::notations_list}, meaning that

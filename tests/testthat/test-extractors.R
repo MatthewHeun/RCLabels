@@ -25,6 +25,20 @@ test_that("get_nouns() works for a difficult case", {
 })
 
 
+test_that("get_nouns() works when inf_notation = FALSE", {
+  expect_equal(get_nouns("a [b]",
+                         inf_notation = FALSE,
+                         notation = RCLabels::bracket_notation),
+               c(noun = "a"))
+
+  expect_equal(get_nouns(c("a [b]", "c -> d"),
+                         inf_notation = FALSE,
+                         notation = list(RCLabels::bracket_notation,
+                                         RCLabels::arrow_notation)),
+               c(noun = "a", noun = "c"))
+})
+
+
 test_that("get_pps() works as expected", {
   # Try a couple simple ones
   expect_equal(get_pps("a [in b]", choose_most_specific = FALSE), c(pps = "in b"))
@@ -63,6 +77,22 @@ test_that("get_pps() works as expected", {
 
 test_that("get_pps() works where there are no prepositions", {
   expect_equal(get_pps("a []"), c(pps = ""))
+})
+
+
+test_that("get_pps() works when inf_notation = FALSE", {
+  expect_equal(get_pps("a [in b]",
+                       choose_most_specific = FALSE),
+               c(pps = "in b"))
+  expect_equal(get_pps("a [in b]",
+                       notation = RCLabels::bracket_notation,
+                       choose_most_specific = FALSE),
+               c(pps = "in b"))
+  expect_equal(get_pps("a [in b]",
+                       inf_notation = FALSE,
+                       notation = RCLabels::bracket_notation,
+                       choose_most_specific = FALSE),
+               c(pps = "in b"))
 })
 
 
