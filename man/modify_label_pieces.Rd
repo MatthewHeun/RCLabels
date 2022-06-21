@@ -9,7 +9,8 @@ modify_label_pieces(
   piece,
   mod_map,
   prepositions = RCLabels::prepositions_list,
-  notation = RCLabels::bracket_notation
+  notation = RCLabels::bracket_notation,
+  choose_most_specific = FALSE
 )
 }
 \arguments{

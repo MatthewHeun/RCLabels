@@ -36,15 +36,20 @@ modify_nouns <- function(labels,
   if (num_labels != num_new_nouns) {
     stop("The number of labels must equal the number of new nouns in set_nouns()")
   }
-  if (is.list(notation)) {
-    notation <- infer_notation(labels, notations = notation, choose_most_specific = choose_most_specific)
-  }
   split <- split_noun_pp(labels, notation = notation, choose_most_specific = choose_most_specific)
-  mapply(split, new_nouns, SIMPLIFY = FALSE, FUN = function(this_split_label, this_new_noun) {
+  split_with_new_nouns <- mapply(split, new_nouns, SIMPLIFY = FALSE, FUN = function(this_split_label, this_new_noun) {
     this_split_label[["noun"]] <- this_new_noun
     this_split_label
-  }) %>%
-    paste_noun_pp(notation = notation)
+  })
+  # Build the new outgoing labels,
+  # but do it based on whether or not the caller wanted to infer notations.
+  if (!is.list(notation)) {
+    # If the incoming notation was not a list, no need to infer notation
+    return(paste_noun_pp(split_with_new_nouns, notation = notation))
+  }
+  # The original notation was a list, so infer notations
+  inferred_notation <- infer_notation(labels, notations = notation, choose_most_specific = choose_most_specific)
+  paste_noun_pp(split_with_new_nouns, inferred_notation)
 }
 
 
@@ -106,9 +111,11 @@ modify_nouns <- function(labels,
 #'                                    new_in   = c("c", "f")))
 modify_label_pieces <- function(labels, piece, mod_map,
                                 prepositions = RCLabels::prepositions_list,
-                                notation = RCLabels::bracket_notation) {
+                                notation = RCLabels::bracket_notation,
+                                choose_most_specific = FALSE) {
+
   split <- labels %>%
-    split_noun_pp(notation = notation, prepositions = prepositions)
+    split_noun_pp(notation = notation, prepositions = prepositions, choose_most_specific = choose_most_specific)
 
   # Loop over everything to modify pieces.
   modified <- lapply(split, FUN = function(this_label) {

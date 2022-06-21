@@ -19,6 +19,12 @@ test_that("get_nouns() works as expected", {
 })
 
 
+test_that("get_nouns() works for a difficult case", {
+  # This test was failing for a while.
+  expect_equal(get_nouns("a [of b in c]", choose_most_specific = TRUE), c(noun = "a"))
+})
+
+
 test_that("get_pps() works as expected", {
   # Try a couple simple ones
   expect_equal(get_pps("a [in b]", choose_most_specific = FALSE), c(pps = "in b"))
