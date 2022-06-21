@@ -57,23 +57,19 @@ This function infers which \code{notations} are appropriate for \code{x}.
 This function is vectorized.
 Thus, \code{x} can be a vector, in which case the output is a list of notations.
 
-When \code{inf_notation = FALSE} (not the default),
-\code{notations} are returned unmodified.
-Although calling \code{infer_notation()} with \code{inf_notation = FALSE} seems daft,
-this feature enables much cleaner code elsewhere.
-
-By default (\code{allow_multiple = FALSE}),
-a single notation object is returned if only one notation in \code{notations}
-is appropriate for \code{x}.
-If \code{allow_multiple = FALSE} (the default) and more than one \code{notation} is applicable to \code{x},
-an error is thrown.
-Multiple matches can be returned when \code{allow_multiple = TRUE}.
-
 \code{notations} should be a named list of notations.
 \code{notations} is treated as a store of notations from which matches for each label in \code{x}
 can be determined.
 When \code{retain_names = TRUE}, the names on \code{notations} will be retained,
 and the return value is \emph{always} a list.
+
+By default (\code{allow_multiple = FALSE}),
+a single notation object is returned for each item in \code{x}
+if only one notation in \code{notations}
+is appropriate for \code{x}.
+If \code{allow_multiple = FALSE} (the default) and more than one \code{notation} is applicable to \code{x},
+an error is thrown.
+Multiple matches can be returned when \code{allow_multiple = TRUE}.
 
 If multiple notations are matched, the return value is a list.
 
@@ -88,6 +84,11 @@ only the first match is returned.
 When \code{choose_most_specific = TRUE},
 the value of \code{allow_multiple} no longer matters.
 At most one of the \code{notations} will be returned.
+
+When \code{inf_notation = FALSE} (default is \code{TRUE}),
+\code{notations} are returned unmodified.
+Although calling \code{infer_notation()} with \code{inf_notation = FALSE} seems daft,
+this behavior enables cleaner code elsewhere.
 }
 \examples{
 # Does not match any notations in RCLabels::notations_list

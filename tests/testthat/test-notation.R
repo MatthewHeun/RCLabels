@@ -489,5 +489,5 @@ test_that("infer_notation() works with 'a [from b]' and must_succeed = TRUE", {
 
 test_that("infer_notation() returns notations when inf_notation = FALSE", {
   expect_equal(infer_notation("a -> b", inf_notation = FALSE), RCLabels::notations_list)
-
+  expect_equal(infer_notation("a -> b", inf_notation = FALSE), RCLabels::notations_list)
 })
