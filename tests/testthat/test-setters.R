@@ -25,7 +25,12 @@ test_that("modify_nouns() works as expected", {
   # Try with different notations for each row
   res2 <- res %>%
     dplyr::mutate(
+      # This is a weird way to do things, but it will work.
       notations_col = infer_notation(labels, choose_most_specific = FALSE),
+      # When we get inside modify_nouns(), notation is a list,
+      # so notations are inferred a second time.
+      # But, hey! It works.
+      # Probably much better and cleaner to do this the way of res.
       more_new_nouns_from_specific_notations = modify_nouns(labels, new_nouns = new_nouns, notation = notations_col)
     )
   expect_equal(res2$more_new_nouns_from_specific_notations[[1]], "first_noun [of b in c]")
