@@ -85,6 +85,9 @@ modify_nouns <- function(labels,
 #'                     Default is `RCLabels::prepositions_list`.
 #' @param notation The notation used in `labels`.
 #'                 Default is `RCLabels::bracket_notation`.
+#' @param choose_most_specific A boolean that tells whether the most specific
+#'                             notation is selected when more than one notation match.
+#'                             Default is `FALSE`.
 #'
 #' @return `labels` with replacements according to `piece` and `mod_map`.
 #'

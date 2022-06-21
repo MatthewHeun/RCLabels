@@ -205,6 +205,12 @@ test_that("split_pref_suff() works with one successful and one unsuccessful infe
 })
 
 
+test_that("pathological case works for strip_label_part()", {
+  expect_equal(RCLabels:::strip_label_part(c("a -> b", "c -> d"), notation = NULL),
+               c("a -> b", "c -> d"))
+})
+
+
 test_that("paste_pref_suff() works properly", {
   ps <- c(pref = "a", suff = "b")
   expect_equal(paste_pref_suff(ps, notation = arrow_notation), "a -> b")
@@ -249,6 +255,18 @@ test_that("paste_pref_suff() works properly", {
 })
 
 
+test_that("Pathological cases work for paste_pref_suff()", {
+  expect_error(paste_pref_suff(pref = "a", suff = c("c", "d")),
+               regexp = "lengths of pref")
+  # Trigger an error when notation is not a vector.
+  # Do that by setting an attribute.
+  my_bad_notation <- "d"
+  attr(my_bad_notation, which = "my_bad_attr") <- "bad_attr"
+  expect_error(paste_pref_suff(pref = "a", suff = "b", notation = my_bad_notation),
+               regexp = "notation must be a list or a vector in paste_pref_suff")
+})
+
+
 test_that("flip_pref_suff() works as expected", {
   # Try with inf_notation = FALSE
   expect_equal(flip_pref_suff("a -> b",
@@ -262,19 +280,13 @@ test_that("flip_pref_suff() works as expected", {
   # Try without inference.
   # This call essentially gives us flipped pref and suff for
   # all known notations.
-  expect_equal(flip_pref_suff("a [b]", inf_notation = FALSE),
-               c("b -> a",
-                 "b (a)",
-                 "b [a]",
-                 "b [from a]",
-                 "b [of a]",
-                 "b [to a]",
-                 "b [in a]",
-                 "b [-> a]",
-                 "b.a"))
+  # This is nonsensical without supplying a notation.
+  expect_error(flip_pref_suff("a [b]", inf_notation = FALSE))
+  expect_equal(flip_pref_suff("a [b]", inf_notation = FALSE, notation = RCLabels::bracket_notation),
+               "b [a]")
 
   # Make sure it works for lists
-  expect_equal(flip_pref_suff(list("a -> b", "a -> b"), notation = arrow_notation),
+  expect_equal(flip_pref_suff(list("a -> b", "a -> b"), notation = arrow_notation, inf_notation = FALSE),
                c("b -> a", "b -> a"))
   expect_equal(flip_pref_suff(list("a -> b", "a -> b")),
                c("b -> a", "b -> a"))
@@ -296,6 +308,12 @@ test_that("flip_pref_suff() works as expected", {
 
 test_that("get_pref_suff() works as expected", {
   expect_equal(get_pref_suff("a -> b", which = "pref", notation = arrow_notation), c(pref = "a"))
+  # Don't infer notation
+  expect_equal(get_pref_suff("a -> b",
+                             which = "pref",
+                             inf_notation = FALSE,
+                             notation = arrow_notation),
+               c(pref = "a"))
   # Infer notation
   expect_equal(get_pref_suff("a -> b", which = "pref"), c(pref = "a"))
   expect_equal(get_pref_suff("a -> b", which = "suff", notation = arrow_notation), c(suff = "b"))
@@ -382,6 +400,8 @@ test_that("switch_notation() works as expected", {
   # Now try "real" cases
   expect_equal(switch_notation("a -> b", from = arrow_notation, to = bracket_notation),
                "a [b]")
+  expect_equal(switch_notation("a -> b", from = arrow_notation, to = bracket_notation, inf_notation = FALSE),
+               "a [b]")
   expect_equal(switch_notation("a -> b", from = arrow_notation, to = bracket_notation, flip = TRUE),
                "b [a]")
   expect_equal(switch_notation("a [b]", from = bracket_notation, to = arrow_notation),
@@ -403,6 +423,11 @@ test_that("switch_notation() works as expected", {
   # Try with a list
   expect_equal(switch_notation(list("a -> b", "c -> d"), to = bracket_notation),
                list("a [b]", "c [d]"))
+  # Tell not to infer notation
+  expect_error(switch_notation(list("a -> b", "c -> d"), to = bracket_notation, inf_notation = FALSE))
+  expect_equal(switch_notation(list("a -> b", "c -> d"), from = arrow_notation, to = bracket_notation, inf_notation = FALSE),
+               list("a [b]", "c [d]"))
+
   expect_equal(switch_notation(list("a -> b", "c -> d"), to = bracket_notation, flip = TRUE),
                list("b [a]", "d [c]"))
   expect_equal(switch_notation(list("a [b]", "c [d]"), from = bracket_notation, to = arrow_notation),
@@ -521,4 +546,16 @@ test_that("infer_notation() works with 'a [from b]' and must_succeed = TRUE", {
 test_that("infer_notation() returns notations when inf_notation = FALSE", {
   expect_equal(infer_notation("a -> b", inf_notation = FALSE), RCLabels::notations_list)
   expect_equal(infer_notation("a -> b", inf_notation = FALSE), RCLabels::notations_list)
+})
+
+
+test_that("infer_notation() correctly flags a malformed label", {
+  expect_error(infer_notation("] [from b"),
+               regexp = "Unable to infer notation for ")
+})
+
+
+test_that("infer_notation() identifies a pathological case", {
+  expect_error(infer_notation("a [from b]", allow_multiple = FALSE, choose_most_specific = FALSE, must_succeed = FALSE),
+               regexp = "multiple matches when allow_multiple = FALSE, choose_most_specific = FALSE, and must_succeed = FALSE in match_notation")
 })

@@ -46,11 +46,18 @@ flip_pref_suff(
 get_pref_suff(
   x,
   which = c("pref", "suff"),
+  inf_notation = TRUE,
   notation = RCLabels::notations_list,
   choose_most_specific = TRUE
 )
 
-switch_notation(x, from = RCLabels::notations_list, to, flip = FALSE)
+switch_notation(
+  x,
+  from = RCLabels::notations_list,
+  to,
+  flip = FALSE,
+  inf_notation = TRUE
+)
 }
 \arguments{
 \item{sep}{A string separator between prefix and suffix. Default is " -> ".}

@@ -25,6 +25,10 @@ Default is \code{RCLabels::prepositions_list}.}
 
 \item{notation}{The notation used in \code{labels}.
 Default is \code{RCLabels::bracket_notation}.}
+
+\item{choose_most_specific}{A boolean that tells whether the most specific
+notation is selected when more than one notation match.
+Default is \code{FALSE}.}
 }
 \value{
 \code{labels} with replacements according to \code{piece} and \code{mod_map}.

@@ -327,7 +327,9 @@ flip_pref_suff <- function(x,
                              must_succeed = TRUE,
                              choose_most_specific = choose_most_specific)
   # Split prefixes and suffixes
-  pref_suff <- split_pref_suff(x, notation = notation)
+  # Already inferred notation (or not),
+  # so no need to infer again.
+  pref_suff <- split_pref_suff(x, inf_notation = FALSE, notation = notation)
   paste_pref_suff(pref = pref_suff[["suff"]],
                   suff = pref_suff[["pref"]],
                   notation = notation) %>%
@@ -338,13 +340,17 @@ flip_pref_suff <- function(x,
 #' @export
 #' @rdname row-col-notation
 get_pref_suff <- function(x, which = c("pref", "suff"),
+                          inf_notation = TRUE,
                           notation = RCLabels::notations_list,
                           choose_most_specific = TRUE) {
   if (is.null(x)) {
     return(NULL)
   }
   which <- match.arg(which)
-  split_pref_suff(x, notation = notation, choose_most_specific = choose_most_specific) %>%
+  split_pref_suff(x,
+                  inf_notation = inf_notation,
+                  notation = notation,
+                  choose_most_specific = choose_most_specific) %>%
     magrittr::extract2(which) %>%
     as.character() %>%
     magrittr::set_names(rep(which, times = length(x)))
@@ -353,9 +359,9 @@ get_pref_suff <- function(x, which = c("pref", "suff"),
 
 #' @export
 #' @rdname row-col-notation
-switch_notation <- function(x, from = RCLabels::notations_list, to, flip = FALSE) {
+switch_notation <- function(x, from = RCLabels::notations_list, to, flip = FALSE, inf_notation = TRUE) {
   switch_func <- function(x) {
-    ps <- split_pref_suff(x, notation = from)
+    ps <- split_pref_suff(x, inf_notation = inf_notation, notation = from)
     if (ps[["suff"]] == "") {
       # No split occurred, meaning the notation for prefix and suffix wasn't found.
       # In this case, return the string unmodified.
@@ -514,6 +520,10 @@ infer_notation <- function(x,
                            retain_names = FALSE,
                            choose_most_specific = TRUE,
                            must_succeed = TRUE) {
+  if (!inf_notation) {
+    return(notations)
+  }
+
   if (length(x) == 1) {
     return(infer_notation_for_one_label(x,
                                         inf_notation = inf_notation,
@@ -659,7 +669,7 @@ infer_notation_for_one_label <- function(x,
     return(out)
   }
   if (!allow_multiple) {
-    stop("multiple matches when allow_multiple = FALSE and choose_most_specific = FALSE in match_notation()")
+    stop("multiple matches when allow_multiple = FALSE, choose_most_specific = FALSE, and must_succeed = FALSE in match_notation()")
   }
   # At this point, allow_multiple = TRUE and choose_most_specific = FALSE.
   if (!retain_names) {
