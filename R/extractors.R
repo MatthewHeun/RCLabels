@@ -109,6 +109,9 @@ get_pps <- function(labels,
 #' an inner structure of each prepositional phrase in the specific label.
 #'
 #' @param labels The row and column labels from which prepositional phrases are to be extracted.
+#' @param inf_notation A boolean that tells whether to infer notation for `x`.
+#'                     Default is `TRUE`.
+#'                     See `infer_notation()` for details.
 #' @param notation The notation type to be used when extracting prepositions.
 #'                 Default is `RCLabels::notations_list`, meaning that
 #'                 the notation is inferred using `infer_notation()`.
@@ -133,14 +136,16 @@ get_pps <- function(labels,
 #' @examples
 #' get_prepositions(c("a [of b into c]", "d [-> e of f]"))
 get_prepositions <- function(labels,
-                      notation = RCLabels::notations_list,
-                      choose_most_specific = FALSE,
-                      prepositions = RCLabels::prepositions_list) {
+                             inf_notation = TRUE,
+                             notation = RCLabels::notations_list,
+                             choose_most_specific = FALSE,
+                             prepositions = RCLabels::prepositions_list) {
   if (is.null(labels)) {
     return(NULL)
   }
   pps <- get_pref_suff(labels,
                        which = "suff",
+                       inf_notation = inf_notation,
                        notation = notation,
                        choose_most_specific = choose_most_specific)
   preposition_words <- paste0(prepositions, " ")

@@ -105,6 +105,9 @@ test_that("get_prepositions() works correctly", {
   # Try by specifying bracket_notation
   expect_equal(get_prepositions(labs, notation = RCLabels::bracket_notation),
                list(prepositions = c("->", "in"), prepositions = "from", prepositions = c("from", "into")))
+  # Try by turning off notation inference
+  expect_equal(get_prepositions(labs, inf_notation = FALSE, notation = RCLabels::bracket_notation),
+               list(prepositions = c("->", "in"), prepositions = "from", prepositions = c("from", "into")))
 })
 
 
