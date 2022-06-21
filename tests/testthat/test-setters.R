@@ -1,9 +1,15 @@
 test_that("modify_nouns() works as expected", {
-  label <- "a [of b in c]"
-  expect_equal(modify_nouns(label, "d"), "d [of b in c]")
+  # Specify the notation
+  expect_equal(modify_nouns("a [of b in c]", new_nouns = "d", notation = RCLabels::bracket_notation), "d [of b in c]")
+  # Infer notation
+  expect_equal(modify_nouns("a [of b in c]", new_nouns = "d"), "d [of b in c]")
 
   labels <- c("a [of b in c]", "d [of e in USA]")
-  expect_equal(modify_nouns(labels, c("a_plus", "g")),
+  # Specify the notation
+  expect_equal(modify_nouns(labels, new_nouns = c("a_plus", "g"), notation = RCLabels::bracket_notation),
+               c("a_plus [of b in c]", "g [of e in USA]"))
+  # Infer notation
+  expect_equal(modify_nouns(labels, new_nouns = c("a_plus", "g")),
                c("a_plus [of b in c]", "g [of e in USA]"))
 
   # Make sure it works in a data frame.
@@ -15,6 +21,15 @@ test_that("modify_nouns() works as expected", {
     )
   expect_equal(res$with_new_nouns[[1]], "first_noun [of b in c]")
   expect_equal(res$with_new_nouns[[2]], "second_noun [of e in USA]")
+
+  # Try with different notations for each row
+  res2 <- res %>%
+    dplyr::mutate(
+      notations_col = infer_notation(labels, choose_most_specific = FALSE),
+      more_new_nouns_from_specific_notations = modify_nouns(labels, new_nouns = new_nouns, notation = notations_col)
+    )
+  expect_equal(res2$more_new_nouns_from_specific_notations[[1]], "first_noun [of b in c]")
+  expect_equal(res2$more_new_nouns_from_specific_notations[[2]], "second_noun [of e in USA]")
 })
 
 

@@ -6,8 +6,18 @@
 #' @param labels The row and column labels in which the nouns will be modified.
 #' @param new_nouns The new nouns to be set in `labels`.
 #'                  Must be same length as `labels`.
-#' @param notation The notation used in `labels`.
-#'                 Default is `RCLabels::bracket_notation`.
+#' @param notation The notation type to be used when extracting prepositions.
+#'                 Default is `RCLabels::notations_list`, meaning that
+#'                 the notation is inferred using `infer_notation()`.
+#' @param choose_most_specific A boolean that tells whether to choose the most specific
+#'                             notation from `notation` when inferring notation.
+#'                             Default is `FALSE` so that a less specific notation can be
+#'                             inferred.
+#'                             In combination with `RCLabels::notations_list`,
+#'                             the default value of `FALSE` means that
+#'                             `RCLabels::bracket_notation` will be selected instead of
+#'                             anything more specific, such as
+#'                             `RCLabels::from_notation`.
 #'
 #' @return A character vector of same length as labels
 #'         with nouns modified to be `new_nouns`.
@@ -17,13 +27,19 @@
 #' @examples
 #' labels <- c("a [of b in c]", "d [of e in USA]")
 #' modify_nouns(labels, c("a_plus", "g"))
-modify_nouns <- function(labels, new_nouns, notation = RCLabels::bracket_notation) {
+modify_nouns <- function(labels,
+                         new_nouns,
+                         notation = RCLabels::notations_list,
+                         choose_most_specific = FALSE) {
   num_labels <- length(labels)
   num_new_nouns <- length(new_nouns)
   if (num_labels != num_new_nouns) {
     stop("The number of labels must equal the number of new nouns in set_nouns()")
   }
-  split <- split_noun_pp(labels)
+  if (is.list(notation)) {
+    notation <- infer_notation(labels, notations = notation, choose_most_specific = choose_most_specific)
+  }
+  split <- split_noun_pp(labels, notation = notation, choose_most_specific = choose_most_specific)
   mapply(split, new_nouns, SIMPLIFY = FALSE, FUN = function(this_split_label, this_new_noun) {
     this_split_label[["noun"]] <- this_new_noun
     this_split_label
