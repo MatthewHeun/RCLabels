@@ -60,6 +60,15 @@ test_that("of_notation is correct", {
 })
 
 
+test_that("in_notation is correct", {
+  in_not <- in_notation
+  expect_equal(in_not[["pref_start"]], "")
+  expect_equal(in_not[["pref_end"]], " [in ")
+  expect_equal(in_not[["suff_start"]], " [in ")
+  expect_equal(in_not[["suff_end"]], "]")
+})
+
+
 test_that("first_dot notation is correct", {
   fd <- first_dot_notation
   expect_equal(fd[["pref_start"]], "")
@@ -122,15 +131,15 @@ test_that("split_pref_suff() works properly", {
 
 
 test_that("split_pref_suff() works with all structures of input", {
-  expect_equal(split_pref_suff("a [b]", bracket_notation), list(pref = "a", suff = "b"))
+  expect_equal(split_pref_suff("a [b]", notation = bracket_notation), list(pref = "a", suff = "b"))
 
-  expect_equal(split_pref_suff(c("a [b]", "c [d]"), bracket_notation),
+  expect_equal(split_pref_suff(c("a [b]", "c [d]"), notation = bracket_notation),
                list(pref = c("a", "c"), suff = c("b", "d")))
 
-  expect_equal(split_pref_suff(list("a [b]", "c [d]"), bracket_notation),
+  expect_equal(split_pref_suff(list("a [b]", "c [d]"), notation = bracket_notation),
                list(pref = c("a", "c"), suff = c("b", "d")))
 
-  expect_equal(split_pref_suff(c("a [b]", "c [d]", "e [f]", "g [h]"), bracket_notation),
+  expect_equal(split_pref_suff(c("a [b]", "c [d]", "e [f]", "g [h]"), notation = bracket_notation),
                list(pref = c("a", "c", "e", "g"),
                     suff = c("b", "d", "f", "h")))
 })
@@ -138,7 +147,7 @@ test_that("split_pref_suff() works with all structures of input", {
 
 test_that("split_pref_suff() works with full notation", {
   note <- notation_vec(pref_start = "(", pref_end = ")" , suff_start = "(", suff_end = ")")
-  expect_equal(RCLabels:::split_pref_suff(c("(a)(b)", "(c)(d)"), note),
+  expect_equal(RCLabels:::split_pref_suff(c("(a)(b)", "(c)(d)"), notation = note),
                list(pref = c("a", "c"),
                     suff = c("b", "d")))
 })
@@ -171,16 +180,16 @@ test_that("split_pref_suff() works in a data frame", {
 
 test_that("split_pref_suff() works while inferring notation", {
   expect_equal(split_pref_suff("a [b]",
-                               RCLabels::notations_list),
+                               notation = RCLabels::notations_list),
                list(pref = "a", suff = "b"))
   expect_equal(split_pref_suff(c("a [from b]", "c [from d]"),
-                               RCLabels::from_notation),
+                               notation = RCLabels::from_notation),
                list(pref = c("a", "c"), suff = c("b", "d")))
   expect_equal(split_pref_suff(c("a [from b]", "c [from d]"),
-                               RCLabels::notations_list),
+                               notation = RCLabels::notations_list),
                list(pref = c("a", "c"), suff = c("b", "d")))
   expect_equal(split_pref_suff(c("a [b]", "c [from d]"),
-                               RCLabels::notations_list),
+                               notation = RCLabels::notations_list),
                list(pref = c("a", "c"), suff = c("b", "d")))
 })
 
