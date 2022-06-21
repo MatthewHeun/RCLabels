@@ -6,6 +6,7 @@
 \usage{
 infer_notation_for_one_label(
   x,
+  inf_notation = TRUE,
   notations = RCLabels::notations_list,
   allow_multiple = FALSE,
   retain_names = FALSE,
@@ -16,7 +17,9 @@ infer_notation_for_one_label(
 \arguments{
 \item{x}{A single row or column label.}
 
-\item{notations}{The notations from which matches can be discerned.
+\item{inf_notation}{A boolean that tells whether to infer notation for \code{x}.}
+
+\item{notations}{A list of notations from which matches will be inferred
 Default is \code{RCLabels::notations_list}.}
 
 \item{allow_multiple}{A boolean that tells whether multiple notation matches

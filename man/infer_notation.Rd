@@ -6,6 +6,7 @@
 \usage{
 infer_notation(
   x,
+  inf_notation = TRUE,
   notations = RCLabels::notations_list,
   allow_multiple = FALSE,
   retain_names = FALSE,
@@ -16,7 +17,9 @@ infer_notation(
 \arguments{
 \item{x}{A row or column label (or vector of labels).}
 
-\item{notations}{The notations from which matches can be discerned.
+\item{inf_notation}{A boolean that tells whether to infer notation for \code{x}.}
+
+\item{notations}{A list of notations from which matches will be inferred
 Default is \code{RCLabels::notations_list}.}
 
 \item{allow_multiple}{A boolean that tells whether multiple notation matches
@@ -53,6 +56,11 @@ This function infers which \code{notations} are appropriate for \code{x}.
 \details{
 This function is vectorized.
 Thus, \code{x} can be a vector, in which case the output is a list of notations.
+
+When \code{inf_notation = FALSE} (not the default),
+\code{notations} are returned unmodified.
+Although calling \code{infer_notation()} with \code{inf_notation = FALSE} seems daft,
+this feature enables much cleaner code elsewhere.
 
 By default (\code{allow_multiple = FALSE}),
 a single notation object is returned if only one notation in \code{notations}

@@ -371,18 +371,19 @@ switch_notation <- function(x, from = RCLabels::notations_list, to, flip = FALSE
 #' This function is vectorized.
 #' Thus, `x` can be a vector, in which case the output is a list of notations.
 #'
-#' By default (`allow_multiple = FALSE`),
-#' a single notation object is returned if only one notation in `notations`
-#' is appropriate for `x`.
-#' If `allow_multiple = FALSE` (the default) and more than one `notation` is applicable to `x`,
-#' an error is thrown.
-#' Multiple matches can be returned when `allow_multiple = TRUE`.
-#'
 #' `notations` should be a named list of notations.
 #' `notations` is treated as a store of notations from which matches for each label in `x`
 #' can be determined.
 #' When `retain_names = TRUE`, the names on `notations` will be retained,
 #' and the return value is _always_ a list.
+#'
+#' By default (`allow_multiple = FALSE`),
+#' a single notation object is returned for each item in `x`
+#' if only one notation in `notations`
+#' is appropriate for `x`.
+#' If `allow_multiple = FALSE` (the default) and more than one `notation` is applicable to `x`,
+#' an error is thrown.
+#' Multiple matches can be returned when `allow_multiple = TRUE`.
 #'
 #' If multiple notations are matched, the return value is a list.
 #'
@@ -398,8 +399,14 @@ switch_notation <- function(x, from = RCLabels::notations_list, to, flip = FALSE
 #' the value of `allow_multiple` no longer matters.
 #' At most one of the `notations` will be returned.
 #'
+#' When `inf_notation = FALSE` (default is `TRUE`),
+#' `notations` are returned unmodified.
+#' Although calling `infer_notation()` with `inf_notation = FALSE` seems daft,
+#' this behavior enables cleaner code elsewhere.
+#'
 #' @param x A row or column label (or vector of labels).
-#' @param notations The notations from which matches can be discerned.
+#' @param inf_notation A boolean that tells whether to infer notation for `x`.
+#' @param notations A list of notations from which matches will be inferred
 #'                  Default is `RCLabels::notations_list`.
 #' @param allow_multiple A boolean that tells whether multiple notation matches
 #'                       are allowed.
@@ -490,6 +497,7 @@ switch_notation <- function(x, from = RCLabels::notations_list, to, flip = FALSE
 #'                choose_most_specific = FALSE,
 #'                retain_names = TRUE)
 infer_notation <- function(x,
+                           inf_notation = TRUE,
                            notations = RCLabels::notations_list,
                            allow_multiple = FALSE,
                            retain_names = FALSE,
@@ -497,6 +505,7 @@ infer_notation <- function(x,
                            must_succeed = TRUE) {
   if (length(x) == 1) {
     return(infer_notation_for_one_label(x,
+                                        inf_notation = inf_notation,
                                         notations = notations,
                                         allow_multiple = allow_multiple,
                                         retain_names = retain_names,
@@ -509,6 +518,7 @@ infer_notation <- function(x,
   x <- unname(x)
   out <- lapply(x, FUN = function(one_label) {
     infer_notation_for_one_label(one_label,
+                                 inf_notation = inf_notation,
                                  notations = notations,
                                  allow_multiple = allow_multiple,
                                  retain_names = retain_names,
@@ -527,8 +537,9 @@ infer_notation <- function(x,
 #' This is a non-public helper function for vectorized `infer_notation()`.
 #'
 #' @param x A single row or column label.
-#' @param notations The notations from which matches can be discerned.
+#' @param notations A list of notations from which matches will be inferred
 #'                  Default is `RCLabels::notations_list`.
+#' @param inf_notation A boolean that tells whether to infer notation for `x`.
 #' @param allow_multiple A boolean that tells whether multiple notation matches
 #'                       are allowed.
 #'                       If `FALSE` (the default), multiple matches give an error.
@@ -550,11 +561,15 @@ infer_notation <- function(x,
 #'         or possibly multiple matching notation objects (if `allow_multiple = TRUE`).
 #'         If no `notations` match `x`, `NULL`.
 infer_notation_for_one_label <- function(x,
+                                         inf_notation = TRUE,
                                          notations = RCLabels::notations_list,
                                          allow_multiple = FALSE,
                                          retain_names = FALSE,
                                          choose_most_specific = TRUE,
                                          must_succeed = TRUE) {
+  if (!inf_notation) {
+    return(notations)
+  }
   notation_matches <- list()
   for (i in 1:length(notations)) {
     this_notation <- notations[[i]]
