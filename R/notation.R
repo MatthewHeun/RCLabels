@@ -315,15 +315,17 @@ paste_pref_suff <- function(ps = list(pref = pref, suff = suff),
 #' @export
 #' @rdname row-col-notation
 # flip_pref_suff <- function(x, notation) {
-flip_pref_suff <- function(x, notation = RCLabels::notations_list, choose_most_specific = TRUE) {
-  if (is.list(notation)) {
-    notation <- infer_notation(x,
-                               notations = notation,
-                               allow_multiple = FALSE,
-                               retain_names = FALSE,
-                               must_succeed = TRUE,
-                               choose_most_specific = choose_most_specific)
-  }
+flip_pref_suff <- function(x,
+                           notation = RCLabels::notations_list,
+                           inf_notation = TRUE,
+                           choose_most_specific = TRUE) {
+  notation <- infer_notation(x,
+                             inf_notation = inf_notation,
+                             notations = notation,
+                             allow_multiple = FALSE,
+                             retain_names = FALSE,
+                             must_succeed = TRUE,
+                             choose_most_specific = choose_most_specific)
   # Split prefixes and suffixes
   pref_suff <- split_pref_suff(x, notation = notation)
   paste_pref_suff(pref = pref_suff[["suff"]],

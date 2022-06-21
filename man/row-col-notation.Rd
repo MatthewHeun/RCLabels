@@ -39,6 +39,7 @@ paste_pref_suff(
 flip_pref_suff(
   x,
   notation = RCLabels::notations_list,
+  inf_notation = TRUE,
   choose_most_specific = TRUE
 )
 

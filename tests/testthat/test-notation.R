@@ -250,10 +250,28 @@ test_that("paste_pref_suff() works properly", {
 
 
 test_that("flip_pref_suff() works as expected", {
+  # Try with inf_notation = FALSE
+  expect_equal(flip_pref_suff("a -> b",
+                              notation = arrow_notation,
+                              inf_notation = FALSE), "b -> a")
+  # Try without inference
   expect_equal(flip_pref_suff("a -> b", notation = arrow_notation), "b -> a")
   expect_equal(flip_pref_suff("a [b]", notation = bracket_notation), "b [a]")
-  # Try with inference.
+  # Try with inference
   expect_equal(flip_pref_suff("a [b]"), "b [a]")
+  # Try without inference.
+  # This call essentially gives us flipped pref and suff for
+  # all known notations.
+  expect_equal(flip_pref_suff("a [b]", inf_notation = FALSE),
+               c("b -> a",
+                 "b (a)",
+                 "b [a]",
+                 "b [from a]",
+                 "b [of a]",
+                 "b [to a]",
+                 "b [in a]",
+                 "b [-> a]",
+                 "b.a"))
 
   # Make sure it works for lists
   expect_equal(flip_pref_suff(list("a -> b", "a -> b"), notation = arrow_notation),
