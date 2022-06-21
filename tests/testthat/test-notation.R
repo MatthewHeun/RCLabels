@@ -287,6 +287,10 @@ test_that("flip_pref_suff() works as expected", {
 
   # Try with nested suffixes
   expect_equal(flip_pref_suff("a [b [c]]", notation = bracket_notation), "b [c] [a]")
+
+  # Try with inferred notation for different notations
+  expect_equal(flip_pref_suff(list("a [b]", "a -> b")),
+               c("b [a]", "b -> a"))
 })
 
 
