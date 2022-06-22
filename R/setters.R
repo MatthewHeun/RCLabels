@@ -198,7 +198,7 @@ remove_label_pieces <- function(labels,
                                 choose_most_specific = FALSE) {
   notation <- infer_notation(labels,
                              inf_notation = inf_notation,
-                             notation = notation,
+                             notations = notation,
                              allow_multiple = FALSE,
                              retain_names = FALSE,
                              choose_most_specific = FALSE,
