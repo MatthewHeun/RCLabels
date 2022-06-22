@@ -125,4 +125,10 @@ test_that("remove_pp() works as expected", {
                c("a [of b]", "d [-> e]"))
   expect_equal(remove_label_pieces(labs, pieces_to_remove = c("of", "in")),
                c("a [ ]", "d [-> e]"))
+  # Try without inference
+  expect_equal(remove_label_pieces(labs,
+                                   pieces_to_remove = c("of", "in"),
+                                   inf_notation = FALSE,
+                                   notation = RCLabels::bracket_notation),
+               c("a [ ]", "d [-> e]"))
 })
