@@ -20,6 +20,9 @@ output: html_document
 * Fixed `to_notation` example in the documentation.
   (The example for `to_notation` was `from_notation`.)
 * Improved accuracy of documentation for `get_pps()`.
+* New tests for new capabilities.
+    * Now up to 344 tests, all passing.
+    * Test coverage remains at 100%.
 
 
 # RCLabels 0.1.1 (2022-03-05) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6331050.svg)](https://doi.org/10.5281/zenodo.6331050)
