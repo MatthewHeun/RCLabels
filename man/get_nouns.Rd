@@ -36,7 +36,7 @@ Internally, this function calls \code{get_pref_suff()}
 and asks for the prefix.
 }
 \examples{
-get_nouns("a [b]", bracket_notation)
+get_nouns("a [b]", notation = bracket_notation)
 # Also works with vectors and lists.
 get_nouns(c("a [b]", "c [d]"))
 get_nouns(list("a [b]", "c [d]"))

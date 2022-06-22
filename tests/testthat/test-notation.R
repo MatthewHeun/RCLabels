@@ -205,9 +205,9 @@ test_that("split_pref_suff() works with one successful and one unsuccessful infe
 })
 
 
-test_that("pathological case works for strip_label_part()", {
-  expect_equal(RCLabels:::strip_label_part(c("a -> b", "c -> d"), notation = NULL),
-               c("a -> b", "c -> d"))
+test_that("pathological case fails for strip_label_part()", {
+  expect_error(RCLabels:::strip_label_part(c("a -> b", "c -> d"), part = "pref", notation = NULL),
+               regexp = "length\\(x\\) and legth\\(notation\\) must be same length in strip_label_part\\(\\)")
 })
 
 

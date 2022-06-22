@@ -21,5 +21,6 @@ strip_label_part(x, notation, part, pattern_pref = "", pattern_suff = "")
 A label shorn of the part to be stripped.
 }
 \description{
-A convenience function to help splitting prefixes and suffixes
+This function should only ever see a single label (\code{x})
+and a single \code{notation}.
 }

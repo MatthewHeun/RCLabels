@@ -158,13 +158,13 @@ preposition_notation <- function(preposition, suff_start = " [", suff_end = "]")
 #' @rdname row-col-notation
 split_pref_suff <- function(x,
                             transpose = FALSE,
-                            notation = RCLabels::notations_list,
                             inf_notation = TRUE,
+                            notation = RCLabels::notations_list,
                             choose_most_specific = TRUE) {
   # Any notation list is treated as a store from which appropriate notations are selected.
   notation <- infer_notation(x,
-                             notations = notation,
                              inf_notation = inf_notation,
+                             notations = notation,
                              choose_most_specific = choose_most_specific,
                              retain_names = FALSE)
   if (length(x) > 1 & !is.list(notation)) {
@@ -209,6 +209,9 @@ split_pref_suff <- function(x,
 
 #' A convenience function to help splitting prefixes and suffixes
 #'
+#' This function should only ever see a single label (`x`)
+#' and a single `notation`.
+#'
 #' @param x The label(s) to be split.
 #' @param notation The notations to be used for each `x`.
 #' @param part The part of the label to work on, such as "pref_start", "pref_end", "suff_start", or "suff_end".
@@ -225,6 +228,11 @@ strip_label_part <- function(x, notation, part, pattern_pref = "", pattern_suff 
     }
   } else {
     # Vectorize over x and notation
+    # Double-check that x and notation are the same length.
+    # If not, this is an error.
+    if (length(x) != length(notation)) {
+      stop("length(x) and legth(notation) must be same length in strip_label_part()")
+    }
     out <- vector(mode = "character", length = length(x))
     for (i in 1:length(x)) {
       if (is.null(notation[[i]])) {
@@ -339,7 +347,8 @@ flip_pref_suff <- function(x,
 
 #' @export
 #' @rdname row-col-notation
-get_pref_suff <- function(x, which = c("pref", "suff"),
+get_pref_suff <- function(x,
+                          which = c("pref", "suff"),
                           inf_notation = TRUE,
                           notation = RCLabels::notations_list,
                           choose_most_specific = TRUE) {

@@ -116,6 +116,12 @@ test_that("get_objects() works correctly", {
   expect_equal(get_objects(c("a [of b in USA]", "d [of e into GBR]"), notation = RCLabels::bracket_notation),
                list(objects = c(of = "b", `in` = "USA"),
                     objects = c(of = "e", into = "GBR")))
+  # Specify the notation being used and don't infer.
+  expect_equal(get_objects(c("a [of b in USA]", "d [of e into GBR]"),
+                           inf_notation = FALSE,
+                           notation = RCLabels::bracket_notation),
+               list(objects = c(of = "b", `in` = "USA"),
+                    objects = c(of = "e", into = "GBR")))
   # Infer notation
   expect_equal(get_objects(c("a [of b in USA]", "d [of e into GBR]")),
                list(objects = c(of = "b", `in` = "USA"),
@@ -127,20 +133,23 @@ test_that("split_noun_pp() works as expected", {
   # Try with specific notation
   expect_equal(split_noun_pp("a [of b]", notation = bracket_notation),
                list(c(noun = "a", of = "b")))
+  # Try without inference
+  expect_equal(split_noun_pp("a [of b]", inf_notation = FALSE, notation = bracket_notation),
+               list(c(noun = "a", of = "b")))
+  # Try without notation inference and no notation. This will fail.
+  expect_error(split_noun_pp("a [of b]", inf_notation = FALSE))
   # Try with notation inference
   expect_equal(split_noun_pp("a [of b]"),
                list(c(noun = "a", of = "b")))
-
-  expect_equal(split_noun_pp("a [of b in c]", notation = bracket_notation),
+  expect_equal(split_noun_pp("a [of b in c]"),
                list(c(noun = "a", of = "b", `in` = "c")))
-  expect_equal(split_noun_pp(c("a [of b in c]", "d [of e into f]"), notation = bracket_notation),
+  expect_equal(split_noun_pp(c("a [of b in c]", "d [of e into f]")),
                list(c(noun = "a", of = "b", `in` = "c"),
                     c(noun = "d", of = "e", into = "f")))
   # Try in a list.
   expect_equal(split_noun_pp(list("a [of b in c]",
                                  "d [of e into f]",
-                                 "Production [of Coal in GB]"),
-                            notation = bracket_notation),
+                                 "Production [of Coal in GB]")),
                list(c(noun = "a", of = "b", `in` = "c"),
                     c(noun = "d", of = "e", into = "f"),
                     c(noun = "Production", of = "Coal", `in` = "GB")))
@@ -209,9 +218,12 @@ test_that("get_piece() works as expected", {
   # Returns labs unchanged, because default value for piece is "all".
   expect_equal(get_piece(labs), labs)
 
-  # Prefix and suffix
+  # Prefix
   expect_equal(get_piece(labs, "pref"),
                c(pref = "a", pref = "d", pref = "Export"))
+  # Try without inference. This should fail, because no notation is given.
+  expect_error(get_piece(labs, piece = "pref", inf_notation = FALSE),
+               regexp = "length\\(x\\) and legth\\(notation\\) must be same length in strip_label_part\\(\\)")
   # Default is choose_most_specific = FALSE, which works in this case.
   expect_equal(get_piece(labs, "suff"),
                c(suff = "from b in c", suff = "of e in f", suff = "of Coal from USA to MEX"))

@@ -6,6 +6,7 @@
 \usage{
 get_objects(
   labels,
+  inf_notation = TRUE,
   notation = RCLabels::notations_list,
   choose_most_specific = FALSE,
   prepositions = RCLabels::prepositions_list
@@ -13,6 +14,10 @@ get_objects(
 }
 \arguments{
 \item{labels}{The row and column labels from which prepositional phrases are to be extracted.}
+
+\item{inf_notation}{A boolean that tells whether to infer notation for \code{x}.
+Default is \code{TRUE}.
+See \code{infer_notation()} for details.}
 
 \item{notation}{The notation type to be used when extracting prepositions.
 Default is \code{RCLabels::notations_list}, meaning that
