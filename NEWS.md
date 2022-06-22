@@ -11,7 +11,7 @@ output: html_document
   because new argument `inf_notation` is set to `TRUE`.
 * Rename `paste_pieces()` --> `paste_noun_pp()`.
 * Rename `split_labels()` --> `split_noun_pp()`.
-* Rename `RCLabels::prepositions` --> `RCLabels::preposition_list`
+* Rename `RCLabels::prepositions` --> `RCLabels::prepositions_list`
   to bring consistency with `RCLables::notations_list`.
 * New function `infer_notation()` obtains the notation 
   for any label or a vector of labels.
