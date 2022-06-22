@@ -208,6 +208,8 @@ test_that("split_pref_suff() works with one successful and one unsuccessful infe
 test_that("pathological case fails for strip_label_part()", {
   expect_error(RCLabels:::strip_label_part(c("a -> b", "c -> d"), part = "pref", notation = NULL),
                regexp = "length\\(x\\) and legth\\(notation\\) must be same length in strip_label_part\\(\\)")
+  expect_error(RCLabels:::strip_label_part(vector(mode = "character", length = 0), part = "pref", notation = NULL),
+               regexp = "subscript out of bounds")
 })
 
 
