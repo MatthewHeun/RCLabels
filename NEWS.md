@@ -4,6 +4,15 @@ output: html_document
 ---
 
 
+* All functions that paste row and column label pieces together
+  are now vectorized over `notation` arguments.
+* All functions that get pieces of row and column labels
+  now `infer_notation()` by default, 
+  because argument `inf_notation` is set to `TRUE`.
+* Rename `paste_pieces()` --> `paste_noun_pp()`.
+* Rename `split_labels()` --> `split_noun_pp()`.
+* Rename `RCLabels::prepositions` --> `RCLabels::preposition_list`
+  to bring consistency with `RCLables::notations_list`.
 * New function `infer_notation()` obtains the notation 
   for any label or a vector of labels.
 * Now includes a list of known notations: `RCLabels::notations_list`.

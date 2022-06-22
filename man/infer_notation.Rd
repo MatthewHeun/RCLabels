@@ -6,16 +6,20 @@
 \usage{
 infer_notation(
   x,
+  inf_notation = TRUE,
   notations = RCLabels::notations_list,
   allow_multiple = FALSE,
   retain_names = FALSE,
-  choose_most_specific = TRUE
+  choose_most_specific = TRUE,
+  must_succeed = TRUE
 )
 }
 \arguments{
 \item{x}{A row or column label (or vector of labels).}
 
-\item{notations}{The notations from which matches can be discerned.
+\item{inf_notation}{A boolean that tells whether to infer notation for \code{x}.}
+
+\item{notations}{A list of notations from which matches will be inferred
 Default is \code{RCLabels::notations_list}.}
 
 \item{allow_multiple}{A boolean that tells whether multiple notation matches
@@ -33,6 +37,11 @@ names are never supplied.}
 will be returned when more than one of \code{notations} matches \code{x}.
 Default is \code{TRUE}.
 See details.}
+
+\item{must_succeed}{A boolean that if \code{TRUE} (the default),
+causes an error to be thrown if a matching notation is not found
+for any label in \code{x}.
+When \code{FALSE}, an unsuccessful label inference will return \code{NULL}.}
 }
 \value{
 A single notation object (if \code{x} is a single row or column label)
@@ -48,17 +57,19 @@ This function infers which \code{notations} are appropriate for \code{x}.
 This function is vectorized.
 Thus, \code{x} can be a vector, in which case the output is a list of notations.
 
+\code{notations} should be a named list of notations.
+\code{notations} is treated as a store of notations from which matches for each label in \code{x}
+can be determined.
+When \code{retain_names = TRUE}, the names on \code{notations} will be retained,
+and the return value is \emph{always} a list.
+
 By default (\code{allow_multiple = FALSE}),
-a single notation object is returned if only one notation in \code{notations}
+a single notation object is returned for each item in \code{x}
+if only one notation in \code{notations}
 is appropriate for \code{x}.
 If \code{allow_multiple = FALSE} (the default) and more than one \code{notation} is applicable to \code{x},
 an error is thrown.
 Multiple matches can be returned when \code{allow_multiple = TRUE}.
-
-Often (and in the default case of \code{notations = RCLabels::notation_list}),
-\code{notations} will be a named vector of notations.
-When \code{retain_names = TRUE}, the names on \code{notations} will be retained,
-and the return value is \emph{always} a list.
 
 If multiple notations are matched, the return value is a list.
 
@@ -73,16 +84,34 @@ only the first match is returned.
 When \code{choose_most_specific = TRUE},
 the value of \code{allow_multiple} no longer matters.
 At most one of the \code{notations} will be returned.
+
+When \code{inf_notation = FALSE} (default is \code{TRUE}),
+\code{notations} are returned unmodified.
+Although calling \code{infer_notation()} with \code{inf_notation = FALSE} seems daft,
+this behavior enables cleaner code elsewhere.
 }
 \examples{
 # Does not match any notations in RCLabels::notations_list
+# and throws an error, because the default value for `must_succeed`
+# is `TRUE`.
+\dontrun{
 infer_notation("abc")
+}
+# This returns `NULL`, because `must_succeed = FALSE`.
+infer_notation("abc", must_succeed = FALSE)
+# This succeeds, because the label is in the form of a
+# notation in `RCLabels::notation_list`,
+# the default value of the `notation` argument.
 infer_notation("a -> b")
-# Names of the notations can be retained
+# Names of the notations can be retained, in which case
+# the return value is always a list.
 infer_notation("a -> b", retain_names = TRUE)
-# This function is vectorized
+# This function is vectorized.
+# The list of labels matches
+# all known notations in `RCLabels::notations_list`.
 infer_notation(c("a -> b", "a (b)", "a [b]", "a [from b]", "a [of b]",
-                 "a [to b]", "a [-> b]", "a.b"), retain_names = TRUE)
+                 "a [to b]", "a [in b]", "a [-> b]", "a.b"),
+                 retain_names = TRUE)
 # By default, the most specific notation is returned.
 # But when two or more matches are present,
 # multiple notations can be returned, too.
@@ -92,4 +121,36 @@ infer_notation("a [from b]",
 infer_notation(c("a [from b]", "c [to d]"),
                allow_multiple = TRUE, retain_names = TRUE,
                choose_most_specific = FALSE)
+#
+# As shown above, "a [from b]" matches 2 notations:
+# `RCLabels::bracket_notation` and `RCLabels::from_notation`.
+# The default value for the notation argument is
+# RCLabels::notations_list,
+# which includes `RCLabels::bracket_notation`
+# and `RCLabels::from_notation` in that order.
+# Thus, there is some flexibility to how this function works
+# if the value of the `notation` argument is a list of notations
+# ordered from least specific to most specific,
+# as `RCLabels::notations_list` is ordered.
+#
+# To review, the next call returns both `RCLabels::bracket_notation` and
+# `RCLabels::from_notation`, because `allow_multiple = TRUE` and
+# `choose_most_specific = FALSE`, neither of which are default.
+infer_notation("a [from b]",
+               allow_multiple = TRUE,
+               choose_most_specific = FALSE,
+               retain_names = TRUE)
+# The next call returns `RCLabels::from_notation`, because
+# the most specific notation is requested, and
+# `RCLabels::from_notation` has more characters in its specification than
+# `RCLabels::bracket_notation`.
+infer_notation("a [from b]",
+               choose_most_specific = TRUE,
+               retain_names = TRUE)
+# The next call returns the `RCLabels::bracket_notation`, becuase
+# `choose_most_specific = FALSE`, and the first matching
+# notation in `RCLabels::notations_list` is `RCLabels::bracket_notation`.
+infer_notation("a [from b]",
+               choose_most_specific = FALSE,
+               retain_names = TRUE)
 }

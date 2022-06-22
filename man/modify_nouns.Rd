@@ -4,7 +4,13 @@
 \alias{modify_nouns}
 \title{Modify nouns in labels}
 \usage{
-modify_nouns(labels, new_nouns, notation = RCLabels::bracket_notation)
+modify_nouns(
+  labels,
+  new_nouns,
+  inf_notation = TRUE,
+  notation = RCLabels::notations_list,
+  choose_most_specific = FALSE
+)
 }
 \arguments{
 \item{labels}{The row and column labels in which the nouns will be modified.}
@@ -12,8 +18,23 @@ modify_nouns(labels, new_nouns, notation = RCLabels::bracket_notation)
 \item{new_nouns}{The new nouns to be set in \code{labels}.
 Must be same length as \code{labels}.}
 
-\item{notation}{The notation used in \code{labels}.
-Default is \code{RCLabels::bracket_notation}.}
+\item{inf_notation}{A boolean that tells whether to infer notation for \code{labels}.
+Default is \code{TRUE}.
+See \code{infer_notation()} for details.}
+
+\item{notation}{The notation type to be used when extracting prepositions.
+Default is \code{RCLabels::notations_list}, meaning that
+the notation is inferred using \code{infer_notation()}.}
+
+\item{choose_most_specific}{A boolean that tells whether to choose the most specific
+notation from \code{notation} when inferring notation.
+Default is \code{FALSE} so that a less specific notation can be
+inferred.
+In combination with \code{RCLabels::notations_list},
+the default value of \code{FALSE} means that
+\code{RCLabels::bracket_notation} will be selected instead of
+anything more specific, such as
+\code{RCLabels::from_notation}.}
 }
 \value{
 A character vector of same length as labels

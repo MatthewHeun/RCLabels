@@ -6,20 +6,37 @@
 \usage{
 get_prepositions(
   labels,
-  notation = RCLabels::bracket_notation,
-  prepositions = RCLabels::prepositions
+  inf_notation = TRUE,
+  notation = RCLabels::notations_list,
+  choose_most_specific = FALSE,
+  prepositions = RCLabels::prepositions_list
 )
 }
 \arguments{
 \item{labels}{The row and column labels from which prepositional phrases are to be extracted.}
 
-\item{notation}{The notation object that describes the labels.
-Default is \code{RCLabels::bracket_notation}.}
+\item{inf_notation}{A boolean that tells whether to infer notation for \code{x}.
+Default is \code{TRUE}.
+See \code{infer_notation()} for details.}
+
+\item{notation}{The notation type to be used when extracting prepositions.
+Default is \code{RCLabels::notations_list}, meaning that
+the notation is inferred using \code{infer_notation()}.}
+
+\item{choose_most_specific}{A boolean that tells whether to choose the most specific
+notation from \code{notation} when inferring notation.
+Default is \code{FALSE} so that a less specific notation can be
+inferred.
+In combination with \code{RCLabels::notations_list},
+the default value of \code{FALSE} means that
+\code{RCLabels::bracket_notation} will be selected instead of
+anything more specific, such as
+\code{RCLabels::from_notation}.}
 
 \item{prepositions}{A vector of strings to be treated as prepositions.
 Note that a space is appended to each word internally,
 so, e.g., "to" becomes "to ".
-Default is \code{RCLabels::prepositions}.}
+Default is \code{RCLabels::prepositions_list}.}
 }
 \value{
 A list of prepositions.

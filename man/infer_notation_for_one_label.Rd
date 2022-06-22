@@ -6,16 +6,20 @@
 \usage{
 infer_notation_for_one_label(
   x,
+  inf_notation = TRUE,
   notations = RCLabels::notations_list,
   allow_multiple = FALSE,
   retain_names = FALSE,
-  choose_most_specific = TRUE
+  choose_most_specific = TRUE,
+  must_succeed = TRUE
 )
 }
 \arguments{
 \item{x}{A single row or column label.}
 
-\item{notations}{The notations from which matches can be discerned.
+\item{inf_notation}{A boolean that tells whether to infer notation for \code{x}.}
+
+\item{notations}{A list of notations from which matches will be inferred
 Default is \code{RCLabels::notations_list}.}
 
 \item{allow_multiple}{A boolean that tells whether multiple notation matches
@@ -32,6 +36,11 @@ names are never supplied.}
 \item{choose_most_specific}{A boolean that indicates if the most-specific notation
 will be returned when more than one of \code{notations} matches \code{x}.
 Default is \code{TRUE}.}
+
+\item{must_succeed}{A boolean that if \code{TRUE} (the default),
+causes an error to be thrown if a matching notation is not found
+for any label in \code{x}.
+When \code{FALSE}, an unsuccessful label inference will return \code{NULL}.}
 }
 \value{
 A single matching notation object (if \code{allow_multiple = FALSE}, the default)

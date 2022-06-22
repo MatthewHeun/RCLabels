@@ -7,8 +7,10 @@
 remove_label_pieces(
   labels,
   pieces_to_remove,
-  prepositions = RCLabels::prepositions,
-  notation = RCLabels::bracket_notation
+  prepositions = RCLabels::prepositions_list,
+  inf_notation = TRUE,
+  notation = RCLabels::notations_list,
+  choose_most_specific = FALSE
 )
 }
 \arguments{
@@ -16,13 +18,22 @@ remove_label_pieces(
 
 \item{pieces_to_remove}{The names of pieces of the label to be removed,
 typically "noun" or a preposition such as "of" or "in"
-See \code{RCLabels::prepositions} for a list of known prepositions.}
+See \code{RCLabels::prepositions_list} for a list of known prepositions.}
 
 \item{prepositions}{A list of prepositions, used to detect prepositional phrases.
-Default is \code{RCLabels::prepositions}.}
+Default is \code{RCLabels::prepositions_list}.}
 
-\item{notation}{The notation used in \code{labels}.
-Default is \code{RCLabels::bracket_notation}.}
+\item{inf_notation}{A boolean that tells whether to infer notation for \code{x}.
+Default is \code{TRUE}.
+See \code{infer_notation()} for details.}
+
+\item{notation}{The notation type to be used when extracting prepositions.
+Default is \code{RCLabels::notations_list}, meaning that
+the notation is inferred using \code{infer_notation()}.}
+
+\item{choose_most_specific}{A boolean that tells whether the most specific
+notation is selected when more than one notation match.
+Default is \code{FALSE}.}
 }
 \value{
 \code{labels} with pieces removed.
