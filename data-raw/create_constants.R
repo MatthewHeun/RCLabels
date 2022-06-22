@@ -84,16 +84,27 @@ usethis::use_data(first_dot_notation, overwrite = TRUE)
 #
 # List of all known notations
 #
+# Note that the order of this list is important.
+# For some labels (such as "a [from b]"),
+# more than one notation could be inferred
+# (such as bracket_notation and from_notation).
+# Some code relies on the fact that the simplest notations are earlier,
+# while more complex notations are later in this list.
+# For example,
+# infer_notation("a [from b]", choose_most_specific = FALSE) will return bracket_notation.
+# infer_notation("a [from b]") with default choose_most_specific = TRUE will return from_notation.
+#
+# DO NOT CHANGE THE ORDER OF THIS LIST.
 
-notations_list <- list(arrow_notation = arrow_notation,
+notations_list <- list(first_dot_notation = first_dot_notation,
+                       arrow_notation = arrow_notation,
                        paren_notation = paren_notation,
                        bracket_notation = bracket_notation,
                        from_notation = from_notation,
                        of_notation = of_notation,
                        to_notation = to_notation,
                        in_notation = in_notation,
-                       bracket_arrow_notation = bracket_arrow_notation,
-                       first_dot_notation = first_dot_notation)
+                       bracket_arrow_notation = bracket_arrow_notation)
 usethis::use_data(notations_list, overwrite = TRUE)
 
 

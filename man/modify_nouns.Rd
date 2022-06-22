@@ -7,6 +7,7 @@
 modify_nouns(
   labels,
   new_nouns,
+  inf_notation = TRUE,
   notation = RCLabels::notations_list,
   choose_most_specific = FALSE
 )
@@ -16,6 +17,10 @@ modify_nouns(
 
 \item{new_nouns}{The new nouns to be set in \code{labels}.
 Must be same length as \code{labels}.}
+
+\item{inf_notation}{A boolean that tells whether to infer notation for \code{labels}.
+Default is \code{TRUE}.
+See \code{infer_notation()} for details.}
 
 \item{notation}{The notation type to be used when extracting prepositions.
 Default is \code{RCLabels::notations_list}, meaning that

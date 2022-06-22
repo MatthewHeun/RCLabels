@@ -6,6 +6,9 @@
 #' @param labels The row and column labels in which the nouns will be modified.
 #' @param new_nouns The new nouns to be set in `labels`.
 #'                  Must be same length as `labels`.
+#' @param inf_notation A boolean that tells whether to infer notation for `labels`.
+#'                     Default is `TRUE`.
+#'                     See `infer_notation()` for details.
 #' @param notation The notation type to be used when extracting prepositions.
 #'                 Default is `RCLabels::notations_list`, meaning that
 #'                 the notation is inferred using `infer_notation()`.
@@ -29,6 +32,7 @@
 #' modify_nouns(labels, c("a_plus", "g"))
 modify_nouns <- function(labels,
                          new_nouns,
+                         inf_notation = TRUE,
                          notation = RCLabels::notations_list,
                          choose_most_specific = FALSE) {
   num_labels <- length(labels)
@@ -36,19 +40,14 @@ modify_nouns <- function(labels,
   if (num_labels != num_new_nouns) {
     stop("The number of labels must equal the number of new nouns in set_nouns()")
   }
-  split <- split_noun_pp(labels, notation = notation, choose_most_specific = choose_most_specific)
+  split <- split_noun_pp(labels, inf_notation = inf_notation, notation = notation, choose_most_specific = choose_most_specific)
   split_with_new_nouns <- mapply(split, new_nouns, SIMPLIFY = FALSE, FUN = function(this_split_label, this_new_noun) {
     this_split_label[["noun"]] <- this_new_noun
     this_split_label
   })
   # Build the new outgoing labels,
   # but do it based on whether or not the caller wanted to infer notations.
-  if (!is.list(notation)) {
-    # If the incoming notation was not a list, no need to infer notation
-    return(paste_noun_pp(split_with_new_nouns, notation = notation))
-  }
-  # The original notation was a list, so infer notations
-  inferred_notation <- infer_notation(labels, notations = notation, choose_most_specific = choose_most_specific)
+  inferred_notation <- infer_notation(labels, inf_notation = inf_notation, notations = notation, choose_most_specific = choose_most_specific)
   paste_noun_pp(split_with_new_nouns, inferred_notation)
 }
 
@@ -83,8 +82,12 @@ modify_nouns <- function(labels,
 #' @param mod_map A modification map. See details.
 #' @param prepositions A list of prepositions, used to detect prepositional phrases.
 #'                     Default is `RCLabels::prepositions_list`.
-#' @param notation The notation used in `labels`.
-#'                 Default is `RCLabels::bracket_notation`.
+#' @param inf_notation A boolean that tells whether to infer notation for `x`.
+#'                     Default is `TRUE`.
+#'                     See `infer_notation()` for details.
+#' @param notation The notation type to be used when extracting prepositions.
+#'                 Default is `RCLabels::notations_list`, meaning that
+#'                 the notation is inferred using `infer_notation()`.
 #' @param choose_most_specific A boolean that tells whether the most specific
 #'                             notation is selected when more than one notation match.
 #'                             Default is `FALSE`.
@@ -114,11 +117,20 @@ modify_nouns <- function(labels,
 #'                                    new_in   = c("c", "f")))
 modify_label_pieces <- function(labels, piece, mod_map,
                                 prepositions = RCLabels::prepositions_list,
+                                inf_notation = TRUE,
                                 notation = RCLabels::bracket_notation,
                                 choose_most_specific = FALSE) {
 
+  notation <- infer_notation(labels,
+                             inf_notation = inf_notation,
+                             notations = notation,
+                             allow_multiple = FALSE,
+                             retain_names = FALSE,
+                             choose_most_specific = choose_most_specific,
+                             must_succeed = TRUE)
   split <- labels %>%
-    split_noun_pp(notation = notation, prepositions = prepositions, choose_most_specific = choose_most_specific)
+    # Already inferred notation
+    split_noun_pp(inf_notation = FALSE, notation = notation, prepositions = prepositions, choose_most_specific = choose_most_specific)
 
   # Loop over everything to modify pieces.
   modified <- lapply(split, FUN = function(this_label) {
@@ -156,8 +168,15 @@ modify_label_pieces <- function(labels, piece, mod_map,
 #'                         See `RCLabels::prepositions_list` for a list of known prepositions.
 #' @param prepositions A list of prepositions, used to detect prepositional phrases.
 #'                     Default is `RCLabels::prepositions_list`.
-#' @param notation The notation used in `labels`.
-#'                 Default is `RCLabels::bracket_notation`.
+#' @param inf_notation A boolean that tells whether to infer notation for `x`.
+#'                     Default is `TRUE`.
+#'                     See `infer_notation()` for details.
+#' @param notation The notation type to be used when extracting prepositions.
+#'                 Default is `RCLabels::notations_list`, meaning that
+#'                 the notation is inferred using `infer_notation()`.
+#' @param choose_most_specific A boolean that tells whether the most specific
+#'                             notation is selected when more than one notation match.
+#'                             Default is `FALSE`.
 #'
 #' @return `labels` with pieces removed.
 #'
@@ -172,9 +191,18 @@ modify_label_pieces <- function(labels, piece, mod_map,
 remove_label_pieces <- function(labels,
                                 pieces_to_remove,
                                 prepositions = RCLabels::prepositions_list,
-                                notation = RCLabels::bracket_notation) {
+                                inf_notation = TRUE,
+                                notation = RCLabels::notations_list,
+                                choose_most_specific = FALSE) {
+  notation <- infer_notation(labels,
+                             inf_notation = inf_notation,
+                             allow_multiple = FALSE,
+                             retain_names = FALSE,
+                             choose_most_specific = FALSE,
+                             must_succeed = TRUE)
   split <- labels %>%
-    split_noun_pp(notation = notation, prepositions = prepositions)
+    # Already inferred the notation
+    split_noun_pp(inf_notation = FALSE, notation = notation, prepositions = prepositions)
 
   for (i_split_label in 1:length(split)) {
     this_split_label <- split[[i_split_label]]
