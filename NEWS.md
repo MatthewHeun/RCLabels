@@ -8,7 +8,7 @@ output: html_document
   are now vectorized over `notation` arguments.
 * All functions that get pieces of row and column labels
   now `infer_notation()` by default, 
-  because argument `inf_notation` is set to `TRUE`.
+  because new argument `inf_notation` is set to `TRUE`.
 * Rename `paste_pieces()` --> `paste_noun_pp()`.
 * Rename `split_labels()` --> `split_noun_pp()`.
 * Rename `RCLabels::prepositions` --> `RCLabels::preposition_list`
