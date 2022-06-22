@@ -80,6 +80,8 @@
 #' @param to The `notation` to switch _to_.
 #' @param flip A boolean that tells whether to also flip the notation. Default is `FALSE`.
 #' @param preposition A string used to indicate position for energy flows, typically "from" or "to" in different notations.
+#' @param squish A boolean that tells whether to remove extra spaces in the output of `paste_*()` functions.
+#'               Default is `TRUE`.
 #'
 #' @return For `notation_vec()`, `arrow_notation`, and `bracket_notation`,
 #'           a string vector with named items `pref_start`, `pref_end`, `suff_start`, and `suff_end`;
@@ -254,7 +256,8 @@ strip_label_part <- function(x, notation, part, pattern_pref = "", pattern_suff 
 paste_pref_suff <- function(ps = list(pref = pref, suff = suff),
                             pref = NULL,
                             suff = NULL,
-                            notation = RCLabels::arrow_notation) {
+                            notation = RCLabels::arrow_notation,
+                            squish = TRUE) {
 
   single_paste_func <- function(this_ps, this_notation) {
     out <- paste0(this_notation[["pref_start"]], this_ps[["pref"]], this_notation[["pref_end"]])
@@ -316,6 +319,9 @@ paste_pref_suff <- function(ps = list(pref = pref, suff = suff),
   ps <- purrr::transpose(ps)
   out <- Map(f = single_paste_func, ps, notation) %>%
     unlist()
+  if (squish) {
+    out <- stringr::str_squish(out)
+  }
   return(out)
 }
 

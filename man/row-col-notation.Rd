@@ -33,7 +33,8 @@ paste_pref_suff(
   ps = list(pref = pref, suff = suff),
   pref = NULL,
   suff = NULL,
-  notation = RCLabels::arrow_notation
+  notation = RCLabels::arrow_notation,
+  squish = TRUE
 )
 
 flip_pref_suff(
@@ -94,6 +95,9 @@ notation from the \code{notation} argument when the \code{notation} argument is 
 \item{pref}{A string or list of strings that are prefixes. Default is \code{NULL}.}
 
 \item{suff}{A string of list of strings that are suffixes. Default is \code{NULL}.}
+
+\item{squish}{A boolean that tells whether to remove extra spaces in the output of \verb{paste_*()} functions.
+Default is \code{TRUE}.}
 
 \item{which}{Tells which to keep, the prefix ("pref") or the suffix ("suff").}
 

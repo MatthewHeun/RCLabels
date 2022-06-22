@@ -351,6 +351,8 @@ split_noun_pp <- function(labels,
 #' @param splt_labels A vector of split row or column labels, probably created by `split_noun_pp()`.
 #' @param notation The notation object that describes the labels.
 #'                 Default is `RCLabels::bracket_notation`.
+#' @param squish A boolean that tells whether to remove extra spaces in the output of `paste_*()` functions.
+#'               Default is `TRUE`.
 #'
 #' @return Recombined row and column labels.
 #'
@@ -371,7 +373,7 @@ split_noun_pp <- function(labels,
 #'     recombined = paste_noun_pp(splits)
 #'   )
 #' all(recombined$labels == recombined$recombined)
-paste_noun_pp <- function(splt_labels, notation = RCLabels::bracket_notation) {
+paste_noun_pp <- function(splt_labels, notation = RCLabels::bracket_notation, squish = TRUE) {
   if (is.null(splt_labels)) {
     return(NULL)
   }
@@ -385,7 +387,7 @@ paste_noun_pp <- function(splt_labels, notation = RCLabels::bracket_notation) {
       purrr::list_modify("noun" = NULL)
     paste0(names(without_noun), " ", without_noun, collapse = " ")
   })
-  paste_pref_suff(pref = nouns, suff = pps, notation = notation)
+  paste_pref_suff(pref = nouns, suff = pps, notation = notation, squish = squish)
 }
 
 

@@ -1,6 +1,10 @@
 test_that("modify_nouns() works as expected", {
   # Specify the notation
   expect_equal(modify_nouns("a [of b in c]", new_nouns = "d", notation = RCLabels::bracket_notation), "d [of b in c]")
+  # Don't infer the notation
+  expect_equal(modify_nouns("a [of b in c]", new_nouns = "d", inf_notation = FALSE, notation = RCLabels::bracket_notation), "d [of b in c]")
+  # Potentially cause problems.
+  expect_error(modify_nouns("a [of b in c]", new_nouns = "d", inf_notation = FALSE))
   # Infer notation
   expect_equal(modify_nouns("a [of b in c]", new_nouns = "d"), "d [of b in c]")
 
@@ -57,6 +61,12 @@ test_that("modify_label_pieces() works as expected with single strings", {
   # Now, let's make it work.
   expect_equal(modify_label_pieces(label, piece = "in", mod_map = list(USA = c("a", "b", "c"))),
                "a [of b in USA]")
+
+  # Try with a different label structure with inference
+  expect_equal(modify_label_pieces("a -> b", piece = "noun", mod_map = list(new_noun = c("a", "b")),
+                                   inf_notation = FALSE,
+                                   notation = RCLabels::arrow_notation),
+               "new_noun -> b")
 })
 
 
@@ -64,6 +74,11 @@ test_that("modify_label_pieces() works with vectors, lists, and in data frames",
   # Try with a vector
   labs <- c("a [of b in c]", "d [-> e in f]")
   expect_equal(modify_label_pieces(labs, piece = "noun", mod_map = list(new_noun = c("d", "e"))),
+               c("a [of b in c]", "new_noun [-> e in f]"))
+  # Try without inference
+  expect_equal(modify_label_pieces(labs, piece = "noun", inf_notation = FALSE,
+                                   notation = RCLabels::bracket_notation,
+                                   mod_map = list(new_noun = c("d", "e"))),
                c("a [of b in c]", "new_noun [-> e in f]"))
   # Try with a list
   labs2 <- list("a [of b in c]", "d [-> e in f]")

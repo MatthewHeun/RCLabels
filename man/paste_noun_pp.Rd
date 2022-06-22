@@ -4,13 +4,20 @@
 \alias{paste_noun_pp}
 \title{Recombine row and column labels}
 \usage{
-paste_noun_pp(splt_labels, notation = RCLabels::bracket_notation)
+paste_noun_pp(
+  splt_labels,
+  notation = RCLabels::bracket_notation,
+  squish = TRUE
+)
 }
 \arguments{
 \item{splt_labels}{A vector of split row or column labels, probably created by \code{split_noun_pp()}.}
 
 \item{notation}{The notation object that describes the labels.
 Default is \code{RCLabels::bracket_notation}.}
+
+\item{squish}{A boolean that tells whether to remove extra spaces in the output of \verb{paste_*()} functions.
+Default is \code{TRUE}.}
 }
 \value{
 Recombined row and column labels.
