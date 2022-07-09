@@ -403,9 +403,9 @@ switch_notation <- function(x, from = RCLabels::notations_list, to, flip = FALSE
 #' This function is vectorized.
 #' Thus, `x` can be a vector, in which case the output is a list of notations.
 #'
-#' `notations` should be a named list of notations.
-#' `notations` is treated as a store of notations from which matches for each label in `x`
+#' `notations` is treated as a store from which matches for each label in `x`
 #' can be determined.
+#' `notations` should be a named list of notations.
 #' When `retain_names = TRUE`, the names on `notations` will be retained,
 #' and the return value is _always_ a list.
 #'
@@ -425,19 +425,23 @@ switch_notation <- function(x, from = RCLabels::notations_list, to, flip = FALSE
 #' whose sum of characters in the `pref_start`, `pref_end`,
 #' `suff_start` and `suff_end` elements
 #' is greatest.
-#' If two matching notations in `notations` have the same number of characters,
+#' If `choose_most_specific = TRUE` and
+#' two matching notations in `notations` have the same number of characters,
 #' only the first match is returned.
 #' When `choose_most_specific = TRUE`,
 #' the value of `allow_multiple` no longer matters.
-#' At most one of the `notations` will be returned.
+#' `allow_multiple = FALSE` is implied and
+#' at most one of the `notations` will be returned.
 #'
 #' When `inf_notation = FALSE` (default is `TRUE`),
-#' `notations` are returned unmodified.
-#' Although calling `infer_notation()` with `inf_notation = FALSE` seems daft,
+#' `notations` are returned unmodified,
+#' essentially disabling this function.
+#' Although calling with `inf_notation = FALSE` seems daft,
 #' this behavior enables cleaner code elsewhere.
 #'
 #' @param x A row or column label (or vector of labels).
 #' @param inf_notation A boolean that tells whether to infer notation for `x`.
+#'                     Default is `TRUE`.
 #' @param notations A list of notations from which matches will be inferred
 #'                  Default is `RCLabels::notations_list`.
 #' @param allow_multiple A boolean that tells whether multiple notation matches
@@ -447,16 +451,20 @@ switch_notation <- function(x, from = RCLabels::notations_list, to, flip = FALSE
 #'                     outgoing matches.
 #'                     Default is `FALSE`.
 #'                     If `TRUE`, the return value is _always_ a named list.
-#'                     If only one of `notations` is returned,
+#'                     If only one of `notations` is returned
+#'                     (for example, because `choose_most_specific = TRUE`),
 #'                     names are never supplied.
-#' @param choose_most_specific A boolean that indicates if the most-specific notation
-#'                             will be returned when more than one of `notations` matches `x`.
+#' @param choose_most_specific A boolean that indicates whether the most-specific notation
+#'                             will be returned when more than one of `notations` matches `x`
+#'                             and `allow_multiple = FALSE`.
 #'                             Default is `TRUE`.
+#'                             When `FALSE`, the first matching notation in `notations`
+#'                             is returned when `allow_multiple = FALSE`.
 #'                             See details.
 #' @param must_succeed A boolean that if `TRUE` (the default),
 #'                     causes an error to be thrown if a matching notation is not found
 #'                     for any label in `x`.
-#'                     When `FALSE`, an unsuccessful label inference will return `NULL`.
+#'                     When `FALSE`, an unsuccessful notation inference will return `NULL`.
 #'
 #' @return A single notation object (if `x` is a single row or column label)
 #'         or a list of notation objects (if `x` is a vector or a list).
@@ -496,7 +504,6 @@ switch_notation <- function(x, from = RCLabels::notations_list, to, flip = FALSE
 #' infer_notation(c("a [from b]", "c [to d]"),
 #'                allow_multiple = TRUE, retain_names = TRUE,
 #'                choose_most_specific = FALSE)
-#' #
 #' # As shown above, "a [from b]" matches 2 notations:
 #' # `RCLabels::bracket_notation` and `RCLabels::from_notation`.
 #' # The default value for the notation argument is
@@ -507,7 +514,6 @@ switch_notation <- function(x, from = RCLabels::notations_list, to, flip = FALSE
 #' # if the value of the `notation` argument is a list of notations
 #' # ordered from least specific to most specific,
 #' # as `RCLabels::notations_list` is ordered.
-#' #
 #' # To review, the next call returns both `RCLabels::bracket_notation` and
 #' # `RCLabels::from_notation`, because `allow_multiple = TRUE` and
 #' # `choose_most_specific = FALSE`, neither of which are default.
@@ -522,7 +528,7 @@ switch_notation <- function(x, from = RCLabels::notations_list, to, flip = FALSE
 #' infer_notation("a [from b]",
 #'                choose_most_specific = TRUE,
 #'                retain_names = TRUE)
-#' # The next call returns the `RCLabels::bracket_notation`, becuase
+#' # The next call returns the `RCLabels::bracket_notation`, because
 #' # `choose_most_specific = FALSE`, and the first matching
 #' # notation in `RCLabels::notations_list` is `RCLabels::bracket_notation`.
 #' infer_notation("a [from b]",

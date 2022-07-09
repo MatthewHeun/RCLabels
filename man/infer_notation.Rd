@@ -17,7 +17,8 @@ infer_notation(
 \arguments{
 \item{x}{A row or column label (or vector of labels).}
 
-\item{inf_notation}{A boolean that tells whether to infer notation for \code{x}.}
+\item{inf_notation}{A boolean that tells whether to infer notation for \code{x}.
+Default is \code{TRUE}.}
 
 \item{notations}{A list of notations from which matches will be inferred
 Default is \code{RCLabels::notations_list}.}
@@ -30,18 +31,22 @@ If \code{FALSE} (the default), multiple matches give an error.}
 outgoing matches.
 Default is \code{FALSE}.
 If \code{TRUE}, the return value is \emph{always} a named list.
-If only one of \code{notations} is returned,
+If only one of \code{notations} is returned
+(for example, because \code{choose_most_specific = TRUE}),
 names are never supplied.}
 
-\item{choose_most_specific}{A boolean that indicates if the most-specific notation
-will be returned when more than one of \code{notations} matches \code{x}.
+\item{choose_most_specific}{A boolean that indicates whether the most-specific notation
+will be returned when more than one of \code{notations} matches \code{x}
+and \code{allow_multiple = FALSE}.
 Default is \code{TRUE}.
+When \code{FALSE}, the first matching notation in \code{notations}
+is returned when \code{allow_multiple = FALSE}.
 See details.}
 
 \item{must_succeed}{A boolean that if \code{TRUE} (the default),
 causes an error to be thrown if a matching notation is not found
 for any label in \code{x}.
-When \code{FALSE}, an unsuccessful label inference will return \code{NULL}.}
+When \code{FALSE}, an unsuccessful notation inference will return \code{NULL}.}
 }
 \value{
 A single notation object (if \code{x} is a single row or column label)
@@ -57,9 +62,9 @@ This function infers which \code{notations} are appropriate for \code{x}.
 This function is vectorized.
 Thus, \code{x} can be a vector, in which case the output is a list of notations.
 
-\code{notations} should be a named list of notations.
-\code{notations} is treated as a store of notations from which matches for each label in \code{x}
+\code{notations} is treated as a store from which matches for each label in \code{x}
 can be determined.
+\code{notations} should be a named list of notations.
 When \code{retain_names = TRUE}, the names on \code{notations} will be retained,
 and the return value is \emph{always} a list.
 
@@ -79,15 +84,18 @@ the most specific notation in \code{notations} is returned.
 whose sum of characters in the \code{pref_start}, \code{pref_end},
 \code{suff_start} and \code{suff_end} elements
 is greatest.
-If two matching notations in \code{notations} have the same number of characters,
+If \code{choose_most_specific = TRUE} and
+two matching notations in \code{notations} have the same number of characters,
 only the first match is returned.
 When \code{choose_most_specific = TRUE},
 the value of \code{allow_multiple} no longer matters.
-At most one of the \code{notations} will be returned.
+\code{allow_multiple = FALSE} is implied and
+at most one of the \code{notations} will be returned.
 
 When \code{inf_notation = FALSE} (default is \code{TRUE}),
-\code{notations} are returned unmodified.
-Although calling \code{infer_notation()} with \code{inf_notation = FALSE} seems daft,
+\code{notations} are returned unmodified,
+essentially disabling this function.
+Although calling with \code{inf_notation = FALSE} seems daft,
 this behavior enables cleaner code elsewhere.
 }
 \examples{
