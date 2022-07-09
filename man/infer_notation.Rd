@@ -129,7 +129,6 @@ infer_notation("a [from b]",
 infer_notation(c("a [from b]", "c [to d]"),
                allow_multiple = TRUE, retain_names = TRUE,
                choose_most_specific = FALSE)
-#
 # As shown above, "a [from b]" matches 2 notations:
 # `RCLabels::bracket_notation` and `RCLabels::from_notation`.
 # The default value for the notation argument is
@@ -140,7 +139,6 @@ infer_notation(c("a [from b]", "c [to d]"),
 # if the value of the `notation` argument is a list of notations
 # ordered from least specific to most specific,
 # as `RCLabels::notations_list` is ordered.
-#
 # To review, the next call returns both `RCLabels::bracket_notation` and
 # `RCLabels::from_notation`, because `allow_multiple = TRUE` and
 # `choose_most_specific = FALSE`, neither of which are default.
@@ -155,7 +153,7 @@ infer_notation("a [from b]",
 infer_notation("a [from b]",
                choose_most_specific = TRUE,
                retain_names = TRUE)
-# The next call returns the `RCLabels::bracket_notation`, becuase
+# The next call returns the `RCLabels::bracket_notation`, because
 # `choose_most_specific = FALSE`, and the first matching
 # notation in `RCLabels::notations_list` is `RCLabels::bracket_notation`.
 infer_notation("a [from b]",
