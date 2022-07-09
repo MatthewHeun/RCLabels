@@ -451,11 +451,11 @@ paste_noun_pp <- function(splt_labels, notation = RCLabels::bracket_notation, sq
 #' get_piece(labs, piece = "of")
 #' get_piece(labs, piece = "to")
 get_piece <- function(labels,
-                piece = "all",
-                inf_notation = TRUE,
-                notation = RCLabels::notations_list,
-                choose_most_specific = FALSE,
-                prepositions = RCLabels::prepositions_list) {
+                      piece = "all",
+                      inf_notation = TRUE,
+                      notation = RCLabels::notations_list,
+                      choose_most_specific = FALSE,
+                      prepositions = RCLabels::prepositions_list) {
   if (is.null(labels)) {
     return(NULL)
   }
