@@ -562,13 +562,3 @@ test_that("infer_notation() identifies a pathological case", {
                regexp = "multiple matches when allow_multiple = FALSE, choose_most_specific = FALSE, and must_succeed = FALSE in match_notation")
 })
 
-
-test_that("infer_notation() works with a weird case", {
-  res <- infer_notation("Product [from Product]",
-                        inf_notation = TRUE,
-                        notation = RCLabels::notations_list,
-                        allow_multiple = FALSE,
-                        choose_most_specific = FALSE,
-                        must_succeed = FALSE)
-  expect_null(res)
-})
