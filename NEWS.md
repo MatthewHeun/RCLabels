@@ -4,6 +4,7 @@ output: html_document
 ---
 
 
+* `paste_pref_suff()` now recycles arguments of length 1.
 * All functions that paste row and column label pieces together
   are now vectorized over `notation` arguments.
 * All functions that get pieces of row and column labels
