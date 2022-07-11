@@ -269,6 +269,11 @@ test_that("Pathological cases work for paste_pref_suff()", {
 })
 
 
+test_that("paste_pref_suff() works when one is a list and the other is not", {
+  paste_pref_suff(pref = c("Biomass", "Biomass"), suff = "Resources", notation = RCLabels::from_notation)
+})
+
+
 test_that("flip_pref_suff() works as expected", {
   # Try with inf_notation = FALSE
   expect_equal(flip_pref_suff("a -> b",
