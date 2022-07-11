@@ -38,9 +38,9 @@ names are never supplied.}
 \item{choose_most_specific}{A boolean that indicates whether the most-specific notation
 will be returned when more than one of \code{notations} matches \code{x}
 and \code{allow_multiple = FALSE}.
-Default is \code{TRUE}.
 When \code{FALSE}, the first matching notation in \code{notations}
 is returned when \code{allow_multiple = FALSE}.
+Default is \code{TRUE}.
 See details.}
 
 \item{must_succeed}{A boolean that if \code{TRUE} (the default),

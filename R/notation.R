@@ -457,9 +457,9 @@ switch_notation <- function(x, from = RCLabels::notations_list, to, flip = FALSE
 #' @param choose_most_specific A boolean that indicates whether the most-specific notation
 #'                             will be returned when more than one of `notations` matches `x`
 #'                             and `allow_multiple = FALSE`.
-#'                             Default is `TRUE`.
 #'                             When `FALSE`, the first matching notation in `notations`
 #'                             is returned when `allow_multiple = FALSE`.
+#'                             Default is `TRUE`.
 #'                             See details.
 #' @param must_succeed A boolean that if `TRUE` (the default),
 #'                     causes an error to be thrown if a matching notation is not found
