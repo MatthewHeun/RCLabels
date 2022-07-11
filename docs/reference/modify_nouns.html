@@ -51,30 +51,62 @@ The length of <code>new_nouns</code> must be the same as the length of <code>lab
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">modify_nouns</span><span class="op">(</span><span class="va">labels</span>, <span class="va">new_nouns</span>, notation <span class="op">=</span> <span class="fu">RCLabels</span><span class="fu">::</span><span class="va"><a href="bracket_notation.html">bracket_notation</a></span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">modify_nouns</span><span class="op">(</span></span>
+<span>  <span class="va">labels</span>,</span>
+<span>  <span class="va">new_nouns</span>,</span>
+<span>  inf_notation <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  notation <span class="op">=</span> <span class="fu">RCLabels</span><span class="fu">::</span><span class="va"><a href="notations_list.html">notations_list</a></span>,</span>
+<span>  choose_most_specific <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>labels</dt>
 <dd><p>The row and column labels in which the nouns will be modified.</p></dd>
+
+
 <dt>new_nouns</dt>
 <dd><p>The new nouns to be set in <code>labels</code>.
 Must be same length as <code>labels</code>.</p></dd>
+
+
+<dt>inf_notation</dt>
+<dd><p>A boolean that tells whether to infer notation for <code>labels</code>.
+Default is <code>TRUE</code>.
+See <code><a href="infer_notation.html">infer_notation()</a></code> for details.</p></dd>
+
+
 <dt>notation</dt>
-<dd><p>The notation used in <code>labels</code>.
-Default is <code><a href="bracket_notation.html">RCLabels::bracket_notation</a></code>.</p></dd>
+<dd><p>The notation type to be used when extracting prepositions.
+Default is <code><a href="notations_list.html">RCLabels::notations_list</a></code>, meaning that
+the notation is inferred using <code><a href="infer_notation.html">infer_notation()</a></code>.</p></dd>
+
+
+<dt>choose_most_specific</dt>
+<dd><p>A boolean that tells whether to choose the most specific
+notation from <code>notation</code> when inferring notation.
+Default is <code>FALSE</code> so that a less specific notation can be
+inferred.
+In combination with <code><a href="notations_list.html">RCLabels::notations_list</a></code>,
+the default value of <code>FALSE</code> means that
+<code><a href="bracket_notation.html">RCLabels::bracket_notation</a></code> will be selected instead of
+anything more specific, such as
+<code><a href="from_notation.html">RCLabels::from_notation</a></code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A character vector of same length as labels
+    
+
+<p>A character vector of same length as labels
 with nouns modified to be <code>new_nouns</code>.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a [of b in c]"</span>, <span class="st">"d [of e in USA]"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">modify_nouns</span><span class="op">(</span><span class="va">labels</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a_plus"</span>, <span class="st">"g"</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a [of b in c]"</span>, <span class="st">"d [of e in USA]"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">modify_nouns</span><span class="op">(</span><span class="va">labels</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a_plus"</span>, <span class="st">"g"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "a_plus [of b in c]" "g [of e in USA]"   </span>
 </code></pre></div>
     </div>
@@ -87,7 +119,7 @@ with nouns modified to be <code>new_nouns</code>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>

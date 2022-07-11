@@ -69,39 +69,65 @@ See examples for details.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">modify_label_pieces</span><span class="op">(</span>
-  <span class="va">labels</span>,
-  <span class="va">piece</span>,
-  <span class="va">mod_map</span>,
-  prepositions <span class="op">=</span> <span class="fu">RCLabels</span><span class="fu">::</span><span class="va"><a href="prepositions.html">prepositions</a></span>,
-  notation <span class="op">=</span> <span class="fu">RCLabels</span><span class="fu">::</span><span class="va"><a href="bracket_notation.html">bracket_notation</a></span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">modify_label_pieces</span><span class="op">(</span></span>
+<span>  <span class="va">labels</span>,</span>
+<span>  <span class="va">piece</span>,</span>
+<span>  <span class="va">mod_map</span>,</span>
+<span>  prepositions <span class="op">=</span> <span class="fu">RCLabels</span><span class="fu">::</span><span class="va"><a href="prepositions_list.html">prepositions_list</a></span>,</span>
+<span>  inf_notation <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  notation <span class="op">=</span> <span class="fu">RCLabels</span><span class="fu">::</span><span class="va"><a href="bracket_notation.html">bracket_notation</a></span>,</span>
+<span>  choose_most_specific <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>labels</dt>
 <dd><p>The row and column labels in which pieces will be modified.</p></dd>
+
+
 <dt>piece</dt>
 <dd><p>The piece (or pieces) of the row or column label that will be modified.</p></dd>
+
+
 <dt>mod_map</dt>
 <dd><p>A modification map. See details.</p></dd>
+
+
 <dt>prepositions</dt>
 <dd><p>A list of prepositions, used to detect prepositional phrases.
-Default is <code><a href="prepositions.html">RCLabels::prepositions</a></code>.</p></dd>
+Default is <code><a href="prepositions_list.html">RCLabels::prepositions_list</a></code>.</p></dd>
+
+
+<dt>inf_notation</dt>
+<dd><p>A boolean that tells whether to infer notation for <code>x</code>.
+Default is <code>TRUE</code>.
+See <code><a href="infer_notation.html">infer_notation()</a></code> for details.</p></dd>
+
+
 <dt>notation</dt>
-<dd><p>The notation used in <code>labels</code>.
-Default is <code><a href="bracket_notation.html">RCLabels::bracket_notation</a></code>.</p></dd>
+<dd><p>The notation type to be used when extracting prepositions.
+Default is <code><a href="notations_list.html">RCLabels::notations_list</a></code>, meaning that
+the notation is inferred using <code><a href="infer_notation.html">infer_notation()</a></code>.</p></dd>
+
+
+<dt>choose_most_specific</dt>
+<dd><p>A boolean that tells whether the most specific
+notation is selected when more than one notation match.
+Default is <code>FALSE</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p><code>labels</code> with replacements according to <code>piece</code> and <code>mod_map</code>.</p>
+    
+
+<p><code>labels</code> with replacements according to <code>piece</code> and <code>mod_map</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Typical <code>piece</code>s include "noun" or a preposition,
 such as "in" or "from".
-See <code><a href="prepositions.html">RCLabels::prepositions</a></code> for additional examples.
+See <code>RCLabels::prepositions</code> for additional examples.
 This argument may be a single string or a character vector.</p>
 <p>The <code>mod_map</code> argument should consist of a
 named list of character vectors in which names indicate
@@ -115,27 +141,27 @@ any one of which will be replaced by "new".</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Simple case</span></span>
-<span class="r-in"><span class="fu">modify_label_pieces</span><span class="op">(</span><span class="st">"a [of b in c]"</span>,</span>
-<span class="r-in">                    piece <span class="op">=</span> <span class="st">"noun"</span>,</span>
-<span class="r-in">                    mod_map <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>new_noun <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Simple case</span></span></span>
+<span class="r-in"><span><span class="fu">modify_label_pieces</span><span class="op">(</span><span class="st">"a [of b in c]"</span>,</span></span>
+<span class="r-in"><span>                    piece <span class="op">=</span> <span class="st">"noun"</span>,</span></span>
+<span class="r-in"><span>                    mod_map <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>new_noun <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "new_noun [of b in c]"</span>
-<span class="r-in"><span class="co"># Works with a vector or list of labels</span></span>
-<span class="r-in"><span class="fu">modify_label_pieces</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a [of b in c]"</span>, <span class="st">"d [-&gt; e in f]"</span><span class="op">)</span>,</span>
-<span class="r-in">                    piece <span class="op">=</span> <span class="st">"noun"</span>,</span>
-<span class="r-in">                    mod_map <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>new_noun <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"d"</span>, <span class="st">"e"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># Works with a vector or list of labels</span></span></span>
+<span class="r-in"><span><span class="fu">modify_label_pieces</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a [of b in c]"</span>, <span class="st">"d [-&gt; e in f]"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                    piece <span class="op">=</span> <span class="st">"noun"</span>,</span></span>
+<span class="r-in"><span>                    mod_map <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>new_noun <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"d"</span>, <span class="st">"e"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "a [of b in c]"        "new_noun [-&gt; e in f]"</span>
-<span class="r-in"><span class="co"># Works with multiple items in the mod_map</span></span>
-<span class="r-in"><span class="fu">modify_label_pieces</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a [of b in c]"</span>, <span class="st">"d [-&gt; e in f]"</span><span class="op">)</span>,</span>
-<span class="r-in">                    piece <span class="op">=</span> <span class="st">"noun"</span>,</span>
-<span class="r-in">                    mod_map <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>new_noun1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span>,</span>
-<span class="r-in">                                   new_noun2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"d"</span>, <span class="st">"e"</span>, <span class="st">"f"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># Works with multiple items in the mod_map</span></span></span>
+<span class="r-in"><span><span class="fu">modify_label_pieces</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a [of b in c]"</span>, <span class="st">"d [-&gt; e in f]"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                    piece <span class="op">=</span> <span class="st">"noun"</span>,</span></span>
+<span class="r-in"><span>                    mod_map <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>new_noun1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                                   new_noun2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"d"</span>, <span class="st">"e"</span>, <span class="st">"f"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "new_noun1 [of b in c]" "new_noun2 [-&gt; e in f]"</span>
-<span class="r-in"><span class="co"># Works with multiple pieces to be modified</span></span>
-<span class="r-in"><span class="fu">modify_label_pieces</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a [of b in c]"</span>, <span class="st">"d [-&gt; e in f]"</span><span class="op">)</span>,</span>
-<span class="r-in">                    piece <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"noun"</span>, <span class="st">"in"</span><span class="op">)</span>,</span>
-<span class="r-in">                    mod_map <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>new_noun <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span>,</span>
-<span class="r-in">                                   new_in   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c"</span>, <span class="st">"f"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># Works with multiple pieces to be modified</span></span></span>
+<span class="r-in"><span><span class="fu">modify_label_pieces</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a [of b in c]"</span>, <span class="st">"d [-&gt; e in f]"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                    piece <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"noun"</span>, <span class="st">"in"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                    mod_map <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>new_noun <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                                   new_in   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c"</span>, <span class="st">"f"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "new_noun [of b in new_in]" "d [-&gt; e in new_in]"       </span>
 </code></pre></div>
     </div>
@@ -148,7 +174,7 @@ any one of which will be replaced by "new".</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>
