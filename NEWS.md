@@ -22,7 +22,7 @@ output: html_document
   (The example for `to_notation` was `from_notation`.)
 * Improved accuracy of documentation for `get_pps()`.
 * New tests for new capabilities.
-    * Now up to 344 tests, all passing.
+    * Now up to 346 tests, all passing.
     * Test coverage remains at 100%.
 
 

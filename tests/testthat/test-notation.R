@@ -266,10 +266,14 @@ test_that("Pathological cases work for paste_pref_suff()", {
   attr(my_bad_notation, which = "my_bad_attr") <- "bad_attr"
   expect_error(paste_pref_suff(pref = "a", suff = "b", notation = my_bad_notation),
                regexp = "notation must be a list or a vector in paste_pref_suff")
+
+  # Trigger an error when pref and suff have different lenghts but neither have length 1.
+  expect_error(paste_pref_suff(pref = c("a", "b"), suff = c("c", "d", "e"), notation = RCLabels::arrow_notation),
+               regexp = "lengths of pref")
 })
 
 
-test_that("paste_pref_suff() works when one is a list and the other is not", {
+ test_that("paste_pref_suff() works when one is a list and the other is not", {
   res <- paste_pref_suff(pref = c("Biomass", "Biomass"), suff = "Resources", notation = RCLabels::from_notation)
   expect_equal(res, c("Biomass [from Resources]", "Biomass [from Resources]"))
   res2 <- paste_pref_suff(pref = "Biomass", suff = c("Resources", "Bogus"), notation = RCLabels::arrow_notation)
