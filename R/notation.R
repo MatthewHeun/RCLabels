@@ -281,9 +281,17 @@ paste_pref_suff <- function(ps = list(pref = pref, suff = suff),
       ps <- transposed_ps
     }
   }
-  if (!len_pref_suff == length(ps[["suff"]])) {
-    stop(paste0("lengths of pref (", len_pref_suff, ") and ",
-                "suff (", length(ps[["suff"]]), ") must match"))
+  if (len_pref_suff != length(ps[["suff"]])) {
+    # Try to recover by recycling the one that has length 1
+    if (length(ps[["pref"]]) == 1) {
+      ps[["pref"]] <- make_list(ps[["pref"]], n = length(ps[["suff"]])) %>% unlist()
+    } else if (length(ps[["suff"]]) == 1) {
+      ps[["suff"]] <- make_list(ps[["suff"]], n = length(ps[["pref"]])) %>% unlist()
+    } else {
+      stop(paste0("lengths of pref (", len_pref_suff, ") and ",
+                  "suff (", length(ps[["suff"]]),
+                  ") must match or one must be 1 so it can be recycled."))
+    }
   }
   if (is.list(notation)) {
     len_notation <- length(notation)
