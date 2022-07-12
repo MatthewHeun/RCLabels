@@ -9,6 +9,15 @@
 "arrow_notation"
 
 
+#' A description of dash notation.
+#'
+#' @format A vector of notational symbols that provides an dash separator ("a - b")
+#'         between prefix and suffix.
+#' @examples
+#' dash_notation
+"dash_notation"
+
+
 #' Parenthetical notation
 #'
 #' A description of parenthetical notation.
