@@ -272,6 +272,15 @@ test_that("get_piece() works with 'objects'", {
 })
 
 
+test_that("get_piece() does the right thing when it can't infer notation", {
+  # It should return the whole label in the prefix when notation can't be inferred.
+  split_pref_suff("Crude")
+  split_pref_suff("Crude", inf_notation = FALSE, notation = RCLabels::dash_notation)
+  get_pref_suff("Crude", which = "pref")
+  get_piece("Crude", piece = "noun")
+})
+
+
 test_that("passing NULL to extractors returns NULL", {
   expect_null(get_pref_suff(NULL))
   expect_null(get_nouns(NULL))

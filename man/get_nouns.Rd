@@ -32,8 +32,7 @@ A list of nouns from row and column labels.
 \description{
 Nouns are the first part of a row-column label,
 "a" in "a [b]".
-Internally, this function calls \code{get_pref_suff()}
-and asks for the prefix.
+Internally, this function calls \code{get_pref_suff(which = "pref")}.
 }
 \examples{
 get_nouns("a [b]", notation = bracket_notation)

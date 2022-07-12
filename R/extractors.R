@@ -2,8 +2,7 @@
 #'
 #' Nouns are the first part of a row-column label,
 #' "a" in "a \[b\]".
-#' Internally, this function calls `get_pref_suff()`
-#' and asks for the prefix.
+#' Internally, this function calls `get_pref_suff(which = "pref")`.
 #'
 #' @param labels A list or vector of labels from which nouns are to be extracted.
 #' @param inf_notation A boolean that tells whether to infer notation for `x`.
