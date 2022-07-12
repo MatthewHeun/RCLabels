@@ -276,6 +276,7 @@ test_that("get_piece() does the right thing when it can't infer notation", {
   # It should return the whole label in the prefix when notation can't be inferred.
   split_pref_suff("Crude")
   split_pref_suff("Crude", inf_notation = FALSE, notation = RCLabels::dash_notation)
+  split_pref_suff("Crude", inf_notation = FALSE, notation = RCLabels::arrow_notation)
   get_pref_suff("Crude", which = "pref")
   get_piece("Crude", piece = "noun")
 })
