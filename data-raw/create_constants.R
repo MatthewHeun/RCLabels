@@ -2,6 +2,22 @@
 
 
 #
+# First dot notation: a.b
+#
+
+first_dot_notation <- notation_vec(sep = ".")
+usethis::use_data(first_dot_notation, overwrite = TRUE)
+
+
+#
+# Dash notation: a - b
+#
+
+dash_notation <- notation_vec(sep = " - ")
+usethis::use_data(dash_notation, overwrite = TRUE)
+
+
+#
 # Arrow notation: a -> b
 #
 
@@ -74,14 +90,6 @@ usethis::use_data(bracket_arrow_notation, overwrite = TRUE)
 
 
 #
-# First dot notation: a.b
-#
-
-first_dot_notation <- notation_vec(sep = ".")
-usethis::use_data(first_dot_notation, overwrite = TRUE)
-
-
-#
 # List of all known notations
 #
 # Note that the order of this list is important.
@@ -97,6 +105,7 @@ usethis::use_data(first_dot_notation, overwrite = TRUE)
 # DO NOT CHANGE THE ORDER OF THIS LIST.
 
 notations_list <- list(first_dot_notation = first_dot_notation,
+                       dash_notation = dash_notation,
                        arrow_notation = arrow_notation,
                        paren_notation = paren_notation,
                        bracket_notation = bracket_notation,

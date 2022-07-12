@@ -521,7 +521,7 @@ test_that("infer_notation() works as expected if choose_most_specific = TRUE", {
   expect_equal(infer_notation(c("a [to b]", "c [from d]"), choose_most_specific = TRUE, retain_names = TRUE),
                list(to_notation = RCLabels::to_notation, from_notation = RCLabels::from_notation))
   # Test with ALL known notations
-  expect_equal(infer_notation(c("a.b", "a -> b", "a (b)", "a [b]", "a [from b]", "a [of b]", "a [to b]", "a [in b]", "a [-> b]"),
+  expect_equal(infer_notation(c("a.b", "a - b", "a -> b", "a (b)", "a [b]", "a [from b]", "a [of b]", "a [to b]", "a [in b]", "a [-> b]"),
                               retain_names = TRUE), RCLabels::notations_list)
 })
 

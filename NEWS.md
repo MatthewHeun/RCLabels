@@ -4,6 +4,7 @@ output: html_document
 ---
 
 
+* Added `dash_notation`.
 * `paste_pref_suff()` now recycles arguments of length 1.
 * All functions that paste row and column label pieces together
   are now vectorized over `notation` arguments.
