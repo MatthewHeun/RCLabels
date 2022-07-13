@@ -123,8 +123,15 @@
 #' switch_notation(c("a -> b", "c [to d]"),
 #'                 from = arrow_notation,
 #'                 to = bracket_notation)
-#' # Buf it notations are inferred, all notations can be switched
+#' # But if notations are inferred, all notations can be switched
 #' switch_notation(c("a -> b", "c [to d]"), to = bracket_notation)
+#' # A double-switch can be accomplished.
+#' # In this first example, `RCLabels::first_dot_notation` is inferred.
+#' switch_notation("a.b.c", to = arrow_notation)
+#' # In this second example,
+#' # it is easier to specify the `from` and `to` notations.
+#' switch_notation("a.b.c", to = arrow_notation) %>%
+#'   switch_notation(from = first_dot_notation, to = arrow_notation)
 #' @name row-col-notation
 NULL
 
@@ -646,10 +653,14 @@ infer_notation_for_one_label <- function(x,
       # Check for appropriateness of the notation for string x.
       if (length(locations[[j]]) > 1) {
         # We have more than 1 match for this notation's delimiter, which is likely an error.
-        stop(paste0("More than 1 location in '", x, "' matched '",
-                    names(locations[j]), "' ('", this_notation[[names(locations[j])]],
-                    "') for ", names(notations[i]), " = ",
-                    paste0(notations[i])))
+        # stop(paste0("More than 1 location in '", x, "' matched '",
+        #             names(locations[j]), "' ('", this_notation[[names(locations[j])]],
+        #             "') for ", names(notations[i]), " = ",
+        #             paste0(notations[i])))
+
+        # We have more than 1 match for this notation's delimiter.
+        # Choose the first location.
+        locations[[j]] <- locations[[j]][[1]]
       }
       if (locations[[j]] < 0) {
         # A notation is inappropriate for x if any location is < 0 (meaning the notation delimiter string was not found in x)

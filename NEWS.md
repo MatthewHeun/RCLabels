@@ -4,6 +4,10 @@ output: html_document
 ---
 
 
+* When notation elements are present in multiple
+  locations in a row or column label,
+  an error is no longer thrown. 
+  The first location is now reported.
 * When notation cannot be inferred, 
   `get_piece()` and similar functions
   now return the full label in the prefix. 

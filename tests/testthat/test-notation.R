@@ -433,7 +433,10 @@ test_that("switch_notation() works as expected", {
   expect_equal(switch_notation("a [b]", to = arrow_notation), "a -> b")
   expect_equal(switch_notation("a [b]", to = arrow_notation, flip = TRUE), "b -> a")
   expect_equal(switch_notation("a [b]", to = first_dot_notation), "a.b")
-  expect_error(switch_notation("a.b.c", to = arrow_notation), regexp = "More than 1 location in 'a.b.c' matched 'pref_end")
+  expect_equal(switch_notation("a.b.c", to = arrow_notation), "a -> b.c")
+  expect_equal(switch_notation("a.b.c", to = arrow_notation) %>%
+                 switch_notation(from = first_dot_notation, to = arrow_notation),
+               "a -> b -> c")
 
   # Try with a list
   expect_equal(switch_notation(list("a -> b", "c -> d"), to = bracket_notation),
@@ -481,7 +484,7 @@ test_that("infer_notation() works as expected for single x values", {
   expect_equal(infer_notation("a [-> b]", allow_multiple = TRUE, choose_most_specific = FALSE, retain_names = TRUE),
                list(bracket_notation = RCLabels::bracket_notation, bracket_arrow_notation = RCLabels::bracket_arrow_notation))
   expect_equal(infer_notation("a.b"), RCLabels::first_dot_notation)
-  expect_error(infer_notation("a.b.c.d"), regexp = "More than 1 location in 'a.b.c.d' matched 'pref_end'")
+  expect_equal(infer_notation("a.b.c.d"), RCLabels::first_dot_notation)
   # Try with requesting names
   expect_equal(infer_notation("a -> b", retain_names = TRUE), list(arrow_notation = RCLabels::arrow_notation))
   # Try with a restricted set of notations, not expecting a match.
@@ -573,5 +576,10 @@ test_that("infer_notation() correctly flags a malformed label", {
 test_that("infer_notation() identifies a pathological case", {
   expect_equal(infer_notation("a [from b]", allow_multiple = FALSE, choose_most_specific = FALSE, must_succeed = FALSE),
                RCLabels::bracket_notation)
+})
+
+
+test_that("infer_notation() works with 'HTH.400.C'", {
+  expect_equal(infer_notation("HTH.400.C"), RCLabels::first_dot_notation)
 })
 

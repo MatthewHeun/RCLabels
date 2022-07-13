@@ -203,6 +203,13 @@ infer_notation("a [to b]",
 switch_notation(c("a -> b", "c [to d]"),
                 from = arrow_notation,
                 to = bracket_notation)
-# Buf it notations are inferred, all notations can be switched
+# But if notations are inferred, all notations can be switched
 switch_notation(c("a -> b", "c [to d]"), to = bracket_notation)
+# A double-switch can be accomplished.
+# In this first example, `RCLabels::first_dot_notation` is inferred.
+switch_notation("a.b.c", to = arrow_notation)
+# In this second example,
+# it is easier to specify the `from` and `to` notations.
+switch_notation("a.b.c", to = arrow_notation) \%>\%
+  switch_notation(from = first_dot_notation, to = arrow_notation)
 }
