@@ -24,3 +24,6 @@ A label shorn of the part to be stripped.
 This function should only ever see a single label (\code{x})
 and a single \code{notation}.
 }
+\details{
+If \code{notation} is \code{NULL}, \code{x} is returned, unmodified.
+}

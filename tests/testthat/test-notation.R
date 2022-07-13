@@ -195,21 +195,22 @@ test_that("split_pref_suff() works while inferring notation", {
 
 
 test_that("split_pref_suff() works with one successful and one unsuccessful inference", {
-  expect_error(split_pref_suff("abcde"), regexp = "Unable to infer notation for 'abcde'")
-  expect_error(split_pref_suff(list("a [b]", "abcde")), regexp = "Unable to infer notation for 'abcde'")
+  expect_equal(split_pref_suff("abcde"), list(pref = "abcde", suff = ""))
+  expect_equal(split_pref_suff(list("a [b]", "abcde")), list(pref = c("a", "abcde"), suff = c("b", "")))
   expect_equal(split_pref_suff(list("a [b]", "abcde"), notation = RCLabels::bracket_notation),
                list(pref = c("a", "abcde"), suff = c("b", "")))
   # For this one, a notation inference is requested.
   # But it will fail, because there is no known notation for "abcde".
-  expect_error(split_pref_suff(list("a [b]", "abcde")), regexp = "Unable to infer notation for 'abcde'")
+  expect_equal(split_pref_suff(list("a [b]", "abcde")),
+               list(pref = c("a", "abcde"), suff = c("b", "")))
 })
 
 
-test_that("pathological case fails for strip_label_part()", {
-  expect_error(RCLabels:::strip_label_part(c("a -> b", "c -> d"), part = "pref", notation = NULL),
-               regexp = "length\\(x\\) and legth\\(notation\\) must be same length in strip_label_part\\(\\)")
-  expect_error(RCLabels:::strip_label_part(vector(mode = "character", length = 0), part = "pref", notation = NULL),
-               regexp = "subscript out of bounds")
+test_that("pathological case produces expected result for strip_label_part()", {
+  expect_equal(RCLabels:::strip_label_part(c("a -> b", "c -> d"), part = "pref", notation = NULL),
+               c("a -> b", "c -> d"))
+  expect_equal(RCLabels:::strip_label_part(vector(mode = "character", length = 0), part = "pref", notation = NULL),
+               character())
 })
 
 
@@ -344,7 +345,7 @@ test_that("get_pref_suff() works as expected", {
   expect_equal(get_pref_suff(list("a -> b", "c -> d"), which = "suff"),
                c(suff = "b", suff = "d"))
 
-  expect_error(get_pref_suff(list("a [b]", "abcde"), which = "suff"), regexp = "Unable to infer notation for 'abcde'")
+  expect_equal(get_pref_suff(list("a [b]", "abcde"), which = "suff"), c(suff = "b", suff = ""))
 
   # Try degenerate cases
   expect_equal(get_pref_suff("abcde", which = "pref", notation = arrow_notation), c(pref = "abcde"))
@@ -408,8 +409,8 @@ test_that("switch_notation() works as expected", {
   # Start with a degenerate case
   expect_equal(switch_notation("a", from = arrow_notation, to = bracket_notation), "a")
   expect_equal(switch_notation("a", from = bracket_notation, to = arrow_notation), "a")
-  # Try with notation inference
-  expect_error(switch_notation("a", to = bracket_notation), regexp = "Unable to infer notation for 'a'")
+  # Try with notation inference. Can't infer, so simply returns "a".
+  expect_equal(switch_notation("a", to = bracket_notation), "a")
 
   # Now try "real" cases
   expect_equal(switch_notation("a -> b", from = arrow_notation, to = bracket_notation),
@@ -570,7 +571,7 @@ test_that("infer_notation() correctly flags a malformed label", {
 
 
 test_that("infer_notation() identifies a pathological case", {
-  expect_error(infer_notation("a [from b]", allow_multiple = FALSE, choose_most_specific = FALSE, must_succeed = FALSE),
-               regexp = "multiple matches when allow_multiple = FALSE, choose_most_specific = FALSE, and must_succeed = FALSE in match_notation")
+  expect_equal(infer_notation("a [from b]", allow_multiple = FALSE, choose_most_specific = FALSE, must_succeed = FALSE),
+               RCLabels::bracket_notation)
 })
 

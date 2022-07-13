@@ -41,6 +41,9 @@ test_that("get_nouns() works when inf_notation = FALSE", {
 
 test_that("get_pps() works as expected", {
   # Try a couple simple ones
+  expect_equal(get_pps("a [in b]"), c(pps = "in b"))
+  # Not sure why we would ever want to do this.
+  expect_equal(get_pps("a [in b]", choose_most_specific = TRUE), c(pps = "b"))
   expect_equal(get_pps("a [in b]", choose_most_specific = FALSE), c(pps = "in b"))
   expect_equal(get_pps(c("a [in b]", "c [of d]"), notation = RCLabels::bracket_notation), c(pps = "in b", pps = "of d"))
   expect_equal(get_pps(c("a [in b]", "c [of d]"), choose_most_specific = FALSE), c(pps = "in b", pps = "of d"))
@@ -274,11 +277,15 @@ test_that("get_piece() works with 'objects'", {
 
 test_that("get_piece() does the right thing when it can't infer notation", {
   # It should return the whole label in the prefix when notation can't be inferred.
-  split_pref_suff("Crude")
-  split_pref_suff("Crude", inf_notation = FALSE, notation = RCLabels::dash_notation)
-  split_pref_suff("Crude", inf_notation = FALSE, notation = RCLabels::arrow_notation)
-  get_pref_suff("Crude", which = "pref")
-  get_piece("Crude", piece = "noun")
+  expect_equal(split_pref_suff("Crude"), list(pref = "Crude", suff = ""))
+  expect_equal(split_pref_suff(c("Crude", "a -> b")),
+               list(pref = c("Crude", "a"), suff = c("", "b")))
+  expect_equal(split_pref_suff("Crude", inf_notation = FALSE, notation = RCLabels::dash_notation),
+               list(pref = "Crude", suff = ""))
+  expect_equal(split_pref_suff("Crude", inf_notation = FALSE, notation = RCLabels::arrow_notation),
+               list(pref = "Crude", suff = ""))
+  expect_equal(get_pref_suff("Crude", which = "pref"), c(pref = "Crude"))
+  expect_equal(get_piece("Crude", piece = "noun"), c(noun = "Crude"))
 })
 
 

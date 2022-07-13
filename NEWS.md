@@ -4,6 +4,14 @@ output: html_document
 ---
 
 
+* When notation cannot be inferred, 
+  `get_piece()` and similar functions
+  now return the full label in the prefix. 
+  (Previously this had been an error.)
+  This new behavior is similar to 
+  returning the entire label in the prefix
+  when notation is supplied (not inferred) and 
+  the notation is not applicable for the label.
 * Added `dash_notation`.
 * `paste_pref_suff()` now recycles arguments of length 1.
 * All functions that paste row and column label pieces together

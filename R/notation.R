@@ -168,7 +168,9 @@ split_pref_suff <- function(x,
                              inf_notation = inf_notation,
                              notations = notation,
                              choose_most_specific = choose_most_specific,
-                             retain_names = FALSE)
+                             retain_names = FALSE,
+                             must_succeed = FALSE)
+
   if (length(x) > 1 & !is.list(notation)) {
     # We have an incoming vector of x with length > 1,
     # but notation is not a list.
@@ -214,6 +216,8 @@ split_pref_suff <- function(x,
 #' This function should only ever see a single label (`x`)
 #' and a single `notation`.
 #'
+#' If `notation` is `NULL`, `x` is returned, unmodified.
+#'
 #' @param x The label(s) to be split.
 #' @param notation The notations to be used for each `x`.
 #' @param part The part of the label to work on, such as "pref_start", "pref_end", "suff_start", or "suff_end".
@@ -222,6 +226,11 @@ split_pref_suff <- function(x,
 #'
 #' @return A label shorn of the part to be stripped.
 strip_label_part <- function(x, notation, part, pattern_pref = "", pattern_suff = "") {
+  # Take care of the case where notation is NULL,
+  # likely because it could not be inferred.
+  if (is.null(notation)) {
+    return(x)
+  }
   if (length(x) == 1) {
     if (notation[[part]] == "") {
       out <- x
@@ -687,7 +696,7 @@ infer_notation_for_one_label <- function(x,
     }
     return(the_matches[[which.max(numchars)]])
   }
-  if (!allow_multiple & must_succeed) {
+  if (!allow_multiple) {
     # Choose the first match.
     out <- notations[the_matches_indices[[1]]]
     if (!retain_names) {
@@ -697,15 +706,19 @@ infer_notation_for_one_label <- function(x,
     }
     return(out)
   }
-  if (!allow_multiple) {
-    stop("multiple matches when allow_multiple = FALSE, choose_most_specific = FALSE, and must_succeed = FALSE in match_notation()")
-  }
+  # if (!allow_multiple) {
+  #   stop("multiple matches when allow_multiple = FALSE, choose_most_specific = FALSE, and must_succeed = FALSE in match_notation()")
+  # }
   # At this point, allow_multiple = TRUE and choose_most_specific = FALSE.
+  # Send back multiple notations.
+  #
+  # Without names
   if (!retain_names) {
     out <- notations[the_matches_indices] %>%
       unname()
     return(out)
   }
+  # Or with names.
   # At this point,
   # allow_multiple = TRUE,
   # choose_most_specific = FALSE, and
