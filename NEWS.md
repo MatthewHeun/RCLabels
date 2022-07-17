@@ -4,6 +4,8 @@ output: html_document
 ---
 
 
+* Fixed a bug where named values in `pref` and `suff`
+  caused `paste_pref_suff()` to fail. 
 * When notation elements are present in multiple
   locations in a row or column label,
   an error is no longer thrown. 
