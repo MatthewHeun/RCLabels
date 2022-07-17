@@ -274,11 +274,33 @@ test_that("Pathological cases work for paste_pref_suff()", {
 })
 
 
- test_that("paste_pref_suff() works when one is a list and the other is not", {
+test_that("paste_pref_suff() works when one is a list and the other is not", {
   res <- paste_pref_suff(pref = c("Biomass", "Biomass"), suff = "Resources", notation = RCLabels::from_notation)
   expect_equal(res, c("Biomass [from Resources]", "Biomass [from Resources]"))
   res2 <- paste_pref_suff(pref = "Biomass", suff = c("Resources", "Bogus"), notation = RCLabels::arrow_notation)
   expect_equal(res2, c("Biomass -> Resources", "Biomass -> Bogus"))
+})
+
+
+test_that("paste_pref_suff() works in a weird case", {
+  notn <- make_list(RCLabels::of_notation, n = 3, lenx = 1)
+
+  ps <- list(pref = c("a", "b", "b"),
+             suff = c("c", "c", "c"))
+  res <- paste_pref_suff(ps, notation = notn)
+  expect_equal(res, c("a [of c]", "b [of c]", "b [of c]"))
+
+  ps2 <- list(pref = c(pref = "a", pref = "b", pref = "b"),
+              suff = c(suff = "c", suff = "c", suff = "c"))
+  res2 <- paste_pref_suff(ps2, notation = notn)
+  expect_equal(res2, c("a [of c]", "b [of c]", "b [of c]"))
+
+  # Because names are stripped of sub-items,
+  # it no longer matters what they are named.
+  ps3 <- list(pref = c(pref = "a", pref = "b", pref = "b"),
+              suff = c(pref = "c", pref = "c", pref = "c"))
+  res3 <- paste_pref_suff(ps3, notation = notn)
+  expect_equal(res3, c("a [of c]", "b [of c]", "b [of c]"))
 })
 
 

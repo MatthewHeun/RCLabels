@@ -340,6 +340,9 @@ paste_pref_suff <- function(ps = list(pref = pref, suff = suff),
     }
   }
 
+  # If pref or suff have names, the transpose call messes things up.
+  ps <- list(pref = unname(ps[["pref"]]), suff = unname(ps[["suff"]]))
+
   ps <- purrr::transpose(ps)
   out <- Map(f = single_paste_func, ps, notation) %>%
     unlist()
