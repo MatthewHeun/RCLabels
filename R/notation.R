@@ -56,7 +56,8 @@
 #'
 #' If either `pref` or `suff` are a zero-length character vector
 #' (essentially an empty character vector
-#' such as obtained from `character()`),
+#' such as obtained from `character()`)
+#' input to `paste_pref_suff()`,
 #' an error is thrown.
 #' Instead, use an empty character string
 #' (such as obtained from `""`).
@@ -139,6 +140,8 @@
 #' # it is easier to specify the `from` and `to` notations.
 #' switch_notation("a.b.c", to = arrow_notation) %>%
 #'   switch_notation(from = first_dot_notation, to = arrow_notation)
+#' # "" can be used as an input
+#' paste_pref_suff(pref = "a", suff = "", notation = RCLabels::from_notation)
 #' @name row-col-notation
 NULL
 

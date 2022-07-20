@@ -173,7 +173,8 @@ there are prefix/suffix pairs to be pasted.
 
 If either \code{pref} or \code{suff} are a zero-length character vector
 (essentially an empty character vector
-such as obtained from \code{character()}),
+such as obtained from \code{character()})
+input to \code{paste_pref_suff()},
 an error is thrown.
 Instead, use an empty character string
 (such as obtained from \code{""}).
@@ -219,4 +220,6 @@ switch_notation("a.b.c", to = arrow_notation)
 # it is easier to specify the `from` and `to` notations.
 switch_notation("a.b.c", to = arrow_notation) \%>\%
   switch_notation(from = first_dot_notation, to = arrow_notation)
+# "" can be used as an input
+paste_pref_suff(pref = "a", suff = "", notation = RCLabels::from_notation)
 }
