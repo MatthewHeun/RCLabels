@@ -304,6 +304,17 @@ test_that("paste_pref_suff() works in a weird case", {
 })
 
 
+test_that("paste_pref_suff() works with an empty data frame", {
+  # Build an empty data frame
+  df <- data.frame(pref = character(), suff = character()) %>%
+    dplyr::mutate(
+      pasted = paste_pref_suff(pref = .data[["pref"]], suff = .data[["suff"]], notation = RCLabels::from_notation)
+    )
+  expect_equal(nrow(df), 0)
+  expect_equal(names(df), c("pref", "suff", "pasted"))
+})
+
+
 test_that("flip_pref_suff() works as expected", {
   # Try with inf_notation = FALSE
   expect_equal(flip_pref_suff("a -> b",
