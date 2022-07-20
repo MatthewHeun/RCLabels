@@ -170,6 +170,13 @@ For functions that construct labels (such as \code{paste_pref_suff()}),
 over which the paste tasks is mapped.
 If \code{notation} is a list, it must have as many items as
 there are prefix/suffix pairs to be pasted.
+
+If either \code{pref} or \code{suff} are a zero-length character vector
+(essentially an empty character vector
+such as obtained from \code{character()}),
+an error is thrown.
+Instead, use an empty character string
+(such as obtained from \code{""}).
 }
 \examples{
 notation_vec()
