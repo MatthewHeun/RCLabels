@@ -54,6 +54,13 @@
 #' If `notation` is a list, it must have as many items as
 #' there are prefix/suffix pairs to be pasted.
 #'
+#' If either `pref` or `suff` are a zero-length character vector
+#' (essentially an empty character vector
+#' such as obtained from `character()`),
+#' an error is thrown.
+#' Instead, use an empty character string
+#' (such as obtained from `""`).
+#'
 #' @param sep A string separator between prefix and suffix. Default is " -> ".
 #' @param pref_start A string indicating the start of a prefix. Default is `NULL`.
 #' @param pref_end A string indicating the end of a prefix. Default is the value of `sep`.

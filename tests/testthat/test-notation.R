@@ -315,6 +315,13 @@ test_that("paste_pref_suff() works with an empty data frame", {
 })
 
 
+test_that("paste_pref_suff() fails with empty character array", {
+  expect_equal(paste_pref_suff(pref = "a", suff = "", notation = RCLabels::from_notation), "a [from ]")
+  expect_error(paste_pref_suff(pref = "a", suff = character(), notation = RCLabels::from_notation),
+               regexp = "attempt to select less than one element in integerOneIndex")
+})
+
+
 test_that("flip_pref_suff() works as expected", {
   # Try with inf_notation = FALSE
   expect_equal(flip_pref_suff("a -> b",
