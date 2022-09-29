@@ -9,7 +9,7 @@
 #' constructing patterns for row and column selections with
 #' `matsbyname::select_rows_byname()` and `matsbyname::select_cols_byname()`.
 #'
-#' \code{pattern_type} controls the type of pattern created:
+#' `pattern_type` controls the type of pattern created:
 #' \itemize{
 #'   \item{`exact` produces a regex pattern that selects row or column names by exact match.}
 #'   \item{`leading` produces a regex pattern that selects row or column names if the item in `strings` matches
