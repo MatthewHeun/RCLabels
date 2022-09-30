@@ -43,4 +43,8 @@ any substring of row or column names.}
 }
 \examples{
 make_or_pattern(strings = c("a", "b"), pattern_type = "exact")
+make_or_pattern(strings = c("a", "b"), pattern_type = "leading")
+make_or_pattern(strings = c("a", "b"), pattern_type = "trailing")
+make_or_pattern(strings = c("a", "b"), pattern_type = "anywhere")
+make_or_pattern(strings = c("a", "b"), pattern_type = "literal")
 }

@@ -32,7 +32,7 @@
 #' @examples
 #' make_or_pattern(strings = c("a", "b"), pattern_type = "exact")
 #' make_or_pattern(strings = c("a", "b"), pattern_type = "leading")
-#' make_or_pattern(strings = c("a", "b"), pattern_type = "traling")
+#' make_or_pattern(strings = c("a", "b"), pattern_type = "trailing")
 #' make_or_pattern(strings = c("a", "b"), pattern_type = "anywhere")
 #' make_or_pattern(strings = c("a", "b"), pattern_type = "literal")
 make_or_pattern <- function(strings, pattern_type = c("exact", "leading", "trailing", "anywhere", "literal")){
