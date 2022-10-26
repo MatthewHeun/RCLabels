@@ -282,9 +282,7 @@ paste_pieces <- function(splt_labels, notation = RCLabels::bracket_notation) {
       this_label[["noun"]]
     })
   pps <- sapply(splt_labels, FUN = function(this_label) {
-    without_noun <- this_label %>%
-      as.list() %>%
-      purrr::list_modify("noun" = NULL)
+    without_noun <- this_label[setdiff(names(this_label), "noun")]
     paste0(names(without_noun), " ", without_noun, collapse = " ")
   })
   paste_pref_suff(pref = nouns, suff = pps, notation = notation)
