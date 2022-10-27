@@ -293,10 +293,13 @@ paste_pref_suff <- function(ps = list(pref = pref, suff = suff),
     paste0(out, this_ps[["suff"]], this_notation[["suff_end"]])
   }
 
-  orig_ps_was_list <- is.list(ps)
+print("At top of paste_pref_suff()")
+
+  # orig_ps_was_list <- is.list(ps)
 
   # Check the lengths of prefix and suffix match
   len_pref_suff <- length(ps[["pref"]])
+
   if (len_pref_suff == 0) {
     # Try to transpose to see if we get the form that we need.
     transposed_ps <- purrr::transpose(ps)
@@ -307,6 +310,9 @@ paste_pref_suff <- function(ps = list(pref = pref, suff = suff),
       ps <- transposed_ps
     }
   }
+
+print("At #1")
+
   if (len_pref_suff != length(ps[["suff"]])) {
     # Try to recover by recycling the one that has length 1
     if (length(ps[["pref"]]) == 1) {
@@ -326,6 +332,8 @@ paste_pref_suff <- function(ps = list(pref = pref, suff = suff),
   } else {
     stop("notation must be a list or a vector in paste_pref_suff()")
   }
+
+print("At #2")
 
   # At this point, we need to double-check the shape of both
   # ps and notation.
@@ -349,6 +357,8 @@ paste_pref_suff <- function(ps = list(pref = pref, suff = suff),
         purrr::transpose()
     }
   }
+
+print("At #3")
 
   # If pref or suff have names, the transpose call messes things up.
   ps <- list(pref = unname(ps[["pref"]]), suff = unname(ps[["suff"]]))
