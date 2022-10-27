@@ -62,7 +62,7 @@ test_that("modify_label_pieces() works as expected with single strings", {
   expect_equal(modify_label_pieces(label, piece = "in", mod_map = list(USA = c("a", "b", "c"))),
                "a [of b in USA]")
 
-  # Try with a different label structure with inference
+  # Try with a different label structure without inference
   expect_equal(modify_label_pieces("a -> b", piece = "noun", mod_map = list(new_noun = c("a", "b")),
                                    inf_notation = FALSE,
                                    notation = RCLabels::arrow_notation),

@@ -132,6 +132,21 @@ test_that("get_objects() works correctly", {
 })
 
 
+test_that("get_objects() sets preposition with arrow notation", {
+  label1 <- "a [-> b]"
+  expect_equal(get_objects(label1, notation = RCLabels::bracket_notation, inf_notation = FALSE), list(objects = c(`->` = "b")))
+  # This one is weird, but the expected behavior.
+  # Note that get_objects() cannot pick up a preposition,
+  # because -> is the delimiter between prefix and suffix.
+  # The suffix is only "b", with no preposition present.
+  label2 <- "a -> b"
+  temp <- c(` ` = "b") %>%
+    magrittr::set_names(c(""))
+  res <- list(objects = temp)
+  expect_equal(get_objects(label2), res)
+})
+
+
 test_that("split_noun_pp() works as expected", {
   # Try with specific notation
   expect_equal(split_noun_pp("a [of b]", notation = bracket_notation),

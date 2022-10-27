@@ -4,6 +4,7 @@ output: html_document
 ---
 
 
+* Accepted a merge request from Hadley Wickham.
 * Submitting `character()` (an empty character vector)
   to `paste_pref_suff()` now causes an error.
   Use `""` instead.

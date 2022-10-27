@@ -251,12 +251,12 @@ get_objects <- function(labels,
     return(out)
   })
 
-  prepositions <- get_prepositions(labels,
-                                   inf_notation = inf_notation,
-                                   notation = notation,
-                                   prepositions = prepositions)
+  these_prepositions <- get_prepositions(labels,
+                                         inf_notation = inf_notation,
+                                         notation = notation,
+                                         prepositions = prepositions)
 
-  mapply(pps, obj_start_locations, obj_end_locations, prepositions,
+  mapply(pps, obj_start_locations, obj_end_locations, these_prepositions,
                     SIMPLIFY = FALSE, USE.NAMES = FALSE, FUN = function(this_pp, these_osls, these_oels, these_pps) {
     mapply(these_osls, these_oels, these_pps, FUN = function(osl, oel, these_preps) {
       substring(this_pp, first = osl, last = oel) %>%
