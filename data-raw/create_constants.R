@@ -123,6 +123,10 @@ usethis::use_data(notations_list, overwrite = TRUE)
 
 prepositions_list <- c("in", "into", "from", "of", "->", "to")
 usethis::use_data(prepositions_list, overwrite = TRUE)
+# prepositions is deprecated and will be removed later,
+# after an update to matsbyname is released to CRAN.
+prepositions <- prepositions_list
+usethis::use_data(prepositions, overwrite = TRUE)
 
 
 
