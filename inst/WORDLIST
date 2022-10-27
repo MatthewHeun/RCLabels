@@ -3,6 +3,7 @@ CMD
 DOI
 ECC
 github
+Hadley
 https
 IEATools
 io
@@ -20,4 +21,5 @@ shorn
 suff
 unsplits
 vectorized
+Wickham
 ZAR

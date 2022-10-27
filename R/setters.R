@@ -54,19 +54,19 @@ modify_nouns <- function(labels,
 
 #' Modify pieces of row and column labels
 #'
-#' This function modifies pieces of row and column labels
-#' according to `label_map` that defines "one or many to one" relationships.
-#' This function is useful for aggregations.
-#' For example, replacing nouns can be done by
-#' `modify_label_pieces(<<labels>>, piece = "noun", label_map = list(new_noun = c("a", "b", "c"))`.
-#' The string "new_noun" will replace any of "a", "b", or "c"
-#' when they appear as nouns in a row or column label.
-#' See examples for details.
-#'
 #' Typical `piece`s include "noun" or a preposition,
 #' such as "in" or "from".
 #' See `RCLabels::prepositions` for additional examples.
 #' This argument may be a single string or a character vector.
+#'
+#' This function modifies pieces of row and column labels
+#' according to `label_map` that defines "one or many to one" relationships.
+#' This function is useful for aggregations.
+#' For example, replacing nouns can be done by
+#' `modify_label_pieces(labels, piece = "noun", label_map = list(new_noun = c("a", "b", "c"))`.
+#' The string "new_noun" will replace any of "a", "b", or "c"
+#' when they appear as nouns in a row or column label.
+#' See examples for details.
 #'
 #' The `mod_map` argument should consist of a
 #' named list of character vectors in which names indicate
@@ -77,9 +77,14 @@ modify_nouns <- function(labels,
 #' "old"/"olds" is/are a string/vector of strings,
 #' any one of which will be replaced by "new".
 #'
-#' Note `piece` can be "pref"/"suff" or "noun"/"<<prepositions>>"
-#' If `piece` is neither "pref" nor "suff",
-#' `piece` will be interpreted as "noun"/"<<prepositions>>"
+#' Note `piece` can be "pref"/"suff" or "noun"/"prepositions"
+#' If any `piece` is "pref" or "suff",
+#' all pieces are assumed to be a prefix or a suffix.
+#' If non of the `piece`s are "pref" or "suff",
+#' all `piece`s are assumed to be nouns or prepositions,
+#' such as "in" or "from".
+#' See `RCLabels::prepositions` for additional examples.
+#' This argument may be a single string or a character vector.
 #'
 #' @param labels A vector of row or column labels in which pieces will be modified.
 #' @param piece The piece (or pieces) of the row or column label that will be modified.
