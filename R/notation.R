@@ -311,8 +311,6 @@ print("At top of paste_pref_suff()")
     }
   }
 
-print("At #1")
-
   if (len_pref_suff != length(ps[["suff"]])) {
     # Try to recover by recycling the one that has length 1
     if (length(ps[["pref"]]) == 1) {
@@ -332,8 +330,6 @@ print("At #1")
   } else {
     stop("notation must be a list or a vector in paste_pref_suff()")
   }
-
-print("At #2")
 
   # At this point, we need to double-check the shape of both
   # ps and notation.
@@ -364,8 +360,14 @@ print("At #3")
   ps <- list(pref = unname(ps[["pref"]]), suff = unname(ps[["suff"]]))
 
   ps <- purrr::transpose(ps)
+
+print("At #4")
+
   out <- Map(f = single_paste_func, ps, notation) %>%
     unlist()
+
+print("At #5")
+
   if (squish) {
     out <- stringr::str_squish(out)
   }
