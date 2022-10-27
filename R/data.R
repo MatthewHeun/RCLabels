@@ -121,3 +121,12 @@
 #' @examples
 #' prepositions_list
 "prepositions_list"
+
+
+#' Prepositions
+#'
+#' This constant is deprecated.
+#' Please use `prepositiions_list` instead.
+#'
+#' @format A vector of prepositions used in row and column labels.
+"prepositions"
