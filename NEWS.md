@@ -4,6 +4,9 @@ output: html_document
 ---
 
 
+* A failing test led to new capability:
+  `modify_label_pieces()` now allows 
+  `piece = "pref"` and `piece = "suff"`.
 * Accepted a merge request from Hadley Wickham.
 * Submitting `character()` (an empty character vector)
   to `paste_pref_suff()` now causes an error.
@@ -41,7 +44,7 @@ output: html_document
   (The example for `to_notation` was `from_notation`.)
 * Improved accuracy of documentation for `get_pps()`.
 * New tests for new capabilities.
-    * Now up to 346 tests, all passing.
+    * Now up to 368 tests, all passing.
     * Test coverage remains at 100%.
 
 
