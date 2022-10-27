@@ -293,10 +293,6 @@ paste_pref_suff <- function(ps = list(pref = pref, suff = suff),
     paste0(out, this_ps[["suff"]], this_notation[["suff_end"]])
   }
 
-print("At top of paste_pref_suff()")
-
-  # orig_ps_was_list <- is.list(ps)
-
   # Check the lengths of prefix and suffix match
   len_pref_suff <- length(ps[["pref"]])
 
@@ -353,8 +349,6 @@ print("At top of paste_pref_suff()")
         purrr::transpose()
     }
   }
-
-print("At #3")
 
   # If pref or suff have names, the transpose call messes things up.
   ps <- list(pref = unname(ps[["pref"]]), suff = unname(ps[["suff"]]))
