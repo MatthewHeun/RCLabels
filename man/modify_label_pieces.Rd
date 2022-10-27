@@ -15,7 +15,7 @@ modify_label_pieces(
 )
 }
 \arguments{
-\item{labels}{The row and column labels in which pieces will be modified.}
+\item{labels}{A vector of row or column labels in which pieces will be modified.}
 
 \item{piece}{The piece (or pieces) of the row or column label that will be modified.}
 
@@ -50,19 +50,18 @@ when they appear as nouns in a row or column label.
 See examples for details.
 }
 \details{
-Typical \code{piece}s include "noun" or a preposition,
-such as "in" or "from".
-See \code{RCLabels::prepositions} for additional examples.
-This argument may be a single string or a character vector.
-
 The \code{mod_map} argument should consist of a
 named list of character vectors in which names indicate
 strings to be inserted and values indicate
 values that should be replaced.
 The sense is \code{new = old} or \code{new = olds},
 where "new" is the new name (the replacement) and
-"old" and "olds" is/are a string/vector of strings,
+"old"/"olds" is/are a string/vector of strings,
 any one of which will be replaced by "new".
+
+Note \code{piece} can be "pref"/"suff" or "noun"/"<<prepositions>>"
+If \code{piece} is neither "pref" nor "suff",
+\code{piece} will be interpreted as "noun"/"<<prepositions>>"
 }
 \examples{
 # Simple case

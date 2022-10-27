@@ -74,10 +74,14 @@ modify_nouns <- function(labels,
 #' values that should be replaced.
 #' The sense is `new = old` or `new = olds`,
 #' where "new" is the new name (the replacement) and
-#' "old" and "olds" is/are a string/vector of strings,
+#' "old"/"olds" is/are a string/vector of strings,
 #' any one of which will be replaced by "new".
 #'
-#' @param labels The row and column labels in which pieces will be modified.
+#' Note `piece` can be "pref"/"suff" or "noun"/"<<prepositions>>"
+#' If `piece` is neither "pref" nor "suff",
+#' `piece` will be interpreted as "noun"/"<<prepositions>>"
+#'
+#' @param labels A vector of row or column labels in which pieces will be modified.
 #' @param piece The piece (or pieces) of the row or column label that will be modified.
 #' @param mod_map A modification map. See details.
 #' @param prepositions A list of prepositions, used to detect prepositional phrases.
@@ -130,9 +134,18 @@ modify_label_pieces <- function(labels,
                              retain_names = FALSE,
                              choose_most_specific = choose_most_specific,
                              must_succeed = TRUE)
-  split <- labels %>%
-    # Already inferred notation
-    split_noun_pp(inf_notation = FALSE, notation = notation, prepositions = prepositions, choose_most_specific = choose_most_specific)
+
+  # If the piece is "pref" or "suff", split along those lines.
+  if (any(piece %in% c("pref", "suff"))) {
+    split <- labels %>%
+      # Already inferred notation
+      split_pref_suff(inf_notation = FALSE, notation = notation, choose_most_specific = choose_most_specific, transpose = TRUE)
+  } else {
+    # The caller didn't request "pref" or "suff", so try to split by noun and prepositional phrase.
+    split <- labels %>%
+      # Already inferred notation
+      split_noun_pp(inf_notation = FALSE, notation = notation, prepositions = prepositions, choose_most_specific = choose_most_specific)
+  }
 
   # Loop over everything to modify pieces.
   modified <- lapply(split, FUN = function(this_label) {
@@ -154,8 +167,16 @@ modify_label_pieces <- function(labels,
     this_label
   })
 
-  modified %>%
-    paste_noun_pp(notation = notation)
+  if (any(piece %in% c("pref", "suff"))) {
+    out <- lapply(modified, paste_pref_suff)
+    if (!is.list(labels)) {
+      out <- unlist(out)
+    }
+  } else {
+    out <- modified %>%
+      paste_noun_pp(notation = notation)
+  }
+  return(out)
 }
 
 

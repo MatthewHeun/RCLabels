@@ -63,10 +63,15 @@ test_that("modify_label_pieces() works as expected with single strings", {
                "a [of b in USA]")
 
   # Try with a different label structure without inference
-  expect_equal(modify_label_pieces("a -> b", piece = "noun", mod_map = list(new_noun = c("a", "b")),
+  expect_equal(modify_label_pieces("a -> b", piece = "pref", mod_map = list(new_noun = c("a", "b")),
                                    inf_notation = FALSE,
                                    notation = RCLabels::arrow_notation),
                "new_noun -> b")
+
+  expect_equal(modify_label_pieces(list("a -> b", "c -> d"), piece = "pref", mod_map = list(new_noun = c("a", "b")),
+               inf_notation = FALSE,
+               notation = RCLabels::arrow_notation),
+               list("new_noun -> b", "c -> d"))
 })
 
 
@@ -96,8 +101,8 @@ test_that("modify_label_pieces() works with vectors, lists, and in data frames",
 
 
 test_that("modify_label_pieces() works with 2x piece", {
-  labs <- c("a [of b in c]", "d [-> e in f]")
-  expect_equal(modify_label_pieces(labs,
+  labs_vector <- c("a [of b in c]", "d [-> e in f]")
+  expect_equal(modify_label_pieces(labs_vector,
                                    piece = c("noun", "in"),
                                    mod_map = list(new_noun = c("a", "b", "c"),
                                                     new_in   = c("c", "f"))),
