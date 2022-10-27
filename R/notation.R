@@ -361,17 +361,14 @@ print("At #3")
 
   ps <- purrr::transpose(ps)
 
-print("At #4")
+  if (length(ps) == 0) {
+    # Avoid going through the squish function,
+    # which errors on older versions of R.
+    return(list())
+  }
 
   out <- Map(f = single_paste_func, ps, notation) %>%
     unlist()
-  if (is.null(out)) {
-    # Avoid going through the squish function,
-    # which errors on older versions of R.
-    return(NULL)
-  }
-
-print("At #5")
 
   if (squish) {
     out <- stringr::str_squish(out)
