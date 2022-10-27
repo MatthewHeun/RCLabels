@@ -365,6 +365,11 @@ print("At #4")
 
   out <- Map(f = single_paste_func, ps, notation) %>%
     unlist()
+  if (is.null(out)) {
+    # Avoid going through the squish function,
+    # which errors on older versions of R.
+    return(NULL)
+  }
 
 print("At #5")
 
