@@ -4,6 +4,8 @@ output: html_document
 ---
 
 
+# RCLabels 0.1.2 (2022-10-28)
+
 * A failing test led to new capability:
   `modify_label_pieces()` now allows 
   `piece = "pref"` and `piece = "suff"`.
