@@ -2,15 +2,29 @@
 % Please edit documentation in R/extractors.R
 \name{get_nouns}
 \alias{get_nouns}
-\title{Extract nouns from labels}
+\title{Extract nouns from row and column labels}
 \usage{
-get_nouns(labels, notation = RCLabels::bracket_notation)
+get_nouns(
+  labels,
+  inf_notation = TRUE,
+  notation = RCLabels::notations_list,
+  choose_most_specific = TRUE
+)
 }
 \arguments{
 \item{labels}{A list or vector of labels from which nouns are to be extracted.}
 
+\item{inf_notation}{A boolean that tells whether to infer notation for \code{x}.
+Default is \code{TRUE}.
+See \code{infer_notation()} for details.}
+
 \item{notation}{The notation type to be used when extracting nouns.
-Default is \code{RCLabels::bracket_notation}.}
+Default is \code{RCLabels::notations_list}, meaning that
+the notation is inferred using \code{infer_notation()}.}
+
+\item{choose_most_specific}{A boolean that tells whether to choose the most specific
+notation from \code{notation} when inferring notation.
+Default is \code{TRUE}.}
 }
 \value{
 A list of nouns from row and column labels.
@@ -18,11 +32,10 @@ A list of nouns from row and column labels.
 \description{
 Nouns are the first part of a row-column label,
 "a" in "a [b]".
-Internally, this function calls \code{keep_pref_suff()}
-and asks for the prefix.
+Internally, this function calls \code{get_pref_suff(which = "pref")}.
 }
 \examples{
-get_nouns("a [b]", bracket_notation)
+get_nouns("a [b]", notation = bracket_notation)
 # Also works with vectors and lists.
 get_nouns(c("a [b]", "c [d]"))
 get_nouns(list("a [b]", "c [d]"))

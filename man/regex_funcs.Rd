@@ -10,7 +10,7 @@ match_by_pattern(
   labels,
   regex_pattern,
   pieces = "all",
-  prepositions = RCLabels::prepositions,
+  prepositions = RCLabels::prepositions_list,
   notation = RCLabels::bracket_notation,
   ...
 )
@@ -20,7 +20,7 @@ replace_by_pattern(
   regex_pattern,
   replacement,
   pieces = "all",
-  prepositions = RCLabels::prepositions,
+  prepositions = RCLabels::prepositions_list,
   notation = RCLabels::bracket_notation,
   ...
 )
@@ -36,7 +36,7 @@ before calling this function.}
 See details.}
 
 \item{prepositions}{A vector of strings that count as prepositions.
-Default is \code{RCLabels::prepositions}.
+Default is \code{RCLabels::prepositions_list}.
 Used to detect prepositional phrases
 if \code{pieces} are to be interpreted as prepositions.}
 

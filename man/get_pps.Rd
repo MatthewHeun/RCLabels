@@ -6,25 +6,42 @@
 \usage{
 get_pps(
   labels,
-  notation = RCLabels::bracket_notation,
-  prepositions = RCLabels::prepositions
+  inf_notation = TRUE,
+  notation = RCLabels::notations_list,
+  choose_most_specific = FALSE,
+  prepositions = RCLabels::prepositions_list
 )
 }
 \arguments{
-\item{labels}{A list or vector of labels from which nouns are to be extracted.}
+\item{labels}{A list or vector of labels from which prepositional phrases are to be extracted.}
 
-\item{notation}{The notation type to be used when extracting nouns.
-Default is \code{RCLabels::bracket_notation}.}
+\item{inf_notation}{A boolean that tells whether to infer notation for \code{x}.
+Default is \code{TRUE}.
+See \code{infer_notation()} for details.}
 
-\item{prepositions}{A list of prepositions, used to detect prepositional phrases.
-Default is \code{RCLabels::prepositions}.}
+\item{notation}{The notation type to be used when extracting prepositional phrases.
+Default is \code{RCLabels::notations_list}, meaning that
+the notation is inferred using \code{infer_notation()}.}
+
+\item{choose_most_specific}{A boolean that tells whether to choose the most specific
+notation from \code{notation} when inferring notation.
+Default is \code{FALSE} so that a less specific notation can be
+inferred.
+In combination with \code{RCLabels::notations_list},
+the default value of \code{FALSE} means that
+\code{RCLabels::bracket_notation} will be selected instead of
+anything more specific, such as
+\code{RCLabels::from_notation}.}
+
+\item{prepositions}{A list of prepositions for which to search.
+Default is \code{RCLabels::prepositions_list}.}
 }
 \value{
 All prepositional phrases in a suffix.
 }
 \description{
-This function extracts the suffix of a row or column label as a
-single string.
+This function extracts prepositional phrases from suffixes of row and column labels
+of the form "a [preposition b]", where "preposition b" is the prepositional phrase.
 }
 \examples{
 get_pps(c("a [in b]", "c [of d]"))

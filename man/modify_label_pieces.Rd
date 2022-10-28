@@ -8,41 +8,52 @@ modify_label_pieces(
   labels,
   piece,
   mod_map,
-  prepositions = RCLabels::prepositions,
-  notation = RCLabels::bracket_notation
+  prepositions = RCLabels::prepositions_list,
+  inf_notation = TRUE,
+  notation = RCLabels::bracket_notation,
+  choose_most_specific = FALSE
 )
 }
 \arguments{
-\item{labels}{The row and column labels in which pieces will be modified.}
+\item{labels}{A vector of row or column labels in which pieces will be modified.}
 
 \item{piece}{The piece (or pieces) of the row or column label that will be modified.}
 
 \item{mod_map}{A modification map. See details.}
 
 \item{prepositions}{A list of prepositions, used to detect prepositional phrases.
-Default is \code{RCLabels::prepositions}.}
+Default is \code{RCLabels::prepositions_list}.}
 
-\item{notation}{The notation used in \code{labels}.
-Default is \code{RCLabels::bracket_notation}.}
+\item{inf_notation}{A boolean that tells whether to infer notation for \code{x}.
+Default is \code{TRUE}.
+See \code{infer_notation()} for details.}
+
+\item{notation}{The notation type to be used when extracting prepositions.
+Default is \code{RCLabels::notations_list}, meaning that
+the notation is inferred using \code{infer_notation()}.}
+
+\item{choose_most_specific}{A boolean that tells whether the most specific
+notation is selected when more than one notation match.
+Default is \code{FALSE}.}
 }
 \value{
 \code{labels} with replacements according to \code{piece} and \code{mod_map}.
 }
 \description{
-This function modifies pieces of row and column labels
-according to \code{label_map} that defines "one or many to one" relationships.
-This function is useful for aggregations.
-For example, replacing nouns can be done by
-\verb{modify_label_pieces(<<labels>>, piece = "noun", label_map = list(new_noun = c("a", "b", "c"))}.
-The string "new_noun" will replace any of "a", "b", or "c"
-when they appear as nouns in a row or column label.
-See examples for details.
-}
-\details{
 Typical \code{piece}s include "noun" or a preposition,
 such as "in" or "from".
 See \code{RCLabels::prepositions} for additional examples.
 This argument may be a single string or a character vector.
+}
+\details{
+This function modifies pieces of row and column labels
+according to \code{label_map} that defines "one or many to one" relationships.
+This function is useful for aggregations.
+For example, replacing nouns can be done by
+\verb{modify_label_pieces(labels, piece = "noun", label_map = list(new_noun = c("a", "b", "c"))}.
+The string "new_noun" will replace any of "a", "b", or "c"
+when they appear as nouns in a row or column label.
+See examples for details.
 
 The \code{mod_map} argument should consist of a
 named list of character vectors in which names indicate
@@ -50,8 +61,17 @@ strings to be inserted and values indicate
 values that should be replaced.
 The sense is \code{new = old} or \code{new = olds},
 where "new" is the new name (the replacement) and
-"old" and "olds" is/are a string/vector of strings,
+"old"/"olds" is/are a string/vector of strings,
 any one of which will be replaced by "new".
+
+Note \code{piece} can be "pref"/"suff" or "noun"/"prepositions"
+If any \code{piece} is "pref" or "suff",
+all pieces are assumed to be a prefix or a suffix.
+If non of the \code{piece}s are "pref" or "suff",
+all \code{piece}s are assumed to be nouns or prepositions,
+such as "in" or "from".
+See \code{RCLabels::prepositions} for additional examples.
+This argument may be a single string or a character vector.
 }
 \examples{
 # Simple case

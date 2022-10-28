@@ -34,6 +34,12 @@
     <loc>/reference/bracket_notation.html</loc>
   </url>
   <url>
+    <loc>/reference/dash_notation.html</loc>
+  </url>
+  <url>
+    <loc>/reference/first_dot_notation.html</loc>
+  </url>
+  <url>
     <loc>/reference/from_notation.html</loc>
   </url>
   <url>
@@ -43,13 +49,28 @@
     <loc>/reference/get_objects.html</loc>
   </url>
   <url>
+    <loc>/reference/get_piece.html</loc>
+  </url>
+  <url>
     <loc>/reference/get_pps.html</loc>
   </url>
   <url>
     <loc>/reference/get_prepositions.html</loc>
   </url>
   <url>
+    <loc>/reference/in_notation.html</loc>
+  </url>
+  <url>
     <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/infer_notation.html</loc>
+  </url>
+  <url>
+    <loc>/reference/infer_notation_for_one_label.html</loc>
+  </url>
+  <url>
+    <loc>/reference/make_list.html</loc>
   </url>
   <url>
     <loc>/reference/make_or_pattern.html</loc>
@@ -67,16 +88,28 @@
     <loc>/reference/modify_nouns.html</loc>
   </url>
   <url>
+    <loc>/reference/notations_list.html</loc>
+  </url>
+  <url>
     <loc>/reference/of_notation.html</loc>
   </url>
   <url>
     <loc>/reference/paren_notation.html</loc>
   </url>
   <url>
+    <loc>/reference/paste_noun_pp.html</loc>
+  </url>
+  <url>
     <loc>/reference/paste_pieces.html</loc>
   </url>
   <url>
+    <loc>/reference/pipe.html</loc>
+  </url>
+  <url>
     <loc>/reference/prepositions.html</loc>
+  </url>
+  <url>
+    <loc>/reference/prepositions_list.html</loc>
   </url>
   <url>
     <loc>/reference/recombine_labels.html</loc>
@@ -92,6 +125,12 @@
   </url>
   <url>
     <loc>/reference/split_labels.html</loc>
+  </url>
+  <url>
+    <loc>/reference/split_noun_pp.html</loc>
+  </url>
+  <url>
+    <loc>/reference/strip_label_part.html</loc>
   </url>
   <url>
     <loc>/reference/to_notation.html</loc>

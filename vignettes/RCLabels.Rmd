@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup, include = FALSE}
+library(magrittr)
 library(RCLabels)
 ```
 
@@ -62,6 +63,7 @@ Example row and column labels include
 * "pref -> suff" (separator "->")
 * "pref [suff]" (suffix delimited by “ [” and “]”)
 * "(pref) (suff)" (prefix and suffix both surrounded by “(” and “)”)
+* "pref.suff" (separator ".")
 
 Prefixes are usually the "thing" of interest, e.g.
 an energy carrier ("Coal") or 
@@ -100,6 +102,7 @@ Several notation objects are provided for convenience within RCLabels.
 arrow_notation
 paren_notation
 bracket_notation
+first_dot_notation
 from_notation
 of_notation
 to_notation
@@ -145,8 +148,8 @@ switch_notation(my_label, from = my_notation, to = paren_notation, flip = TRUE)
 The prefix or suffix can be extracted from a row or column label.
 
 ```{r}
-keep_pref_suff(my_label, keep = "pref", notation = my_notation)
-keep_pref_suff(my_label, keep = "suff", notation = my_notation)
+get_pref_suff(my_label, which = "pref", notation = my_notation)
+get_pref_suff(my_label, which = "suff", notation = my_notation)
 ```
 
 
@@ -169,7 +172,7 @@ column is created.
 labels
 
 df <- tibble::tibble(labels = labels)
-result <- df |> 
+result <- df %>% 
   dplyr::mutate(
     split = split_pref_suff(labels, notation = bracket_notation, transpose = TRUE)
   )
@@ -191,7 +194,7 @@ the suffix usually consists of _prepositional phrases_
 `RCLabels` includes a list of common prepositions.
 
 ```{r}
-prepositions
+prepositions_list
 ```
 
 
@@ -218,17 +221,32 @@ get_prepositions(labels, notation = bracket_notation)
 # Objects are named by the preposition of their phrase.
 get_objects(labels, notation = bracket_notation)
 
+# The get_piece() function is a convenience function
+# that extracts just what you want.
+get_piece(labels, piece = "noun", notation = bracket_notation)
+get_piece(labels, piece = "pref")
+get_piece(labels, piece = "suff")
+get_piece(labels, piece = "of")
+get_piece(labels, piece = "in")
+# An empty string is returned when the preposition is missing.
+get_piece(labels, piece = "bogus")
+```
+
+Labels can be split into their component pieces.
+
+```{r}
+labels
 # Split the labels into pieces, named by "noun" and prepositions.
-split_labels <- split_labels(labels, 
-                             prepositions = prepositions, 
+split_labels <- split_noun_pp(labels, 
+                             prepositions = prepositions_list, 
                              notation = bracket_notation)
 split_labels
 
 # Recombine split labels.
-paste_pieces(split_labels, notation = bracket_notation)
+paste_noun_pp(split_labels, notation = bracket_notation)
 
 # Recombine with a new notation.
-paste_pieces(split_labels, notation = paren_notation)
+paste_noun_pp(split_labels, notation = paren_notation)
 ```
 
 

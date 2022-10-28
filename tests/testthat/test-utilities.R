@@ -11,7 +11,7 @@ test_that("make_or_pattern() works as expected", {
 
 
 test_that('prepositions make good "or" patterns', {
-  preps_pattern <- make_or_pattern(RCLabels::prepositions, pattern_type = "anywhere")
+  preps_pattern <- make_or_pattern(RCLabels::prepositions_list, pattern_type = "anywhere")
   res <- gregexpr(preps_pattern, c("a [of b]", "cat [from d]", "haunted [-> house]"))
   expect_equal(res, list(4, 6, 10), ignore_attr = TRUE)
   expect_equal(attr(res[[1]], which = "match.length"), 2)
@@ -226,3 +226,37 @@ test_that("replace_by_pattern() works for nouns and prepositions", {
                                   pieces = "in"),
                c("Production [of b in c]", "d [of Coal in f]", "g [of h in USupercalifragilisticexpialidocious]"))
 })
+
+
+test_that("make_list() works as expected", {
+  m <- matrix(c(1:6), nrow = 3, dimnames = list(c("r1", "r2", "r3"), c("c2", "c1")))
+
+  expect_equal(make_list(m, n = 1), list(m))
+  expect_equal(make_list(m, n = 2), list(m, m))
+  expect_equal(make_list(m, n = 5), list(m, m, m, m, m))
+  l1 <- list(c(1,2), c(3,4))
+  # Expect c(1,2), c(3,4), c(1,2), c(3,4)
+  expect_equal(make_list(l1, n = 4), c(l1, l1))
+  # Expect [c(1,2), c(3,4)], [c(1,2), c(3,4)], [c(1,2), c(3,4)], [c(1,2), c(3,4)]
+  expect_equal(make_list(l1, n = 4, lenx = 1), list(l1, l1, l1, l1))
+  # Expect a warning, because length isn't a multiple
+  expect_warning(make_list(l1, n = 3), "n not evenly divisible by length\\(x\\)")
+
+  m1 <- matrix(1:4, nrow = 2)
+  m2 <- m + 100
+  l2 <- list(m1, m2)
+  expect_equal(make_list(l2, n = 4), c(l2, l2))
+  expect_warning(make_list(l2, n = 1), "n not evenly divisible by length\\(x\\)")
+  expect_warning(make_list(l2, n = 5), "n not evenly divisible by length\\(x\\)")
+
+  l3 <- list(c("r10", "r11"), c("c10", "c11"))
+  expect_equal(make_list(l3, n = 2), l3) # Confused by x being a list
+  expect_equal(make_list(l3, n = 2, lenx = 1), list(l3, l3)) # Fix by setting lenx = 1
+
+  margin <- c(1, 2)
+  # This approach spreads 1, 2 to the two items in the list.
+  expect_equal(make_list(margin, n = 2), list(1, 2))
+  # This approach considers c(1,2) to be the item to be repeated.
+  expect_equal(make_list(margin, n = 2, lenx = 1), list(c(1,2), c(1,2)))
+})
+

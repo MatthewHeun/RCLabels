@@ -14,6 +14,6 @@ to_notation
 A description of to notation.
 }
 \examples{
-from_notation
+to_notation
 }
 \keyword{datasets}

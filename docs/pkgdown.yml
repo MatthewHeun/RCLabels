@@ -1,7 +1,7 @@
-pandoc: 2.14.0.3
-pkgdown: 2.0.1
+pandoc: '2.18'
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   RCLabels: RCLabels.html
-last_built: 2021-12-06T02:39Z
+last_built: 2022-10-28T13:56Z
 
