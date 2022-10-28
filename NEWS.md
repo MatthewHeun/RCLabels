@@ -4,7 +4,7 @@ output: html_document
 ---
 
 
-# RCLabels 0.1.2 (2022-10-28)
+# RCLabels 0.1.2 (2022-10-28) [![DOI](https://zenodo.org/badge/429532436.svg)](https://zenodo.org/badge/latestdoi/429532436)
 
 * A failing test led to new capability:
   `modify_label_pieces()` now allows 
