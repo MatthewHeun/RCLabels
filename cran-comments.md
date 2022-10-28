@@ -2,6 +2,8 @@
 
 `RCLabels` v0.1.2 is a minor update that solidifies some function names
 and fixes several bugs. 
+In addition, this version includes a pull request from Hadley Wickham
+for changes in `tidyselect`.
 See NEWS.md for details.
 
 ## Test environments (11 in total) and R CMD check results
