@@ -5,9 +5,9 @@ citEntry(
   title       = "RCLabels: Tools for munging and manipulating row and column labels on matrices",
   author      = personList(as.person("Matthew Kuperus Heun")),
   year        = 2022,
-  note        = "R package version 0.1.1",
+  note        = "R package version 0.1.2",
   url         = "https://github.com/MatthewHeun/RCLabels",
   textVersion =  paste("Matthew Kuperus Heun (2022).",
                        "RCLabels: Tools for munging and manipulating row and column labels on matrices.",
-                       "R package version 0.1.1.")
+                       "R package version 0.1.2.")
 )
