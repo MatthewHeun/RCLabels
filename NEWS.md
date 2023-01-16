@@ -4,12 +4,13 @@ output: html_document
 ---
 
 
+# RCLabels 0.1.3 (2023-01-16)
+
 * Updated the version of github actions to latest from the `usethis` package
   in an attempt to fix issues with the actions failing on github.
 * No new capabilities.
     * Still at 368 tests, all passing.
     * Test coverage remains at 100%.
-
 
 
 # RCLabels 0.1.2 (2022-10-28) [![DOI](https://zenodo.org/badge/429532436.svg)](https://zenodo.org/badge/latestdoi/429532436)
