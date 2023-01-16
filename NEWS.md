@@ -4,7 +4,7 @@ output: html_document
 ---
 
 
-# RCLabels 0.1.3 (2023-01-16)
+# RCLabels 0.1.3 (2023-01-16) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7541413.svg)](https://doi.org/10.5281/zenodo.7541413)
 
 * Updated the version of github actions to latest from the `usethis` package
   in an attempt to fix issues with the actions failing on github.
