@@ -304,6 +304,16 @@ test_that("get_piece() does the right thing when it can't infer notation", {
 })
 
 
+test_that("get_piece() works with 2 different notations", {
+  labs <- c("a [from b]", "c -> d")
+  res1 <- labs %>%
+    get_piece(piece = "noun",
+              inf_notation = FALSE,
+              notation = c(RCLabels::bracket_notation, RCLabels::arrow_notation))
+  expect_equal(res1, c("a", "c"))
+})
+
+
 test_that("passing NULL to extractors returns NULL", {
   expect_null(get_pref_suff(NULL))
   expect_null(get_nouns(NULL))
