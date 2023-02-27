@@ -223,7 +223,6 @@ test_that("paste_noun_pp() works as expected", {
       recombined2 = paste_noun_pp(splits, notn)
     )
   expect_equal(df2$recombined2, c("a -> in b", "c [in of d into USA]", "e [of f in g]", "h [-> -> i in j]"))
-
 })
 
 
@@ -286,7 +285,6 @@ test_that("get_piece() works with 'objects'", {
                list(objects = c(from = "b", `in` = "c"),
                     objects = c(of = "e", `in` = "f"),
                     objects = c(of = "Coal", from = "USA", to = "MEX")))
-
 })
 
 

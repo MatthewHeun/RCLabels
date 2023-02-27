@@ -206,6 +206,13 @@ test_that("split_pref_suff() works with one successful and one unsuccessful infe
 })
 
 
+test_that("split_pref_suff() works with 2 notations", {
+  split_pref_suff(c("a [b]", "c -> d", "e -> f"),
+                  inf_notation = FALSE,
+                  notation = list(RCLabels::bracket_notation, RCLabels::arrow_notation))
+})
+
+
 test_that("pathological case produces expected result for strip_label_part()", {
   expect_equal(RCLabels:::strip_label_part(c("a -> b", "c -> d"), part = "pref", notation = NULL),
                c("a -> b", "c -> d"))
