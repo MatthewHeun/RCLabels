@@ -406,8 +406,14 @@ paste_noun_pp <- function(splt_labels, notation = RCLabels::bracket_notation, sq
 #'   the object of that preposition named by the preposition itself.
 #'
 #' `piece` must be a character vector of length 1.
-#'
 #' If a `piece` is missing in a label, "" (empty string) is returned.
+#'
+#' If specifying more than one `notation`, be sure the notations are in a list.
+#' `notation = c(RCLabels::bracket_notation, RCLabels::arrow_notation)`
+#' is unlikely to produce the desired result, because the notations
+#' are concatenated together to form a long string vector.
+#' Rather say
+#' `notation = list(RCLabels::bracket_notation, RCLabels::arrow_notation)`.
 #'
 #' @param labels The row and column labels from which prepositional phrases are to be extracted.
 #' @param piece The name of the item to return.

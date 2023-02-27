@@ -64,8 +64,14 @@ the object of that preposition named by the preposition itself.
 }
 
 \code{piece} must be a character vector of length 1.
-
 If a \code{piece} is missing in a label, "" (empty string) is returned.
+
+If specifying more than one \code{notation}, be sure the notations are in a list.
+\code{notation = c(RCLabels::bracket_notation, RCLabels::arrow_notation)}
+is unlikely to produce the desired result, because the notations
+are concatenated together to form a long string vector.
+Rather say
+\code{notation = list(RCLabels::bracket_notation, RCLabels::arrow_notation)}.
 }
 \examples{
 labs <- c("a [from b in c]", "d [of e in f]", "Export [of Coal from USA to MEX]")
