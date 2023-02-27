@@ -312,9 +312,9 @@ test_that("get_piece() works with 2 different notations", {
 
   res2 <- labs %>%
     get_piece(piece = "noun",
-              inf_notation = FALSE,
+              inf_notation = TRUE,
               notation = list(RCLabels::bracket_notation, RCLabels::arrow_notation))
-  expect_equal(res2, c(noun = "a", noun = "c", noun = "f"))
+  expect_equal(res2, c(noun = "a", noun = "c", noun = "e"))
 })
 
 

@@ -207,9 +207,10 @@ test_that("split_pref_suff() works with one successful and one unsuccessful infe
 
 
 test_that("split_pref_suff() works with 2 notations", {
-  split_pref_suff(c("a [b]", "c -> d", "e -> f"),
-                  inf_notation = FALSE,
-                  notation = list(RCLabels::bracket_notation, RCLabels::arrow_notation))
+  res <- split_pref_suff(c("a [b]", "c -> d", "e -> f"),
+                         inf_notation = TRUE,
+                         notation = list(RCLabels::bracket_notation, RCLabels::arrow_notation))
+  expect_equal(res, list(pref = c("a", "c", "e"), suff = c("b", "d", "f")))
 })
 
 
