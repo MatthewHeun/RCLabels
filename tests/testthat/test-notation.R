@@ -330,6 +330,15 @@ test_that("paste_pref_suff() fails with empty character array", {
 })
 
 
+test_that("paste_pref_suff() works with two empty character arrays", {
+  # At this moment (18 Mar 2023),
+  # using two character() objects returns list(), which doesn't match with other things,
+  # like NA_character_.
+  paste_pref_suff(pref = character(), suff = character(), notation = RCLabels::from_notation) |>
+    expect_equal(character())
+})
+
+
 test_that("flip_pref_suff() works as expected", {
   # Try with inf_notation = FALSE
   expect_equal(flip_pref_suff("a -> b",

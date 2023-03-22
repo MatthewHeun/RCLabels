@@ -23,7 +23,7 @@ Does not try to simplify \code{x}.
 }
 \details{
 If \code{x} is itself a vector or list,
-you may want to override the default.
+you may want to override the default value for \code{lenx}.
 For example, if \code{x} is a list that should be duplicated several times,
 set \code{lenx = 1}.
 }
