@@ -283,7 +283,6 @@ strip_label_part <- function(x, notation, part, pattern_pref = "", pattern_suff 
 }
 
 
-
 #' @export
 #' @rdname row-col-notation
 paste_pref_suff <- function(ps = list(pref = pref, suff = suff),
@@ -365,7 +364,8 @@ paste_pref_suff <- function(ps = list(pref = pref, suff = suff),
   if (length(ps) == 0) {
     # Avoid going through the squish function,
     # which errors on older versions of R.
-    return(list())
+    # return(list())
+    return(character())
   }
 
   out <- Map(f = single_paste_func, ps, notation) %>%
