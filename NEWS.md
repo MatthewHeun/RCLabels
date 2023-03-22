@@ -4,6 +4,11 @@ output: html_document
 ---
 
 
+* Fixed a bug where a `list()` was returned when
+  `character()` should have been returned
+  for zero-length inputs.
+
+
 # RCLabels 0.1.3 (2023-01-16) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7541413.svg)](https://doi.org/10.5281/zenodo.7541413)
 
 * This version was not submitted to CRAN.
