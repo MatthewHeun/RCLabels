@@ -1,17 +1,41 @@
 ## Context
 
-`RCLabels` v0.1.2 is a minor update that solidifies some function names
-and fixes several bugs. 
-In addition, this version includes a pull request from Hadley Wickham
-for changes in `tidyselect`.
+`RCLabels` v0.1.4 is a minor update that fixes one bug and 
+incorporates some backend changes, 
+including GitHub actions updates to latest version.
 See NEWS.md for details.
 
 ## Test environments (11 in total) and R CMD check results
 
-* Local macOS X installation 12.6 (Monterey), R4.2.1 (2022-06-23 r81394)
+* Local macOS X installation 13.3.1 (Ventura), R4.2.3 (2023-03-15)
     * ERRORs: 0
     * WARNINGs: 0
     * NOTEs: 0
+* GitHub Actions:
+    
+    
+* Windows (on win-builder):
+    
+    
+    
+    
+* rhub:
+    
+    
+    
+    
+    
+## revdepcheck results
+
+    
+    
+    
+    
+    
+    
+    
+    
+
 * GitHub Actions:
     * macOS-latest (release)
         * ERRORs: 0

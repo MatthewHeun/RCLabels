@@ -4,9 +4,14 @@ output: html_document
 ---
 
 
+# RCLabels 0.1.4 (2023-04-24) 
+
 * Fixed a bug where a `list()` was returned when
   `character()` should have been returned
   for zero-length inputs.
+* A few new tests
+    * Now at 372 tests, all passing
+    * Test coverage remains at 100%.
 
 
 # RCLabels 0.1.3 (2023-01-16) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7541413.svg)](https://doi.org/10.5281/zenodo.7541413)
