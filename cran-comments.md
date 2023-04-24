@@ -37,10 +37,10 @@ See NEWS.md for details.
         * ERRORs: 0
         * WARNINGs: 0
         * NOTEs: 0
-    
-    
-    
-    
+    * `devtools::check_win_devel()`, R Under development (unstable) (2023-04-23 r84305 ucrt)
+        * ERRORs: 0
+        * WARNINGs: 0
+        * NOTEs: 0
 * rhub:
     * `devtools::check_rhub()`
         * Windows Server 2022, R-devel, 64 bit
@@ -76,10 +76,6 @@ We checked 2 reverse dependencies, comparing R CMD check results across CRAN and
     
 
 * Windows (on win-builder):
-    * `devtools::check_win_devel()`, R Under development (unstable) (2022-10-11 r83083 ucrt)
-        * ERRORs: 0
-        * WARNINGs: 0
-        * NOTEs: 0
 * rhub:
     * `devtools::check_rhub()`
         * Ubuntu Linux 20.04.1 LTS, R-release, GCC
