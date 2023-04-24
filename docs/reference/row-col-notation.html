@@ -44,6 +44,12 @@ The argument choose_most_specific tells what to do when two notations match a la
 if TRUE (the default), the notation with most characters is selected.
 If FALSE, the first matching notation in notation will be selected.
 See details at infer_notation().
+If specifying more than one notation, be sure the notations are in a list.
+notation = c(RCLabels::bracket_notation, RCLabels::arrow_notation)
+is unlikely to produce the desired result, because the notations
+are concatenated together to form a long string vector.
+Rather say
+notation = list(RCLabels::bracket_notation, RCLabels::arrow_notation).
 For functions that construct labels (such as paste_pref_suff()),
 notation can be a list of notations
 over which the paste tasks is mapped.
@@ -100,6 +106,12 @@ The argument choose_most_specific tells what to do when two notations match a la
 if TRUE (the default), the notation with most characters is selected.
 If FALSE, the first matching notation in notation will be selected.
 See details at infer_notation().
+If specifying more than one notation, be sure the notations are in a list.
+notation = c(RCLabels::bracket_notation, RCLabels::arrow_notation)
+is unlikely to produce the desired result, because the notations
+are concatenated together to form a long string vector.
+Rather say
+notation = list(RCLabels::bracket_notation, RCLabels::arrow_notation).
 For functions that construct labels (such as paste_pref_suff()),
 notation can be a list of notations
 over which the paste tasks is mapped.
@@ -122,7 +134,7 @@ Instead, use an empty character string
     
     <a class="navbar-brand me-2" href="../index.html">RCLabels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -178,7 +190,7 @@ If there is no prefix, and empty string is returned for the <code>pref</code> it
 If there is no suffix, and empty string is returned for the <code>suff</code> item.</p></li>
 <li><p><code>switch_notation()</code> Switches from one type of notation to another based on the <code>from</code> and <code>to</code> arguments.
 Optionally, prefix and suffix can be <code>flip</code>ped.</p></li>
-</ul><p>Parts of a notation vector are
+</ul><p>Parts of a <code>notation</code> vector are
 "pref_start", "pref_end", "suff_start", and "suff_end".
 None of the strings in a notation vector are considered part of the prefix or suffix.
 E.g., "a -&gt; b" in arrow notation means that "a" is the prefix and "b" is the suffix.
@@ -197,6 +209,12 @@ The argument <code>choose_most_specific</code> tells what to do when two <code>n
 if <code>TRUE</code> (the default), the notation with most characters is selected.
 If <code>FALSE</code>, the first matching notation in <code>notation</code> will be selected.
 See details at <code><a href="infer_notation.html">infer_notation()</a></code>.</p>
+<p>If specifying more than one <code>notation</code>, be sure the notations are in a list.
+<code>notation = c(RCLabels::bracket_notation, RCLabels::arrow_notation)</code>
+is unlikely to produce the desired result, because the notations
+are concatenated together to form a long string vector.
+Rather say
+<code>notation = list(RCLabels::bracket_notation, RCLabels::arrow_notation)</code>.</p>
 <p>For functions that construct labels (such as <code>paste_pref_suff()</code>),
 <code>notation</code> can be a list of notations
 over which the paste tasks is mapped.

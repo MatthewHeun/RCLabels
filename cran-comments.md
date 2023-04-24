@@ -41,19 +41,19 @@ See NEWS.md for details.
         * ERRORs: 0
         * WARNINGs: 0
         * NOTEs: 0
-    * windows-latest (release)
-        * ERRORs: 0
-        * WARNINGs: 0
-        * NOTEs: 0
     * ubuntu-latest (devel)
         * ERRORs: 0
         * WARNINGs: 0
         * NOTEs: 0
-    * ubuntu-latest (release)
+    * ubuntu-latest (oldrel-1)
         * ERRORs: 0
         * WARNINGs: 0
         * NOTEs: 0
-    * ubuntu-latest (oldrel-1)
+    * windows-latest (release)
+        * ERRORs: 0
+        * WARNINGs: 0
+        * NOTEs: 0
+    * ubuntu-latest (release)
         * ERRORs: 0
         * WARNINGs: 0
         * NOTEs: 0
