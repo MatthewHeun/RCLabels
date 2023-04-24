@@ -2,7 +2,7 @@
 
 `RCLabels` v0.1.4 is a minor update that fixes one bug and 
 incorporates some backend changes, 
-including GitHub actions updates to latest version.
+including GitHub actions updated to latest version.
 See NEWS.md for details.
 
 ## Test environments (11 in total) and R CMD check results
@@ -12,9 +12,31 @@ See NEWS.md for details.
     * WARNINGs: 0
     * NOTEs: 0
 * GitHub Actions:
-    
-    
+    * macOS-latest (release)
+        * ERRORs: 0
+        * WARNINGs: 0
+        * NOTEs: 0
+    * ubuntu-latest (devel)
+        * ERRORs: 0
+        * WARNINGs: 0
+        * NOTEs: 0
+    * ubuntu-latest (oldrel-1)
+        * ERRORs: 0
+        * WARNINGs: 0
+        * NOTEs: 0
+    * windows-latest (release)
+        * ERRORs: 0
+        * WARNINGs: 0
+        * NOTEs: 0
+    * ubuntu-latest (release)
+        * ERRORs: 0
+        * WARNINGs: 0
+        * NOTEs: 0
 * Windows (on win-builder):
+    * `devtools::check_win_release()`, R version 4.3.0 (2023-04-21 ucrt)
+        * ERRORs: 0
+        * WARNINGs: 0
+        * NOTEs: 0
     
     
     
@@ -53,32 +75,7 @@ We checked 2 reverse dependencies, comparing R CMD check results across CRAN and
     
     
 
-* GitHub Actions:
-    * macOS-latest (release)
-        * ERRORs: 0
-        * WARNINGs: 0
-        * NOTEs: 0
-    * ubuntu-latest (devel)
-        * ERRORs: 0
-        * WARNINGs: 0
-        * NOTEs: 0
-    * ubuntu-latest (oldrel-1)
-        * ERRORs: 0
-        * WARNINGs: 0
-        * NOTEs: 0
-    * windows-latest (release)
-        * ERRORs: 0
-        * WARNINGs: 0
-        * NOTEs: 0
-    * ubuntu-latest (release)
-        * ERRORs: 0
-        * WARNINGs: 0
-        * NOTEs: 0
 * Windows (on win-builder):
-    * `devtools::check_win_release()`, R version 4.2.1 (2022-06-23 ucrt)
-        * ERRORs: 0
-        * WARNINGs: 0
-        * NOTEs: 0
     * `devtools::check_win_devel()`, R Under development (unstable) (2022-10-11 r83083 ucrt)
         * ERRORs: 0
         * WARNINGs: 0
