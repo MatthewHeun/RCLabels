@@ -144,7 +144,7 @@ If there is no suffix, and empty string is returned for the \code{suff} item.
 Optionally, prefix and suffix can be \code{flip}ped.
 }
 
-Parts of a notation vector are
+Parts of a \code{notation} vector are
 "pref_start", "pref_end", "suff_start", and "suff_end".
 None of the strings in a notation vector are considered part of the prefix or suffix.
 E.g., "a -> b" in arrow notation means that "a" is the prefix and "b" is the suffix.
@@ -164,6 +164,13 @@ The argument \code{choose_most_specific} tells what to do when two \code{notatio
 if \code{TRUE} (the default), the notation with most characters is selected.
 If \code{FALSE}, the first matching notation in \code{notation} will be selected.
 See details at \code{infer_notation()}.
+
+If specifying more than one \code{notation}, be sure the notations are in a list.
+\code{notation = c(RCLabels::bracket_notation, RCLabels::arrow_notation)}
+is unlikely to produce the desired result, because the notations
+are concatenated together to form a long string vector.
+Rather say
+\code{notation = list(RCLabels::bracket_notation, RCLabels::arrow_notation)}.
 
 For functions that construct labels (such as \code{paste_pref_suff()}),
 \code{notation} can be a list of notations

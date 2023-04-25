@@ -27,7 +27,7 @@
 #' * `switch_notation()` Switches from one type of notation to another based on the `from` and `to` arguments.
 #'                       Optionally, prefix and suffix can be `flip`ped.
 #'
-#' Parts of a notation vector are
+#' Parts of a `notation` vector are
 #' "pref_start", "pref_end", "suff_start", and "suff_end".
 #' None of the strings in a notation vector are considered part of the prefix or suffix.
 #' E.g., "a -> b" in arrow notation means that "a" is the prefix and "b" is the suffix.
@@ -47,6 +47,13 @@
 #' if `TRUE` (the default), the notation with most characters is selected.
 #' If `FALSE`, the first matching notation in `notation` will be selected.
 #' See details at `infer_notation()`.
+#'
+#' If specifying more than one `notation`, be sure the notations are in a list.
+#' `notation = c(RCLabels::bracket_notation, RCLabels::arrow_notation)`
+#' is unlikely to produce the desired result, because the notations
+#' are concatenated together to form a long string vector.
+#' Rather say
+#' `notation = list(RCLabels::bracket_notation, RCLabels::arrow_notation)`.
 #'
 #' For functions that construct labels (such as `paste_pref_suff()`),
 #' `notation` can be a list of notations
@@ -276,7 +283,6 @@ strip_label_part <- function(x, notation, part, pattern_pref = "", pattern_suff 
 }
 
 
-
 #' @export
 #' @rdname row-col-notation
 paste_pref_suff <- function(ps = list(pref = pref, suff = suff),
@@ -358,7 +364,8 @@ paste_pref_suff <- function(ps = list(pref = pref, suff = suff),
   if (length(ps) == 0) {
     # Avoid going through the squish function,
     # which errors on older versions of R.
-    return(list())
+    # return(list())
+    return(character())
   }
 
   out <- Map(f = single_paste_func, ps, notation) %>%

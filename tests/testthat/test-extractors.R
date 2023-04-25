@@ -223,7 +223,6 @@ test_that("paste_noun_pp() works as expected", {
       recombined2 = paste_noun_pp(splits, notn)
     )
   expect_equal(df2$recombined2, c("a -> in b", "c [in of d into USA]", "e [of f in g]", "h [-> -> i in j]"))
-
 })
 
 
@@ -286,7 +285,6 @@ test_that("get_piece() works with 'objects'", {
                list(objects = c(from = "b", `in` = "c"),
                     objects = c(of = "e", `in` = "f"),
                     objects = c(of = "Coal", from = "USA", to = "MEX")))
-
 })
 
 
@@ -301,6 +299,22 @@ test_that("get_piece() does the right thing when it can't infer notation", {
                list(pref = "Crude", suff = ""))
   expect_equal(get_pref_suff("Crude", which = "pref"), c(pref = "Crude"))
   expect_equal(get_piece("Crude", piece = "noun"), c(noun = "Crude"))
+})
+
+
+test_that("get_piece() works with 2 different notations", {
+  labs <- c("a [from b]", "c -> d", "e -> f")
+  res1 <- labs %>%
+    get_piece(piece = "noun",
+              inf_notation = TRUE,
+              notation = RCLabels::notations_list)
+  expect_equal(res1, c(noun = "a", noun = "c", noun = "e"))
+
+  res2 <- labs %>%
+    get_piece(piece = "noun",
+              inf_notation = TRUE,
+              notation = list(RCLabels::bracket_notation, RCLabels::arrow_notation))
+  expect_equal(res2, c(noun = "a", noun = "c", noun = "e"))
 })
 
 

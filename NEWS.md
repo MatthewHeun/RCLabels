@@ -4,7 +4,28 @@ output: html_document
 ---
 
 
-# RCLabels 0.1.2 (2022-10-28)
+# RCLabels 0.1.4 (2023-04-25) 
+
+* Fixed a bug where a `list()` was returned when
+  `character()` should have been returned
+  for zero-length inputs.
+* A few new tests
+    * Now at 372 tests, all passing
+    * Test coverage remains at 100%.
+
+
+# RCLabels 0.1.3 (2023-01-16) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7541413.svg)](https://doi.org/10.5281/zenodo.7541413)
+
+* This version was not submitted to CRAN.
+  It is purely a backend maintenance release.
+* Updated the version of github actions to latest from the `usethis` package
+  in an attempt to fix issues with the actions failing on github.
+* No new capabilities.
+    * Still at 368 tests, all passing.
+    * Test coverage remains at 100%.
+
+
+# RCLabels 0.1.2 (2022-10-28) [![DOI](https://zenodo.org/badge/429532436.svg)](https://zenodo.org/badge/latestdoi/429532436)
 
 * A failing test led to new capability:
   `modify_label_pieces()` now allows 

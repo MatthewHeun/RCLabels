@@ -211,7 +211,7 @@ replace_by_pattern <- function(labels,
 #' Does not try to simplify `x`.
 #'
 #' If `x` is itself a vector or list,
-#' you may want to override the default.
+#' you may want to override the default value for `lenx`.
 #' For example, if `x` is a list that should be duplicated several times,
 #' set `lenx = 1`.
 #'

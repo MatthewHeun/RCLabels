@@ -206,6 +206,14 @@ test_that("split_pref_suff() works with one successful and one unsuccessful infe
 })
 
 
+test_that("split_pref_suff() works with 2 notations", {
+  res <- split_pref_suff(c("a [b]", "c -> d", "e -> f"),
+                         inf_notation = TRUE,
+                         notation = list(RCLabels::bracket_notation, RCLabels::arrow_notation))
+  expect_equal(res, list(pref = c("a", "c", "e"), suff = c("b", "d", "f")))
+})
+
+
 test_that("pathological case produces expected result for strip_label_part()", {
   expect_equal(RCLabels:::strip_label_part(c("a -> b", "c -> d"), part = "pref", notation = NULL),
                c("a -> b", "c -> d"))
@@ -319,6 +327,15 @@ test_that("paste_pref_suff() fails with empty character array", {
   expect_equal(paste_pref_suff(pref = "a", suff = "", notation = RCLabels::from_notation), "a [from ]")
   expect_error(paste_pref_suff(pref = "a", suff = character(), notation = RCLabels::from_notation),
                regexp = "attempt to select less than one element in integerOneIndex")
+})
+
+
+test_that("paste_pref_suff() works with two empty character arrays", {
+  # At this moment (18 Mar 2023),
+  # using two character() objects returns list(), which doesn't match with other things,
+  # like NA_character_.
+  paste_pref_suff(pref = character(), suff = character(), notation = RCLabels::from_notation) |>
+    expect_equal(character())
 })
 
 
