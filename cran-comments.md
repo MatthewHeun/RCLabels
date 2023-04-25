@@ -50,7 +50,7 @@ See NEWS.md for details.
               - checking for detritus in the temp directory ... NOTE
                 Found the following files/directories:
                 'lastMiKTeXException'
-                This appears to be a mal-configuration 
+                This notes appears to result from a mal-configuration 
                 of this test environment. 
                 No other test environment generated this note.
         * Ubuntu Linux 20.04.1 LTS, R-release, GCC
