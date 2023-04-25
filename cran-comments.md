@@ -53,9 +53,22 @@ See NEWS.md for details.
                 This appears to be a mal-configuration 
                 of this test environment. 
                 No other test environment generated this note.
-    
-    
-    
+        * Ubuntu Linux 20.04.1 LTS, R-release, GCC
+            * ERRORs: 0
+            * WARNINGs: 0
+            * NOTEs: 2
+              - Examples with CPU (user + system) or elapsed time > 5s: get_nouns.
+                This note found only on rhub.
+              - Skipping checking HTML validation: no command 'tidy' found. 
+                This note found only on rhub.
+        * Fedora Linux, R-devel, clang, gfortran
+            * ERRORs: 0
+            * WARNINGs: 0
+            * NOTEs: 2
+              - Examples with CPU (user + system) or elapsed time > 5s: get_nouns.
+                This note found only on rhub.
+              - Skipping checking HTML validation: no command 'tidy' found. 
+                This note found only on rhub.
     
     
 ## revdepcheck results
@@ -67,27 +80,3 @@ We checked 2 reverse dependencies, comparing R CMD check results across CRAN and
 
 
     
-    
-    
-    
-    
-    
-    
-    
-
-* Windows (on win-builder):
-* rhub:
-    * `devtools::check_rhub()`
-        * Ubuntu Linux 20.04.1 LTS, R-release, GCC
-            * PREPERROR: It looks like the virtual machine was unable to spin up.
-        * Fedora Linux, R-devel, clang, gfortran
-            * ERRORs: 0
-            * WARNINGs: 0
-            * NOTEs: 2
-              - Skipping checking HTML validation: no command 'tidy' found. 
-                This appears to be a mal-configureation of the test environment.
-                No other test environments generate this note.
-              - Examples with CPU (user + system) or elapsed time > 5s: get_nouns.
-                These examples did not generate this note in any other test environment.
-
-
