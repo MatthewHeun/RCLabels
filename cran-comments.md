@@ -58,17 +58,17 @@ See NEWS.md for details.
             * WARNINGs: 0
             * NOTEs: 2
               - Examples with CPU (user + system) or elapsed time > 5s: get_nouns.
-                This note found only on rhub.
+                This note received only on rhub.
               - Skipping checking HTML validation: no command 'tidy' found. 
-                This note found only on rhub.
+                This note received only on rhub.
         * Fedora Linux, R-devel, clang, gfortran
             * ERRORs: 0
             * WARNINGs: 0
             * NOTEs: 2
               - Examples with CPU (user + system) or elapsed time > 5s: get_nouns.
-                This note found only on rhub.
+                This received found only on rhub.
               - Skipping checking HTML validation: no command 'tidy' found. 
-                This note found only on rhub.
+                This note received only on rhub.
     
     
 ## revdepcheck results
