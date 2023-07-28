@@ -7,6 +7,18 @@ Cite all releases with doi [10.5281/zenodo.5819143](https://doi.org/10.5281/zeno
 which always resolves to the latest release.
 
 
+* Changed the citation URL to point to CRAN.
+
+
+# RCLabels 0.1.5 (2023-05-04) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7896903.svg)](https://doi.org/10.5281/zenodo.7896903)
+
+* Move to latest version of GitHub test coverage workflow.
+* This version not released to CRAN.
+* No new tests
+    * Still at 372 tests, all passing.
+    * Test coverage remains at 100%.
+
+
 # RCLabels 0.1.4 (2023-04-25) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7863791.svg)](https://doi.org/10.5281/zenodo.7863791)
 
 * Fixed a bug where a `list()` was returned when
