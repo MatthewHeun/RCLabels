@@ -1,7 +1,10 @@
 ---
-title: "Release notes for `RCLabels`"
+title: "Release notes for `RCLabels`" 
 output: html_document
 ---
+
+Cite all releases with doi [10.5281/zenodo.5819143](https://doi.org/10.5281/zenodo.5819143), 
+which always resolves to the latest release.
 
 
 # RCLabels 0.1.4 (2023-04-25) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7863791.svg)](https://doi.org/10.5281/zenodo.7863791)
