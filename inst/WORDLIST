@@ -1,6 +1,7 @@
 Codecov
 CMD
 DOI
+doi
 ECC
 github
 Hadley
@@ -23,3 +24,5 @@ unsplits
 vectorized
 Wickham
 ZAR
+Zenodo
+zenodo
