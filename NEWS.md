@@ -7,7 +7,7 @@ Cite all releases with doi [10.5281/zenodo.5819143](https://doi.org/10.5281/zeno
 which always resolves to the latest release.
 
 
-* Changed the citation URL to point to CRAN.
+* Changed the citation URL to point to Zenodo.
 
 
 # RCLabels 0.1.5 (2023-05-04) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7896903.svg)](https://doi.org/10.5281/zenodo.7896903)
