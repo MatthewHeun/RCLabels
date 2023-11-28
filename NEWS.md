@@ -7,7 +7,7 @@ Cite all releases with doi [10.5281/zenodo.5819143](https://doi.org/10.5281/zeno
 which always resolves to the latest release.
 
 
-* Fix typos in README.Rmd
+* Fixed typos in README.Rmd
 
 
 # RCLabels 0.1.6 (2023-07-28) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8193819.svg)](https://doi.org/10.5281/zenodo.8193819)
