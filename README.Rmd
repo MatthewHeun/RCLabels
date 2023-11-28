@@ -34,14 +34,14 @@ physical supply-use table (PSUT) analysis.
 
 ## Installation
 
-You can install `matsindf` from CRAN with:
+You can install `RCLabels` from CRAN with:
 
 ```{r CRAN-installation, eval = FALSE}
 install.packages("RCLabels")
 ```
 
 
-You can install the development version of RCLabels from [GitHub](https://github.com/) with:
+You can install the development version of `RCLabels` from [GitHub](https://github.com/) with:
 
 ```{r, eval = FALSE}
 # install.packages("devtools")
