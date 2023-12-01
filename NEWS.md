@@ -11,7 +11,7 @@ which always resolves to the latest release.
 
 * Added code of conduct and contributing pages to documentation.
 * Fixed typos in README.Rmd
-* No new tests
+* No new tests.
     * Still at 372 tests, all passing.
     * Test coverage remains at 100%.
 
