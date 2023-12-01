@@ -65,3 +65,8 @@ Please note that the RCLabels project is released with a
 [Contributor Code of Conduct](CODE_OF_CONDUCT.md). 
 By contributing to this
 project you agree to abide by its terms.
+
+## Attribution
+
+This guide to contributing was adapted from the
+[Contributing guide for the `usethis` package](https://usethis.r-lib.org/CONTRIBUTING.html).
