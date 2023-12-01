@@ -1,6 +1,6 @@
 ## Context
 
-`RCLabels` v0.1.7 is a minor update that
+`RCLabels` v0.1.7 contains minor changes that
 
 - updates the GitHub Actions for 
   continuous integration testing and
