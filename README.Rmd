@@ -2,7 +2,7 @@
 output: github_document
 ---
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- README.md is generated from README.Rmd. Please edit README.Rmd. -->
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -34,14 +34,14 @@ physical supply-use table (PSUT) analysis.
 
 ## Installation
 
-You can install `matsindf` from CRAN with:
+You can install `RCLabels` from CRAN with:
 
 ```{r CRAN-installation, eval = FALSE}
 install.packages("RCLabels")
 ```
 
 
-You can install the development version of RCLabels from [GitHub](https://github.com/) with:
+You can install the development version of `RCLabels` from [GitHub](https://github.com/) with:
 
 ```{r, eval = FALSE}
 # install.packages("devtools")
@@ -52,4 +52,3 @@ devtools::install_github("MatthewHeun/RCLabels")
 
 Find more information, including vignettes and function documentation, at 
 <https://MatthewHeun.github.io/RCLabels/>.
-

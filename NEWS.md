@@ -7,7 +7,16 @@ Cite all releases with doi [10.5281/zenodo.5819143](https://doi.org/10.5281/zeno
 which always resolves to the latest release.
 
 
-# RCLabels 0.1.6 (2023-07-28)
+# RCLabels 0.1.7 (2023-11-30)
+
+* Added code of conduct and contributing pages to documentation.
+* Fixed typos in README.Rmd
+* No new tests.
+    * Still at 372 tests, all passing.
+    * Test coverage remains at 100%.
+
+
+# RCLabels 0.1.6 (2023-07-28) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8193819.svg)](https://doi.org/10.5281/zenodo.8193819)
 
 * This version not released to CRAN.
 * Changed the citation URL to point to Zenodo.

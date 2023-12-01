@@ -1,5 +1,5 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- README.md is generated from README.Rmd. Please edit README.Rmd. -->
 
 # RCLabels
 
@@ -13,7 +13,7 @@ state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Codecov test
 coverage](https://codecov.io/gh/MatthewHeun/RCLabels/branch/main/graph/badge.svg)](https://app.codecov.io/gh/MatthewHeun/RCLabels?branch=main)
-[![R-CMD-check](https://github.com/MatthewHeun/RCLabels/workflows/R-CMD-check/badge.svg)](https://github.com/MatthewHeun/RCLabels/actions)
+[![R-CMD-check](https://github.com/MatthewHeun/RCLabels/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/MatthewHeun/RCLabels/actions/workflows/R-CMD-check.yaml)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5819143.svg)](https://doi.org/10.5281/zenodo.5819143)
 <!-- badges: end -->
 
@@ -25,13 +25,13 @@ physical supply-use table (PSUT) analysis.
 
 ## Installation
 
-You can install `matsindf` from CRAN with:
+You can install `RCLabels` from CRAN with:
 
 ``` r
 install.packages("RCLabels")
 ```
 
-You can install the development version of RCLabels from
+You can install the development version of `RCLabels` from
 [GitHub](https://github.com/) with:
 
 ``` r
