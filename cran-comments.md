@@ -1,8 +1,10 @@
 ## Context
 
-`RCLabels` v0.1.4 is a minor update that fixes one bug and 
-incorporates some backend changes, 
-including GitHub actions updated to latest version.
+`RCLabels` v0.1.7 is a minor update that 
+updates the GitHub Actions for continuous integration
+testing and code coverage,
+updates the citation URL to point to Zenodo, and
+adds a code of conduct and contributing guidelines.
 See NEWS.md for details.
 
 ## Test environments (11 in total) and R CMD check results
