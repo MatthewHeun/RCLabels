@@ -39,15 +39,15 @@ See NEWS.md for details.
         * WARNINGs: 0
         * NOTEs: 0
 * Windows (on win-builder):
-    * `devtools::check_win_release()`, R version 4.3.0 (2023-04-21 ucrt)               ***********************
+    * `devtools::check_win_release()`, R version 4.3.2 (2023-10-31 ucrt)
         * ERRORs: 0
         * WARNINGs: 0
         * NOTEs: 0
-    * `devtools::check_win_devel()`, R Under development (unstable) (2023-04-23 r84305 ucrt)       ***********************
+    * `devtools::check_win_devel()`, R Under development (unstable) (2023-11-30 r85651 ucrt)
         * ERRORs: 0
         * WARNINGs: 0
         * NOTEs: 0
-    * `devtools::check_win_oldrelease()`, R version 4.x.x ()                           ***********************
+    * `devtools::check_win_oldrelease()`, R version 4.2.3 (2023-03-15 ucrt)
         * ERRORs: 0
         * WARNINGs: 0
         * NOTEs: 0
