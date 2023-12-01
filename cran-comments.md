@@ -9,7 +9,7 @@ See NEWS.md for details.
 
 ## Test environments (11 in total) and R CMD check results
 
-* Local macOS X installation 13.3.1 (Ventura), R4.3.0 (2023-04-21)
+* Local macOS X installation 13.5.1 (Ventura), R4.3.2 (2023-10-31)
     * ERRORs: 0
     * WARNINGs: 0
     * NOTEs: 0
