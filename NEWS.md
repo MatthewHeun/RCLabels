@@ -7,7 +7,12 @@ Cite all releases with doi [10.5281/zenodo.5819143](https://doi.org/10.5281/zeno
 which always resolves to the latest release.
 
 
+# RCLabels 0.1.8 (2023-12-09)
+
 * Fixing GitHub pkgdown website.
+* No new tests.
+    * Still at 372 tests, all passing.
+    * Test coverage remains at 100%.
 
 
 # RCLabels 0.1.7 (2023-11-30) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10247245.svg)](https://doi.org/10.5281/zenodo.10247245)
