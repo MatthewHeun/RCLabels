@@ -33,3 +33,4 @@ Depends:
 LazyData: true
 VignetteBuilder: knitr
 Language: en-US
+URL: https://matthewheun.github.io/RCLabels/
