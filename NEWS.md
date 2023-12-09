@@ -7,6 +7,9 @@ Cite all releases with doi [10.5281/zenodo.5819143](https://doi.org/10.5281/zeno
 which always resolves to the latest release.
 
 
+* Fixing GitHub pkgdown website.
+
+
 # RCLabels 0.1.7 (2023-11-30) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10247245.svg)](https://doi.org/10.5281/zenodo.10247245)
 
 * Added code of conduct and contributing pages to documentation.
