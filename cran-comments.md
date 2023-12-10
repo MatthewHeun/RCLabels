@@ -1,15 +1,8 @@
 ## Context
 
-`RCLabels` v0.1.7 contains minor changes that
+`RCLabels` v0.1.8 fixes the GitHub pages `pkgdown` website. 
+No other changes have been made.
 
-- updates the GitHub Actions for 
-  continuous integration testing and
-  code coverage,
-- updates the citation URL to point to Zenodo, and
-- adds a code of conduct and contributing guidelines.
-
-No new code or changes to features are included.
-See NEWS.md for details.
 
 ## Test environments (12 in total) and R CMD check results
 
@@ -43,7 +36,7 @@ See NEWS.md for details.
         * ERRORs: 0
         * WARNINGs: 0
         * NOTEs: 0
-    * `devtools::check_win_devel()`, R Under development (unstable) (2023-11-30 r85651 ucrt)
+    * `devtools::check_win_devel()`, R Under development (unstable) (2023-12-08 r85664 ucrt)
         * ERRORs: 0
         * WARNINGs: 0
         * NOTEs: 0
