@@ -20,12 +20,12 @@ coverage](https://codecov.io/gh/MatthewHeun/RCLabels/branch/main/graph/badge.svg
 ## Statement of need
 
 When analyzing lists of matrices (whether actual `list`s or matrix
-columns in a `matsindf` data frame), it can be challenging to operate on
-matrix row and column names. This package provides functions to assist
-with manipulating matrix row and column labels for those situations.
-Example applications include economic and energy conversion chain
-analyses using input-output (IO) analysis or physical supply-use table
-(PSUT) analysis.
+columns in a [matsindf](https://github.com/MatthewHeun/matsindf) data
+frame), it can be challenging to operate on matrix row and column names.
+This package provides functions to assist with manipulating matrix row
+and column labels for those situations. Example applications include
+economic and energy conversion chain analyses using input-output (IO)
+analysis or physical supply-use table (PSUT) analysis.
 
 ## Installation
 

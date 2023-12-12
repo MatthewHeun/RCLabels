@@ -29,7 +29,7 @@ knitr::opts_chunk$set(
 
 When analyzing lists of matrices
 (whether actual `list`s or matrix columns in a
-`matsindf` data frame), 
+[matsindf](https://github.com/MatthewHeun/matsindf) data frame), 
 it can be challenging to operate on matrix row and column names.
 This package provides functions to assist with manipulating matrix 
 row and column labels for those situations.
