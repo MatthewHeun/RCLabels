@@ -7,6 +7,9 @@ Cite all releases with doi [10.5281/zenodo.5819143](https://doi.org/10.5281/zeno
 which always resolves to the latest release.
 
 
+* Added a statement of need to the `README.Rmd` file.
+
+
 # RCLabels 0.1.8 (2023-12-09) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10340402.svg)](https://doi.org/10.5281/zenodo.10340402)
 
 * Fixing GitHub pkgdown website.
