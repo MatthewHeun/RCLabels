@@ -17,11 +17,15 @@ coverage](https://codecov.io/gh/MatthewHeun/RCLabels/branch/main/graph/badge.svg
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5819143.svg)](https://doi.org/10.5281/zenodo.5819143)
 <!-- badges: end -->
 
+## Statement of need
+
+When analyzing lists of matrices (whether actual `list`s or matrix
+columns in a [matsindf](https://github.com/MatthewHeun/matsindf) data
+frame), it can be challenging to operate on matrix row and column names.
 This package provides functions to assist with manipulating matrix row
-and column labels for all types of matrix mathematics where row and
-column labels are to be respected. Example applications include economic
-and energy conversion chain analyses using input-output (IO) analysis or
-physical supply-use table (PSUT) analysis.
+and column labels for those situations. Example applications include
+economic and energy conversion chain analyses using input-output (IO)
+analysis or physical supply-use table (PSUT) analysis.
 
 ## Installation
 
