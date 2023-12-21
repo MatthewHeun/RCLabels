@@ -1,9 +1,11 @@
 ## Context
 
-`RCLabels` v0.1.9 adds a statement of need to the `README.Rmd` file 
+`RCLabels` v0.1.9 
+adds a statement of need to the `README.Rmd` file 
 in preparation for submitting a paper to the 
 Journal of Open Source Software. 
 No other changes have been made.
+See `NEWS.md` for details.
 
 
 ## Test environments (12 in total) and R CMD check results
