@@ -73,13 +73,20 @@ See `NEWS.md` for details.
               - checking HTML version of manual ... NOTE
                 Skipping checking HTML validation: no command 'tidy' found. 
                 This note received only on rhub.
-        * Fedora Linux, R-devel, clang, gfortran       **********************
+        * Fedora Linux, R-devel, clang, gfortran
             * ERRORs: 0
             * WARNINGs: 0
-            * NOTEs: 1
+            * NOTEs: 2
               - checking HTML version of manual ... NOTE
                 Skipping checking HTML validation: no command 'tidy' found. 
                 This note received only on rhub.
+              - Checking CRAN incoming feasibility ... [10s/44s] NOTE
+                Found the following (possibly) invalid URLs:
+                    - Followed by a series of files with invalid URLs.
+                    - I see no invalid URLs, 
+                      and Fedora Linux is the only platform where this 
+                      NOTE is provided.
+
     
     
 ## revdepcheck results
