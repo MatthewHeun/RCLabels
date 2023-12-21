@@ -66,7 +66,7 @@ See `NEWS.md` for details.
                 This notes appears to result from a mal-configuration 
                 of this test environment. 
                 No other test environment generated this note.
-        * Ubuntu Linux 20.04.1 LTS, R-release, GCC       **********************
+        * Ubuntu Linux 20.04.1 LTS, R-release, GCC
             * ERRORs: 0
             * WARNINGs: 0
             * NOTEs: 1
