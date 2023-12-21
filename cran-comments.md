@@ -1,6 +1,8 @@
 ## Context
 
-`RCLabels` v0.1.8 fixes the GitHub pages `pkgdown` website. 
+`RCLabels` v0.1.9 adds a statement of need to the `README.Rmd` file 
+in preparation for submitting a paper to the 
+Journal of Open Source Software. 
 No other changes have been made.
 
 
@@ -36,7 +38,7 @@ No other changes have been made.
         * ERRORs: 0
         * WARNINGs: 0
         * NOTEs: 0
-    * `devtools::check_win_devel()`, R Under development (unstable) (2023-12-08 r85664 ucrt)
+    * `devtools::check_win_devel()`, R Under development (unstable) (2023-12-20 r85713 ucrt)
         * ERRORs: 0
         * WARNINGs: 0
         * NOTEs: 0
@@ -62,14 +64,14 @@ No other changes have been made.
                 This notes appears to result from a mal-configuration 
                 of this test environment. 
                 No other test environment generated this note.
-        * Ubuntu Linux 20.04.1 LTS, R-release, GCC
+        * Ubuntu Linux 20.04.1 LTS, R-release, GCC       **********************
             * ERRORs: 0
             * WARNINGs: 0
             * NOTEs: 1
               - checking HTML version of manual ... NOTE
                 Skipping checking HTML validation: no command 'tidy' found. 
                 This note received only on rhub.
-        * Fedora Linux, R-devel, clang, gfortran
+        * Fedora Linux, R-devel, clang, gfortran       **********************
             * ERRORs: 0
             * WARNINGs: 0
             * NOTEs: 1
