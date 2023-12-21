@@ -8,10 +8,10 @@ bibentry(
                        role = c("aut", "cre"),
                        comment = c(ORCID = "0000-0002-7438-214X")),
   year        = "2023",
-  note        = "R package version 0.1.8",
+  note        = "R package version 0.1.9",
   url         = "https://doi.org/10.5281/zenodo.5819143",
   textVersion = paste("Matthew Kuperus Heun (2023).",
                       "RCLabels: Tools for munging and manipulating row and column labels on matrices.",
-                      "R package version 0.1.8.",
+                      "R package version 0.1.9.",
                       "https://doi.org/10.5281/zenodo.5819143")
 )

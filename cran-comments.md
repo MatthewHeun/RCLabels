@@ -1,7 +1,11 @@
 ## Context
 
-`RCLabels` v0.1.8 fixes the GitHub pages `pkgdown` website. 
+`RCLabels` v0.1.9 
+adds a statement of need to the `README.Rmd` file 
+in preparation for submitting a paper to the 
+Journal of Open Source Software. 
 No other changes have been made.
+See `NEWS.md` for details.
 
 
 ## Test environments (12 in total) and R CMD check results
@@ -36,7 +40,7 @@ No other changes have been made.
         * ERRORs: 0
         * WARNINGs: 0
         * NOTEs: 0
-    * `devtools::check_win_devel()`, R Under development (unstable) (2023-12-08 r85664 ucrt)
+    * `devtools::check_win_devel()`, R Under development (unstable) (2023-12-20 r85713 ucrt)
         * ERRORs: 0
         * WARNINGs: 0
         * NOTEs: 0
@@ -72,10 +76,17 @@ No other changes have been made.
         * Fedora Linux, R-devel, clang, gfortran
             * ERRORs: 0
             * WARNINGs: 0
-            * NOTEs: 1
+            * NOTEs: 2
               - checking HTML version of manual ... NOTE
                 Skipping checking HTML validation: no command 'tidy' found. 
                 This note received only on rhub.
+              - Checking CRAN incoming feasibility ... [10s/44s] NOTE
+                Found the following (possibly) invalid URLs:
+                    - Followed by a series of files with invalid URLs.
+                    - I see no invalid URLs, 
+                      and Fedora Linux is the only platform where this 
+                      NOTE is provided.
+
     
     
 ## revdepcheck results
