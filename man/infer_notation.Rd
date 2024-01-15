@@ -20,7 +20,11 @@ infer_notation(
 \item{inf_notation}{A boolean that tells whether to infer notation for \code{x}.
 Default is \code{TRUE}.}
 
-\item{notations}{A list of notations from which matches will be inferred
+\item{notations}{A list of notations from which matches will be inferred.
+This function might not work as expected if
+\code{notation} is not a list.
+If \code{notation} is not a list,
+\code{notations} is returned in full.
 Default is \code{RCLabels::notations_list}.}
 
 \item{allow_multiple}{A boolean that tells whether multiple notation matches
