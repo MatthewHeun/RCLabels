@@ -632,7 +632,12 @@ infer_notation <- function(x,
 #'
 #' @param x A single row or column label.
 #' @param notations A list of notations from which matches will be inferred
+#'                  This function might not work as expected if
+#'                  `notation` is not a list.
+#'                  If `notation` is not a list,
+#'                  `notations` is returned in full.
 #'                  Default is `RCLabels::notations_list`.
+
 #' @param inf_notation A boolean that tells whether to infer notation for `x`.
 #' @param allow_multiple A boolean that tells whether multiple notation matches
 #'                       are allowed.
@@ -661,7 +666,7 @@ infer_notation_for_one_label <- function(x,
                                          retain_names = FALSE,
                                          choose_most_specific = TRUE,
                                          must_succeed = TRUE) {
-  if (!inf_notation | !is.list(notations) | length(notations) <= 1) {
+  if (!inf_notation | !is.list(notations) | length(notations) == 0) {
     return(notations)
   }
   notation_matches <- list()
