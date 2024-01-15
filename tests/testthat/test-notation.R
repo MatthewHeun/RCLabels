@@ -649,4 +649,12 @@ test_that("infer_notation() works with a single string and arrow_notation", {
                                        choose_most_specific = FALSE,
                                        must_succeed = FALSE)
   expect_null(inferred)
+  # In this case, notation is not a list(),
+  # so the notation is returned immediately.
+  inferred <- RCLabels::infer_notation("bogus",
+                                       inf_notation = TRUE,
+                                       notation = arrow_notation,
+                                       choose_most_specific = FALSE,
+                                       must_succeed = FALSE)
+  expect_equal(inferred, arrow_notation)
 })

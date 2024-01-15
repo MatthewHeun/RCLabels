@@ -494,7 +494,11 @@ switch_notation <- function(x, from = RCLabels::notations_list, to, flip = FALSE
 #' @param x A row or column label (or vector of labels).
 #' @param inf_notation A boolean that tells whether to infer notation for `x`.
 #'                     Default is `TRUE`.
-#' @param notations A list of notations from which matches will be inferred
+#' @param notations A list of notations from which matches will be inferred.
+#'                  This function might not work as expected if
+#'                  `notation` is not a list.
+#'                  If `notation` is not a list,
+#'                  `notations` is returned in full.
 #'                  Default is `RCLabels::notations_list`.
 #' @param allow_multiple A boolean that tells whether multiple notation matches
 #'                       are allowed.
@@ -637,7 +641,6 @@ infer_notation <- function(x,
 #'                  If `notation` is not a list,
 #'                  `notations` is returned in full.
 #'                  Default is `RCLabels::notations_list`.
-
 #' @param inf_notation A boolean that tells whether to infer notation for `x`.
 #' @param allow_multiple A boolean that tells whether multiple notation matches
 #'                       are allowed.

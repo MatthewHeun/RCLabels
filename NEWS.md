@@ -7,6 +7,11 @@ Cite all releases with doi [10.5281/zenodo.5819143](https://doi.org/10.5281/zeno
 which always resolves to the latest release.
 
 
+* Now a better test for inferring notation when the `notation` argument
+  is not a list.
+* Better documentation of the behavior of `infer_notation()`.
+
+
 # RCLabels 0.1.9 (2023-12-20) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10418779.svg)](https://doi.org/10.5281/zenodo.10418779)
 
 * Added a statement of need to the `README.Rmd` file.
