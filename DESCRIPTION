@@ -29,7 +29,7 @@ Suggests:
     tibble
 Config/testthat/edition: 3
 Config/testthat/parallel: true
-Config/testthat/start-first: notation, extractors
+Config/testthat/start-first: notation
 Depends: 
     R (>= 2.10)
 LazyData: true
