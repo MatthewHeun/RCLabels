@@ -7,6 +7,7 @@ Cite all releases with doi [10.5281/zenodo.5819143](https://doi.org/10.5281/zeno
 which always resolves to the latest release.
 
 
+* Tests now run in parallel.
 * Now a better test for inferring notation when the `notation` argument
   is not a list.
 * Better documentation of the behavior of `infer_notation()`.
