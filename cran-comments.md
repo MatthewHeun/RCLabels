@@ -1,16 +1,14 @@
 ## Context
 
-`RCLabels` v0.1.9 
-adds a statement of need to the `README.Rmd` file 
-in preparation for submitting a paper to the 
-Journal of Open Source Software. 
-No other changes have been made.
+`RCLabels` v0.1.10
+provides minor updates to tests 
+(now on `testthat` v3) and documentation.
 See `NEWS.md` for details.
 
 
 ## Test environments (12 in total) and R CMD check results
 
-* Local macOS X installation 13.5.1 (Ventura), R4.3.2 (2023-10-31)
+* Local macOS X installation 14.1.1 (Sonoma), R4.3.2 (2023-10-31)
     * ERRORs: 0
     * WARNINGs: 0
     * NOTEs: 0
