@@ -133,7 +133,7 @@ infer_notation("a [from b]",
 infer_notation(c("a [from b]", "c [to d]"),
                allow_multiple = TRUE, retain_names = TRUE,
                choose_most_specific = FALSE)
-# As shown above, "a [from b]" matches 2 notations:
+# As shown above, "a \[from b\]" matches 2 notations:
 # `RCLabels::bracket_notation` and `RCLabels::from_notation`.
 # The default value for the notation argument is
 # RCLabels::notations_list,

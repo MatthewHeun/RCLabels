@@ -1,16 +1,14 @@
 ## Context
 
-`RCLabels` v0.1.9 
-adds a statement of need to the `README.Rmd` file 
-in preparation for submitting a paper to the 
-Journal of Open Source Software. 
-No other changes have been made.
+`RCLabels` v0.1.10
+provides minor updates to tests 
+(now on `testthat` v3) and documentation.
 See `NEWS.md` for details.
 
 
 ## Test environments (12 in total) and R CMD check results
 
-* Local macOS X installation 13.5.1 (Ventura), R4.3.2 (2023-10-31)
+* Local macOS X installation 14.1.1 (Sonoma), R4.3.2 (2023-10-31)
     * ERRORs: 0
     * WARNINGs: 0
     * NOTEs: 0
@@ -36,15 +34,15 @@ See `NEWS.md` for details.
         * WARNINGs: 0
         * NOTEs: 0
 * Windows (on win-builder):
-    * `devtools::check_win_release()`, R version 4.3.2 (2023-10-31 ucrt)
+    * `devtools::check_win_release()`, R version 4.2.3 (2023-03-15 ucrt)
         * ERRORs: 0
         * WARNINGs: 0
         * NOTEs: 0
-    * `devtools::check_win_devel()`, R Under development (unstable) (2023-12-20 r85713 ucrt)
+    * `devtools::check_win_devel()`, R Under development (unstable) (2024-01-25 r85826 ucrt)
         * ERRORs: 0
         * WARNINGs: 0
         * NOTEs: 0
-    * `devtools::check_win_oldrelease()`, R version 4.2.3 (2023-03-15 ucrt)
+    * `devtools::check_win_oldrelease()`, R version 4.3.2 (2023-10-31 ucrt)
         * ERRORs: 0
         * WARNINGs: 0
         * NOTEs: 0
