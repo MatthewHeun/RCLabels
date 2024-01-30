@@ -494,7 +494,11 @@ switch_notation <- function(x, from = RCLabels::notations_list, to, flip = FALSE
 #' @param x A row or column label (or vector of labels).
 #' @param inf_notation A boolean that tells whether to infer notation for `x`.
 #'                     Default is `TRUE`.
-#' @param notations A list of notations from which matches will be inferred
+#' @param notations A list of notations from which matches will be inferred.
+#'                  This function might not work as expected if
+#'                  `notation` is not a list.
+#'                  If `notation` is not a list,
+#'                  `notations` is returned in full.
 #'                  Default is `RCLabels::notations_list`.
 #' @param allow_multiple A boolean that tells whether multiple notation matches
 #'                       are allowed.
@@ -556,7 +560,7 @@ switch_notation <- function(x, from = RCLabels::notations_list, to, flip = FALSE
 #' infer_notation(c("a [from b]", "c [to d]"),
 #'                allow_multiple = TRUE, retain_names = TRUE,
 #'                choose_most_specific = FALSE)
-#' # As shown above, "a [from b]" matches 2 notations:
+#' # As shown above, "a \[from b\]" matches 2 notations:
 #' # `RCLabels::bracket_notation` and `RCLabels::from_notation`.
 #' # The default value for the notation argument is
 #' # RCLabels::notations_list,
@@ -632,6 +636,10 @@ infer_notation <- function(x,
 #'
 #' @param x A single row or column label.
 #' @param notations A list of notations from which matches will be inferred
+#'                  This function might not work as expected if
+#'                  `notation` is not a list.
+#'                  If `notation` is not a list,
+#'                  `notations` is returned in full.
 #'                  Default is `RCLabels::notations_list`.
 #' @param inf_notation A boolean that tells whether to infer notation for `x`.
 #' @param allow_multiple A boolean that tells whether multiple notation matches
@@ -661,7 +669,7 @@ infer_notation_for_one_label <- function(x,
                                          retain_names = FALSE,
                                          choose_most_specific = TRUE,
                                          must_succeed = TRUE) {
-  if (!inf_notation | !is.list(notations) | length(notations) <= 1) {
+  if (!inf_notation | !is.list(notations) | length(notations) == 0) {
     return(notations)
   }
   notation_matches <- list()

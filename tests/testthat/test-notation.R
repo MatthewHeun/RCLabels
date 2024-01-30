@@ -636,8 +636,25 @@ test_that("infer_notation() identifies a pathological case", {
 })
 
 
-test_that("inference works with 'HTH.400.C'", {
+test_that("infer_notation() works with 'HTH.400.C'", {
   expect_equal(infer_notation("HTH.400.C"), RCLabels::first_dot_notation)
   expect_equal(get_piece("HTH.400.C", piece = "noun"), c(noun = "HTH"))
 })
 
+
+test_that("infer_notation() works with a single string and arrow_notation", {
+  inferred <- RCLabels::infer_notation("bogus",
+                                       inf_notation = TRUE,
+                                       notation = list(arrow_notation),
+                                       choose_most_specific = FALSE,
+                                       must_succeed = FALSE)
+  expect_null(inferred)
+  # In this case, notation is not a list(),
+  # so the notation is returned immediately.
+  inferred <- RCLabels::infer_notation("bogus",
+                                       inf_notation = TRUE,
+                                       notation = arrow_notation,
+                                       choose_most_specific = FALSE,
+                                       must_succeed = FALSE)
+  expect_equal(inferred, arrow_notation)
+})

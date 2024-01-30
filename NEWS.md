@@ -7,9 +7,23 @@ Cite all releases with doi [10.5281/zenodo.5819143](https://doi.org/10.5281/zeno
 which always resolves to the latest release.
 
 
-# RCLabels 0.1.9 (2023-12-20)
+# RCLabels 0.1.10 (2024-01-26) 
+
+* Tests now run in parallel.
+* Now a better test for inferring notation when the `notation` argument
+  is not a list.
+* Better documentation of the behavior of `infer_notation()`.
+* New tests for existing features.
+    * Now up to 374 tests, all passing.
+    * Test coverage remains at 100%.
+
+
+# RCLabels 0.1.9 (2023-12-20) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10418779.svg)](https://doi.org/10.5281/zenodo.10418779)
 
 * Added a statement of need to the `README.Rmd` file.
+* No new tests.
+    * Still at 372 tests, all passing.
+    * Test coverage remains at 100%.
 
 
 # RCLabels 0.1.8 (2023-12-09) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10340402.svg)](https://doi.org/10.5281/zenodo.10340402)
