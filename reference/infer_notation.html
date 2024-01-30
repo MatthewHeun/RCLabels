@@ -12,7 +12,7 @@ This function infers which notations are appropriate for x."><!-- mathjax --><sc
     
     <a class="navbar-brand me-2" href="../index.html">RCLabels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.10</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,7 +74,11 @@ Default is <code>TRUE</code>.</p></dd>
 
 
 <dt>notations</dt>
-<dd><p>A list of notations from which matches will be inferred
+<dd><p>A list of notations from which matches will be inferred.
+This function might not work as expected if
+<code>notation</code> is not a list.
+If <code>notation</code> is not a list,
+<code>notations</code> is returned in full.
 Default is <code><a href="notations_list.html">RCLabels::notations_list</a></code>.</p></dd>
 
 
@@ -260,7 +264,7 @@ this behavior enables cleaner code elsewhere.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         ""    " [to "    " [to "        "]" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span><span class="co"># As shown above, "a [from b]" matches 2 notations:</span></span></span>
+<span class="r-in"><span><span class="co"># As shown above, "a \[from b\]" matches 2 notations:</span></span></span>
 <span class="r-in"><span><span class="co"># `RCLabels::bracket_notation` and `RCLabels::from_notation`.</span></span></span>
 <span class="r-in"><span><span class="co"># The default value for the notation argument is</span></span></span>
 <span class="r-in"><span><span class="co"># RCLabels::notations_list,</span></span></span>
