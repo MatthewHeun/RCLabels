@@ -7,7 +7,7 @@ Cite all releases with doi [10.5281/zenodo.5819143](https://doi.org/10.5281/zeno
 which always resolves to the latest release.
 
 
-# RCLabels 0.1.10 (2024-01-26) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10583900.svg)](https://doi.org/10.5281/zenodo.10583900)
+## RCLabels 0.1.10 (2024-01-26) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10583900.svg)](https://doi.org/10.5281/zenodo.10583900)
 
 * Tests now run in parallel.
 * Now a better test for inferring notation when the `notation` argument
@@ -18,7 +18,7 @@ which always resolves to the latest release.
     * Test coverage remains at 100%.
 
 
-# RCLabels 0.1.9 (2023-12-20) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10418779.svg)](https://doi.org/10.5281/zenodo.10418779)
+## RCLabels 0.1.9 (2023-12-20) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10418779.svg)](https://doi.org/10.5281/zenodo.10418779)
 
 * Added a statement of need to the `README.Rmd` file.
 * No new tests.
@@ -26,7 +26,7 @@ which always resolves to the latest release.
     * Test coverage remains at 100%.
 
 
-# RCLabels 0.1.8 (2023-12-09) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10340402.svg)](https://doi.org/10.5281/zenodo.10340402)
+## RCLabels 0.1.8 (2023-12-09) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10340402.svg)](https://doi.org/10.5281/zenodo.10340402)
 
 * Fixing GitHub pkgdown website.
 * No new tests.
@@ -34,7 +34,7 @@ which always resolves to the latest release.
     * Test coverage remains at 100%.
 
 
-# RCLabels 0.1.7 (2023-11-30) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10247245.svg)](https://doi.org/10.5281/zenodo.10247245)
+## RCLabels 0.1.7 (2023-11-30) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10247245.svg)](https://doi.org/10.5281/zenodo.10247245)
 
 * Added code of conduct and contributing pages to documentation.
 * Fixed typos in README.Rmd
@@ -43,7 +43,7 @@ which always resolves to the latest release.
     * Test coverage remains at 100%.
 
 
-# RCLabels 0.1.6 (2023-07-28) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8193819.svg)](https://doi.org/10.5281/zenodo.8193819)
+## RCLabels 0.1.6 (2023-07-28) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8193819.svg)](https://doi.org/10.5281/zenodo.8193819)
 
 * This version not released to CRAN.
 * Changed the citation URL to point to Zenodo.
@@ -52,7 +52,7 @@ which always resolves to the latest release.
     * Test coverage remains at 100%.
 
 
-# RCLabels 0.1.5 (2023-05-04) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7896903.svg)](https://doi.org/10.5281/zenodo.7896903)
+## RCLabels 0.1.5 (2023-05-04) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7896903.svg)](https://doi.org/10.5281/zenodo.7896903)
 
 * Move to latest version of GitHub test coverage workflow.
 * This version not released to CRAN.
@@ -61,7 +61,7 @@ which always resolves to the latest release.
     * Test coverage remains at 100%.
 
 
-# RCLabels 0.1.4 (2023-04-25) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7863791.svg)](https://doi.org/10.5281/zenodo.7863791)
+## RCLabels 0.1.4 (2023-04-25) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7863791.svg)](https://doi.org/10.5281/zenodo.7863791)
 
 * Fixed a bug where a `list()` was returned when
   `character()` should have been returned
@@ -71,7 +71,7 @@ which always resolves to the latest release.
     * Test coverage remains at 100%.
 
 
-# RCLabels 0.1.3 (2023-01-16) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7541413.svg)](https://doi.org/10.5281/zenodo.7541413)
+## RCLabels 0.1.3 (2023-01-16) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7541413.svg)](https://doi.org/10.5281/zenodo.7541413)
 
 * This version was not submitted to CRAN.
   It is purely a backend maintenance release.
@@ -82,7 +82,7 @@ which always resolves to the latest release.
     * Test coverage remains at 100%.
 
 
-# RCLabels 0.1.2 (2022-10-28) [![DOI](https://zenodo.org/badge/429532436.svg)](https://zenodo.org/badge/latestdoi/429532436)
+## RCLabels 0.1.2 (2022-10-28) [![DOI](https://zenodo.org/badge/429532436.svg)](https://zenodo.org/badge/latestdoi/429532436)
 
 * A failing test led to new capability:
   `modify_label_pieces()` now allows 
@@ -128,7 +128,7 @@ which always resolves to the latest release.
     * Test coverage remains at 100%.
 
 
-# RCLabels 0.1.1 (2022-03-05) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6331050.svg)](https://doi.org/10.5281/zenodo.6331050)
+## RCLabels 0.1.1 (2022-03-05) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6331050.svg)](https://doi.org/10.5281/zenodo.6331050)
 
 * Added backward compatibility with previous versions of R
   via reverting to the magrittr pipe (`%>%`) from the system pipe (`|>`).
@@ -138,7 +138,7 @@ which always resolves to the latest release.
     * Test coverage remains at 100%.
 
 
-# RCLabels 0.1.0 (2022-01-03) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5819144.svg)](https://doi.org/10.5281/zenodo.5819144)
+## RCLabels 0.1.0 (2022-01-03) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5819144.svg)](https://doi.org/10.5281/zenodo.5819144)
 
 * First version to be used by other packages, so bumping to v0.1.0.
 * `get_piece(labels = NULL)` now returns `NULL`, as expected.
@@ -160,7 +160,7 @@ which always resolves to the latest release.
     * Test coverage remains at 100%.
 
 
-# RCLabels 0.0.4 (2021-12-06)
+## RCLabels 0.0.4 (2021-12-06)
 
 * New function `replace_by_pattern()`.
 * New function `match_by_pattern()`.
@@ -170,7 +170,7 @@ which always resolves to the latest release.
     * Test coverage remains at 100 %.
 
 
-# RCLabels 0.0.3
+## RCLabels 0.0.3
 
 * Added code coverage.
 * Added automated spell checking to the package.
@@ -179,7 +179,7 @@ which always resolves to the latest release.
     * Test coverage remains at 100 %.
 
 
-# RCLabels 0.0.2
+## RCLabels 0.0.2
 
 * First release.
 * Added GitHub pages site.
@@ -192,6 +192,6 @@ which always resolves to the latest release.
     * Test coverage is at 100 %.
 
 
-# RCLabels 0.0.1
+## RCLabels 0.0.1
 
 * First commit.
