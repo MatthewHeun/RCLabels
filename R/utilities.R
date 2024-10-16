@@ -55,12 +55,12 @@ make_or_pattern <- function(strings, pattern_type = c("exact", "leading", "trail
 
 #' Find or replace row or column labels that match a regular expression
 #'
-#' `match_by_pattern()` tells whether row or column labels
+#' [match_by_pattern()] tells whether row or column labels
 #' match a regular expression.
-#' Internally, `grepl()` decides whether a match occurs.
-#' `replace_by_pattern()` replaces portions of row of column labels
+#' Internally, [grepl()] decides whether a match occurs.
+#' [replace_by_pattern()] replaces portions of row of column labels
 #' when a regular expression is matched.
-#' Internally, `gsub()` performs the replacements.
+#' Internally, [gsub()] performs the replacements.
 #'
 #' By default (`pieces = "all"`), complete labels (as strings) are checked for matches
 #' and replacements.
@@ -76,22 +76,33 @@ make_or_pattern <- function(strings, pattern_type = c("exact", "leading", "trail
 #' But if any of the `pieces` are "all", all pieces are checked and replaced.
 #' If `pieces` is "pref" or "suff", only one can be specified.
 #'
-#'
 #' @param labels The row and column labels to be modified.
 #' @param regex_pattern The regular expression pattern to determine matches and replacements.
-#'                      Consider using `Hmisc::escapeRegex()` to escape `regex_pattern`
+#'                      Consider using [Hmisc::escapeRegex()] to escape `regex_pattern`
 #'                      before calling this function.
-#' @param replacement For `replace_by_pattern()`, the string that replaces
+#' @param replacement For [replace_by_pattern()], the string that replaces
 #'                    all matches to `regex_pattern`.
 #' @param pieces The pieces of row or column labels to be checked for matches or replacements.
 #'               See details.
 #' @param prepositions A vector of strings that count as prepositions.
-#'                     Default is `RCLabels::prepositions_list`.
+#'                     Default is [RCLabels::prepositions_list].
 #'                     Used to detect prepositional phrases
 #'                     if `pieces` are to be interpreted as prepositions.
 #' @param notation The notation used in `labels`.
-#'                 Default is `RCLabels::bracket_notation`.
-#' @param ... Other arguments passed to `grepl()` or `gsub()`,
+#'                 Default is [RCLabels::bracket_notation].
+#' @param inf_notation A boolean that tells whether to infer notation for `x`.
+#'                     Default is `TRUE`.
+#'                     See [RCLabels::infer_notation()] for details.
+#' @param choose_most_specific A boolean that tells whether to choose the most specific
+#'                             notation from `notation` when inferring notation.
+#'                             Default is `FALSE` so that a less specific notation can be
+#'                             inferred.
+#'                             In combination with [RCLabels::notations_list],
+#'                             the default value of `FALSE` means that
+#'                             [RCLabels::bracket_notation] will be selected instead of
+#'                             anything more specific, such as
+#'                             [RCLabels::from_notation].
+#' @param ... Other arguments passed to [grepl()] or [gsub()],
 #'            such as `ignore.case`, `perl`, `fixed`,
 #'            or `useBytes`.
 #'            See examples.
@@ -124,6 +135,8 @@ match_by_pattern <- function(labels,
                              pieces = "all",
                              prepositions = RCLabels::prepositions_list,
                              notation = RCLabels::bracket_notation,
+                             inf_notation = TRUE,
+                             choose_most_specific = FALSE,
                              ...) {
 
   if ("all" %in% pieces) {
@@ -143,7 +156,11 @@ match_by_pattern <- function(labels,
   }
 
   # At this point, treat pieces as specifying a noun or prepositions.
-  keepers <- split_noun_pp(labels, prepositions = prepositions, notation = notation) %>%
+  keepers <- split_noun_pp(labels,
+                           inf_notation = inf_notation,
+                           notation = notation,
+                           choose_most_specific = choose_most_specific,
+                           prepositions = prepositions) %>%
     lapply(FUN = function(this_split_label) {
       this_split_label[pieces]
     })
