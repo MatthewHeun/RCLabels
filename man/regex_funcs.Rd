@@ -12,6 +12,8 @@ match_by_pattern(
   pieces = "all",
   prepositions = RCLabels::prepositions_list,
   notation = RCLabels::bracket_notation,
+  inf_notation = TRUE,
+  choose_most_specific = FALSE,
   ...
 )
 
@@ -29,26 +31,40 @@ replace_by_pattern(
 \item{labels}{The row and column labels to be modified.}
 
 \item{regex_pattern}{The regular expression pattern to determine matches and replacements.
-Consider using \code{Hmisc::escapeRegex()} to escape \code{regex_pattern}
+Consider using \code{\link[Hmisc:escapeRegex]{Hmisc::escapeRegex()}} to escape \code{regex_pattern}
 before calling this function.}
 
 \item{pieces}{The pieces of row or column labels to be checked for matches or replacements.
 See details.}
 
 \item{prepositions}{A vector of strings that count as prepositions.
-Default is \code{RCLabels::prepositions_list}.
+Default is \link{prepositions_list}.
 Used to detect prepositional phrases
 if \code{pieces} are to be interpreted as prepositions.}
 
 \item{notation}{The notation used in \code{labels}.
-Default is \code{RCLabels::bracket_notation}.}
+Default is \link{bracket_notation}.}
 
-\item{...}{Other arguments passed to \code{grepl()} or \code{gsub()},
+\item{inf_notation}{A boolean that tells whether to infer notation for \code{x}.
+Default is \code{TRUE}.
+See \code{\link[=infer_notation]{infer_notation()}} for details.}
+
+\item{choose_most_specific}{A boolean that tells whether to choose the most specific
+notation from \code{notation} when inferring notation.
+Default is \code{FALSE} so that a less specific notation can be
+inferred.
+In combination with \link{notations_list},
+the default value of \code{FALSE} means that
+\link{bracket_notation} will be selected instead of
+anything more specific, such as
+\link{from_notation}.}
+
+\item{...}{Other arguments passed to \code{\link[=grepl]{grepl()}} or \code{\link[=gsub]{gsub()}},
 such as \code{ignore.case}, \code{perl}, \code{fixed},
 or \code{useBytes}.
 See examples.}
 
-\item{replacement}{For \code{replace_by_pattern()}, the string that replaces
+\item{replacement}{For \code{\link[=replace_by_pattern]{replace_by_pattern()}}, the string that replaces
 all matches to \code{regex_pattern}.}
 }
 \value{
@@ -56,12 +72,12 @@ A logical vector of same length as \code{labels},
 where \code{TRUE} indicates a match was found and \code{FALSE} indicates otherwise.
 }
 \description{
-\code{match_by_pattern()} tells whether row or column labels
+\code{\link[=match_by_pattern]{match_by_pattern()}} tells whether row or column labels
 match a regular expression.
-Internally, \code{grepl()} decides whether a match occurs.
-\code{replace_by_pattern()} replaces portions of row of column labels
+Internally, \code{\link[=grepl]{grepl()}} decides whether a match occurs.
+\code{\link[=replace_by_pattern]{replace_by_pattern()}} replaces portions of row of column labels
 when a regular expression is matched.
-Internally, \code{gsub()} performs the replacements.
+Internally, \code{\link[=gsub]{gsub()}} performs the replacements.
 }
 \details{
 By default (\code{pieces = "all"}), complete labels (as strings) are checked for matches
