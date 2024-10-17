@@ -107,6 +107,16 @@ get_pps <- function(labels,
 #' The list has outer structure of the number of labels and
 #' an inner structure of each prepositional phrase in the specific label.
 #'
+#' If labels are in the form of
+#' [RCLabels::from_notation], [RCLabels::to_notation] or similar,
+#' it is probably best to give [RCLabels::bracket_notation] in the `notation`
+#' argument.
+#' Providing
+#' [RCLabels::from_notation], [RCLabels::to_notation] or similar
+#' in the `notation` argument will lead to empty results.
+#' The preposition is discarded when extracting the suffix,
+#' yielding empty strings for the prepositions.
+#'
 #' @param labels The row and column labels from which prepositional phrases are to be extracted.
 #' @param inf_notation A boolean that tells whether to infer notation for `x`.
 #'                     Default is `TRUE`.
