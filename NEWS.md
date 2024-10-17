@@ -12,7 +12,7 @@ which always resolves to the latest release.
   even if they are unexpected behaviors.
   In short, usually need to use `bracket_notation` 
   (instead of `from_notation` or similar)
-  when calling `get_prepositions()`
+  when calling `get_prepositions()`.
 
 
 ## RCLabels 0.1.10 (2024-01-26) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10583900.svg)](https://doi.org/10.5281/zenodo.10583900)
