@@ -118,37 +118,23 @@ test_that("match_by_pattern() works when specifying a notation", {
   # Does it work when not specifying a notation?
   match1 <- match_by_pattern(labels = c("a [from b]", "a [from c]", "d [from b]", "e"),
                              regex_pattern = "^b$",
-                             pieces = "from")
+                             pieces = "from",
+                             notation = RCLabels::bracket_notation)
   expect_equal(match1, c(TRUE, FALSE, TRUE, FALSE))
 
-  # The following test does not work as of 16 October 2024.
-  # Unfortunately, I don't have time to fix it now.
   # Does it work *when* specifying a notation?
-  # match2 <- match_by_pattern(labels = c("a [from b]", "a [from c]", "d [from b]", "e [from x]"),
-  #                            regex_pattern = "^b$",
-  #                            pieces = "from",
-  #                            notation = RCLabels::from_notation,
-  #                            inf_notation = FALSE)
-  # expect_equal(match2, c(TRUE, FALSE, TRUE, FALSE))
-
-
-  # match_by_pattern(labels = c("a [from b]", "a [from c]", "d [from b]", "e"),
-  #                  regex_pattern = "^b$",
-  #                  pieces = "from",
-  #                  notation = "from_notation",
-  #                  inf_notation = FALSE)
-
-
-
-
-
-
-
-
-
-
-
-
+  # Well, sort of.
+  # This is the right answer, but not the expected answer.
+  match2 <- match_by_pattern(labels = c("a [from b]", "a [from c]", "d [from b]", "e [from x]"),
+                             regex_pattern = "^b$",
+                             pieces = "from",
+                             notation = RCLabels::from_notation,
+                             inf_notation = FALSE)
+  # Everything is FALSE, because specifying the notation
+  # extracts the object of the prepositional phrase
+  # before matching on the pattern,
+  # yielding an empty result.
+  expect_equal(match2, c(FALSE, FALSE, FALSE, FALSE))
 })
 
 

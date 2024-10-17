@@ -134,6 +134,21 @@ get_pps <- function(labels,
 #'
 #' @examples
 #' get_prepositions(c("a [of b into c]", "d [-> e of f]"))
+#' get_prepositions(c("a [of b]", "d [-> e of f]"),
+#'                  inf_notation = FALSE,
+#'                  notation = bracket_notation)
+#' # Best to *not* specify notation by the preposition,
+#' # as the result will be empty strings.
+#' # Rather, give the notation as `bracket_notation`
+#' # as shown above, or infer the notation
+#' # as shown below.
+#' get_prepositions(c("a [of b]", "d [-> e of f]"),
+#'                  inf_notation = TRUE)
+#' # The suffix is extracted, and the preposition
+#' # is lost before looking for the preposition.
+#' get_prepositions(c("a [of b]", "d [of f]"),
+#'                  inf_notation = FALSE,
+#'                  notation = of_notation)
 get_prepositions <- function(labels,
                              inf_notation = TRUE,
                              notation = RCLabels::notations_list,
