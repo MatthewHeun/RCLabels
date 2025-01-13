@@ -114,9 +114,26 @@ test_that("get_prepositions() works correctly", {
 })
 
 
+test_that("get_prepositions() works with specific notation", {
+  res <- get_prepositions(labels = c("a [from b]", "a [from c]", "d [from b]", "e [from x]"),
+                          inf_notation = FALSE,
+                          # Don't do this:
+                          # notation = RCLabels::from_notation,
+                          # Do do this:
+                          notation = RCLabels::bracket_notation,
+                          choose_most_specific = FALSE,
+                          prepositions = RCLabels::prepositions_list)
+  expect_equal(res, list(prepositions = "from",
+                         prepositions = "from",
+                         prepositions = "from",
+                         prepositions = "from"))
+})
+
+
 test_that("get_objects() works correctly", {
   # Specify the notation being used
-  expect_equal(get_objects(c("a [of b in USA]", "d [of e into GBR]"), notation = RCLabels::bracket_notation),
+  expect_equal(get_objects(c("a [of b in USA]", "d [of e into GBR]"),
+                           notation = RCLabels::bracket_notation),
                list(objects = c(of = "b", `in` = "USA"),
                     objects = c(of = "e", into = "GBR")))
   # Specify the notation being used and don't infer.
@@ -144,6 +161,32 @@ test_that("get_objects() sets preposition with arrow notation", {
     magrittr::set_names(c(""))
   res <- list(objects = temp)
   expect_equal(get_objects(label2), res)
+})
+
+
+test_that("get_objects() sets proposition when notation is very specific", {
+  # This works when bracket_notation is specified.
+  res <- get_objects(labels = c("a [from b]", "a [from c]", "d [from b]", "e [from x]"),
+                     inf_notation = FALSE,
+                     notation = RCLabels::bracket_notation,
+                     choose_most_specific = FALSE,
+                     prepositions = RCLabels::prepositions_list)
+  expect_equal(res, list(objects = c(from = "b"),
+                         objects = c(from = "c"),
+                         objects = c(from = "b"),
+                         objects = c(from = "x")))
+  # Does it also work with from_notation specified?
+  # Well, sort of.
+  # This is not the expected result, but it is the right result.
+  res <- get_objects(labels = c("a [from b]", "a [from c]", "d [from b]", "e [from x]"),
+                     inf_notation = FALSE,
+                     notation = RCLabels::from_notation,
+                     choose_most_specific = FALSE,
+                     prepositions = RCLabels::prepositions_list)
+  expect_equal(res, list(objects = c("b") |> magrittr::set_names(c("")),
+                         objects = c("c") |> magrittr::set_names(c("")),
+                         objects = c("b") |> magrittr::set_names(c("")),
+                         objects = c("x") |> magrittr::set_names(c(""))))
 })
 
 
@@ -183,6 +226,30 @@ test_that("split_noun_pp() works as expected", {
   expect_equal(split$splits[[2]], c(noun = "c", of = "d", into = "USA"))
   expect_equal(split$splits[[3]], c(noun = "e", of = "f", `in` = "g"))
   expect_equal(split$splits[[4]], c(noun = "h", `->` = "i", `in` = "j"))
+})
+
+
+test_that("split_noun_pp() works with a failing example", {
+  # Best to specify bracket_notation.
+  res <- split_noun_pp(labels = c("a [from b]", "a [from c]", "d [from b]", "e [from x]"),
+                       inf_notation = FALSE,
+                       notation = RCLabels::bracket_notation,
+                       choose_most_specific = FALSE,
+                       prepositions = RCLabels::prepositions_list)
+  expect_equal(res, list(c(noun = "a", from = "b"),
+                         c(noun = "a", from = "c"),
+                         c(noun = "d", from = "b"),
+                         c(noun = "e", from = "x")))
+  # This works, but does not give a meaningful result
+  res2 <- split_noun_pp(labels = c("a [from b]", "a [from c]", "d [from b]", "e [from x]"),
+                        inf_notation = FALSE,
+                        notation = RCLabels::from_notation,
+                        choose_most_specific = FALSE,
+                        prepositions = RCLabels::prepositions_list)
+  expect_equal(res2, list(c(noun = "a", "b" |> magrittr::set_names("")),
+                          c(noun = "a", "c" |> magrittr::set_names("")),
+                          c(noun = "d", "b" |> magrittr::set_names("")),
+                          c(noun = "e", "x" |> magrittr::set_names(""))))
 })
 
 

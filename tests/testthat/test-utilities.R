@@ -114,6 +114,30 @@ test_that("match_by_pattern() works for degenerate case", {
 })
 
 
+test_that("match_by_pattern() works when specifying a notation", {
+  # Does it work when not specifying a notation?
+  match1 <- match_by_pattern(labels = c("a [from b]", "a [from c]", "d [from b]", "e"),
+                             regex_pattern = "^b$",
+                             pieces = "from",
+                             notation = RCLabels::bracket_notation)
+  expect_equal(match1, c(TRUE, FALSE, TRUE, FALSE))
+
+  # Does it work *when* specifying a notation?
+  # Well, sort of.
+  # This is the right answer, but not the expected answer.
+  match2 <- match_by_pattern(labels = c("a [from b]", "a [from c]", "d [from b]", "e [from x]"),
+                             regex_pattern = "^b$",
+                             pieces = "from",
+                             notation = RCLabels::from_notation,
+                             inf_notation = FALSE)
+  # Everything is FALSE, because specifying the notation
+  # extracts the object of the prepositional phrase
+  # before matching on the pattern,
+  # yielding an empty result.
+  expect_equal(match2, c(FALSE, FALSE, FALSE, FALSE))
+})
+
+
 test_that("replace_by_pattern() works as expected", {
   labels <- c("Production [of b in c]", "d [of Coal in f]", "g [of h in USA]")
   expect_equal(replace_by_pattern(labels,

@@ -107,6 +107,16 @@ get_pps <- function(labels,
 #' The list has outer structure of the number of labels and
 #' an inner structure of each prepositional phrase in the specific label.
 #'
+#' If labels are in the form of
+#' [RCLabels::from_notation], [RCLabels::to_notation] or similar,
+#' it is probably best to give [RCLabels::bracket_notation] in the `notation`
+#' argument.
+#' Providing
+#' [RCLabels::from_notation], [RCLabels::to_notation] or similar
+#' in the `notation` argument will lead to empty results.
+#' The preposition is discarded when extracting the suffix,
+#' yielding empty strings for the prepositions.
+#'
 #' @param labels The row and column labels from which prepositional phrases are to be extracted.
 #' @param inf_notation A boolean that tells whether to infer notation for `x`.
 #'                     Default is `TRUE`.
@@ -134,6 +144,21 @@ get_pps <- function(labels,
 #'
 #' @examples
 #' get_prepositions(c("a [of b into c]", "d [-> e of f]"))
+#' get_prepositions(c("a [of b]", "d [-> e of f]"),
+#'                  inf_notation = FALSE,
+#'                  notation = bracket_notation)
+#' # Best to *not* specify notation by the preposition,
+#' # as the result will be empty strings.
+#' # Rather, give the notation as `bracket_notation`
+#' # as shown above, or infer the notation
+#' # as shown below.
+#' get_prepositions(c("a [of b]", "d [-> e of f]"),
+#'                  inf_notation = TRUE)
+#' # The suffix is extracted, and the preposition
+#' # is lost before looking for the preposition.
+#' get_prepositions(c("a [of b]", "d [of f]"),
+#'                  inf_notation = FALSE,
+#'                  notation = of_notation)
 get_prepositions <- function(labels,
                              inf_notation = TRUE,
                              notation = RCLabels::notations_list,

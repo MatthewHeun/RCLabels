@@ -46,6 +46,32 @@ This function extracts prepositions from a list of row and column labels.
 The list has outer structure of the number of labels and
 an inner structure of each prepositional phrase in the specific label.
 }
+\details{
+If labels are in the form of
+\link{from_notation}, \link{to_notation} or similar,
+it is probably best to give \link{bracket_notation} in the \code{notation}
+argument.
+Providing
+\link{from_notation}, \link{to_notation} or similar
+in the \code{notation} argument will lead to empty results.
+The preposition is discarded when extracting the suffix,
+yielding empty strings for the prepositions.
+}
 \examples{
 get_prepositions(c("a [of b into c]", "d [-> e of f]"))
+get_prepositions(c("a [of b]", "d [-> e of f]"),
+                 inf_notation = FALSE,
+                 notation = bracket_notation)
+# Best to *not* specify notation by the preposition,
+# as the result will be empty strings.
+# Rather, give the notation as `bracket_notation`
+# as shown above, or infer the notation
+# as shown below.
+get_prepositions(c("a [of b]", "d [-> e of f]"),
+                 inf_notation = TRUE)
+# The suffix is extracted, and the preposition
+# is lost before looking for the preposition.
+get_prepositions(c("a [of b]", "d [of f]"),
+                 inf_notation = FALSE,
+                 notation = of_notation)
 }
