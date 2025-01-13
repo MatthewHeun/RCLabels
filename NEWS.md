@@ -7,7 +7,7 @@ Cite all releases with doi [10.5281/zenodo.5819143](https://doi.org/10.5281/zeno
 which always resolves to the latest release.
 
 
-## RCLabels 0.1.11 (2025-01-13)
+## RCLabels 0.1.11 (2025-01-13) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14641800.svg)](https://doi.org/10.5281/zenodo.14641800)
 
 * `match_by_pattern()` gains new arguments such as
   `inf_notation` and `choose_most_specific`
