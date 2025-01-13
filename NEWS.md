@@ -10,6 +10,8 @@ which always resolves to the latest release.
 * `match_by_pattern()` gains new arguments such as
   `inf_notation` and `choose_most_specific`
   which are passed to `split_noun_pp()`.
+  Crucially, these new arguments prevent passing via `...`
+  to `grepl()` causing an error.
 * Added clearer documentation to `get_prepositions()`.
 * Added new tests that illustrate correct results,
   even if they are unexpected behaviors.
