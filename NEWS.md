@@ -7,6 +7,9 @@ Cite all releases with doi [10.5281/zenodo.5819143](https://doi.org/10.5281/zeno
 which always resolves to the latest release.
 
 
+* `match_by_pattern()` gains new arguments such as
+  `inf_notation` and `choose_most_specific`
+  which are passed to `split_noun_pp()`.
 * Added clearer documentation to `get_prepositions()`.
 * Added new tests that illustrate correct results,
   even if they are unexpected behaviors.
