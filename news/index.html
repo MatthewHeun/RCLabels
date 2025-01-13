@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">RCLabels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.10</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.11</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +33,15 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.1.10" id="rclabels-0110-2024-01-26">RCLabels 0.1.10 (2024-01-26)<a class="anchor" aria-label="anchor" href="#rclabels-0110-2024-01-26"></a></h2><p class="text-muted">CRAN release: 2024-01-29</p>
+<h2 class="pkg-version" data-toc-text="0.1.11" id="rclabels-0111-2024-01-26">RCLabels 0.1.11 (2024-01-26)<a class="anchor" aria-label="anchor" href="#rclabels-0111-2024-01-26"></a></h2>
+<ul><li>
+<code><a href="../reference/regex_funcs.html">match_by_pattern()</a></code> gains new arguments such as <code>inf_notation</code> and <code>choose_most_specific</code> which are passed to <code><a href="../reference/split_noun_pp.html">split_noun_pp()</a></code>. Crucially, these new arguments prevent passing via <code>...</code> to <code><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl()</a></code> causing an error in an upcoming release of <code>matsbyname</code>.</li>
+<li>Added clearer documentation to <code><a href="../reference/get_prepositions.html">get_prepositions()</a></code>.</li>
+<li>Added new tests that illustrate correct results, even if they are unexpected behaviors. In short, usually need to use <code>bracket_notation</code> (instead of <code>from_notation</code> or similar) when calling <code><a href="../reference/get_prepositions.html">get_prepositions()</a></code>.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.1.10" id="rclabels-0110-2024-01-26-doi">RCLabels 0.1.10 (2024-01-26) <a href="https://doi.org/10.5281/zenodo.10583900" class="external-link"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.10583900.svg" alt="DOI"></a>
+<a class="anchor" aria-label="anchor" href="#rclabels-0110-2024-01-26-doi"></a></h2><p class="text-muted">CRAN release: 2024-01-29</p>
 <ul><li>Tests now run in parallel.</li>
 <li>Now a better test for inferring notation when the <code>notation</code> argument is not a list.</li>
 <li>Better documentation of the behavior of <code><a href="../reference/infer_notation.html">infer_notation()</a></code>.</li>

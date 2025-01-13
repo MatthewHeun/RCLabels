@@ -11,7 +11,7 @@ an inner structure of each prepositional phrase in the specific label."></head><
 
     <a class="navbar-brand me-2" href="../index.html">RCLabels</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.10</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.11</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,6 +97,18 @@ Default is <code><a href="prepositions_list.html">RCLabels::prepositions_list</a
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A list of prepositions.</p>
     </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>If labels are in the form of
+<a href="from_notation.html">from_notation</a>, <a href="to_notation.html">to_notation</a> or similar,
+it is probably best to give <a href="bracket_notation.html">bracket_notation</a> in the <code>notation</code>
+argument.
+Providing
+<a href="from_notation.html">from_notation</a>, <a href="to_notation.html">to_notation</a> or similar
+in the <code>notation</code> argument will lead to empty results.
+The preposition is discarded when extracting the suffix,
+yielding empty strings for the prepositions.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
@@ -106,6 +118,39 @@ Default is <code><a href="prepositions_list.html">RCLabels::prepositions_list</a
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $prepositions</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "-&gt;" "of"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="fu">get_prepositions</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a [of b]"</span>, <span class="st">"d [-&gt; e of f]"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                 inf_notation <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>                 notation <span class="op">=</span> <span class="va">bracket_notation</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $prepositions</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "of"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $prepositions</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "-&gt;" "of"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="co"># Best to *not* specify notation by the preposition,</span></span></span>
+<span class="r-in"><span><span class="co"># as the result will be empty strings.</span></span></span>
+<span class="r-in"><span><span class="co"># Rather, give the notation as `bracket_notation`</span></span></span>
+<span class="r-in"><span><span class="co"># as shown above, or infer the notation</span></span></span>
+<span class="r-in"><span><span class="co"># as shown below.</span></span></span>
+<span class="r-in"><span><span class="fu">get_prepositions</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a [of b]"</span>, <span class="st">"d [-&gt; e of f]"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                 inf_notation <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $prepositions</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "of"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $prepositions</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "-&gt;" "of"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="co"># The suffix is extracted, and the preposition</span></span></span>
+<span class="r-in"><span><span class="co"># is lost before looking for the preposition.</span></span></span>
+<span class="r-in"><span><span class="fu">get_prepositions</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a [of b]"</span>, <span class="st">"d [of f]"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                 inf_notation <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>                 notation <span class="op">=</span> <span class="va">of_notation</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $prepositions</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] ""</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $prepositions</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] ""</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
