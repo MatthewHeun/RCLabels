@@ -1,14 +1,13 @@
 ## Context
 
-`RCLabels` v0.1.10
-provides minor updates to tests 
-(now on `testthat` v3) and documentation.
+`RCLabels` v0.1.11
+provides updates that enable later releases of the `matsbyname` package.
 See `NEWS.md` for details.
 
 
 ## Test environments (12 in total) and R CMD check results
 
-* Local macOS X installation 14.1.1 (Sonoma), R4.3.2 (2023-10-31)
+* Local macOS X installation 14.7.2 (Sonoma), R4.4.2 (2024-10-31)
     * ERRORs: 0
     * WARNINGs: 0
     * NOTEs: 0
