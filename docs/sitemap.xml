@@ -1,141 +1,48 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/404.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/articles/RCLabels.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/index.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/arrow_notation.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/bracket_arrow_notation.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/bracket_notation.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/dash_notation.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/first_dot_notation.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/from_notation.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/get_nouns.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/get_objects.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/get_piece.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/get_pps.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/get_prepositions.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/in_notation.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/infer_notation.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/infer_notation_for_one_label.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/make_list.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/make_or_pattern.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/match_by_pattern.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/match_pattern.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/modify_label_pieces.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/modify_nouns.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/notations_list.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/of_notation.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/paren_notation.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/paste_noun_pp.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/pipe.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/prepositions.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/prepositions_list.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/recombine_labels.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/regex_funcs.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/remove_label_pieces.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/row-col-notation.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/split_labels.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/split_noun_pp.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/strip_label_part.html</loc>
-  </url>
-  <url>
-    <loc>https://matthewheun.github.io/RCLabels/reference/to_notation.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://matthewheun.github.io/RCLabels/404.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/CONTRIBUTING.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/LICENSE-text.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/LICENSE.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/articles/RCLabels.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/articles/index.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/authors.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/index.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/news/index.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/arrow_notation.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/bracket_arrow_notation.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/bracket_notation.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/dash_notation.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/first_dot_notation.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/from_notation.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/get_nouns.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/get_objects.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/get_piece.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/get_pps.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/get_prepositions.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/in_notation.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/index.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/infer_notation.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/infer_notation_for_one_label.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/make_list.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/make_or_pattern.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/match_pattern.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/modify_label_pieces.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/modify_nouns.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/notations_list.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/of_notation.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/paren_notation.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/paste_noun_pp.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/pipe.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/prepositions.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/prepositions_list.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/recombine_labels.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/regex_funcs.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/remove_label_pieces.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/row-col-notation.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/split_labels.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/split_noun_pp.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/strip_label_part.html</loc></url>
+<url><loc>https://matthewheun.github.io/RCLabels/reference/to_notation.html</loc></url>
 </urlset>
+
