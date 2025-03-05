@@ -1,7 +1,7 @@
 Package: RCLabels
 Title: Manipulate Matrix Row and Column Labels with Ease
-Version: 0.1.11
-Date: 2025-01-13
+Version: 0.1.12
+Date: 2025-03-05
 Authors@R: c(person(given = "Matthew",
                     family = "Heun", 
                     role = c("aut", "cre"),
