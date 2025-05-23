@@ -7,9 +7,10 @@ Cite all releases with doi [10.5281/zenodo.5819143](https://doi.org/10.5281/zeno
 which always resolves to the latest release.
 
 
-## RCLabels 0.1.12 (2025-03-05) 
+## RCLabels 0.1.12 (2025-03-05) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14974713.svg)](https://doi.org/10.5281/zenodo.14974713)
 
 * Update test-coverage.yaml to v4 of the upload-artifact workflow.
+* This version not released to CRAN.
 * No new tests.
     * Now up to 381 tests, all passing.
     * Test coverage remains at 100%.
