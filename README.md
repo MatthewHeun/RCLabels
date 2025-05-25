@@ -12,7 +12,7 @@ status](https://www.r-pkg.org/badges/version/RCLabels)](https://CRAN.R-project.o
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Codecov test
-coverage](https://codecov.io/gh/MatthewHeun/RCLabels/branch/main/graph/badge.svg)](https://app.codecov.io/gh/MatthewHeun/RCLabels?branch=main)
+coverage](https://codecov.io/gh/MatthewHeun/RCLabels/graph/badge.svg)](https://app.codecov.io/gh/MatthewHeun/RCLabels)
 [![R-CMD-check](https://github.com/MatthewHeun/RCLabels/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/MatthewHeun/RCLabels/actions/workflows/R-CMD-check.yaml)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5819143.svg)](https://doi.org/10.5281/zenodo.5819143)
 <!-- badges: end -->
