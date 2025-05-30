@@ -60,10 +60,10 @@ modify_nouns <- function(labels,
 #' This argument may be a single string or a character vector.
 #'
 #' This function modifies pieces of row and column labels
-#' according to `label_map` that defines "one or many to one" relationships.
+#' according to `mod_map` that defines "one or many to one" relationships.
 #' This function is useful for aggregations.
 #' For example, replacing nouns can be done by
-#' `modify_label_pieces(labels, piece = "noun", label_map = list(new_noun = c("a", "b", "c"))`.
+#' `modify_label_pieces(labels, piece = "noun", mod_map = list(new_noun = c("a", "b", "c"))`.
 #' The string "new_noun" will replace any of "a", "b", or "c"
 #' when they appear as nouns in a row or column label.
 #' See examples for details.
