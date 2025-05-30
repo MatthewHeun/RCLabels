@@ -80,11 +80,11 @@ modify_nouns <- function(labels,
 #' Note `piece` can be "pref"/"suff" or "noun"/"prepositions"
 #' If any `piece` is "pref" or "suff",
 #' all pieces are assumed to be a prefix or a suffix.
-#' If non of the `piece`s are "pref" or "suff",
+#' If none of the `piece`s are "pref" or "suff",
 #' all `piece`s are assumed to be nouns or prepositions,
 #' such as "in" or "from".
 #' See `RCLabels::prepositions` for additional examples.
-#' This argument may be a single string or a character vector.
+#' `piece` may be a single string or a character vector.
 #'
 #' @param labels A vector of row or column labels in which pieces will be modified.
 #' @param piece The piece (or pieces) of the row or column label that will be modified.
