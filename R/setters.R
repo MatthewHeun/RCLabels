@@ -75,7 +75,7 @@ modify_nouns <- function(labels,
 #' The sense is `new = old` or `new = olds`,
 #' where "new" is the new name (the replacement) and
 #' "old"/"olds" is/are a string/vector of strings,
-#' any one of which will be replaced by "new".
+#' all of which will be replaced by "new".
 #'
 #' Note `piece` can be "pref"/"suff" or "noun"/"prepositions"
 #' If any `piece` is "pref" or "suff",
