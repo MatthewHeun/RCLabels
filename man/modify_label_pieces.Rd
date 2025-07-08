@@ -47,10 +47,10 @@ This argument may be a single string or a character vector.
 }
 \details{
 This function modifies pieces of row and column labels
-according to \code{label_map} that defines "one or many to one" relationships.
+according to \code{mod_map} that defines "one or many to one" relationships.
 This function is useful for aggregations.
 For example, replacing nouns can be done by
-\verb{modify_label_pieces(labels, piece = "noun", label_map = list(new_noun = c("a", "b", "c"))}.
+\verb{modify_label_pieces(labels, piece = "noun", mod_map = list(new_noun = c("a", "b", "c"))}.
 The string "new_noun" will replace any of "a", "b", or "c"
 when they appear as nouns in a row or column label.
 See examples for details.
@@ -60,18 +60,18 @@ named list of character vectors in which names indicate
 strings to be inserted and values indicate
 values that should be replaced.
 The sense is \code{new = old} or \code{new = olds},
-where "new" is the new name (the replacement) and
-"old"/"olds" is/are a string/vector of strings,
-any one of which will be replaced by "new".
+where \code{new} is the new name (the replacement) and
+\code{old}/\code{olds} is/are a string/vector of strings,
+all of which will be replaced by \code{new}.
 
-Note \code{piece} can be "pref"/"suff" or "noun"/"prepositions"
+Note \code{piece} can be "pref"/"suff" or "noun"/"prepositions".
 If any \code{piece} is "pref" or "suff",
 all pieces are assumed to be a prefix or a suffix.
-If non of the \code{piece}s are "pref" or "suff",
+If none of the \code{piece}s are "pref" or "suff",
 all \code{piece}s are assumed to be nouns or prepositions,
 such as "in" or "from".
 See \code{RCLabels::prepositions} for additional examples.
-This argument may be a single string or a character vector.
+\code{piece} may be a single string or a character vector.
 }
 \examples{
 # Simple case
