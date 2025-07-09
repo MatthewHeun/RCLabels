@@ -7,7 +7,7 @@ Cite all releases with doi [10.5281/zenodo.5819143](https://doi.org/10.5281/zeno
 which always resolves to the latest release.
 
 
-
+* Added a `replace_by_pattern()` example to documentation.
 * Improved documentation of `modify_label_pieces()`.
 
 
