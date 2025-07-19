@@ -108,4 +108,9 @@ match_by_pattern(labels, regex_pattern = "Production$")
 match_by_pattern(labels, regex_pattern = "Production", pieces = "noun")
 # Gives FALSE, because "Production" is a noun.
 match_by_pattern(labels, regex_pattern = "Production", pieces = "in")
+# Remove only some suffixes.
+replace_by_pattern(labels,
+                   regex_pattern = " [of Coal in f]",
+                   replacement = "",
+                   fixed = TRUE)
 }
